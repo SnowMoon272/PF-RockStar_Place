@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import styled from "styled-components";
 
 const AppStyle = styled.div`
@@ -18,4 +17,3 @@ function App() {
 }
 
 export default App;
-
