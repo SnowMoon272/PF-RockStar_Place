@@ -19,6 +19,7 @@ const musicBandSchema = new Schema({
 	rating: Number,
 	reviews: [
 		{
+			author: {type : String, trim: true},
 			comment: { type: String, trim : true },
 			rating: { type: Number, min : 0, max : 5 },
 		},
