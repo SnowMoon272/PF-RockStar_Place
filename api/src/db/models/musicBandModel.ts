@@ -11,6 +11,7 @@ interface reviews {
 	rating: number;
 }
 interface dates {
+    author: string;
 	place: string;
 	date: Date;
 }
@@ -30,6 +31,10 @@ type musicBandInterface = {
 	dates: dates[];
 	banned: boolean;
 	role: Roles;
+    socialMedia : any;
+    description : string;
+    pendingDates : dates[],
+    profilePicture : string
 };
 
 export const reloadMusicBandRating = async (email: string) => {
@@ -59,9 +64,7 @@ export const addReview = async (email: string, review: reviews) => {
 		try {
 			await musicBand.updateOne({ email }, { reviews: previousReviews });
             await reloadMusicBandRating(email)
-			return {
-				comment: "Review added!",
-			};
+			return {reviews : previousReviews}
 		} catch (error) {
 			throw new Error("Error creating a review");
 		}
@@ -107,7 +110,7 @@ export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 
 export const getAllMusicBands = async () => {
     try {
-        const allMusicBands = await musicBand.find();
+        const allMusicBands = await musicBand.find({},{email : 1, name : 1, rating : 1, description : 1});
         return allMusicBands;
     } catch (error) {
         throw new Error("Error getting all music bands ")
