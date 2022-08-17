@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const routes = require("./src/routes/index.ts");
 
 const connect = require('./src/db/db')
-const {createMusicBand, getAllMusicBands, banHandler, addReview } = require('./src/db/models/musicBandModel');
 
 const server = express();
 const cors = require("cors");
@@ -25,35 +24,6 @@ server.use((req: any, res: { header: (arg0: string, arg1: string) => void }, nex
 
 server.use("/", routes);
 
-const newReview = {
-  author : "Vladimir Putin",
-  comment : "Increible obra de arte contemporanea, maravillosa",
-  rating : 5
-}
-
-const newReview2 = {
-  author : "Donald Trump",
-  comment : "Si dios existe lo conocí escuchando esta banda",
-  rating : 5
-}
-const newReview3 = {
-  author : "Alan",
-  comment : "Pesímo",
-  rating : 4
-}
-
-const newUser = {
-  personInCharge : "Leonardo Davinci",
-  name: 'Miley Cisuus',
-	email: 'soymileycisuus@gmail.com',
-	password: 'holasoymiley',
-	rating: 5,
-	reviews: [],
-	dates: [],
-	banned: false,
-  role:"admin"
-}
-
 const startServer = async() => {
 
   try {
@@ -63,28 +33,8 @@ const startServer = async() => {
     console.log(`Something went wrong 😭`);
     console.log(error);
   }
-
-  // await connect().then(()=> console.log('Connected to db')).catch((err: any) => console.log(`Not connected, ${err}`))
 }
-
-const testDB = async() => {
-  await createMusicBand(newUser);
-  const bands = await getAllMusicBands();
-  console.log(bands);
-}
-
-const executeInOrder = async () => {
-  await startServer();
-  await testDB();
-  await banHandler("soymileycisuus@gmail.com")
-  await testDB();
-  await addReview("soymileycisuus@gmail.com" , newReview);
-  await addReview("soymileycisuus@gmail.com" , newReview2);
-  await addReview("soymileycisuus@gmail.com" , newReview3);
-
-}
-
-executeInOrder();
+startServer();
 
 server.listen(3001, () => {
   console.log("%s listening at 3001");
