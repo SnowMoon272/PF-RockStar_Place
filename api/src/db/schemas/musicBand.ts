@@ -34,10 +34,20 @@ const musicBandSchema = new Schema({
     role : {
         type : String,
         default : "musicband"
-    }
+    },
+	socialMedia : {
+		instagram : {type : String, trim : true, default : ''},
+		spotify : {type : String, trim : true, default : ''},
+		youtube : {type : String, trim : true, default : ''}
+	},
+	description : {type : String, trim: true, default:''},
+	profilePicture : {type : String, trim: true, default : ''},
+	pendingDates : [
+		{
+			place: String,
+			date: { type: Date, default: Date.now },
+		},
+	]
 });
 
 module.exports = musicBandSchema;
-
-// Social media
-// Leader
