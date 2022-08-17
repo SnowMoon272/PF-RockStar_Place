@@ -195,6 +195,7 @@ export const banHandler = async (email: string) => {
   }
 };
 
+// IN PROGRESS, IT'S NOT WORKING
 export const searchMusicBand = async (name: string) => {
   let rule = `/${name}/i`;
   try {
