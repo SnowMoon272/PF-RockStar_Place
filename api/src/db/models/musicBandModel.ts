@@ -11,7 +11,7 @@ interface reviews {
 	rating: number;
 }
 interface dates {
-    author: string;
+	author: string;
 	place: string;
 	date: Date;
 }
@@ -31,29 +31,29 @@ type musicBandInterface = {
 	dates: dates[];
 	banned: boolean;
 	role: Roles;
-    socialMedia : any;
-    description : string;
-    pendingDates : dates[],
-    profilePicture : string
+	socialMedia: any;
+	description: string;
+	pendingDates: dates[];
+	profilePicture: string;
 };
 
 export const reloadMusicBandRating = async (email: string) => {
-    const userToUpdate = await getMusicBand(email);
-    let sum = 0;
-    for(let review of userToUpdate.reviews){
-        sum+= review.rating;
-    }
-    console.log("Tengo miedo");
-    sum = Math.round((sum / userToUpdate.reviews.length) *100) / 100;
-    console.log(`Tengo más miedo todavía`);
+	const userToUpdate = await getMusicBand(email);
+	let sum = 0;
+	for (let review of userToUpdate.reviews) {
+		sum += review.rating;
+	}
+	console.log("Tengo miedo");
+	sum = Math.round((sum / userToUpdate.reviews.length) * 100) / 100;
+	console.log(`Tengo más miedo todavía`);
 
-    try {
-        await musicBand.updateOne({email}, {rating : sum});
-        console.log("Rating updated");
-    } catch (error) {
-        throw new Error("Error updating rating")
-    }
-}
+	try {
+		await musicBand.updateOne({ email }, { rating: sum });
+		console.log("Rating updated");
+	} catch (error) {
+		throw new Error("Error updating rating");
+	}
+};
 
 export const addReview = async (email: string, review: reviews) => {
 	const userToAddReview = await getMusicBand(email);
@@ -63,8 +63,8 @@ export const addReview = async (email: string, review: reviews) => {
 		previousReviews.push(review);
 		try {
 			await musicBand.updateOne({ email }, { reviews: previousReviews });
-            await reloadMusicBandRating(email)
-			return {reviews : previousReviews}
+			await reloadMusicBandRating(email);
+			return { reviews: previousReviews };
 		} catch (error) {
 			throw new Error("Error creating a review");
 		}
@@ -109,12 +109,15 @@ export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 };
 
 export const getAllMusicBands = async () => {
-    try {
-        const allMusicBands = await musicBand.find({},{email : 1, name : 1, rating : 1, description : 1});
-        return allMusicBands;
-    } catch (error) {
-        throw new Error("Error getting all music bands ")
-    }
+	try {
+		const allMusicBands = await musicBand.find(
+			{},
+			{ email: 1, name: 1, rating: 1, description: 1 }
+		);
+		return allMusicBands;
+	} catch (error) {
+		throw new Error("Error getting all music bands ");
+	}
 };
 
 export const banHandler = async (email: string) => {
@@ -127,9 +130,3 @@ export const banHandler = async (email: string) => {
 		console.log("Something went wrong in ban function");
 	}
 };
-
-// module.exports = {
-// 	createMusicBand,
-// 	getAllMusicBands,
-// 	banHandler,
-// };
