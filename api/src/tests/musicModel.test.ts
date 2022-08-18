@@ -1,7 +1,7 @@
 const {createMusicBand} = require("../db/models/musicBandModel");
 const connect = require("../db/db");
 
-let newMusicBand = {
+export let newMusicBand = {
   personInCharge: "Jonatan Pasto",
   name: "Los pica gelatinas",
   email: "soypicagelatina1@gmail.com",
