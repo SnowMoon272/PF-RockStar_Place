@@ -1,14 +1,15 @@
-import { DEFAULT } from "./actions";
+import { GET_PLACES } from "./actions";
 
 const initiaState = {
-  estadoprueba: [],
+  places: [],
 };
 
 function rootReducer(state = initiaState, action) {
   switch (action.type) {
-    case DEFAULT:
+    case GET_PLACES:
       return {
         ...state,
+        places: action.payload,
       };
     default:
       return state;

@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
-import "./App.css";
 
 const AppStyle = styled.div`
   width: 100%;
