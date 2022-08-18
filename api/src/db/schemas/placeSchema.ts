@@ -1,6 +1,13 @@
 const { Schema } = require("mongoose");
 
 export const placeSchema = new Schema({
+
+  email:{ type: String, trim: true, require: true, unique: true },
+
+  password: {type: String, require: true},
+
+  hasSound: { type: Boolean, require: true, default: false },
+
   capacity: { type: String, trim: true, require: true },
 
   name: { type: String, trim: true, require: true },
@@ -32,17 +39,23 @@ export const placeSchema = new Schema({
       musicBand: { type: String },
     },
   ],
-  socialMedia: {
-    instagram: { type: String, trim: true, default: undefined },
-    spotify: { type: String, trim: true, default: undefined },
-    youtube: { type: String, trim: true, default: undefined },
-  },
+  availableDates: [
+    {
+      date: { type: Date },
+      isAvailable: { type: Boolean },
+    },
+  ],
   pendingDates: [
     {
       place: String,
       date: { type: Date, default: Date.now },
     },
   ],
+  socialMedia: {
+    instagram: { type: String, trim: true, default: undefined },
+    spotify: { type: String, trim: true, default: undefined },
+    youtube: { type: String, trim: true, default: undefined },
+  },
   profilePicture: { type: String, require: false },
 });
 

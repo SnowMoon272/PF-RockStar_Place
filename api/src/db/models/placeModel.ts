@@ -12,8 +12,11 @@ interface reviews {
 }
 
 interface dates {
-  author: string;
   musicBand: string;
+  date: Date;
+}
+interface available {
+  isAvailable: boolean;
   date: Date;
 }
 
@@ -23,16 +26,26 @@ enum Roles {
   PLACE = "place",
 }
 
+// availableDates: [
+//   {
+//     date: { type: Date },
+//     isAvailable: { type: Boolean },
+//   },
+// ],
+
 type placeInterface = {
   capacity: String;
   name: string;
+  email: string;
+  password: string;
+  hasSound: boolean;
   city: string;
   adress: string;
-  password: string;
   rating: number;
   description: string;
   reviews: reviews[];
   dates: dates[];
+  availableDates: available[];
   socialMedia: any;
   pendingDates: dates[];
   profilePicture: String;
@@ -107,6 +120,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createPlace = async (newPlace: placeInterface) => {
   newPlace.password = await encodePassword(newPlace.password);
   newPlace.rating = 5;
+  newPlace.role = Roles.PLACE;
 
   try {
     await place.create(newPlace);
