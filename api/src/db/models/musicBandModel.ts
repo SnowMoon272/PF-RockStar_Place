@@ -6,35 +6,35 @@ const musicBandSchema = require("../schemas/musicBand");
 const musicBand = model("musicband", musicBandSchema);
 
 interface reviews {
-	author: string;
-	comment: string;
-	rating: number;
+  author: string;
+  comment: string;
+  rating: number;
 }
 interface dates {
-	author: string;
-	place: string;
-	date: Date;
+  author: string;
+  place: string;
+  date: Date;
 }
 enum Roles {
-	ADMIN = "admin",
-	MUSICBAND = "musicband",
-	PLACE = "place",
+  ADMIN = "admin",
+  MUSICBAND = "musicband",
+  PLACE = "place",
 }
 
 type musicBandInterface = {
-	personInCharge: string;
-	name: string;
-	email: string;
-	password: string;
-	rating: number;
-	reviews: reviews[];
-	dates: dates[];
-	banned: boolean;
-	role: Roles;
-	socialMedia: any;
-	description: string;
-	pendingDates: dates[];
-	profilePicture: string;
+  personInCharge: string;
+  name: string;
+  email: string;
+  password: string;
+  rating: number;
+  reviews: reviews[];
+  dates: dates[];
+  banned: boolean;
+  role: Roles;
+  socialMedia: any;
+  description: string;
+  pendingDates: dates[];
+  profilePicture: string;
 };
 
 /**
@@ -112,9 +112,9 @@ export const getMusicBand = async (email: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const encodePassword = async (password: string) => {
-	const salt = await bcrypt.genSalt(6);
-	const encodedPassword = await bcrypt.hash(password, salt);
-	return encodedPassword;
+  const salt = await bcrypt.genSalt(6);
+  const encodedPassword = await bcrypt.hash(password, salt);
+  return encodedPassword;
 };
 
 /**
@@ -126,8 +126,8 @@ const encodePassword = async (password: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const comparePassword = async (password: string, encodedPassword: string) => {
-	let valid = await bcrypt.compare(password, encodePassword);
-	return valid;
+  let valid = await bcrypt.compare(password, encodePassword);
+  return valid;
 };
 
 /**
@@ -143,6 +143,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 * @author Sebastian Pérez <https://github.com/Sebastian-pz>
 */
 export const createMusicBand = async (newMusicBand: musicBandInterface) => {
+
 	newMusicBand.password = await encodePassword(newMusicBand.password);
 	newMusicBand.rating = 5;
 	newMusicBand.role = Roles.MUSICBAND;
