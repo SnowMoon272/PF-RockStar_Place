@@ -14,11 +14,23 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
-  font-family: "Dancing Script", cursive;
+  /* font-family: 'New Rocker', cursive; */
+  font-family: 'RocknRoll One', sans-serif;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+  background: #010C0E;
+  }      
+  &::-webkit-scrollbar-thumb {
+  background-color: #14213D;
+  border-radius: 25px;
+  border: 1px solid white; 
+}
 }
 `;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Home from "./Components/Home/Home";
+import HomeUNL from "./Components/Home/HomeUNL";
 import "./App.css";
 
 const AppStyle = styled.div`
@@ -13,7 +13,7 @@ function App() {
   return (
     <AppStyle>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<HomeUNL />} />
       </Routes>
     </AppStyle>
   );
