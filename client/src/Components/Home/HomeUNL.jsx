@@ -5,6 +5,7 @@ import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
 import SVGDown from "../../Assets/svg/Down.svg";
+import NavBar from "../NavBar/NavBar";
 
 const HomeStyleCont = styled.div`
   /* border: 3px solid #ff0000; */
@@ -144,6 +145,7 @@ const SecondVewStyleCont = styled.section``;
 function HomeUNL() {
   return (
     <HomeStyleCont>
+      <NavBar />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
