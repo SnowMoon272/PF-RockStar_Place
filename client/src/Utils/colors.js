@@ -1,6 +1,6 @@
 /* Full page colors */
 
-const colors = {
+const Colors = {
   Erie_Black: "#18191A",
   Green_Nigth: "#041318",
   Oxford_Blue: "#14213D",
@@ -9,4 +9,4 @@ const colors = {
   Platinum: "#E5E5E5",
 };
 
-export default colors;
+export default Colors;

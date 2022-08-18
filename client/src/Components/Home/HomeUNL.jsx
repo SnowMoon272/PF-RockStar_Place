@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
 import SVGDown from "../../Assets/svg/Down.svg";
@@ -7,7 +9,7 @@ import SVGDown from "../../Assets/svg/Down.svg";
 const HomeStyleCont = styled.div`
   /* border: 3px solid #ff0000; */
   box-sizing: border-box;
-  background-color: #18191a;
+  background-color: ${Colors.Erie_Black};
   width: 100%;
   /* height: fit-content; */
   height: 3000px;
@@ -36,7 +38,7 @@ const FirtVewStyleCont = styled.section`
       animation-timing-function: ease-in-out;
       @keyframes Rock {
         0% {
-          color: #e5e5e5;
+          color: ${Colors.Platinum};
           transform: scale(1);
         }
         50% {
@@ -44,7 +46,7 @@ const FirtVewStyleCont = styled.section`
           transform: scale(1.09);
         }
         100% {
-          color: #e5e5e5;
+          color: ${Colors.Platinum};
           transform: scale(1);
         }
       }
@@ -54,7 +56,7 @@ const FirtVewStyleCont = styled.section`
       position: absolute;
       font-family: "New Rocker", cursive;
       margin: 0px;
-      color: #e5e5e5;
+      color: ${Colors.Platinum};
       font-size: 9.6rem;
       filter: blur(1.8px);
       left: 12%;
@@ -73,7 +75,11 @@ const FirtVewStyleCont = styled.section`
     right: 5%;
     top: 10%;
 
-    button {
+    .Link {
+      color: ${Colors.Erie_Black};
+      text-decoration: none;
+      text-align: center;
+      margin: 0%;
       padding: 0px;
       background-image: url(${BGBtn});
       background-size: cover;
@@ -133,6 +139,8 @@ const FirtVewStyleCont = styled.section`
   }
 `;
 
+const SecondVewStyleCont = styled.section``;
+
 function HomeUNL() {
   return (
     <HomeStyleCont>
@@ -142,20 +150,23 @@ function HomeUNL() {
           <h1 className="h1">Rock Star Place</h1>
         </div>
         <div className="ButonsContainer">
-          <button type="button">
+          <Link to="/" className="Link">
             <div className="FondoVerde">+1500 Bandas y Solistas</div>
-          </button>
-          <button type="button">
+          </Link>
+          <Link to="/" className="Link">
             <div className="FondoVerde">+250 Locales</div>
-          </button>
-          <button type="button">
+          </Link>
+          <Link to="/" className="Link">
             <div className="FondoVerde">¡Registrate ahora¡</div>
-          </button>
+          </Link>
         </div>
-        <a href="/" className="SVGDown">
+        <a href="#SecondVewStyleCont" className="SVGDown">
           <img src={SVGDown} alt="Down" />
         </a>
       </FirtVewStyleCont>
+      <SecondVewStyleCont id="SecondVewStyleCont">
+        <h2>Hola mundo</h2>
+      </SecondVewStyleCont>
     </HomeStyleCont>
   );
 }
