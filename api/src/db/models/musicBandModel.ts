@@ -171,6 +171,7 @@ export const getAllMusicBands = async () => {
 		return allMusicBands;
 	} catch (error: any) {
 		throw new Error("An error occurred getting user");
+
 	}
 };
 
@@ -193,13 +194,3 @@ export const banHandler = async (email: string) => {
 	}
 };
 
-// IN PROGRESS, IT'S NOT WORKING
-export const searchMusicBand = async (name: string) => {
-	let rule = `/${name}/i`;
-	try {
-		let musicBandsByName = musicBand.find({ name: rule });
-		return musicBandsByName;
-	} catch (error) {
-		throw new Error("An error in searchMusicBand by name");
-	}
-};
