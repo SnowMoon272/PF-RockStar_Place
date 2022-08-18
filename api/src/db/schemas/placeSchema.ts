@@ -1,41 +1,60 @@
-const placeSchema = new Schema({
-	capacity: { type: String, trim: true, require: true },
+const { Schema } = require("mongoose");
 
-	name: { type: String, trim: true, require: true },
+export const placeSchema = new Schema({
 
-	city: { type: String, trim: true, require: true },
+  email:{ type: String, trim: true, require: true, unique: true },
 
-	adress: { type: String, trim: true, require: true },
+  password: {type: String, require: true},
 
-	rating: { type: Number, default: 0 },
+  hasSound: { type: Boolean, require: true, default: false },
 
-	description: { type: String, trim: true, default: "" },
+  capacity: { type: String, trim: true, require: true },
 
-	reviews: [
-		{
-			author: { type: String, trim: true, require: false },
-			review: { type: String, trim: true, require: false },
-			rating: Number,
-		},
-	],
-	dates: [
-		{
-			date: { type: Date },
-			musicBand: { type: String },
-		},
-	],
-	socialMedia: {
-		instagram: { type: String, trim: true, default: undefined },
-		spotify: { type: String, trim: true, default: undefined },
-		youtube: { type: String, trim: true, default: undefined },
-	},
-	pendingDates: [
-		{
-			place: String,
-			date: { type: Date, default: Date.now },
-		},
-	],
-	profilePicture: { type: String, require: false },
+  name: { type: String, trim: true, require: true },
+
+  city: { type: String, trim: true, require: true },
+
+  adress: { type: String, trim: true, require: true },
+
+  rating: { type: Number, default: 0 },
+
+  description: { type: String, trim: true, default: "" },
+
+  banned: { type: Boolean, default: false },
+  role: {
+    type: String,
+    default: "place",
+  },
+
+  reviews: [
+    {
+      author: { type: String, trim: true, require: false },
+      comment: { type: String, trim: true, require: false },
+      rating: Number,
+    },
+  ],
+  dates: [
+    {
+      date: { type: Date },
+      musicBand: { type: String },
+    },
+  ],
+  availableDates: [
+    {
+      date: { type: Date },
+      isAvailable: { type: Boolean },
+    },
+  ],
+  pendingDates: [
+    {
+      place: String,
+      date: { type: Date, default: Date.now },
+    },
+  ],
+  socialMedia: {
+    instagram: { type: String, trim: true, default: undefined }
+  },
+  profilePicture: { type: String, require: false },
 });
 
 module.exports = placeSchema;
