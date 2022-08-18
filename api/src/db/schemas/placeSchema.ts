@@ -29,7 +29,7 @@ export const placeSchema = new Schema({
   reviews: [
     {
       author: { type: String, trim: true, require: false },
-      review: { type: String, trim: true, require: false },
+      comment: { type: String, trim: true, require: false },
       rating: Number,
     },
   ],
