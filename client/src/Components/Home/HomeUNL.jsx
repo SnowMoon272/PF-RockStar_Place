@@ -57,8 +57,8 @@ const FirtVewStyleCont = styled.section`
       color: #e5e5e5;
       font-size: 9.6rem;
       filter: blur(1.8px);
-      left: 270px;
-      top: 780px;
+      left: 12%;
+      top: 78%;
     }
   }
 
@@ -70,8 +70,8 @@ const FirtVewStyleCont = styled.section`
     flex-direction: column;
     justify-content: space-between;
     height: 84%;
-    left: 1410px;
-    top: 80px;
+    right: 5%;
+    top: 10%;
 
     button {
       padding: 0px;
@@ -93,8 +93,8 @@ const FirtVewStyleCont = styled.section`
         font-family: "New Rocker", cursive;
         background-color: #0c564561;
         border-radius: 17px;
-        width: 360px;
-        height: 226px;
+        width: 100%;
+        height: 100%;
         font-size: 4.2rem;
         font-weight: bold;
         display: flex;
