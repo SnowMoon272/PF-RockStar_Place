@@ -4,7 +4,22 @@ const connect = require("../db/db");
 let newMusicBand = {
   personInCharge: "Jonatan Pasto",
   name: "Los pica gelatinas",
-  email: "soypicagelatina@gmail.com",
+  email: "soypicagelatina1@gmail.com",
+  password: "contrasena",
+  rating: 5,
+  reviews: [],
+  dates: [],
+  banned: false,
+  role: "musicband",
+  description: "Esta es una descripcion hardcodeada",
+  pendingDates: [],
+  profilePicture: ""
+};
+
+let newMusicBand2 = {
+  personInCharge: "Jonatan Pasto",
+  name: "Los pica gelatinas",
+  email: "soypicag212elatina@gmail.com",
   password: "contrasena",
   rating: 5,
   reviews: [],
@@ -43,4 +58,8 @@ test('Probando que la nueva banda tenga un rating de 5', () => {
 test('Probando a crear otro usuario con el mismo correo', async () => {
   const newUser = await createMusicBand(newMusicBand);
   expect(newUser).toHaveProperty("error");
+});
+test('Probando a crear otro usuario', async () => {
+  const newUser = await createMusicBand(newMusicBand2);
+  expect(newUser).toHaveProperty("name");
 });
