@@ -12,7 +12,6 @@ const AppStyle = styled.div`
 function App() {
   return (
     <AppStyle>
-      <h1>Hola mundo</h1>
       <Routes>
         <Route exact path="/" element={<Home />} />
       </Routes>
