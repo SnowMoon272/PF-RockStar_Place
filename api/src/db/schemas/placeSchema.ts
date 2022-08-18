@@ -52,9 +52,7 @@ export const placeSchema = new Schema({
     },
   ],
   socialMedia: {
-    instagram: { type: String, trim: true, default: undefined },
-    spotify: { type: String, trim: true, default: undefined },
-    youtube: { type: String, trim: true, default: undefined },
+    instagram: { type: String, trim: true, default: undefined }
   },
   profilePicture: { type: String, require: false },
 });

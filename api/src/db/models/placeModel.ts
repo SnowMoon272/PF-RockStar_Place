@@ -55,7 +55,7 @@ type placeInterface = {
 
 export const getAllPlaces = async () => {
   try {
-    const allPlaces = await place.find({}, { email: 1, name: 1, rating: 1, description: 1 });
+    const allPlaces = await place.find({}, { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 });
     return allPlaces;
   } catch (error) {
     throw new Error("Error getting all places ");
@@ -64,7 +64,7 @@ export const getAllPlaces = async () => {
 
 export const getPlace = async (email: string) => {
   try {
-    let placeResponse = await place.findOne({ email });
+    let placeResponse = await place.findOne({ email }, { password : 0, banned : 0 });
     if (placeResponse !== undefined) return placeResponse;
     else return { error: "user not found" };
   } catch (err: any) {
