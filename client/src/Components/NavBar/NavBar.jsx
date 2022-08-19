@@ -12,8 +12,9 @@ import BTNHome from "../../Assets/svg/Home.svg";
 import BTNHelp from "../../Assets/svg/Ayuda.svg";
 import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
+import BTNLogOut from "../../Assets/svg/Salir.svg";
 
-const NavBarStyle = styled.div`
+const NavBarStyle = styled.nav`
   background-image: url(${(props) => props.FondoImg && BGImg});
   background-color: ${(props) => !props.FondoImg && Colors.Oxford_Blue};
   background-size: cover;
@@ -56,6 +57,41 @@ const NavBarStyle = styled.div`
       justify-content: space-between;
       height: 100%;
       margin: 30px 0px;
+      .H3 {
+        margin: 4px;
+      }
+
+      .buttonLinkLogOut {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+
+        .Ancord {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 4px solid black;
+          border-radius: 50%;
+          width: 54px;
+          height: 54px;
+          background-color: white;
+          transition: all 0.5s ease;
+          :hover {
+            transform: scale(1.1);
+          }
+
+          img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+          }
+        }
+      }
 
       .buttonLink {
         display: flex;
@@ -63,7 +99,7 @@ const NavBarStyle = styled.div`
         align-items: center;
         color: white;
         text-decoration: none;
-        font-size: 1rem;
+        font-size: 1.2rem;
 
         & img:hover {
           transform: scale(1.1);
@@ -79,7 +115,7 @@ const NavBarStyle = styled.div`
           }
         }
         .H3 {
-          margin: 0px;
+          margin: 4px;
           color: white;
         }
 
@@ -96,7 +132,7 @@ const NavBarStyle = styled.div`
         height: 70%;
 
         .H3 {
-          margin: 0px;
+          margin: 4px;
           color: white;
           margin-bottom: 25px;
         }
@@ -124,19 +160,28 @@ const NavBarStyle = styled.div`
     }
   }
 `;
-
 function NavBar(props) {
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
         <div className="ContainButons">
-          <div className="buttonLink">
-            <a className="Ancord" href="/Login">
-              <img src={BTNLogin} alt="ico-login" />
-            </a>
-            <h3 className="H3">Ingresar</h3>
-          </div>
+          {props.LogIn ? (
+            <div className="buttonLink">
+              <a className="Ancord" href="/Login">
+                <img src={BTNLogin} alt="ico-login" />
+              </a>
+              <h3 className="H3">Ingresar</h3>
+            </div>
+          ) : (
+            <div className="buttonLinkLogOut">
+              <a className="Ancord" href="/Login">
+                <img src={BTNLogOut} alt="ico-login" />
+              </a>
+              <h3 className="H3">Salir</h3>
+            </div>
+          )}
+
           <div className="ButonsEdits">
             {props.Buscar && (
               <>
@@ -151,7 +196,7 @@ function NavBar(props) {
                 <button type="button" className="Butons">
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
-                <h3 className="H3">Filtro A</h3>
+                <h3 className="H3">Ciudad</h3>
               </>
             )}
             {props.FiltroB && (
@@ -159,7 +204,7 @@ function NavBar(props) {
                 <button type="button" className="Butons">
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
-                <h3 className="H3">Filtro A</h3>
+                <h3 className="H3">Sonido</h3>
               </>
             )}
             {props.Home && (

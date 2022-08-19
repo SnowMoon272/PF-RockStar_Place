@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
+// import Logo from "../../Assets/img/";
 import SVGDown from "../../Assets/svg/Down.svg";
 import NavBar from "../NavBar/NavBar";
 
 const HomeStyleCont = styled.div`
-  /* border: 3px solid #ff0000; */
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};
   width: 100%;
@@ -141,12 +141,25 @@ const FirtVewStyleCont = styled.section`
   }
 `;
 
-const SecondVewStyleCont = styled.section``;
+const SecondVewStyleCont = styled.section`
+  box-sizing: border-box;
+  border: solid red 3px;
+  margin-left: 80px;
+  height: 1500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CarsStyleCont = styled.section`
+  background-color: #00ffffbb;
+`;
 
 function HomeUNL() {
   return (
     <HomeStyleCont>
-      <NavBar Buscar FiltroA FiltroB Home Eventos Edit FondoImg />
+      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
+      <NavBar LogIn Buscar FiltroA FiltroB FondoImg />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
@@ -167,8 +180,13 @@ function HomeUNL() {
           <img src={SVGDown} alt="Down" />
         </a>
       </FirtVewStyleCont>
+
       <SecondVewStyleCont id="SecondVewStyleCont">
-        <h2>Hola mundo</h2>
+        <div className="ContenidoPrevio">
+          <button type="button">Proximo Evento</button>
+          <img src="" alt="" />
+        </div>
+        <CarsStyleCont>Hola mundo</CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
   );
