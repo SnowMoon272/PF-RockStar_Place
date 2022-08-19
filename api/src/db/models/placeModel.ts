@@ -62,6 +62,15 @@ export const deletePlace = async (email: string) => {
   }
 };
 
+/**
+ * getAllPlaces es la función encargada de retornar los locales filtrados, según el parámetro que reciba,
+ * o todos, si no recibe ningún parámetro
+ * @param {string} city Recibe por parametro la ciudad en la que se quiere buscar locales (puede o no estar)
+ * @param {string} sound Recibe por parametro el string "sonidoSi" o "sonidoNo", según el filtrado que desee (puede o no estar)
+ * @returns {array} Retorna un arreglo de objetos filtrados con los campos requeridos.
+ * @author Sebastian Pérez, Matías Straface, Carlos Laprida.
+ */
+
 export const getAllPlaces = async (city?: string, sound?: string) => {
   try {
     if (!city && !sound) {
@@ -92,10 +101,16 @@ export const getAllPlaces = async (city?: string, sound?: string) => {
       return response;
     }
   } catch (error) {
-    return {error}
+    return { error };
   }
 };
 
+/**
+ * getPlace es la función encargada de retornar la información completa de un local según su email.
+ * @param {string} email recibe por parámetro el email del local que se requiere.
+ * @returns {object} retorna un objeto con sus campos, excepto el password, o un error si no se encuentra el local.
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 export const getPlace = async (email: string) => {
   try {
     let placeResponse = await place.findOne({ email }, { password: 0 });
@@ -106,9 +121,15 @@ export const getPlace = async (email: string) => {
   }
 };
 
+/**
+ * getPlaceByID es la función encargada de retornar la información completa de un local segun su ID.
+ * @param {string} id recibe por parámetro el id del local que se requiere.
+ * @returns {object} retorna un objeto con sus campos, excepto en password, o un error si no encuentra el local.
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 export const getPlaceByID = async (id: string) => {
   try {
-    let placeResponse = await place.findOne({ _id : id }, { password: 0 });
+    let placeResponse = await place.findOne({ _id: id }, { password: 0 });
     if (placeResponse !== undefined) return placeResponse;
     else return { error: "place not found" };
   } catch (error: any) {
@@ -116,6 +137,13 @@ export const getPlaceByID = async (id: string) => {
   }
 };
 
+/**
+ * reloadPlaceRating es la función encargada de actualizar el rating de un local,
+ * se ejecuta después de enviar una review.
+ * @param {string} email recibe como parámetro el email del local a actualizar.
+ * @returns {error} retorna un error en caso de que no se haya podido actualizar el rating.
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 export const reloadPlaceRating = async (email: string) => {
   const userToUpdate = await getPlace(email);
   let sum = 0;
@@ -131,6 +159,13 @@ export const reloadPlaceRating = async (email: string) => {
   }
 };
 
+/**
+ * addPlaceReview es la función encargada de añadirle una review a un local en particular.
+ * @param {string} email recibe como parámetro el email del local al que se quiere evaluar.
+ * @param {object} review recibe como parámetro un objeto con las siguientes propiedades: review : { author : String, comment : String, rating : Number}
+ * @returns {object} retorna todas las reviews del local.
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 export const addPlaceReview = async (email: string, review: reviews) => {
   const userToAddReview = await getPlace(email);
 
@@ -149,17 +184,43 @@ export const addPlaceReview = async (email: string, review: reviews) => {
   }
 };
 
+/**
+ * EncodePassword es la función encargada de encriptar la contraseña del usuario, que le llega a {createPlace()} por parametro.
+ * @param {string} contraseña Recibe por parametro la contraseña a ser encriptada
+ * @return {string} Retorna la contraseña del usuario encriptada
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 const encodePassword = async (password: string) => {
   const salt = await bcrypt.genSalt(6);
   const encodedPassword = await bcrypt.hash(password, salt);
   return encodedPassword;
 };
 
+/**
+ * comparePassword es la función encargada de comparar una contraseña encriptada de la base de datos con una contraseña no encriptada aún
+ *
+ * @param {string} contraseña Recibe por parametro la contraseña no encriptada para comparar
+ * @param {string} contraseñaEncriptada Recibe por parametro la contraseña encriptada para comparar
+ * @return {boolean} Retorna un valor de true si las contraseñas matchean o false en el caso de que no
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 const comparePassword = async (password: string, encodedPassword: string) => {
   let valid = await bcrypt.compare(password, encodePassword);
   return valid;
 };
 
+/**
+*	createPlace es la función encargada de registrar una nueva banda en la base de datos
+*
+*	@param {newPlace} newPlace Recibe por parametro un objeto de tipo place : {
+		personInCharge,
+		name,
+		email,
+		password
+	}
+*	@return {object} Retorna el nuevo local.
+* @author Sebastian Pérez <https://github.com/Sebastian-pz>
+*/
 export const createPlace = async (newPlace: placeInterface) => {
   newPlace.password = await encodePassword(newPlace.password);
   newPlace.rating = 5;
@@ -174,6 +235,13 @@ export const createPlace = async (newPlace: placeInterface) => {
   }
 };
 
+/**
+ * banHandler es la función encargada de bloquear o desbloquear en nuestra base de datos
+ *
+ * @param {email} email recibe por parametro el email de la cuenta que será bloqueada o desbloqueda
+ * @return {object} Retorna el usuario modificado
+ * @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
 export const banHandler = async (email: string) => {
   try {
     const userToChange = await place.findOne({ email });
