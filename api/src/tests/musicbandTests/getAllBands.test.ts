@@ -17,6 +17,8 @@ export let musicBandTest = {
   profilePicture: "",
 };
 
+jest.setTimeout(60000*2);
+
 let allBands: any;
 let band : any;
 beforeAll(async () => {

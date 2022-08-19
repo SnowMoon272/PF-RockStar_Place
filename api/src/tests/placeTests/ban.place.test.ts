@@ -19,6 +19,8 @@ export const placeTest = {
   banned:false
 };
 
+jest.setTimeout(60000*2);
+
 let place:any;
 beforeAll(async () => {
   await connect();

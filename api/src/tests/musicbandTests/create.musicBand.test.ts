@@ -38,7 +38,8 @@ let testReviews = {
   rating: 5
 }
 
-jest.setTimeout(20000);
+jest.setTimeout(60000*2);
+
 let result: any;
 
 beforeAll(async () => {

@@ -18,6 +18,8 @@ export const placeTest = {
   profilePicture: "not-working",
 };
 
+jest.setTimeout(60000*2);
+
 let place:any;
 let allPlaces:any;
 beforeAll(async () => {
