@@ -76,14 +76,13 @@ router.get("/musicband", async (req: any, res: any) => {
 /// ACA ARRANCAN RUTAS DEL PLACE
 
 router.get("/places", async (req: any, res: any) => {
+  let { city, sound } = req.body;
   try {
-    const places = await getAllPlaces();
-    if (places) {
-      return res.status(200).send(places);
+    let response = await getAllPlaces(city, sound);
+    if (response) {
+      return res.status(200).send(response);
     } else {
-      return res.status(404).send({
-        msg: "No se encontraron lugares",
-      });
+      return res.status(404).send({ msg: "Lugares no encontrados" });
     }
   } catch (error) {
     console.log(error);
