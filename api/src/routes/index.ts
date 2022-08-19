@@ -4,7 +4,7 @@ import {
   getAllMusicBands,
   getMusicBand,
 } from "../db/models/musicBandModel";
-import { addPlaceReview, createPlace, getAllPlaces, getPlaceByID } from "../db/models/placeModel";
+import { addPlaceReview, createPlace, getAllPlaces, getPlaceByID, getPlaceByName, getCities } from "../db/models/placeModel";
 
 const { Router } = require("express");
 
@@ -23,7 +23,7 @@ router.get("/musicbands", async (req: any, res: any) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    return {error};
   }
 });
 
@@ -34,7 +34,7 @@ router.post("/musicbands", async (req: any, res: any) => {
       await createMusicBand(musicBand);
       res.status(201).send({ msg: "Se creo la banda exitosamente" });
     } catch (error) {
-      console.log(error);
+      return {error};
       res.status(404).send({ error: error });
     }
   } else {
@@ -50,7 +50,7 @@ router.post("/bandreviews", async (req: any, res: any) => {
       await addBandReview(email, review);
       return res.status(201).send({ msg: "Se añadio la reseña exitosamente" });
     } catch (error) {
-      console.log(error);
+      return {error};
     }
   } else {
     res.status(400).send({ msg: "Data faltante o incorrecta" });
@@ -69,7 +69,7 @@ router.get("/musicband", async (req: any, res: any) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    return {error};
   }
 });
 
@@ -85,7 +85,7 @@ router.get("/places", async (req: any, res: any) => {
       return res.status(404).send({ msg: "Lugares no encontrados" });
     }
   } catch (error) {
-    console.log(error);
+    return {error};
   }
 });
 
@@ -96,7 +96,7 @@ router.post("/places", async (req: any, res: any) => {
       await createPlace(places);
       res.status(201).send({ msg: "Se creo el lugar exitosamente" });
     } catch (error) {
-      console.log(error);
+      return {error};
       res.status(404).send({ error: error });
     }
   } else {
@@ -112,7 +112,7 @@ router.post("/placereviews", async (req: any, res: any) => {
       await addPlaceReview(email, review);
       return res.status(201).send({ msg: "Se añadio la reseña exitosamente" });
     } catch (error) {
-      console.log(error);
+      return {error};
     }
   } else {
     res.status(400).send({ msg: "Data faltante o incorrecta" });
@@ -124,5 +124,23 @@ router.get("/place/:id", async (req: any, res: any) => {
   const place = await getPlaceByID(id);
   id === undefined ? res.status(404).send({ msg: "Invalid data" }) : res.status(200).send(place);
 });
+
+router.get("/places/names", async (req: any, res: any) => {
+  let { search } = req.query;
+  if(!search) return res.status(404).send({msg : "Invalid data"});
+  search = decodeURI(search);
+  const places = await getPlaceByName(search);
+  places ? res.status(200).send(places) : res.status(400).send({ msg: "Not Found" });
+});
+
+router.get("/cities",async (req:any, res:any) => {
+  try {
+    let cities = await getCities();
+    if(cities) return res.status(200).send(cities);
+    return {error: "Error in function"}
+  } catch (error) {
+    return {error}
+  }
+})
 
 module.exports = router;
