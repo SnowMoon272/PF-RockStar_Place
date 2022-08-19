@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { getPlacesByName } from "../../../Redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 import Colors from "../../../Utils/colors";
+import { getCities } from "../../../Redux/actions";
 
 const SearchBarYFiltersStyled = styled.div`
   display: ${(props) => (props.Active ? "flex" : "none")};
@@ -95,6 +97,43 @@ export default function SearchBarYFilters(props) {
             <button onClick={(e) => handlerSubmint(e)} type="submit">
               Search
             </button>
+          </div>
+        </>
+      )}
+      {props.FilterCities && (
+        <>
+          <div>
+            <h4>Filtrar por Ciudad</h4>
+          </div>
+          <div>
+            <select name="cities" defaultValue="opcion_blockeada">
+              <option value="opcion_blockeada" disabled>
+                Elige tu Ciudad
+              </option>
+              {cities?.map((city) => {
+                return (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </>
+      )}
+      {props.FilterSounds && (
+        <>
+          <div>
+            <h4>Locales con equipo de Audio</h4>
+          </div>
+          <div>
+            <select name="audio" defaultValue="opcion_blockeada">
+              <option value="opcion_blockeada" disabled>
+                Elige tu opción
+              </option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
           </div>
         </>
       )}

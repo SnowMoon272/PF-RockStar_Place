@@ -4,6 +4,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_PLACES = "GET_PLACES",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME";
+  FILTERED_PLACES = "FILTERED_PLACES",
+  GET_CITIES = "GET_CITIES";
 
 export function getPlacesByName(name) {
   const encodName = encodeURI(name);
@@ -63,6 +65,19 @@ export function filteredPlaces(city, sound) {
       return dispatch({
         type: FILTERED_PLACES,
         payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+export function getCities() {
+  return async (dispatch) => {
+    try {
+      const results = await axios.get("http://localhost:3001/cities");
+      return dispatch({
+        type: GET_CITIES,
+        payload: results.data,
       });
     } catch (error) {
       return error;

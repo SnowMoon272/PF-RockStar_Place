@@ -1,8 +1,10 @@
+import { GET_PLACES, GET_DETAIL_PLACE, FILTERED_PLACES, GET_CITIES } from "./actions";
 import { GET_PLACES, GET_DETAIL_PLACE, FILTERED_PLACES, GET_PLACES_BY_NAME } from "./actions";
 
 const initialState = {
   places: [],
   detail_place: [],
+  cities: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -22,6 +24,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         detail_place: action.payload,
+      };
+    case GET_CITIES:
+      return {
+        ...state,
+        cities: action.payload,
       };
     default:
       return state;
