@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import color from "../../Utils/colors";
-import CardPlace from "../Card/CardPlace";
+import CardPlace from "./CardPlace";
 
 const CardsStyleCont = styled.div`
   width: 100%;
@@ -13,11 +13,10 @@ const CardsStyleCont = styled.div`
 `;
 
 function CardsPlaces({ currentPlaces }) {
-
   return (
     <CardsStyleCont>
-      {
-        currentPlaces && currentPlaces.map((place) => {
+      {currentPlaces &&
+        currentPlaces.map((place) => {
           return (
             <CardPlace
               key={place._id}
@@ -28,8 +27,7 @@ function CardsPlaces({ currentPlaces }) {
               image={place.profilePicture}
             />
           );
-        })
-      }
+        })}
     </CardsStyleCont>
   );
 }

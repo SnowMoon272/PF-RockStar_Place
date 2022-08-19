@@ -76,7 +76,7 @@ router.get("/musicband", async (req: any, res: any) => {
 /// ACA ARRANCAN RUTAS DEL PLACE
 
 router.get("/places", async (req: any, res: any) => {
-  let { city, sound } = req.body;
+  let {city, sound} = req.query;
   try {
     let response = await getAllPlaces(city, sound);
     if (response) {
@@ -119,12 +119,10 @@ router.post("/placereviews", async (req: any, res: any) => {
   }
 });
 
-
 router.get("/place/:id", async (req: any, res: any) => {
   const { id } = req.params;
   const place = await getPlaceByID(id);
   id === undefined ? res.status(404).send({ msg: "Invalid data" }) : res.status(200).send(place);
-
 });
 
 module.exports = router;
