@@ -8,8 +8,6 @@ export default function DetailPlace() {
   const params = useParams();
   const myPlace = useSelector((state) => state.detail_place);
 
-  console.log(myPlace);
-
   useEffect(() => dispatch(getDetailPlace(params.email)), [dispatch]);
 
   return (
