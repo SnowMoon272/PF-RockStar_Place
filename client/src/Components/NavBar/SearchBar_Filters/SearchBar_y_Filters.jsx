@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import Colors from "../../../Utils/colors";
 
 const SearchBarYFiltersStyled = styled.div`
@@ -24,6 +25,15 @@ export default function SearchBarYFilters(props) {
           <input type="text" placeholder="Rock Store" /> <button type="submit">Search</button>
         </>
       )}
+      {props.FilterCities && (
+        <>
+          <div>
+            <h4>Filtrar por Ciudad</h4>
+          </div>
+          <p>Aca va el select</p>
+        </>
+      )}
+      {props.Filter}
     </SearchBarYFiltersStyled>
   );
 }
