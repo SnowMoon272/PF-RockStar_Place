@@ -17,16 +17,15 @@ export function getPlaces() {
   };
 }
 
-export function getDetailPlace(email) {
+export function getDetailPlace(id) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/place/${email}`);
+      const json = await axios.get(`http://localhost:3001/place/${id}`);
       return dispatch({
         type: GET_DETAIL_PLACE,
         payload: json.data,
       });
     } catch (error) {
-      console.log(error);
       return error;
     }
   };
