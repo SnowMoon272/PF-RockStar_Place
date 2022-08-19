@@ -13,6 +13,7 @@ import BTNHelp from "../../Assets/svg/Ayuda.svg";
 import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
+import SearchBarYFilters from "../SearchBar y Filters/SearchBar_y_Filters";
 
 const NavBarStyle = styled.nav`
   background-image: url(${(props) => props.FondoImg && BGImg});
@@ -181,7 +182,7 @@ function NavBar(props) {
               <h3 className="H3">Salir</h3>
             </div>
           )}
-
+          <SearchBarYFilters Search />
           <div className="ButonsEdits">
             {props.Buscar && (
               <>
