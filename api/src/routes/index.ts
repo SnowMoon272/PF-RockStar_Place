@@ -4,7 +4,7 @@ import {
   getAllMusicBands,
   getMusicBand,
 } from "../db/models/musicBandModel";
-import { addPlaceReview, createPlace, getAllPlaces, getPlace } from "../db/models/placeModel";
+import { addPlaceReview, createPlace, getAllPlaces, getPlaceByID } from "../db/models/placeModel";
 
 const { Router } = require("express");
 
@@ -119,20 +119,12 @@ router.post("/placereviews", async (req: any, res: any) => {
   }
 });
 
-router.get("/place/:email", async (req: any, res: any) => {
-  const { email } = req.params;
-  try {
-    const place = await getPlace(email);
-    if (place) {
-      return res.status(200).send(place);
-    } else {
-      return res.status(404).send({
-        msg: "No se encontraron lugares",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
+
+router.get("/place/:id", async (req: any, res: any) => {
+  const { id } = req.params;
+  const place = await getPlaceByID(id);
+  id === undefined ? res.status(404).send({ msg: "Invalid data" }) : res.status(200).send(place);
+
 });
 
 module.exports = router;
