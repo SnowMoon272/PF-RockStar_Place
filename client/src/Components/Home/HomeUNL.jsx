@@ -84,9 +84,10 @@ const FirtVewStyleCont = styled.section`
       padding: 0px;
       background-image: url(${BGBtn});
       background-size: cover;
+      background-position: center;
       border-radius: 17px;
       width: 360px;
-      height: 226px;
+      height: 27%;
       box-shadow: 5px 5px 500px 25px rgba(0, 0, 0, 0.45);
 
       :hover {
