@@ -119,8 +119,8 @@ router.post("/placereviews", async (req: any, res: any) => {
   }
 });
 
-router.get("/place", async (req: any, res: any) => {
-  const { email } = req.body;
+router.get("/place/:email", async (req: any, res: any) => {
+  const { email } = req.params;
   try {
     const place = await getPlace(email);
     if (place) {
