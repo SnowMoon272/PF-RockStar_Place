@@ -1,2 +1,3 @@
-export const USERNAME = "SnowMoon272";
-export const PASSWORD = "wapSNwSznDiSgPb2";
+export const USERNAME = 'facuramirez'
+export const PASSWORD = 'BAuMHzMYy96LTdmn'
+

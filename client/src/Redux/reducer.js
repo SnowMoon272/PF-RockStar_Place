@@ -1,4 +1,4 @@
-import { GET_PLACES, GET_DETAIL_PLACE } from "./actions";
+import { GET_PLACES, GET_DETAIL_PLACE, FILTERED_PLACES } from "./actions";
 
 const initialState = {
   places: [],
@@ -12,6 +12,12 @@ function rootReducer(state = initialState, action) {
         ...state,
         places: action.payload,
       };
+    case FILTERED_PLACES:
+      return {
+        ...state,
+        places: action.payload,
+      };
+
     case GET_DETAIL_PLACE:
       return {
         ...state,
