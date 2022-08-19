@@ -33,9 +33,8 @@ const NavBarStyle = styled.nav`
 
   .Search_Filter {
     position: absolute;
-    z-index: 90;
     left: 80px;
-    top: 290px;
+    top: 285px;
   }
 
   .Logo {
@@ -92,6 +91,7 @@ const NavBarStyle = styled.nav`
           background-color: white;
           transition: all 0.5s ease;
           :hover {
+            cursor: pointer;
             transform: scale(1.1);
           }
 
