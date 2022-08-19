@@ -26,13 +26,6 @@ enum Roles {
   PLACE = "place",
 }
 
-// availableDates: [
-//   {
-//     date: { type: Date },
-//     isAvailable: { type: Boolean },
-//   },
-// ],
-
 type placeInterface = {
   capacity: String;
   name: string;
@@ -53,18 +46,43 @@ type placeInterface = {
   role: Roles;
 };
 
-export const getAllPlaces = async () => {
+export const getAllPlaces = async (city?: string, sound?: string) => {
   try {
-    const allPlaces = await place.find({}, { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 });
-    return allPlaces;
+    if (!city && !sound) {
+      let response = await place.find(
+        {},
+        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
+      );
+      return response;
+    } else if (city && !sound) {
+      let response = await place.find(
+        { city },
+        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
+      );
+      return response;
+    } else if (!city && sound) {
+      let hasSound = sound === "sonidoSi" ? true : false;
+      let response = await place.find(
+        { hasSound },
+        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
+      );
+      return response;
+    } else if (city && sound) {
+      let hasSound = sound === "sonidoSi" ? true : false;
+      let response = await place.find(
+        { city, hasSound },
+        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
+      );
+      return response;
+    }
   } catch (error) {
-    throw new Error("Error getting all places ");
+    console.log(error);
   }
 };
 
 export const getPlace = async (email: string) => {
   try {
-    let placeResponse = await place.findOne({ email }, { password : 0, banned : 0 });
+    let placeResponse = await place.findOne({ email }, { password: 0, banned: 0 });
     if (placeResponse !== undefined) return placeResponse;
     else return { error: "user not found" };
   } catch (err: any) {
@@ -138,18 +156,5 @@ export const banHandler = async (email: string) => {
       : await place.updateOne({ email }, { banned: false });
   } catch (error) {
     console.log("Something went wrong in ban function");
-  }
-};
-
-export const filterByCity = async (city: string) => {
-  try {
-    let cityPlaces = await place.find({ city });
-    if (cityPlaces !== undefined) {
-      return cityPlaces;
-    } else {
-      return { error: "There are no places in this location" };
-    }
-  } catch (err: any) {
-    throw new Error("Something went wrong");
   }
 };
