@@ -211,6 +211,7 @@ const CarsStyleCont = styled.section`
 
   .BotonesExtra {
     position: absolute;
+    z-index: 10;
     top: 450px;
     width: 70%;
     display: flex;
@@ -232,6 +233,8 @@ const CarsStyleCont = styled.section`
     }
   }
   .ContainerCards {
+    position: relative;
+    z-index: 9;
     box-sizing: border-box;
     width: 100%;
     margin: 50px;
