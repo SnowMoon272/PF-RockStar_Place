@@ -41,7 +41,6 @@ export function filteredPlaces(city, sound) {
       } else if (!city && sound) {
         json = await axios.get(`http://localhost:3001/places?sound=${sound}`);
       }
-
       if (city && sound) {
         json = await axios.get(`http://localhost:3001/places?city=${city}&sound=${sound}`);
       }

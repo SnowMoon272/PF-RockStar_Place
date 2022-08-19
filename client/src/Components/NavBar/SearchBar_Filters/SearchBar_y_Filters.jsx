@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Colors from "../../../Utils/colors";
 
 const SearchBarYFiltersStyled = styled.div`
-  display: none;
+  display: flex;
   position: absolute;
   z-index: 100;
   border: solid black 3px;
