@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable comma-dangle */
 import React from "react";
 import styled from "styled-components";
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -6,11 +8,14 @@ import BGImg from "../../Assets/img/Metal.jpg";
 import BTNLogin from "../../Assets/svg/Ingresar.svg";
 import BTNSearch from "../../Assets/svg/Buscar.svg";
 import BTNFiltro from "../../Assets/svg/filtro.svg";
-//import BTNHome from "../../Assets/svg/Home.svg";
+import BTNHome from "../../Assets/svg/Home.svg";
 import BTNHelp from "../../Assets/svg/Ayuda.svg";
+import BTNEdit from "../../Assets/svg/Editar.svg";
+import BTNEvent from "../../Assets/svg/Eventos.svg";
 
 const NavBarStyle = styled.div`
-  background-image: url(${BGImg});
+  background-image: url(${(props) => props.FondoImg && BGImg});
+  background-color: ${(props) => !props.FondoImg && Colors.Oxford_Blue};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -34,9 +39,8 @@ const NavBarStyle = styled.div`
 
   .FondoVerde {
     box-sizing: border-box;
-    border: solid blue 3px;
     font-family: "RocknRoll One", sans-serif;
-    background-color: #132e2e91;
+    background-color: ${(props) => (props.FondoImg ? "#132e2e91" : Colors.Oxford_Blue)};
     width: 100%;
     height: 100vh;
     display: flex;
@@ -46,7 +50,6 @@ const NavBarStyle = styled.div`
 
     .ContainButons {
       box-sizing: border-box;
-      border: solid red 3px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -60,76 +63,136 @@ const NavBarStyle = styled.div`
         align-items: center;
         color: white;
         text-decoration: none;
-        cursor: pointer;
-        img {
-          width: 65px;
-          height: 65px;
+        font-size: 1rem;
+
+        & img:hover {
+          transform: scale(1.1);
+        }
+
+        .Ancord {
+          cursor: pointer;
+          img {
+            transition: all 0.5s ease;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+          }
+        }
+        .H3 {
+          margin: 0px;
+          color: white;
+        }
+
+        .FoundIMG {
           background-color: white;
-          border-radius: 50%;
-          border: solid 3px ${Colors.Erie_Black};
         }
       }
 
       .ButonsEdits {
-        border: solid green 3px;
-
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        height: 50%;
+        align-items: center;
+        height: 70%;
 
+        .H3 {
+          margin: 0px;
+          color: white;
+          margin-bottom: 25px;
+        }
         .Butons {
-          width: 65px;
-          height: 65px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 62px;
+          height: 62px;
           border-radius: 50%;
-          border: solid black 3px;
+          border: solid black 4.5px;
+          transition: all 0.5s ease;
+          :hover {
+            transform: scale(1.1);
+            cursor: pointer;
+          }
         }
-      }
-      .BTNHelp {
-        img {
-          width: 65px;
-          height: 65px;
-          background-color: white;
+
+        .Butons img {
+          width: 34px;
+          height: 34px;
+          padding: 6px;
         }
-        color: white;
-        font-size: 180%;
-        font-family: "Montserrat", Arial, Helvetica, Geneva, sans-serif;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
       }
     }
   }
 `;
 
-function NavBar() {
+function NavBar(props) {
   return (
-    <NavBarStyle>
+    <NavBarStyle FondoImg={props.FondoImg}>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
         <div className="ContainButons">
-          <a className="buttonLink" href="/login">
-            <img src={BTNLogin} alt="ico-login" />
-            Ingresar
-          </a>
-          <div className="ButonsEdits">
-            <button type="button" className="Butons">
-              <img src={BTNSearch} alt="ico-search" />
-            </button>
-            Buscar
-            <button type="button" className="Butons">
-              <img src={BTNFiltro} alt="ico-filtro" />
-            </button>
-            Ciudad
-            <button type="button" className="Butons">
-              <img src={BTNFiltro} alt="ico-filtro" />
-            </button>
-            Status
+          <div className="buttonLink">
+            <a className="Ancord" href="/Login">
+              <img src={BTNLogin} alt="ico-login" />
+            </a>
+            <h3 className="H3">Ingresar</h3>
           </div>
-          <a className="buttonLink" href="/help">
-            <img src={BTNHelp} alt="Help" />
-            Ayuda
-          </a>
+          <div className="ButonsEdits">
+            {props.Buscar && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNSearch} alt="ico-search" />
+                </button>
+                <h3 className="H3">Buscar</h3>
+              </>
+            )}
+            {props.FiltroA && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNFiltro} alt="ico-filtro" />
+                </button>
+                <h3 className="H3">Filtro A</h3>
+              </>
+            )}
+            {props.FiltroB && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNFiltro} alt="ico-filtro" />
+                </button>
+                <h3 className="H3">Filtro A</h3>
+              </>
+            )}
+            {props.Home && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNHome} alt="ico-filtro" />
+                </button>
+                <h3 className="H3">Home</h3>
+              </>
+            )}
+            {props.Eventos && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNEvent} alt="ico-filtro" />
+                </button>
+                <h3 className="H3">Eventos</h3>
+              </>
+            )}
+            {props.Edit && (
+              <>
+                <button type="button" className="Butons">
+                  <img src={BTNEdit} alt="ico-filtro" />
+                </button>
+                <h3 className="H3">Editar</h3>
+              </>
+            )}
+          </div>
+          <div className="buttonLink">
+            <a className="Ancord" href="/help">
+              <img className="FoundIMG" src={BTNHelp} alt="Help" />
+            </a>
+            <h3 className="H3">Ayuda</h3>
+          </div>
         </div>
       </div>
     </NavBarStyle>

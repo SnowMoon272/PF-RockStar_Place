@@ -146,7 +146,7 @@ const SecondVewStyleCont = styled.section``;
 function HomeUNL() {
   return (
     <HomeStyleCont>
-      <NavBar />
+      <NavBar Buscar FiltroA FiltroB Home Eventos Edit FondoImg />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
