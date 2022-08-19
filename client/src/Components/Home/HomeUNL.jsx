@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlaces } from "../../Redux/actions";
+import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
-// import Logo from "../../Assets/img/";
+import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
 import NavBar from "../NavBar/NavBar";
 
@@ -12,8 +15,7 @@ const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};
   width: 100%;
-  /* height: fit-content; */
-  height: 3000px;
+  height: fit-content;
 `;
 
 const FirtVewStyleCont = styled.section`
@@ -142,20 +144,100 @@ const FirtVewStyleCont = styled.section`
 `;
 
 const SecondVewStyleCont = styled.section`
+  position: relative;
   box-sizing: border-box;
-  border: solid red 3px;
   margin-left: 80px;
-  height: 1500px;
+  height: fit-content;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+
+  .ContenidoPrevio {
+    position: absolute;
+    top: 42px;
+    width: 86%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .Link {
+      font-family: "New Rocker", cursive;
+      border-radius: 10px;
+      background-color: ${Colors.Green_Light};
+      width: 290px;
+      height: 80px;
+      font-size: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: ${Colors.Erie_Black};
+    }
+
+    img {
+      width: 230px;
+      height: 230px;
+    }
+  }
 `;
 
 const CarsStyleCont = styled.section`
-  background-color: #00ffffbb;
+  width: 75%;
+  height: fit-content;
+  background-color: ${Colors.Green_Nigth};
+  margin-top: 160px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h4 {
+    margin-bottom: 30px;
+    color: ${Colors.Green_Light};
+    font-family: "New Rocker", cursive;
+    font-size: 7rem;
+  }
+
+  .Paginado {
+    background-color: blueviolet;
+    width: 900px;
+    height: 100px;
+  }
+
+  .BotonesExtra {
+    position: absolute;
+    top: 29.5%;
+    width: 68%;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      font-family: "RocknRoll One", sans-serif;
+      width: 120px;
+      height: 40px;
+      background-color: ${Colors.Green_Light};
+      color: ${Colors.Erie_Black};
+      border-radius: 10px;
+      font-size: 1.8rem;
+    }
+  }
+  .ContainerCards {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 50px;
+    padding: 0px 50px;
+  }
 `;
 
 function HomeUNL() {
+  const dispatch = useDispatch();
+
+  const allPlaces = useSelector((state) => state.places);
+
+  useEffect(() => {
+    dispatch(getPlaces());
+  }, [dispatch]);
+
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
@@ -183,10 +265,22 @@ function HomeUNL() {
 
       <SecondVewStyleCont id="SecondVewStyleCont">
         <div className="ContenidoPrevio">
-          <button type="button">Proximo Evento</button>
-          <img src="" alt="" />
+          <Link className="Link" to="/">
+            Proximo Evento
+          </Link>
+          <img src={Logo} alt="Logo" />
         </div>
-        <CarsStyleCont>Hola mundo</CarsStyleCont>
+        <CarsStyleCont>
+          <h4>Conoce Nuestros Locales</h4>
+          <div className="Paginado">PAginado</div>
+          <div className="BotonesExtra">
+            <button type="button">Recargar</button>
+            <button type="button">Rating</button>
+          </div>
+          <div className="ContainerCards">
+            <CardsPlaces currentPlaces={allPlaces} />
+          </div>
+        </CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
   );
