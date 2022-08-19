@@ -3,7 +3,7 @@ import { GET_PLACES, GET_DETAIL_PLACE } from "./actions";
 const initialState = {
   places: [],
   detail_place: [],
-}
+};
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {

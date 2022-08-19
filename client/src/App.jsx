@@ -6,7 +6,6 @@ import Help from "./Components/Help/Help";
 import Faqs from "./Components/Faqs/Faqs";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 
-
 const AppStyle = styled.div`
   width: 100%;
   height: 100%;
