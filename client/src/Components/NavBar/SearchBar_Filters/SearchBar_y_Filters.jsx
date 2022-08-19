@@ -1,8 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Colors from "../../../Utils/colors";
+import { getCities } from "../../../Redux/actions";
 
 const SearchBarYFiltersStyled = styled.div`
   display: flex;
@@ -15,6 +16,13 @@ const SearchBarYFiltersStyled = styled.div`
 `;
 
 export default function SearchBarYFilters(props) {
+  const dispatch = useDispatch();
+  const cities = useSelector((state) => state.cities);
+
+  useEffect(() => {
+    dispatch(getCities());
+  }, [dispatch]);
+
   return (
     <SearchBarYFiltersStyled>
       {props.Search && (
@@ -30,10 +38,38 @@ export default function SearchBarYFilters(props) {
           <div>
             <h4>Filtrar por Ciudad</h4>
           </div>
-          <p>Aca va el select</p>
+          <div>
+            <select name="cities" defaultValue="opcion_blockeada">
+              <option value="opcion_blockeada" disabled>
+                Elige tu Ciudad
+              </option>
+              {cities?.map((city) => {
+                return (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </>
       )}
-      {props.Filter}
+      {props.FilterSounds && (
+        <>
+          <div>
+            <h4>Locales con equipo de Audio</h4>
+          </div>
+          <div>
+            <select name="audio" defaultValue="opcion_blockeada">
+              <option value="opcion_blockeada" disabled>
+                Elige tu opción
+              </option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </>
+      )}
     </SearchBarYFiltersStyled>
   );
 }

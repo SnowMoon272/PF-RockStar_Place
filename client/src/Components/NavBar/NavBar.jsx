@@ -175,7 +175,7 @@ function NavBar(props) {
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
       <div className="Search_Filter">
-        <SearchBarYFilters FilterCities />
+        <SearchBarYFilters FilterSounds />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
