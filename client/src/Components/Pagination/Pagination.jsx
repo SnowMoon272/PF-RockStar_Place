@@ -34,36 +34,29 @@ const PaginateStyleCont = styled.div`
     background: #A2C4C3;
     border: 1px solid #18191A;
     border-radius: 10px;
+    cursor: pointer;
   }
 `;
 
-function Pagination({ cardPerPage, allCards, paginado, pageNumber }) {
+function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
   const pageNumbers = [];
   //console.log(pageNumbers) //cantidad de paginas
 
   //math.ceil -> redondea
-  for (let i = 1; i <= Math.ceil(allCards / cardPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(allPlaces / cardsPerPage); i++) {
     pageNumbers.push(i);
-  };
-
-  function nextPage() {
-    if (pageNumber < pageNumbers.length) paginado(pageNumber + 1);
-  };
-
-  function prevPage() {
-    if (pageNumber > 1) paginado(pageNumber - 1);
   };
 
   return (
     <PaginateStyleCont>
       <ul>
+        <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}>«</button>
         { pageNumbers && pageNumbers.map((number) => (
           <li key={number}>
-            <button type="button" className="BTNPaginate" onClick={() => prevPage}>Anterior</button>
             <button type="button" className="BTNPaginate" onClick={() => paginado(number)}>{number}</button>
-            <button type="button" className="BTNPaginate" onClick={() => nextPage}>Siguiente</button>
           </li>
         ))}
+        <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)}>»</button>
       </ul>
     </PaginateStyleCont>
   );

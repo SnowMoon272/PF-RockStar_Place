@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import BGBtn from "../../Assets/img/Metal.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
 import NavBar from "../NavBar/NavBar";
+import Pagination from "../Pagination/Pagination";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -147,7 +148,7 @@ const SecondVewStyleCont = styled.section`
   position: relative;
   box-sizing: border-box;
   margin-left: 80px;
-  height: fit-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,6 +173,11 @@ const SecondVewStyleCont = styled.section`
       align-items: center;
       text-decoration: none;
       color: ${Colors.Erie_Black};
+      transition: all 0.5s ease;
+      :hover {
+        transform: scale(1.1);
+        cursor: pointer;
+      }
     }
 
     img {
@@ -206,8 +212,8 @@ const CarsStyleCont = styled.section`
 
   .BotonesExtra {
     position: absolute;
-    top: 29.5%;
-    width: 68%;
+    top: 450px;
+    width: 70%;
     display: flex;
     justify-content: space-between;
 
@@ -219,6 +225,11 @@ const CarsStyleCont = styled.section`
       color: ${Colors.Erie_Black};
       border-radius: 10px;
       font-size: 1.8rem;
+      transition: all 0.5s ease;
+      :hover {
+        transform: scale(1.1);
+        cursor: pointer;
+      }
     }
   }
   .ContainerCards {
@@ -237,6 +248,23 @@ function HomeUNL() {
   useEffect(() => {
     dispatch(getPlaces());
   }, [dispatch]);
+
+  //paginado
+  //const [order, setOrder] = useState('');
+  //empieza en la pag
+  const [pageNumber, setPageNumer] = useState(1); //1 empieza en esa pag
+  //console.log('curr:', pageNumber)
+
+  //cuantos cards por pagina
+  const [cardsPerPage] = useState(10);
+  //indice para el ultimo juego
+  const ultimaCard = pageNumber * cardsPerPage; //10
+  const primeraCard = ultimaCard - cardsPerPage; //0
+  const currentCards = allPlaces.slice(primeraCard, ultimaCard);
+
+  const paginado = (num) => {
+    setPageNumer(num);
+  };
 
   return (
     <HomeStyleCont>
@@ -265,21 +293,22 @@ function HomeUNL() {
 
       <SecondVewStyleCont id="SecondVewStyleCont">
         <div className="ContenidoPrevio">
-          <Link className="Link" to="/">
+          <button type="button" className="Link">
             Proximo Evento
-          </Link>
+          </button>
           <img src={Logo} alt="Logo" />
         </div>
         <CarsStyleCont>
           <h4>Conoce Nuestros Locales</h4>
-          <div className="Paginado">PAginado</div>
+          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
           <div className="BotonesExtra">
             <button type="button">Recargar</button>
             <button type="button">Rating</button>
           </div>
           <div className="ContainerCards">
-            <CardsPlaces currentPlaces={allPlaces} />
+            <CardsPlaces currentPlaces={currentCards} />
           </div>
+          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
         </CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
