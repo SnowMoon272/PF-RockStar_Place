@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable comma-dangle */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "../../Assets/img/guitar-logo-icon.png";
 import Colors from "../../Utils/colors";
@@ -172,10 +172,22 @@ const NavBarStyle = styled.nav`
 `;
 
 function NavBar(props) {
+  const [navState, setNavState] = useState({
+    Active: false,
+    Search: false,
+    FilterCities: false,
+    FilterSounds: false,
+  });
+
+  const handlerClick = (e) => {
+    e.preventDefault();
+    setNavState({ ...navState, Search: !navState.Search, Active: !navState.Active });
+  };
+
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
       <div className="Search_Filter">
-        <SearchBarYFilters Search />
+        <SearchBarYFilters Search={navState.Search} Active={navState.Active} />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
@@ -198,7 +210,13 @@ function NavBar(props) {
           <div className="ButonsEdits">
             {props.Buscar && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    handlerClick(e);
+                  }}
+                  className="Butons"
+                >
                   <img src={BTNSearch} alt="ico-search" />
                 </button>
                 <h3 className="H3">Buscar</h3>

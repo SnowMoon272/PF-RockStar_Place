@@ -2,7 +2,23 @@ import axios from "axios";
 
 export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_PLACES = "GET_PLACES",
-  FILTERED_PLACES = "FILTERED_PLACES";
+  FILTERED_PLACES = "FILTERED_PLACES",
+  GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME";
+
+export function getPlacesByName(name) {
+  const encodName = encodeURI(name);
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/places/names?search=${encodName}`);
+      return dispatch({
+        type: GET_PLACES_BY_NAME,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
 
 export function getPlaces() {
   return async (dispatch) => {

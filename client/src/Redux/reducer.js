@@ -1,4 +1,4 @@
-import { GET_PLACES, GET_DETAIL_PLACE, FILTERED_PLACES } from "./actions";
+import { GET_PLACES, GET_DETAIL_PLACE, FILTERED_PLACES, GET_PLACES_BY_NAME } from "./actions";
 
 const initialState = {
   places: [],

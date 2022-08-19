@@ -1,10 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { getPlacesByName } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
 
 const SearchBarYFiltersStyled = styled.div`
-  display: flex;
+  display: ${(props) => (props.Active ? "flex" : "none")};
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
@@ -61,16 +63,38 @@ const SearchBarYFiltersStyled = styled.div`
 `;
 
 export default function SearchBarYFilters(props) {
+  const dispatch = useDispatch();
+  const [name, setName] = useState("");
+
+  const handlerInputChange = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+  };
+
+  const handlerSubmint = (e) => {
+    e.preventDefault();
+    dispatch(getPlacesByName(name));
+    setTitle("");
+    paginado(1);
+  };
+
   return (
-    <SearchBarYFiltersStyled>
+    <SearchBarYFiltersStyled Active={props.Active}>
       {props.Search && (
         <>
           <div className="ContainerTitle">
             <h4>Busqueda por Local</h4>
           </div>
           <div className="ContainerSearch">
-            <input type="text" placeholder="Rock Store" />
-            <button type="submit">Search</button>
+            <input
+              value={name}
+              onChange={(e) => handlerInputChange(e)}
+              type="text"
+              placeholder="Rock Store"
+            />
+            <button onClick={(e) => handlerSubmint(e)} type="submit">
+              Search
+            </button>
           </div>
         </>
       )}
