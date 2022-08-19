@@ -107,4 +107,4 @@ dist
 package-lock.json
 
 # Ignore sensitive information
-NOSUBIR.ts
+#NOSUBIR.ts
