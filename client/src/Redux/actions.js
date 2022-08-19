@@ -1,12 +1,19 @@
 import axios from "axios";
 
-export const DEFAULT = "DEFAULT";
-export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE";
+export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
+  GET_PLACES = "GET_PLACES";
 
-export function deffault(payload) {
-  return {
-    type: DEFAULT,
-    payload,
+export function getPlaces() {
+  return async (dispatch) => {
+    try {
+      const results = await axios.get("http://localhost:3001/places");
+      return dispatch({
+        type: GET_PLACES,
+        payload: results.data,
+      });
+    } catch (error) {
+      return error;
+    }
   };
 }
 

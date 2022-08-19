@@ -1,15 +1,16 @@
-import { DEFAULT, GET_DETAIL_PLACE } from "./actions";
+import { GET_PLACES, GET_DETAIL_PLACE } from "./actions";
 
-const initiaState = {
-  estadoprueba: [],
+const initialState = {
+  places: [],
   detail_place: [],
-};
+}
 
-function rootReducer(state = initiaState, action) {
+function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT:
+    case GET_PLACES:
       return {
         ...state,
+        places: action.payload,
       };
     case GET_DETAIL_PLACE:
       return {
