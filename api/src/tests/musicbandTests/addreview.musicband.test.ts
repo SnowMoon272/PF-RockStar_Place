@@ -23,6 +23,8 @@ let testReviews = {
   rating: 5
 }
 
+jest.setTimeout(60000*2);
+
 let band : any;
 
 beforeAll( async () => {

@@ -17,8 +17,9 @@ export let musicBandTest = {
   profilePicture: "",
 };
 
-let band : any;
+jest.setTimeout(60000*2);
 
+let band : any;
 beforeAll( async () => {
   await connect();
   band = await createMusicBand(musicBandTest);
