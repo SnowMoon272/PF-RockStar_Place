@@ -18,10 +18,12 @@ export default function SearchBarYFilters(props) {
     <SearchBarYFiltersStyled>
       {props.Search && (
         <>
-          <input /> <button type="submit">Search</button>
+          <div>
+            <h4>Busqueda por Local</h4>
+          </div>
+          <input type="text" placeholder="Rock Store" /> <button type="submit">Search</button>
         </>
       )}
-      <p>cambio</p>
     </SearchBarYFiltersStyled>
   );
 }
