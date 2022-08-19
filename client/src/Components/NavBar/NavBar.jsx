@@ -170,6 +170,7 @@ const NavBarStyle = styled.nav`
     }
   }
 `;
+
 function NavBar(props) {
   return (
     <NavBarStyle FondoImg={props.FondoImg}>

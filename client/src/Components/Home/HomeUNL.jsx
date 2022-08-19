@@ -303,7 +303,12 @@ function HomeUNL() {
         </div>
         <CarsStyleCont>
           <h4>Conoce Nuestros Locales</h4>
-          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
+          <Pagination
+            cardsPerPage={cardsPerPage}
+            allPlaces={allPlaces.length}
+            paginado={paginado}
+            pageNumber={pageNumber}
+          />
           <div className="BotonesExtra">
             <button type="button">Recargar</button>
             <button type="button">Rating</button>
@@ -311,7 +316,12 @@ function HomeUNL() {
           <div className="ContainerCards">
             <CardsPlaces currentPlaces={currentCards} />
           </div>
-          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
+          <Pagination
+            cardsPerPage={cardsPerPage}
+            allPlaces={allPlaces.length}
+            paginado={paginado}
+            pageNumber={pageNumber}
+          />
         </CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
