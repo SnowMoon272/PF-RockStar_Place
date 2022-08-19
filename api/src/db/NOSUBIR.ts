@@ -1,2 +1,2 @@
-export const USERNAME = 'Admin-RockStartUser'
-export const PASSWORD = 'E8GQ0c2j0wKGyIEE'
+export const USERNAME = 'facuramirez'
+export const PASSWORD = 'BAuMHzMYy96LTdmn'

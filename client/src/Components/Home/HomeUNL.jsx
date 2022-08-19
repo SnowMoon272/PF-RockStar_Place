@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import BGBtn from "../../Assets/img/Metal.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
 import NavBar from "../NavBar/NavBar";
+import Pagination from "../Pagination/Pagination";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -248,6 +249,23 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
+  //paginado
+  //const [order, setOrder] = useState('');
+  //empieza en la pag
+  const [pageNumber, setPageNumer] = useState(1); //1 empieza en esa pag
+  //console.log('curr:', pageNumber)
+
+  //cuantos cards por pagina
+  const [cardsPerPage] = useState(10);
+  //indice para el ultimo juego
+  const ultimaCard = pageNumber * cardsPerPage; //10
+  const primeraCard = ultimaCard - cardsPerPage; //0
+  const currentCards = allPlaces.slice(primeraCard, ultimaCard);
+
+  const paginado = (num) => {
+    setPageNumer(num);
+  };
+
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
@@ -282,14 +300,15 @@ function HomeUNL() {
         </div>
         <CarsStyleCont>
           <h4>Conoce Nuestros Locales</h4>
-          <div className="Paginado">Paginado</div>
+          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
           <div className="BotonesExtra">
             <button type="button">Recargar</button>
             <button type="button">Rating</button>
           </div>
           <div className="ContainerCards">
-            <CardsPlaces currentPlaces={allPlaces} />
+            <CardsPlaces currentPlaces={currentCards} />
           </div>
+          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
         </CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
