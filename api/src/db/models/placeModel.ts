@@ -1,3 +1,4 @@
+import { reviews, dates, available, placeInterface, Roles } from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -5,45 +6,13 @@ const placeSchemaModel = require("../schemas/placeSchema");
 
 const place = model("place", placeSchemaModel);
 
-interface reviews {
-  author: string;
-  comment: string;
-  rating: number;
-}
-
-interface dates {
-  musicBand: string;
-  date: Date;
-}
-interface available {
-  isAvailable: boolean;
-  date: Date;
-}
-
-enum Roles {
-  ADMIN = "admin",
-  MUSICBAND = "musicband",
-  PLACE = "place",
-}
-
-type placeInterface = {
-  capacity: string;
-  name: string;
-  email: string;
-  password: string;
-  hasSound: boolean;
-  city: string;
-  adress: string;
-  rating: number;
-  description: string;
-  reviews: reviews[];
-  dates: dates[];
-  availableDates: available[];
-  socialMedia: any;
-  pendingDates: dates[];
-  profilePicture: string;
-  banned: boolean;
-  role: Roles;
+const PLACES_REQUIRED_INFO = {
+	city: 1,
+	email: 1,
+	name: 1,
+	rating: 1,
+	profilePicture: 1,
+	hasSound: 1,
 };
 
 /**
@@ -54,12 +23,12 @@ type placeInterface = {
  *  @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const deletePlace = async (email: string) => {
-  try {
-    const deleted = await place.deleteOne({ email });
-    return deleted;
-  } catch (error) {
-    return { error };
-  }
+	try {
+		const deleted = await place.deleteOne({ email });
+		return deleted;
+	} catch (error) {
+		return { error };
+	}
 };
 
 /**
@@ -72,38 +41,30 @@ export const deletePlace = async (email: string) => {
  */
 
 export const getAllPlaces = async (city?: string, sound?: string) => {
-  try {
-    if (!city && !sound) {
-      let response = await place.find(
-        {},
-        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
-      );
-      return response;
-    } else if (city && !sound) {
-      let response = await place.find(
-        { city },
-        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
-      );
-      return response;
-    } else if (!city && sound) {
-      let hasSound = sound === "sonidoSi" ? true : false;
-      let response = await place.find(
-        { hasSound },
-        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
-      );
-      return response;
-    } else if (city && sound) {
-      let hasSound = sound === "sonidoSi" ? true : false;
-      let response = await place.find(
-        { city, hasSound },
-        { city: 1, email: 1, name: 1, rating: 1, profilePicture: 1, hasSound: 1 },
-      );
-      return response;
-    }
-  } catch (error) {
-    return { error };
-  }
+	try {
+		if (!city && !sound) return await getAll();
+		if (city && !sound) return await getPlacesByCity(city);
+		if (!city && sound) return await getPlacesBySound(sound);
+		if (city && sound) return await getPlacesByCityAndSound(city, sound);
+	} catch (error) {
+		return { error };
+	}
 };
+
+const getAll = async() => {
+  return await place.find({}, PLACES_REQUIRED_INFO)
+}
+const getPlacesByCity = async(city:string) => {
+  return await place.find({city}, PLACES_REQUIRED_INFO)
+}
+const getPlacesBySound = async(sound: string) => {
+  let filter = sound === "sonidoSi" ? {hasSound: true} : {hasSound: false}
+  return await place.find(filter, PLACES_REQUIRED_INFO)
+}
+const getPlacesByCityAndSound = async(city:string, sound:string) => {
+  let filter = sound === "sonidoSi" ? {city: city, hasSound: true} : {city: city, hasSound: false}
+  return await place.find(filter, PLACES_REQUIRED_INFO)
+}
 
 /**
  * getPlace es la función encargada de retornar la información completa de un local según su email.
@@ -112,13 +73,13 @@ export const getAllPlaces = async (city?: string, sound?: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const getPlace = async (email: string) => {
-  try {
-    let placeResponse = await place.findOne({ email }, { password: 0 });
-    if (placeResponse !== undefined) return placeResponse;
-    else return { error: "user not found" };
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		let placeResponse = await place.findOne({ email }, { password: 0 });
+		if (placeResponse !== undefined) return placeResponse;
+		else return { error: "user not found" };
+	} catch (error: any) {
+		return { error };
+	}
 };
 
 /**
@@ -128,13 +89,13 @@ export const getPlace = async (email: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const getPlaceByID = async (id: string) => {
-  try {
-    let placeResponse = await place.findOne({ _id: id }, { password: 0 });
-    if (placeResponse !== undefined) return placeResponse;
-    else return { error: "place not found" };
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		let placeResponse = await place.findOne({ _id: id }, { password: 0 });
+		if (placeResponse !== undefined) return placeResponse;
+		else return { error: "place not found" };
+	} catch (error: any) {
+		return { error };
+	}
 };
 
 /**
@@ -145,18 +106,18 @@ export const getPlaceByID = async (id: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const reloadPlaceRating = async (email: string) => {
-  const userToUpdate = await getPlace(email);
-  let sum = 0;
-  for (let review of userToUpdate.reviews) {
-    sum += review.rating;
-  }
-  sum = Math.round((sum / userToUpdate.reviews.length) * 100) / 100;
+	const userToUpdate = await getPlace(email);
+	let sum = 0;
+	for (let review of userToUpdate.reviews) {
+		sum += review.rating;
+	}
+	sum = Math.round((sum / userToUpdate.reviews.length) * 100) / 100;
 
-  try {
-    await place.updateOne({ email }, { rating: sum });
-  } catch (error) {
-    return { error };
-  }
+	try {
+		await place.updateOne({ email }, { rating: sum });
+	} catch (error) {
+		return { error };
+	}
 };
 
 /**
@@ -167,21 +128,21 @@ export const reloadPlaceRating = async (email: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const addPlaceReview = async (email: string, review: reviews) => {
-  const userToAddReview = await getPlace(email);
+	const userToAddReview = await getPlace(email);
 
-  if (userToAddReview) {
-    let previousReviews = userToAddReview.reviews;
-    previousReviews.push(review);
-    try {
-      await place.updateOne({ email }, { reviews: previousReviews });
-      await reloadPlaceRating(email);
-      return { reviews: previousReviews };
-    } catch (error) {
-      return { error };
-    }
-  } else {
-    return { error: "Place not found" };
-  }
+	if (userToAddReview) {
+		let previousReviews = userToAddReview.reviews;
+		previousReviews.push(review);
+		try {
+			await place.updateOne({ email }, { reviews: previousReviews });
+			await reloadPlaceRating(email);
+			return { reviews: previousReviews };
+		} catch (error) {
+			return { error };
+		}
+	} else {
+		return { error: "Place not found" };
+	}
 };
 
 /**
@@ -191,9 +152,9 @@ export const addPlaceReview = async (email: string, review: reviews) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const encodePassword = async (password: string) => {
-  const salt = await bcrypt.genSalt(6);
-  const encodedPassword = await bcrypt.hash(password, salt);
-  return encodedPassword;
+	const salt = await bcrypt.genSalt(6);
+	const encodedPassword = await bcrypt.hash(password, salt);
+	return encodedPassword;
 };
 
 /**
@@ -205,8 +166,8 @@ const encodePassword = async (password: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const comparePassword = async (password: string, encodedPassword: string) => {
-  let valid = await bcrypt.compare(password, encodePassword);
-  return valid;
+	let valid = await bcrypt.compare(password, encodePassword);
+	return valid;
 };
 
 /**
@@ -222,17 +183,17 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 * @author Sebastian Pérez <https://github.com/Sebastian-pz>
 */
 export const createPlace = async (newPlace: placeInterface) => {
-  newPlace.password = await encodePassword(newPlace.password);
-  newPlace.rating = 5;
-  newPlace.role = Roles.PLACE;
-  newPlace.banned = false;
+	newPlace.password = await encodePassword(newPlace.password);
+	newPlace.rating = 5;
+	newPlace.role = Roles.PLACE;
+	newPlace.banned = false;
 
-  try {
-    await place.create(newPlace);
-    return await place.findOne({ email: newPlace.email });
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		await place.create(newPlace);
+		return await place.findOne({ email: newPlace.email });
+	} catch (error: any) {
+		return { error };
+	}
 };
 
 /**
@@ -243,12 +204,32 @@ export const createPlace = async (newPlace: placeInterface) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const banHandler = async (email: string) => {
+	try {
+		const userToChange = await place.findOne({ email });
+		userToChange.banned === false
+			? await place.updateOne({ email }, { banned: true })
+			: await place.updateOne({ email }, { banned: false });
+	} catch (error) {
+		return { error };
+	}
+};
+
+
+export const getPlaceByName = async (search: string) => {
   try {
-    const userToChange = await place.findOne({ email });
-    userToChange.banned === false
-      ? await place.updateOne({ email }, { banned: true })
-      : await place.updateOne({ email }, { banned: false });
+      let placeResponse = await place.find({"name" : { "$regex" : search}})
+      if (placeResponse !== undefined) return placeResponse;
+      else return { error: "place not found" };
   } catch (error) {
-    return { error };
+      return {error}
   }
 };
+
+export const getCities = async () => {
+  try {
+    const allCities = await place.find({}, {city : 1}).distinct("city");
+    return allCities;
+  } catch (error) {
+    return {error}
+  }
+}
