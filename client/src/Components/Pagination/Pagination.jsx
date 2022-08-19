@@ -24,7 +24,8 @@ const PaginateStyleCont = styled.div`
 
   .BTNPaginate {
     box-sizing: border-box;
-
+    width: 75px;
+    height: 45px;
 /*     position: absolute;
     width: 75px;
     height: 45px;
@@ -52,9 +53,7 @@ function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
       <ul>
         <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}>«</button>
         { pageNumbers && pageNumbers.map((number) => (
-          <li key={number}>
-            <button type="button" className="BTNPaginate" onClick={() => paginado(number)}>{number}</button>
-          </li>
+          <button type="button" className="BTNPaginate" onClick={() => paginado(number)} key={number}>{number}</button>
         ))}
         <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)}>»</button>
       </ul>
