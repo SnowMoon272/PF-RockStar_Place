@@ -119,10 +119,12 @@ router.post("/placereviews", async (req: any, res: any) => {
   }
 });
 
+
 router.get("/place/:id", async (req: any, res: any) => {
   const { id } = req.params;
   const place = await getPlaceByID(id);
   id === undefined ? res.status(404).send({ msg: "Invalid data" }) : res.status(200).send(place);
+
 });
 
 module.exports = router;
