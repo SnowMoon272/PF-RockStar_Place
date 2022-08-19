@@ -6,37 +6,6 @@ import { getDetailPlace } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 
-const datesCerradas = [
-  {
-    date: "01-09-2022",
-    musicBand: "The Rolling Stones",
-  },
-  {
-    date: "07-10-2022",
-    musicBand: "Roger Waters",
-  },
-  {
-    date: "19-10-2022",
-    musicBand: "Damas Gratis",
-  }
-];
-
-//fechas disponibles
-const datesAvaible = [
-  {
-    date: "20-09-2022",
-    available: true,
-  },
-  {
-    date: "27-09-2022",
-    available: true,
-  },
-  {
-    date: "09-10-2022",
-    available: true,
-  }
-];
-
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};
@@ -61,7 +30,7 @@ const DetailStyleCont = styled.div`
     flex-direction: column;
 
     .name {
-      font-family: 'New Rocker';
+      font-family: "New Rocker";
       font-style: normal;
       font-weight: 400;
       font-size: 75px;
@@ -70,7 +39,7 @@ const DetailStyleCont = styled.div`
     }
 
     .rating {
-      font-family: 'New Rocker';
+      font-family: "New Rocker";
       font-style: normal;
       font-weight: 400;
       font-size: 30px;
@@ -79,7 +48,7 @@ const DetailStyleCont = styled.div`
     }
 
     .title {
-      font-family: 'New Rocker';
+      font-family: "New Rocker";
       font-style: normal;
       font-weight: 400;
       font-size: 45px;
@@ -88,7 +57,6 @@ const DetailStyleCont = styled.div`
     }
 
     .description {
-
     }
   }
 
@@ -99,6 +67,36 @@ const DetailStyleCont = styled.div`
     flex-direction: column;
   }
 `;
+const datesCerradas = [
+  {
+    date: "01-09-2022",
+    musicBand: "The Rolling Stones",
+  },
+  {
+    date: "07-10-2022",
+    musicBand: "Roger Waters",
+  },
+  {
+    date: "19-10-2022",
+    musicBand: "Damas Gratis",
+  },
+];
+
+//fechas disponibles
+const datesAvaible = [
+  {
+    date: "20-09-2022",
+    available: true,
+  },
+  {
+    date: "27-09-2022",
+    available: true,
+  },
+  {
+    date: "09-10-2022",
+    available: true,
+  },
+];
 
 export default function DetailPlace() {
   const dispatch = useDispatch();
@@ -139,6 +137,5 @@ export default function DetailPlace() {
         </div>
       </DetailStyleCont>
     </HomeStyleCont>
-
   );
 }
