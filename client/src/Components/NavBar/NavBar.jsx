@@ -13,9 +13,11 @@ import BTNHelp from "../../Assets/svg/Ayuda.svg";
 import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
-import SearchBarYFilters from "../SearchBar y Filters/SearchBar_y_Filters";
+import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 const NavBarStyle = styled.nav`
+  position: relative;
+  z-index: 90;
   background-image: url(${(props) => props.FondoImg && BGImg});
   background-color: ${(props) => !props.FondoImg && Colors.Oxford_Blue};
   background-size: cover;
@@ -28,6 +30,13 @@ const NavBarStyle = styled.nav`
   min-width: 80px;
   height: 100vh;
   box-shadow: 0px -4px 20px rgb(217, 217, 217);
+
+  .Search_Filter {
+    position: absolute;
+    z-index: 90;
+    left: 80px;
+    top: 290px;
+  }
 
   .Logo {
     position: relative;
@@ -164,6 +173,9 @@ const NavBarStyle = styled.nav`
 function NavBar(props) {
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
+      <div className="Search_Filter">
+        <SearchBarYFilters Search />
+      </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
         <div className="ContainButons">
@@ -182,7 +194,6 @@ function NavBar(props) {
               <h3 className="H3">Salir</h3>
             </div>
           )}
-          <SearchBarYFilters Search />
           <div className="ButonsEdits">
             {props.Buscar && (
               <>
