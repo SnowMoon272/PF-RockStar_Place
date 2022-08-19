@@ -76,8 +76,7 @@ router.get("/musicband", async (req: any, res: any) => {
 /// ACA ARRANCAN RUTAS DEL PLACE
 
 router.get("/places", async (req: any, res: any) => {
-  let city = req.query.city;
-  let sound = req.query.sound;
+  let {city, sound} = req.query;
   try {
     let response = await getAllPlaces(city, sound);
     if (response) {
