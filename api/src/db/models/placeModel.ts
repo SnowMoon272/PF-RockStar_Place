@@ -27,7 +27,7 @@ enum Roles {
 }
 
 type placeInterface = {
-  capacity: String;
+  capacity: string;
   name: string;
   email: string;
   password: string;
@@ -41,9 +41,25 @@ type placeInterface = {
   availableDates: available[];
   socialMedia: any;
   pendingDates: dates[];
-  profilePicture: String;
+  profilePicture: string;
   banned: boolean;
   role: Roles;
+};
+
+/**
+ *	deletePlace es una función utilizada para los tests, no es implementada de ninguna manera en las rutas
+ *
+ *	@param {string} email Recibe por paramentro el email del lugar que se quiere eliminar de la base de datos
+ *	@return {object} Retorna un objeto con la respuesta si se elimino el objeto de la base de datos
+ *  @author Sebastian Pérez <https://github.com/Sebastian-pz>
+ */
+export const deletePlace = async (email: string) => {
+  try {
+    const deleted = await place.deleteOne({ email });
+    return deleted;
+  } catch (error) {
+    return { error };
+  }
 };
 
 export const getAllPlaces = async (city?: string, sound?: string) => {
@@ -76,17 +92,27 @@ export const getAllPlaces = async (city?: string, sound?: string) => {
       return response;
     }
   } catch (error) {
-    console.log(error);
+    return {error}
   }
 };
 
 export const getPlace = async (email: string) => {
   try {
-    let placeResponse = await place.findOne({ email }, { password: 0, banned: 0 });
+    let placeResponse = await place.findOne({ email }, { password: 0 });
     if (placeResponse !== undefined) return placeResponse;
     else return { error: "user not found" };
-  } catch (err: any) {
-    throw new Error("An error occurred getting the place");
+  } catch (error: any) {
+    return { error };
+  }
+};
+
+export const getPlaceByID = async (id: string) => {
+  try {
+    let placeResponse = await place.findOne({ _id : id }, { password: 0 });
+    if (placeResponse !== undefined) return placeResponse;
+    else return { error: "place not found" };
+  } catch (error: any) {
+    return { error };
   }
 };
 
@@ -100,9 +126,8 @@ export const reloadPlaceRating = async (email: string) => {
 
   try {
     await place.updateOne({ email }, { rating: sum });
-    console.log("Rating updated");
   } catch (error) {
-    throw new Error("Error updating rating");
+    return { error };
   }
 };
 
@@ -117,10 +142,10 @@ export const addPlaceReview = async (email: string, review: reviews) => {
       await reloadPlaceRating(email);
       return { reviews: previousReviews };
     } catch (error) {
-      throw new Error("Error creating a review");
+      return { error };
     }
   } else {
-    throw new Error("User not found");
+    return { error: "Place not found" };
   }
 };
 
@@ -139,12 +164,13 @@ export const createPlace = async (newPlace: placeInterface) => {
   newPlace.password = await encodePassword(newPlace.password);
   newPlace.rating = 5;
   newPlace.role = Roles.PLACE;
+  newPlace.banned = false;
 
   try {
     await place.create(newPlace);
-    console.log("New user place created");
+    return await place.findOne({ email: newPlace.email });
   } catch (error: any) {
-    console.log(error);
+    return { error };
   }
 };
 
@@ -155,6 +181,6 @@ export const banHandler = async (email: string) => {
       ? await place.updateOne({ email }, { banned: true })
       : await place.updateOne({ email }, { banned: false });
   } catch (error) {
-    console.log("Something went wrong in ban function");
+    return { error };
   }
 };
