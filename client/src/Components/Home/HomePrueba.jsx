@@ -4,7 +4,6 @@ import { getPlaces } from "../../Redux/actions";
 import CardsPlaces from "../Cards/CardsPlaces";
 
 export default function HomePrueba() {
-
   const dispatch = useDispatch();
 
   const allPlaces = useSelector((state) => state.places);
