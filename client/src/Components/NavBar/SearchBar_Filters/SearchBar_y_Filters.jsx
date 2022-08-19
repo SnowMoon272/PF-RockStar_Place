@@ -21,6 +21,7 @@ export default function SearchBarYFilters(props) {
           <input /> <button type="submit">Search</button>
         </>
       )}
+      <p>cambio</p>
     </SearchBarYFiltersStyled>
   );
 }
