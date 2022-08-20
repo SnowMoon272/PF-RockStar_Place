@@ -205,23 +205,25 @@ const CarsStyleCont = styled.section`
   }
 
   .Paginado {
-    background-color: blueviolet;
     width: 900px;
-    height: 100px;
+    height: fit-content;
+    margin-bottom: 20px;
   }
 
   .BotonesExtra {
     position: absolute;
     z-index: 10;
-    top: 450px;
+    top: 465px;
     width: 70%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     button {
       font-family: "RocknRoll One", sans-serif;
-      width: 120px;
-      height: 40px;
+      width: 170px;
+      height: 55px;
+      padding: 0px 27px;
       background-color: ${Colors.Green_Light};
       color: ${Colors.Erie_Black};
       border-radius: 10px;
@@ -230,6 +232,28 @@ const CarsStyleCont = styled.section`
       :hover {
         transform: scale(1.1);
         cursor: pointer;
+      }
+    }
+
+    .Filtros {
+      text-align: center;
+      border-bottom: solid 3px ${Colors.Platinum};
+      h6 {
+        margin: 0px;
+        color: ${Colors.Platinum};
+        font-size: 3rem;
+      }
+
+      .FiltrosData {
+        display: flex;
+        width: 200px;
+        justify-content: space-between;
+
+        p {
+          margin: 0px;
+          color: ${Colors.Platinum};
+          font-size: 1.5rem;
+        }
       }
     }
   }
@@ -245,22 +269,24 @@ const CarsStyleCont = styled.section`
 
 function HomeUNL() {
   const dispatch = useDispatch();
-
   const allPlaces = useSelector((state) => state.places);
 
   useEffect(() => {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  //const [order, setOrder] = useState('');
+  // Pagination
   const [pageNumber, setPageNumer] = useState(1);
   const [cardsPerPage] = useState(10);
-  const ultimaCard = pageNumber * cardsPerPage; //10
-  const primeraCard = ultimaCard - cardsPerPage; //0
+  const ultimaCard = pageNumber * cardsPerPage;
+  const primeraCard = ultimaCard - cardsPerPage;
   const currentCards = allPlaces.slice(primeraCard, ultimaCard);
-
   const paginado = (num) => {
     setPageNumer(num);
+  };
+
+  const handlerClickReset = () => {
+    dispatch(getPlaces());
   };
 
   return (
@@ -297,14 +323,30 @@ function HomeUNL() {
         </div>
         <CarsStyleCont>
           <h4>Conoce Nuestros Locales</h4>
-          <Pagination
-            cardsPerPage={cardsPerPage}
-            allPlaces={allPlaces.length}
-            paginado={paginado}
-            pageNumber={pageNumber}
-          />
+          <div className="Paginado">
+            <Pagination
+              cardsPerPage={cardsPerPage}
+              allPlaces={allPlaces.length}
+              paginado={paginado}
+              pageNumber={pageNumber}
+            />
+          </div>
           <div className="BotonesExtra">
-            <button type="button">Recargar</button>
+            <button
+              onClick={(e) => {
+                handlerClickReset(e);
+              }}
+              type="button"
+            >
+              Resetear Filtros
+            </button>
+            <div className="Filtros">
+              <h6>Filtros</h6>
+              <div className="FiltrosData">
+                <p>Ciudad: Si </p>
+                <p>Sonido: Si </p>
+              </div>
+            </div>
             <button type="button">Rating</button>
           </div>
           <div className="ContainerCards">

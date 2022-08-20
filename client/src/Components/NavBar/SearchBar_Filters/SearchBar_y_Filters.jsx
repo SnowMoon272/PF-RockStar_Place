@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlacesByName, getCities } from "../../../Redux/actions";
+import { getPlacesByName, getCities, filteredPlaces } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
 
 const SearchBarYFiltersStyled = styled.div`
@@ -95,6 +95,10 @@ const SearchBarYFiltersStyled = styled.div`
 export default function SearchBarYFilters(props) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
+  const [filter, setFilter] = useState({
+    FilterCities: "",
+    FilterSounds: "",
+  });
   const cities = useSelector((state) => state.cities);
 
   useEffect(() => {
@@ -106,7 +110,7 @@ export default function SearchBarYFilters(props) {
     setName(e.target.value);
   };
 
-  const handlerSubmint = (e) => {
+  const handlerSubmintSearch = (e) => {
     e.preventDefault();
     dispatch(getPlacesByName(name));
     setName("");
@@ -115,6 +119,30 @@ export default function SearchBarYFilters(props) {
       ...props.navState,
       Active: !props.navState.Active,
       Search: !props.navState.Search,
+    });
+  };
+
+  const handlerSubmintFilterCity = (e) => {
+    e.preventDefault();
+    dispatch(filteredPlaces(e.target.value, filter.FilterSounds));
+    setFilter({ ...filter, FilterCities: e.target.value });
+    props.paginado(1);
+    props.setNavState({
+      ...props.navState,
+      Active: !props.navState.Active,
+      FilterCities: !props.navState.FilterCities,
+    });
+  };
+
+  const handlerSubmintFilterSound = (e) => {
+    e.preventDefault();
+    dispatch(filteredPlaces(filter.FilterCities, e.target.value));
+    setFilter({ ...filter, FilterSounds: e.target.value });
+    props.paginado(1);
+    props.setNavState({
+      ...props.navState,
+      Active: !props.navState.Active,
+      FilterSounds: !props.navState.FilterSounds,
     });
   };
 
@@ -132,7 +160,7 @@ export default function SearchBarYFilters(props) {
               type="text"
               placeholder="Rock Store"
             />
-            <button onClick={(e) => handlerSubmint(e)} type="submit">
+            <button onClick={(e) => handlerSubmintSearch(e)} type="submit">
               Search
             </button>
           </div>
@@ -144,8 +172,19 @@ export default function SearchBarYFilters(props) {
             <h4>Filtrar por Ciudad</h4>
           </div>
           <div className="ContainerSound Select">
-            <select className="StyleSelect" name="cities" defaultValue="opcion_blockeada">
-              <option className="StyleOption" selected hidden label="Elige tu Ciudad" />
+            <select
+              onChange={(e) => {
+                handlerSubmintFilterCity(e);
+              }}
+              className="StyleSelect"
+              name="cities"
+            >
+              <option
+                className="StyleOption"
+                defaultValue="opcion_blockeada"
+                hidden
+                label="Elige tu Ciudad"
+              />
               {cities?.map((city) => {
                 return (
                   <option key={city} value={city}>
@@ -163,10 +202,21 @@ export default function SearchBarYFilters(props) {
             <h4>Locales con equipo de Audio</h4>
           </div>
           <div className="ContainerSound Select">
-            <select className="StyleSelect" name="audio" defaultValue="opcion_blockeada">
-              <option className="StyleOption" selected hidden label="Elige tu opcion." />
-              <option value="Si">Si</option>
-              <option value="No">No</option>
+            <select
+              onChange={(e) => {
+                handlerSubmintFilterSound(e);
+              }}
+              className="StyleSelect"
+              name="sound"
+            >
+              <option
+                className="StyleOption"
+                defaultValue="opcion_blockeada"
+                hidden
+                label="Elige tu opcion."
+              />
+              <option value="sonidoSi">Si</option>
+              <option value="sonidoNi">No</option>
             </select>
           </div>
         </>
