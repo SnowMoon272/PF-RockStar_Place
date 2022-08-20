@@ -9,7 +9,7 @@ const CardsStyleCont = styled.div`
   background-color: ${color.Green_Nigth};
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 function CardsPlaces({ currentPlaces }) {

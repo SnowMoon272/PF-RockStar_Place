@@ -177,7 +177,6 @@ function NavBar(props) {
     FilterCities: false,
     FilterSounds: false,
   });
-  console.log(navState);
 
   const handlerClick = (e) => {
     e.preventDefault();

@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPlacesByName, getCities } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
 
@@ -73,6 +73,7 @@ export default function SearchBarYFilters(props) {
 
   const handlerSubmint = (e) => {
     e.preventDefault();
+    // dispatch(getPlacesByName(name.toLowerCase()));
     dispatch(getPlacesByName(name));
     setName("");
     props.paginado(1);
