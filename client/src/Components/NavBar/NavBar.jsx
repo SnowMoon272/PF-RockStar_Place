@@ -1,6 +1,7 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable comma-dangle */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "../../Assets/img/guitar-logo-icon.png";
 import Colors from "../../Utils/colors";
@@ -33,9 +34,8 @@ const NavBarStyle = styled.nav`
 
   .Search_Filter {
     position: absolute;
-    z-index: 90;
     left: 80px;
-    top: 290px;
+    top: 285px;
   }
 
   .Logo {
@@ -45,7 +45,6 @@ const NavBarStyle = styled.nav`
     padding: 30px 0px;
     width: 78px;
     height: 84px;
-    border-bottom: solid 3px ${Colors.Erie_Black};
   }
 
   .FondoVerde {
@@ -92,6 +91,7 @@ const NavBarStyle = styled.nav`
           background-color: white;
           transition: all 0.5s ease;
           :hover {
+            cursor: pointer;
             transform: scale(1.1);
           }
 
@@ -170,11 +170,52 @@ const NavBarStyle = styled.nav`
     }
   }
 `;
+
 function NavBar(props) {
+  const [navState, setNavState] = useState({
+    Active: false,
+    Search: false,
+    FilterCities: false,
+    FilterSounds: false,
+  });
+  console.log(navState);
+
+  const handlerClickSearch = (e) => {
+    setNavState({
+      ...navState,
+      Search: !navState.Search,
+      Active: !navState.Active,
+    });
+  };
+
+  const handlerClickCiudad = (e) => {
+    setNavState({
+      ...navState,
+      FilterCities: !navState.FilterCities,
+      Active: !navState.Active,
+    });
+  };
+
+  const handlerClickSound = (e) => {
+    setNavState({
+      ...navState,
+      FilterSounds: !navState.FilterSounds,
+      Active: !navState.Active,
+    });
+  };
+
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
       <div className="Search_Filter">
-        <SearchBarYFilters Search />
+        <SearchBarYFilters
+          paginado={props.paginado}
+          Search={navState.Search}
+          FilterCities={navState.FilterCities}
+          FilterSounds={navState.FilterSounds}
+          Active={navState.Active}
+          setNavState={setNavState}
+          navState={navState}
+        />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
@@ -197,7 +238,14 @@ function NavBar(props) {
           <div className="ButonsEdits">
             {props.Buscar && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  type="button"
+                  disabled={navState.FilterCities || navState.FilterSounds}
+                  onClick={(e) => {
+                    handlerClickSearch(e);
+                  }}
+                  className="Butons"
+                >
                   <img src={BTNSearch} alt="ico-search" />
                 </button>
                 <h3 className="H3">Buscar</h3>
@@ -205,7 +253,14 @@ function NavBar(props) {
             )}
             {props.FiltroA && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  disabled={navState.Search || navState.FilterSounds}
+                  onClick={(e) => {
+                    handlerClickCiudad(e);
+                  }}
+                  type="button"
+                  className="Butons"
+                >
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
                 <h3 className="H3">Ciudad</h3>
@@ -213,7 +268,14 @@ function NavBar(props) {
             )}
             {props.FiltroB && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  disabled={navState.Search || navState.FilterCities}
+                  onClick={(e) => {
+                    handlerClickSound(e);
+                  }}
+                  type="button"
+                  className="Butons"
+                >
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
                 <h3 className="H3">Sonido</h3>

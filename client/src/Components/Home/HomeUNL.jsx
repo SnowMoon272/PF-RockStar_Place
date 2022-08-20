@@ -1,8 +1,9 @@
+/* eslint-disable comma-dangle */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlaces } from "../../Redux/actions";
+import { getPlaces, updateFilters } from "../../Redux/actions";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -205,23 +206,25 @@ const CarsStyleCont = styled.section`
   }
 
   .Paginado {
-    background-color: blueviolet;
     width: 900px;
-    height: 100px;
+    height: fit-content;
+    margin-bottom: 20px;
   }
 
   .BotonesExtra {
     position: absolute;
     z-index: 10;
-    top: 450px;
+    top: 445px;
     width: 70%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     button {
       font-family: "RocknRoll One", sans-serif;
-      width: 120px;
-      height: 40px;
+      width: 170px;
+      height: 55px;
+      padding: 0px 27px;
       background-color: ${Colors.Green_Light};
       color: ${Colors.Erie_Black};
       border-radius: 10px;
@@ -232,6 +235,28 @@ const CarsStyleCont = styled.section`
         cursor: pointer;
       }
     }
+
+    .Filtros {
+      text-align: center;
+      /* border-bottom: solid 3px ${Colors.Platinum}; */
+      h6 {
+        margin: 0px;
+        color: ${Colors.Platinum};
+        font-size: 3rem;
+      }
+
+      .FiltrosData {
+        display: flex;
+        width: 200px;
+        justify-content: space-between;
+
+        p {
+          margin: 0px;
+          color: ${Colors.Platinum};
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
   .ContainerCards {
     position: relative;
@@ -240,39 +265,49 @@ const CarsStyleCont = styled.section`
     width: 100%;
     margin: 50px;
     padding: 0px 50px;
+
+    .NotFound {
+      margin-top: 50px;
+      color: ${Colors.Platinum};
+      font-size: 4rem;
+      text-align: center;
+    }
   }
 `;
 
 function HomeUNL() {
   const dispatch = useDispatch();
-
   const allPlaces = useSelector((state) => state.places);
+  const filters = useSelector((state) => state.filters);
 
   useEffect(() => {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  //paginado
-  //const [order, setOrder] = useState('');
-  //empieza en la pag
-  const [pageNumber, setPageNumer] = useState(1); //1 empieza en esa pag
-  //console.log('curr:', pageNumber)
-
-  //cuantos cards por pagina
+  // Pagination
+  const [pageNumber, setPageNumer] = useState(1);
   const [cardsPerPage] = useState(10);
-  //indice para el ultimo juego
-  const ultimaCard = pageNumber * cardsPerPage; //10
-  const primeraCard = ultimaCard - cardsPerPage; //0
+  const ultimaCard = pageNumber * cardsPerPage;
+  const primeraCard = ultimaCard - cardsPerPage;
   const currentCards = allPlaces.slice(primeraCard, ultimaCard);
-
   const paginado = (num) => {
     setPageNumer(num);
+  };
+
+  const handlerClickReset = () => {
+    dispatch(getPlaces());
+    dispatch(
+      updateFilters({
+        Ciudad: false,
+        Sonido: false,
+      }),
+    );
   };
 
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
-      <NavBar LogIn Buscar FiltroA FiltroB FondoImg />
+      <NavBar LogIn Buscar FiltroA FiltroB FondoImg paginado={paginado} />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
@@ -303,15 +338,45 @@ function HomeUNL() {
         </div>
         <CarsStyleCont>
           <h4>Conoce Nuestros Locales</h4>
-          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
+          <div className="Paginado">
+            <Pagination
+              cardsPerPage={cardsPerPage}
+              allPlaces={allPlaces.length}
+              paginado={paginado}
+              pageNumber={pageNumber}
+            />
+          </div>
           <div className="BotonesExtra">
-            <button type="button">Recargar</button>
+            <button
+              onClick={(e) => {
+                handlerClickReset(e);
+              }}
+              type="button"
+            >
+              Resetear Filtros
+            </button>
+            <div className="Filtros">
+              <h6>Filtros</h6>
+              <div className="FiltrosData">
+                <p>Ciudad: {filters.Ciudad ? "✔️" : "❌"} </p>
+                <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
+              </div>
+            </div>
             <button type="button">Rating</button>
           </div>
           <div className="ContainerCards">
-            <CardsPlaces currentPlaces={currentCards} />
+            {currentCards.length ? (
+              <CardsPlaces currentPlaces={currentCards} />
+            ) : (
+              <div className="NotFound"> !No se encontraron resultados! </div>
+            )}
           </div>
-          <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
+          <Pagination
+            cardsPerPage={cardsPerPage}
+            allPlaces={allPlaces.length}
+            paginado={paginado}
+            pageNumber={pageNumber}
+          />
         </CarsStyleCont>
       </SecondVewStyleCont>
     </HomeStyleCont>
