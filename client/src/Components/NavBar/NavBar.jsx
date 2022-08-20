@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable comma-dangle */
 import React, { useState } from "react";
@@ -177,10 +178,30 @@ function NavBar(props) {
     FilterCities: false,
     FilterSounds: false,
   });
+  console.log(navState);
 
-  const handlerClick = (e) => {
-    e.preventDefault();
-    setNavState({ ...navState, Search: !navState.Search, Active: !navState.Active });
+  const handlerClickSearch = (e) => {
+    setNavState({
+      ...navState,
+      Search: !navState.Search,
+      Active: !navState.Active,
+    });
+  };
+
+  const handlerClickCiudad = (e) => {
+    setNavState({
+      ...navState,
+      FilterCities: !navState.FilterCities,
+      Active: !navState.Active,
+    });
+  };
+
+  const handlerClickSound = (e) => {
+    setNavState({
+      ...navState,
+      FilterSounds: !navState.FilterSounds,
+      Active: !navState.Active,
+    });
   };
 
   return (
@@ -189,6 +210,8 @@ function NavBar(props) {
         <SearchBarYFilters
           paginado={props.paginado}
           Search={navState.Search}
+          FilterCities={navState.FilterCities}
+          FilterSounds={navState.FilterSounds}
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
@@ -217,8 +240,9 @@ function NavBar(props) {
               <>
                 <button
                   type="button"
+                  disabled={navState.FilterCities || navState.FilterSounds}
                   onClick={(e) => {
-                    handlerClick(e);
+                    handlerClickSearch(e);
                   }}
                   className="Butons"
                 >
@@ -229,7 +253,14 @@ function NavBar(props) {
             )}
             {props.FiltroA && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  disabled={navState.Search || navState.FilterSounds}
+                  onClick={(e) => {
+                    handlerClickCiudad(e);
+                  }}
+                  type="button"
+                  className="Butons"
+                >
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
                 <h3 className="H3">Ciudad</h3>
@@ -237,7 +268,14 @@ function NavBar(props) {
             )}
             {props.FiltroB && (
               <>
-                <button type="button" className="Butons">
+                <button
+                  disabled={navState.Search || navState.FilterCities}
+                  onClick={(e) => {
+                    handlerClickSound(e);
+                  }}
+                  type="button"
+                  className="Butons"
+                >
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
                 <h3 className="H3">Sonido</h3>

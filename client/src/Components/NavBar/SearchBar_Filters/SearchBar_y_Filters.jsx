@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPlacesByName, getCities } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
 
@@ -60,11 +60,46 @@ const SearchBarYFiltersStyled = styled.div`
       }
     }
   }
+
+  .ContainerSound {
+    background-color: ${Colors.Green_Nigth};
+    border-radius: 15px;
+    margin-bottom: 25px;
+    width: 90%;
+  }
+  .Select {
+    padding: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: fit-content;
+
+    .StyleSelect {
+      font-family: "New Rocker", cursive;
+      background-color: ${Colors.Green_Light};
+      border-radius: 25px;
+      text-align: center;
+      width: 90%;
+      font-size: 2rem;
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+
+      .StyleOption {
+        background-color: ${Colors.Green_Light};
+      }
+    }
+  }
 `;
 
 export default function SearchBarYFilters(props) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
+  const cities = useSelector((state) => state.cities);
+
+  useEffect(() => {
+    dispatch(getCities());
+  }, [dispatch]);
 
   const handlerInputChange = (e) => {
     e.preventDefault();
@@ -73,7 +108,6 @@ export default function SearchBarYFilters(props) {
 
   const handlerSubmint = (e) => {
     e.preventDefault();
-    // dispatch(getPlacesByName(name.toLowerCase()));
     dispatch(getPlacesByName(name));
     setName("");
     props.paginado(1);
@@ -106,14 +140,12 @@ export default function SearchBarYFilters(props) {
       )}
       {props.FilterCities && (
         <>
-          <div>
+          <div className="ContainerTitle">
             <h4>Filtrar por Ciudad</h4>
           </div>
-          <div>
-            <select name="cities" defaultValue="opcion_blockeada">
-              <option value="opcion_blockeada" disabled>
-                Elige tu Ciudad
-              </option>
+          <div className="ContainerSound Select">
+            <select className="StyleSelect" name="cities" defaultValue="opcion_blockeada">
+              <option className="StyleOption" selected hidden label="Elige tu Ciudad" />
               {cities?.map((city) => {
                 return (
                   <option key={city} value={city}>
@@ -127,14 +159,12 @@ export default function SearchBarYFilters(props) {
       )}
       {props.FilterSounds && (
         <>
-          <div>
+          <div className="ContainerTitle">
             <h4>Locales con equipo de Audio</h4>
           </div>
-          <div>
-            <select name="audio" defaultValue="opcion_blockeada">
-              <option value="opcion_blockeada" disabled>
-                Elige tu opción
-              </option>
+          <div className="ContainerSound Select">
+            <select className="StyleSelect" name="audio" defaultValue="opcion_blockeada">
+              <option className="StyleOption" selected hidden label="Elige tu opcion." />
               <option value="Si">Si</option>
               <option value="No">No</option>
             </select>
