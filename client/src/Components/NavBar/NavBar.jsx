@@ -44,7 +44,6 @@ const NavBarStyle = styled.nav`
     padding: 30px 0px;
     width: 78px;
     height: 84px;
-    border-bottom: solid 3px ${Colors.Erie_Black};
   }
 
   .FondoVerde {
@@ -178,6 +177,7 @@ function NavBar(props) {
     FilterCities: false,
     FilterSounds: false,
   });
+  console.log(navState);
 
   const handlerClick = (e) => {
     e.preventDefault();
@@ -187,7 +187,13 @@ function NavBar(props) {
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
       <div className="Search_Filter">
-        <SearchBarYFilters Search={navState.Search} Active={navState.Active} />
+        <SearchBarYFilters
+          paginado={props.paginado}
+          Search={navState.Search}
+          Active={navState.Active}
+          setNavState={setNavState}
+          navState={navState}
+        />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />

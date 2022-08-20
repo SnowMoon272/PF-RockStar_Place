@@ -252,15 +252,9 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  //paginado
   //const [order, setOrder] = useState('');
-  //empieza en la pag
-  const [pageNumber, setPageNumer] = useState(1); //1 empieza en esa pag
-  //console.log('curr:', pageNumber)
-
-  //cuantos cards por pagina
+  const [pageNumber, setPageNumer] = useState(1);
   const [cardsPerPage] = useState(10);
-  //indice para el ultimo juego
   const ultimaCard = pageNumber * cardsPerPage; //10
   const primeraCard = ultimaCard - cardsPerPage; //0
   const currentCards = allPlaces.slice(primeraCard, ultimaCard);
@@ -272,7 +266,7 @@ function HomeUNL() {
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
-      <NavBar LogIn Buscar FiltroA FiltroB FondoImg />
+      <NavBar LogIn Buscar FiltroA FiltroB FondoImg paginado={paginado} />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
