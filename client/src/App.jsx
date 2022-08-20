@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
 import Help from "./Components/Help/Help";
-import Faqs from "./Components/Faqs/Faqs";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 
 const AppStyle = styled.div`
@@ -17,7 +16,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
         <Route exact path="/help" element={<Help />} />
-        <Route exact path="/faqs" element={<Faqs />} />
         <Route path="/place/:email" element={<DetailPlace />} />
       </Routes>
     </AppStyle>
