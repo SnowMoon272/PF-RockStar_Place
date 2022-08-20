@@ -4,15 +4,26 @@ import {
   FILTERED_PLACES,
   GET_PLACES_BY_NAME,
   GET_CITIES,
+  UPDATE_FILTERS,
 } from "./actions";
 
 const initialState = {
   places: [],
   detail_place: [],
+  cities: [],
+  filters: {
+    Ciudad: false,
+    Sonido: false,
+  },
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_FILTERS:
+      return {
+        ...state,
+        filters: action.payload,
+      };
     case GET_PLACES:
       return {
         ...state,

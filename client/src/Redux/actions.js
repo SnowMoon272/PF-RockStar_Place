@@ -4,7 +4,15 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_PLACES = "GET_PLACES",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
+  UPDATE_FILTERS = "UPDATE_FILTERS",
   GET_CITIES = "GET_CITIES";
+
+export function updateFilters(data) {
+  dispatch({
+    type: UPDATE_FILTERS,
+    payload: data,
+  });
+}
 
 export function getPlacesByName(name) {
   const encodName = encodeURI(name);

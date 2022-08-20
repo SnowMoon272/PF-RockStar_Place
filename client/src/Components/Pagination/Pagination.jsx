@@ -7,19 +7,24 @@ const PaginateStyleCont = styled.section`
   flex-wrap: nowrap;
   justify-content: center;
 
+  .BTNextPreb {
+    line-height: 45px;
+  }
+
   .BTNPaginate {
     font-family: "RocknRoll One";
     box-sizing: border-box;
-    width: 70px;
-    height: 35px;
+    width: 40px;
+    height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.4rem;
+    font-size: 1.4rem;
+    font-weight: bold;
     color: #18191a;
     background: #a2c4c3;
     border-radius: 10px;
-    margin: 0px 8px;
+    margin: 0px 3.5px;
     transition: all 0.5s ease;
 
     :hover {
@@ -40,7 +45,7 @@ function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
     <PaginateStyleCont>
       <button
         type="button"
-        className="BTNPaginate"
+        className="BTNPaginate BTNextPreb"
         onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}
       >
         {"<<"}
@@ -60,7 +65,7 @@ function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
 
       <button
         type="button"
-        className="BTNPaginate"
+        className="BTNPaginate BTNextPreb"
         onClick={() =>
           paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)
         }

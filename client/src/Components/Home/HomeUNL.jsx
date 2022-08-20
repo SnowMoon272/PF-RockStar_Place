@@ -213,7 +213,7 @@ const CarsStyleCont = styled.section`
   .BotonesExtra {
     position: absolute;
     z-index: 10;
-    top: 465px;
+    top: 445px;
     width: 70%;
     display: flex;
     justify-content: space-between;
@@ -270,6 +270,7 @@ const CarsStyleCont = styled.section`
 function HomeUNL() {
   const dispatch = useDispatch();
   const allPlaces = useSelector((state) => state.places);
+  const filters = useSelector((state) => state.filters);
 
   useEffect(() => {
     dispatch(getPlaces());
