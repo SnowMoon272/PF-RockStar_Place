@@ -4,8 +4,8 @@ import color from "../../Utils/colors";
 
 const CardStyleCont = styled.div`
   box-sizing: border-box;
-  width: 48%;
-  height: 280px;
+  width: 47%;
+  height: 270px;
   background-color: ${color.Green_Nigth};
   border: 3px solid ${color.Platinum};
   display: flex;
@@ -31,7 +31,7 @@ const CardStyleCont = styled.div`
 
   .name {
     font-family: "New Rocker";
-    font-size: 36px;
+    font-size: 3rem;
     color: ${color.Green_Light};
     text-align: center;
   }
@@ -52,7 +52,7 @@ const CardStyleCont = styled.div`
     font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 1.5rem;
     line-height: 29px;
     text-align: center;
     color: ${color.Green_Light};
@@ -70,14 +70,14 @@ const CardStyleCont = styled.div`
 
   .detailButton {
     cursor: pointer;
-    width: 44%;
-    height: 16%;
+    width: 50%;
+    height: 12%;
     background: ${color.Green_Light};
     border-radius: 10px;
     font-family: "New Rocker";
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 2rem;
     text-align: center;
     color: ${color.Erie_Black};
     transition: all 0.5s ease;

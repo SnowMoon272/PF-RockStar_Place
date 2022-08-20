@@ -1,10 +1,10 @@
-import { reviews, dates, available, placeInterface, Roles } from "../interfaces/place.interfaces";
-const { model } = require("mongoose");
-const bcrypt = require("bcrypt");
+import { reviews, dates, available, placeInterface, Roles } from '../interfaces/place.interfaces';
+const { model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const placeSchemaModel = require("../schemas/placeSchema");
+const placeSchemaModel = require('../schemas/placeSchema');
 
-const place = model("place", placeSchemaModel);
+const place = model('place', placeSchemaModel);
 
 const PLACES_REQUIRED_INFO = {
 	city: 1,
@@ -51,20 +51,21 @@ export const getAllPlaces = async (city?: string, sound?: string) => {
 	}
 };
 
-const getAll = async() => {
-  return await place.find({}, PLACES_REQUIRED_INFO)
-}
-const getPlacesByCity = async(city:string) => {
-  return await place.find({city}, PLACES_REQUIRED_INFO)
-}
-const getPlacesBySound = async(sound: string) => {
-  let filter = sound === "sonidoSi" ? {hasSound: true} : {hasSound: false}
-  return await place.find(filter, PLACES_REQUIRED_INFO)
-}
-const getPlacesByCityAndSound = async(city:string, sound:string) => {
-  let filter = sound === "sonidoSi" ? {city: city, hasSound: true} : {city: city, hasSound: false}
-  return await place.find(filter, PLACES_REQUIRED_INFO)
-}
+const getAll = async () => {
+	return await place.find({}, PLACES_REQUIRED_INFO);
+};
+const getPlacesByCity = async (city: string) => {
+	return await place.find({ city }, PLACES_REQUIRED_INFO);
+};
+const getPlacesBySound = async (sound: string) => {
+	let filter = sound === 'sonidoSi' ? { hasSound: true } : { hasSound: false };
+	return await place.find(filter, PLACES_REQUIRED_INFO);
+};
+const getPlacesByCityAndSound = async (city: string, sound: string) => {
+	let filter =
+		sound === 'sonidoSi' ? { city: city, hasSound: true } : { city: city, hasSound: false };
+	return await place.find(filter, PLACES_REQUIRED_INFO);
+};
 
 /**
  * getPlace es la función encargada de retornar la información completa de un local según su email.
@@ -76,7 +77,7 @@ export const getPlace = async (email: string) => {
 	try {
 		let placeResponse = await place.findOne({ email }, { password: 0 });
 		if (placeResponse !== undefined) return placeResponse;
-		else return { error: "user not found" };
+		else return { error: 'user not found' };
 	} catch (error: any) {
 		return { error };
 	}
@@ -92,7 +93,7 @@ export const getPlaceByID = async (id: string) => {
 	try {
 		let placeResponse = await place.findOne({ _id: id }, { password: 0 });
 		if (placeResponse !== undefined) return placeResponse;
-		else return { error: "place not found" };
+		else return { error: 'place not found' };
 	} catch (error: any) {
 		return { error };
 	}
@@ -141,7 +142,7 @@ export const addPlaceReview = async (email: string, review: reviews) => {
 			return { error };
 		}
 	} else {
-		return { error: "Place not found" };
+		return { error: 'Place not found' };
 	}
 };
 
@@ -214,22 +215,21 @@ export const banHandler = async (email: string) => {
 	}
 };
 
-
 export const getPlaceByName = async (search: string) => {
-  try {
-      let placeResponse = await place.find({"name" : { "$regex" : search}})
-      if (placeResponse !== undefined) return placeResponse;
-      else return { error: "place not found" };
-  } catch (error) {
-      return {error}
-  }
+	try {
+		let placeResponse = await place.find({ name: { $regex: search, $options: 'i' } });
+		if (placeResponse !== undefined) return placeResponse;
+		else return { error: 'place not found' };
+	} catch (error) {
+		return { error };
+	}
 };
 
 export const getCities = async () => {
-  try {
-    const allCities = await place.find({}, {city : 1}).distinct("city");
-    return allCities;
-  } catch (error) {
-    return {error}
-  }
-}
+	try {
+		const allCities = await place.find({}, { city: 1 }).distinct('city');
+		return allCities;
+	} catch (error) {
+		return { error };
+	}
+};

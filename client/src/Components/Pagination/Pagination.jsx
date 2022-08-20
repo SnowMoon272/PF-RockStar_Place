@@ -1,44 +1,30 @@
+/* eslint-disable react/jsx-curly-newline */
 import React from "react";
 import styled from "styled-components";
 
-const PaginateStyleCont = styled.div`
-  list-style: none;
+const PaginateStyleCont = styled.section`
   display: flex;
-  flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  align-items: baseline;
-  align-content: stretch;
 
-  ul {
-    display: flex;
-    flex-direction: row;
-    margin: 10px
+  .BTNextPreb {
+    line-height: 45px;
   }
 
   .BTNPaginate {
+    font-family: "RocknRoll One";
     box-sizing: border-box;
-    width: 75px;
-    height: 45px;
+    width: 40px;
+    height: 25px;
     display: flex;
-    -webkit-box-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
     align-items: center;
-    font-family: 'RocknRoll One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 46px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #18191A;
-    background: #A2C4C3;
-    border: 1px solid #18191A;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #18191a;
+    background: #a2c4c3;
     border-radius: 10px;
-    cursor: pointer;
-    margin-left: 10px;
+    margin: 0px 3.5px;
     transition: all 0.5s ease;
 
     :hover {
@@ -50,24 +36,44 @@ const PaginateStyleCont = styled.div`
 
 function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
   const pageNumbers = [];
-  //console.log(pageNumbers) //cantidad de paginas
 
-  //math.ceil -> redondea
   for (let i = 1; i <= Math.ceil(allPlaces / cardsPerPage); i++) {
     pageNumbers.push(i);
-  };
+  }
 
   return (
     <PaginateStyleCont>
-      <ul>
-        <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}>«</button>
-        { pageNumbers && pageNumbers.map((number) => (
-          <button type="button" className="BTNPaginate" onClick={() => paginado(number)} key={number}>{pageNumber === number ? "*" : number}</button>
+      <button
+        type="button"
+        className="BTNPaginate BTNextPreb"
+        onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}
+      >
+        {"<<"}
+      </button>
+
+      {pageNumbers &&
+        pageNumbers.map((number) => (
+          <button
+            type="button"
+            className="BTNPaginate"
+            onClick={() => paginado(number)}
+            key={number}
+          >
+            {pageNumber === number ? "🌮" : number}
+          </button>
         ))}
-        <button type="button" className="BTNPaginate" onClick={() => paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)}>»</button>
-      </ul>
+
+      <button
+        type="button"
+        className="BTNPaginate BTNextPreb"
+        onClick={() =>
+          paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)
+        }
+      >
+        {">>"}
+      </button>
     </PaginateStyleCont>
   );
-};
+}
 
 export default Pagination;
