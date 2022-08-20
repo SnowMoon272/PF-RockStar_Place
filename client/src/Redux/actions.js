@@ -8,10 +8,10 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_CITIES = "GET_CITIES";
 
 export function updateFilters(data) {
-  dispatch({
+  return {
     type: UPDATE_FILTERS,
     payload: data,
-  });
+  };
 }
 
 export function getPlacesByName(name) {

@@ -59,7 +59,7 @@ function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
             onClick={() => paginado(number)}
             key={number}
           >
-            {pageNumber === number ? "*" : number}
+            {pageNumber === number ? "🌮" : number}
           </button>
         ))}
 

@@ -1,8 +1,9 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlacesByName, getCities, filteredPlaces } from "../../../Redux/actions";
+import { getPlacesByName, getCities, filteredPlaces, updateFilters } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
 
 const SearchBarYFiltersStyled = styled.div`
@@ -93,6 +94,7 @@ const SearchBarYFiltersStyled = styled.div`
 `;
 
 export default function SearchBarYFilters(props) {
+  const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [filter, setFilter] = useState({
@@ -126,6 +128,12 @@ export default function SearchBarYFilters(props) {
     e.preventDefault();
     dispatch(filteredPlaces(e.target.value, filter.FilterSounds));
     setFilter({ ...filter, FilterCities: e.target.value });
+    dispatch(
+      updateFilters({
+        ...filters,
+        Ciudad: true,
+      }),
+    );
     props.paginado(1);
     props.setNavState({
       ...props.navState,
@@ -138,6 +146,12 @@ export default function SearchBarYFilters(props) {
     e.preventDefault();
     dispatch(filteredPlaces(filter.FilterCities, e.target.value));
     setFilter({ ...filter, FilterSounds: e.target.value });
+    dispatch(
+      updateFilters({
+        ...filters,
+        Sonido: true,
+      }),
+    );
     props.paginado(1);
     props.setNavState({
       ...props.navState,

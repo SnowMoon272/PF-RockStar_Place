@@ -1,8 +1,9 @@
+/* eslint-disable comma-dangle */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlaces } from "../../Redux/actions";
+import { getPlaces, updateFilters } from "../../Redux/actions";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -237,7 +238,7 @@ const CarsStyleCont = styled.section`
 
     .Filtros {
       text-align: center;
-      border-bottom: solid 3px ${Colors.Platinum};
+      /* border-bottom: solid 3px ${Colors.Platinum}; */
       h6 {
         margin: 0px;
         color: ${Colors.Platinum};
@@ -264,6 +265,13 @@ const CarsStyleCont = styled.section`
     width: 100%;
     margin: 50px;
     padding: 0px 50px;
+
+    .NotFound {
+      margin-top: 50px;
+      color: ${Colors.Platinum};
+      font-size: 4rem;
+      text-align: center;
+    }
   }
 `;
 
@@ -288,6 +296,12 @@ function HomeUNL() {
 
   const handlerClickReset = () => {
     dispatch(getPlaces());
+    dispatch(
+      updateFilters({
+        Ciudad: false,
+        Sonido: false,
+      }),
+    );
   };
 
   return (
@@ -344,14 +358,18 @@ function HomeUNL() {
             <div className="Filtros">
               <h6>Filtros</h6>
               <div className="FiltrosData">
-                <p>Ciudad: Si </p>
-                <p>Sonido: Si </p>
+                <p>Ciudad: {filters.Ciudad ? "✔️" : "❌"} </p>
+                <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
               </div>
             </div>
             <button type="button">Rating</button>
           </div>
           <div className="ContainerCards">
-            <CardsPlaces currentPlaces={currentCards} />
+            {currentCards.length ? (
+              <CardsPlaces currentPlaces={currentCards} />
+            ) : (
+              <div className="NotFound"> !No se encontraron resultados! </div>
+            )}
           </div>
           <Pagination
             cardsPerPage={cardsPerPage}
