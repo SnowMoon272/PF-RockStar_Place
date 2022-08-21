@@ -25,10 +25,12 @@ const createMusicBandController = async (req: any, res: any) => {
 	const musicBand = req.body.newMusicBand;
 	if (musicBand) {
 		try {
-			await createMusicBand(musicBand);
-			res.status(201).send({ msg: "Se creo la banda exitosamente" });
+			let created = await createMusicBand(musicBand);
+			if (created.hasOwnProperty("error"))
+				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+			return res.status(201).send({ msg: "se creó la banda correctamente" });
 		} catch (error) {
-			return res.status(404).send({ error: "Something went wrong" });
+			return res.status(500).send({ error: "Something went wrong" });
 		}
 	} else {
 		res.status(400).send({ msg: "Data faltante o incorrecta" });

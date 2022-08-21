@@ -26,8 +26,10 @@ const createPlaceController = async (req: Request, res: Response) => {
 	const places = req.body.newPlace;
 	if (places) {
 		try {
-			await createPlace(places);
-			res.status(201).send({ msg: "Se creo el lugar exitosamente" });
+			let created = await createPlace(places);
+			if (created.hasOwnProperty("error"))
+				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+			return res.status(201).send({ msg: "se creó el lugar correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
 		}

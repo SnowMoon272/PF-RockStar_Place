@@ -1,41 +1,10 @@
+import { reviews, dates, Roles, musicBandInterface } from "../interfaces/musicBand.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const musicBandSchema = require("../schemas/musicBand");
+const musicBandSchema = require("../schemas/musicBandSchema");
 
 const musicBand = model("musicband", musicBandSchema);
-
-interface reviews {
-  author: string;
-  comment: string;
-  rating: number;
-}
-interface dates {
-  author: string;
-  place: string;
-  date: Date;
-}
-enum Roles {
-  ADMIN = "admin",
-  MUSICBAND = "musicband",
-  PLACE = "place",
-}
-
-type musicBandInterface = {
-  personInCharge: string;
-  name: string;
-  email: string;
-  password: string;
-  rating: number;
-  reviews: reviews[];
-  dates: dates[];
-  banned: boolean;
-  role: Roles;
-  socialMedia: any;
-  description: string;
-  pendingDates: dates[];
-  profilePicture: string;
-};
 
 /**
  *	reloadMusicBandRating es la función encargada de actualizar el rating general de una banda de música, se ejecuta después de añadir una review
@@ -45,20 +14,20 @@ type musicBandInterface = {
  *  @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const reloadMusicBandRating = async (email: string) => {
-  const userToUpdate = await getMusicBand(email);
-  let sum = 0;
-  for (let review of userToUpdate.reviews) {
-    sum += review.rating;
-  }
+	const userToUpdate = await getMusicBand(email);
+	let sum = 0;
+	for (let review of userToUpdate.reviews) {
+		sum += review.rating;
+	}
 
-  sum = Math.round((sum / userToUpdate.reviews.length) * 100) / 100;
+	sum = Math.round((sum / userToUpdate.reviews.length) * 100) / 100;
 
-  try {
-    await musicBand.updateOne({ email }, { rating: sum });
-    return { response: "Updated" };
-  } catch (error) {
-    return { error };
-  }
+	try {
+		await musicBand.updateOne({ email }, { rating: sum });
+		return { response: "Updated" };
+	} catch (error) {
+		return { error };
+	}
 };
 
 /**
@@ -69,12 +38,12 @@ export const reloadMusicBandRating = async (email: string) => {
  *  @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const deleteMusicBand = async (email: string) => {
-  try {
-    const deleted = await musicBand.deleteOne({ email });
-    return deleted;
-  } catch (error) {
-    return { error };
-  }
+	try {
+		const deleted = await musicBand.deleteOne({ email });
+		return deleted;
+	} catch (error) {
+		return { error };
+	}
 };
 
 /**
@@ -86,21 +55,21 @@ export const deleteMusicBand = async (email: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const addBandReview = async (email: string, review: reviews) => {
-  const userToAddReview = await getMusicBand(email);
+	const userToAddReview = await getMusicBand(email);
 
-  if (userToAddReview) {
-    let previousReviews = userToAddReview.reviews;
-    previousReviews.push(review);
-    try {
-      await musicBand.updateOne({ email }, { reviews: previousReviews });
-      await reloadMusicBandRating(email);
-      return { reviews: previousReviews };
-    } catch (error) {
-      return { error };
-    }
-  } else {
-    return { error: "User not found" };
-  }
+	if (userToAddReview) {
+		let previousReviews = userToAddReview.reviews;
+		previousReviews.push(review);
+		try {
+			await musicBand.updateOne({ email }, { reviews: previousReviews });
+			await reloadMusicBandRating(email);
+			return { reviews: previousReviews };
+		} catch (error) {
+			return { error };
+		}
+	} else {
+		return { error: "User not found" };
+	}
 };
 
 /**
@@ -111,13 +80,13 @@ export const addBandReview = async (email: string, review: reviews) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const getMusicBand = async (email: string) => {
-  try {
-    let musicBandResponse = await musicBand.findOne({ email }, { password: 0 });
-    if (musicBandResponse !== undefined) return musicBandResponse;
-    else return { error: "User not found" };
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		let musicBandResponse = await musicBand.findOne({ email }, { password: 0 });
+		if (musicBandResponse !== undefined) return musicBandResponse;
+		else return { error: "User not found" };
+	} catch (error: any) {
+		return { error };
+	}
 };
 
 /**
@@ -128,9 +97,9 @@ export const getMusicBand = async (email: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const encodePassword = async (password: string) => {
-  const salt = await bcrypt.genSalt(6);
-  const encodedPassword = await bcrypt.hash(password, salt);
-  return encodedPassword;
+	const salt = await bcrypt.genSalt(6);
+	const encodedPassword = await bcrypt.hash(password, salt);
+	return encodedPassword;
 };
 
 /**
@@ -142,8 +111,8 @@ const encodePassword = async (password: string) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 const comparePassword = async (password: string, encodedPassword: string) => {
-  let valid = await bcrypt.compare(password, encodePassword);
-  return valid;
+	let valid = await bcrypt.compare(password, encodePassword);
+	return valid;
 };
 
 /**
@@ -159,16 +128,16 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 * @author Sebastian Pérez <https://github.com/Sebastian-pz>
 */
 export const createMusicBand = async (newMusicBand: musicBandInterface) => {
-  newMusicBand.password = await encodePassword(newMusicBand.password);
-  newMusicBand.rating = 5;
-  newMusicBand.role = Roles.MUSICBAND;
+	newMusicBand.password = await encodePassword(newMusicBand.password);
+	newMusicBand.rating = 5;
+	newMusicBand.role = Roles.MUSICBAND;
 
-  try {
-    await musicBand.create(newMusicBand);
-    return await musicBand.findOne({ email: newMusicBand.email });
-  } catch (error: any) {
-    return { error: "An error occurred getting user" };
-  }
+	try {
+		let created = await musicBand.create(newMusicBand);
+		return created;
+	} catch (error: any) {
+		return { error: "An error occurred getting user" };
+	}
 };
 
 /**
@@ -179,15 +148,15 @@ export const createMusicBand = async (newMusicBand: musicBandInterface) => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const getAllMusicBands = async () => {
-  try {
-    const allMusicBands = await musicBand.find(
-      {},
-      { _id: 1, email: 1, name: 1, rating: 1, description: 1 },
-    );
-    return allMusicBands;
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		const allMusicBands = await musicBand.find(
+			{},
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
+		);
+		return allMusicBands;
+	} catch (error: any) {
+		return { error };
+	}
 };
 
 /**
@@ -198,13 +167,13 @@ export const getAllMusicBands = async () => {
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
 export const banHandler = async (email: string) => {
-  try {
-    const userToChange = await musicBand.findOne({ email });
-    userToChange.banned === false
-      ? await musicBand.updateOne({ email }, { banned: true })
-      : await musicBand.updateOne({ email }, { banned: false });
-    return musicBand.findOne({ email });
-  } catch (error: any) {
-    return { error };
-  }
+	try {
+		const userToChange = await musicBand.findOne({ email });
+		userToChange.banned === false
+			? await musicBand.updateOne({ email }, { banned: true })
+			: await musicBand.updateOne({ email }, { banned: false });
+		return musicBand.findOne({ email });
+	} catch (error: any) {
+		return { error };
+	}
 };
