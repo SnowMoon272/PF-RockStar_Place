@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlaces, updateFilters } from "../../Redux/actions";
+import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -222,9 +222,9 @@ const CarsStyleCont = styled.section`
 
     button {
       font-family: "RocknRoll One", sans-serif;
-      width: 170px;
+      width: 190px;
       height: 55px;
-      padding: 0px 27px;
+      padding: 0px 15px;
       background-color: ${Colors.Green_Light};
       color: ${Colors.Erie_Black};
       border-radius: 10px;
@@ -284,14 +284,16 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
+  const [reRender, setreRender] = useState("");
+
   // Pagination
-  const [pageNumber, setPageNumer] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   const [cardsPerPage] = useState(10);
   const ultimaCard = pageNumber * cardsPerPage;
   const primeraCard = ultimaCard - cardsPerPage;
   const currentCards = allPlaces.slice(primeraCard, ultimaCard);
   const paginado = (num) => {
-    setPageNumer(num);
+    setPageNumber(num);
   };
 
   const handlerClickReset = () => {
@@ -302,6 +304,12 @@ function HomeUNL() {
         Sonido: false,
       }),
     );
+  };
+
+  const handleClickSort = () => {
+    dispatch(popularitySort(allPlaces));
+    paginado(1);
+    setreRender("Renderizar");
   };
 
   return (
@@ -362,7 +370,9 @@ function HomeUNL() {
                 <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
               </div>
             </div>
-            <button type="button">Rating</button>
+            <button type="button" onClick={(e) => handleClickSort(e)}>
+              ⭐ Populares ⭐
+            </button>
           </div>
           <div className="ContainerCards">
             {currentCards.length ? (

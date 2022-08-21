@@ -183,7 +183,6 @@ function NavBar(props) {
     FilterCities: false,
     FilterSounds: false,
   });
-  console.log(navState);
 
   const handlerClickSearch = (e) => {
     setNavState({

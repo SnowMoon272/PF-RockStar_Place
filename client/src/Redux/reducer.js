@@ -5,6 +5,7 @@ import {
   GET_PLACES_BY_NAME,
   GET_CITIES,
   UPDATE_FILTERS,
+  POPULARITY_SORT,
 } from "./actions";
 
 const initialState = {
@@ -48,6 +49,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         cities: action.payload,
+      };
+    case POPULARITY_SORT:
+      return {
+        ...state,
+        places: action.payload.sort((a, b) => b.rating - a.rating),
       };
     default:
       return state;

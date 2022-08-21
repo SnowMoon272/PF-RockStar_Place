@@ -5,6 +5,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
+  POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES";
 
 export function updateFilters(data) {
@@ -89,5 +90,12 @@ export function getCities() {
     } catch (error) {
       return error;
     }
+  };
+}
+
+export function popularitySort(payload) {
+  return {
+    type: POPULARITY_SORT,
+    payload,
   };
 }
