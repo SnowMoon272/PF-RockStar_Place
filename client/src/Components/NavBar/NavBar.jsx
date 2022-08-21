@@ -2,6 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable comma-dangle */
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../Assets/img/guitar-logo-icon.png";
 import Colors from "../../Utils/colors";
@@ -166,6 +167,10 @@ const NavBarStyle = styled.nav`
           height: 34px;
           padding: 6px;
         }
+
+        .Link {
+          background-color: white;
+        }
       }
     }
   }
@@ -178,7 +183,6 @@ function NavBar(props) {
     FilterCities: false,
     FilterSounds: false,
   });
-  console.log(navState);
 
   const handlerClickSearch = (e) => {
     setNavState({
@@ -283,9 +287,9 @@ function NavBar(props) {
             )}
             {props.Home && (
               <>
-                <button type="button" className="Butons">
+                <Link to="/" className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
-                </button>
+                </Link>
                 <h3 className="H3">Home</h3>
               </>
             )}

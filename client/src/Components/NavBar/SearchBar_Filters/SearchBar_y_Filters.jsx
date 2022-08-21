@@ -76,7 +76,8 @@ const SearchBarYFiltersStyled = styled.div`
     height: fit-content;
 
     .StyleSelect {
-      font-family: "New Rocker", cursive;
+      font-family: "RocknRoll One", sans-serif;
+
       background-color: ${Colors.Green_Light};
       border-radius: 25px;
       text-align: center;

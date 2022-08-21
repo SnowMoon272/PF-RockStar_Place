@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import color from "../../Utils/colors";
 
 const CardStyleCont = styled.div`
@@ -69,6 +70,10 @@ const CardStyleCont = styled.div`
   }
 
   .detailButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     cursor: pointer;
     width: 50%;
     height: 12%;
@@ -78,7 +83,6 @@ const CardStyleCont = styled.div`
     font-style: normal;
     font-weight: 400;
     font-size: 2rem;
-    text-align: center;
     color: ${color.Erie_Black};
     transition: all 0.5s ease;
     :hover {
@@ -107,9 +111,9 @@ function CardPlace({ name, city, rating, image, sound }) {
             <span className="value"> {rating}</span>
           </div>
         </div>
-        <button className="detailButton" type="button">
+        <Link to="/place/:email" className="detailButton">
           Detalle
-        </button>
+        </Link>
       </div>
       <img className="CardImage" src={image} alt="Not found" />
     </CardStyleCont>
