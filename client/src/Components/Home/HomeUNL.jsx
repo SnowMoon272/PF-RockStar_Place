@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable comma-dangle */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlaces, updateFilters } from "../../Redux/actions";
+import { getPlaces, popularitySort, stateprueba, updateFilters } from "../../Redux/actions";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -257,6 +258,53 @@ const CarsStyleCont = styled.section`
         }
       }
     }
+
+    .SwitchCont {
+      display: flex;
+      align-items: center;
+
+      label {
+        display: inline-block;
+        width: 65px;
+        height: 33px;
+        background-color: ${Colors.Platinum};
+        border-radius: 100px;
+        position: relative;
+        transition: 0.2s;
+        margin: 0px 10px 0px 0px;
+        cursor: pointer;
+        ::after{
+          content: "";
+          display: block;
+          width: 25px;
+          height: 25px;
+          background-color: ${Colors.Green_Nigth};
+          border-radius: 100px;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          transition: 0.2s;
+        }
+      }
+
+      #switch:checked + label::after {
+        left: 36px;
+      }
+
+      #switch:checked + label {
+        background-color: ${Colors.Green_Light};
+      }
+
+      #switch {
+        display: none;
+      }
+
+      .title {
+        font-family: "RocknRoll One", sans-serif;
+        font-size: 20px;
+        color: ${Colors.Platinum};
+      }
+    }
   }
   .ContainerCards {
     position: relative;
@@ -284,14 +332,16 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
+  const [checked, setChecked] = useState({ checked: false, unorderedPlaces: [] });
+
   // Pagination
-  const [pageNumber, setPageNumer] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   const [cardsPerPage] = useState(10);
   const ultimaCard = pageNumber * cardsPerPage;
   const primeraCard = ultimaCard - cardsPerPage;
   const currentCards = allPlaces.slice(primeraCard, ultimaCard);
   const paginado = (num) => {
-    setPageNumer(num);
+    setPageNumber(num);
   };
 
   const handlerClickReset = () => {
@@ -303,6 +353,27 @@ function HomeUNL() {
       }),
     );
   };
+
+  const handleChangeSort = () => {
+    setChecked({ ...checked, checked: !checked });
+    console.log(checked);
+    if (!checked.checked) {
+      setChecked({ ...checked, unorderedPlaces: allPlaces });
+      console.log("copia original guardada");
+    }
+
+  };
+
+  /* const handleChangeSort = () => {
+    setChecked(!checked.checked);
+    console.log(checked);
+    if (checked.checked) {
+      setChecked({ ...checked, unorderedPlaces: allPlaces });
+      dispatch(popularitySort(allPlaces));
+      setPageNumber(1);
+    } else dispatch(stateprueba(checked.unorderedPlaces));
+    setPageNumber(1);
+  }; */
 
   return (
     <HomeStyleCont>
@@ -321,7 +392,7 @@ function HomeUNL() {
             <div className="FondoVerde">+250 Locales</div>
           </Link>
           <Link to="/" className="Link">
-            <div className="FondoVerde">¡Registrate ahora¡</div>
+            <div className="FondoVerde">¡Registrate ahora!</div>
           </Link>
         </div>
         <a href="#SecondVewStyleCont" className="SVGDown">
@@ -362,13 +433,17 @@ function HomeUNL() {
                 <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
               </div>
             </div>
-            <button type="button">Rating</button>
+            <div className="SwitchCont">
+              <input id="switch" type="checkbox" onChange={() => handleChangeSort()} />
+              <label htmlFor="switch" className="label" />
+              <span className="title">Más populares</span>
+            </div>
           </div>
           <div className="ContainerCards">
             {currentCards.length ? (
               <CardsPlaces currentPlaces={currentCards} />
             ) : (
-              <div className="NotFound"> !No se encontraron resultados! </div>
+              <div className="NotFound"> ¡No se encontraron resultados! </div>
             )}
           </div>
           <Pagination

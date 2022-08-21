@@ -5,14 +5,9 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
-  GET_CITIES = "GET_CITIES";
-
-export function updateFilters(data) {
-  return {
-    type: UPDATE_FILTERS,
-    payload: data,
-  };
-}
+  GET_CITIES = "GET_CITIES",
+  POPULARITY_SORT = "POPULARITY_SORT",
+  PRUEBA = "PRUEBA";
 
 export function getPlacesByName(name) {
   const encodName = encodeURI(name);
@@ -89,5 +84,26 @@ export function getCities() {
     } catch (error) {
       return error;
     }
+  };
+}
+
+export function popularitySort(payload) {
+  return {
+    type: POPULARITY_SORT,
+    payload,
+  };
+}
+
+export function stateprueba(payload) {
+  return {
+    type: PRUEBA,
+    payload,
+  };
+}
+
+export function updateFilters(data) {
+  return {
+    type: UPDATE_FILTERS,
+    payload: data,
   };
 }
