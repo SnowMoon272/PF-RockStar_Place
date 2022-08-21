@@ -314,13 +314,13 @@ function HomeUNL() {
           <h1 className="h1">Rock Star Place</h1>
         </div>
         <div className="ButonsContainer">
-          <Link to="/" className="Link">
+          <Link to="/SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+1500 Bandas y Solistas</div>
           </Link>
-          <Link to="/" className="Link">
+          <Link to="/SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+250 Locales</div>
           </Link>
-          <Link to="/" className="Link">
+          <Link to="/register" className="Link">
             <div className="FondoVerde">¡Registrate ahora¡</div>
           </Link>
         </div>
