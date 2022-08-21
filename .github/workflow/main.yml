@@ -1,4 +1,4 @@
-name: Basic Integration Continues
+name: Basic Integration Continues V 1.0.2
 
 on:
   pull_request:
