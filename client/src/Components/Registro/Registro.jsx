@@ -7,7 +7,7 @@ import NavBar from "../NavBar/NavBar";
 const LoginStyleCont = styled.div`
   width: 1920px;
   height: 1080px;
-  background: #18191A;
+  background: #18191a;
 
   position: relative;
   box-sizing: border-box;
@@ -29,45 +29,44 @@ const LoginStyleCont2 = styled.div`
   flex-direction: column;
   align-items: center;
 
-  h1{
+  h1 {
     color: ${Colors.Green_Light};
     font-family: "New Rocker", cursive;
     font-size: 7rem;
   }
 
-  h2{
+  h2 {
     color: ${Colors.Green_Light};
     font-family: "RocknRoll One";
     font-size: 4em;
   }
 
-  h3{
+  h3 {
     color: ${Colors.Green_Light};
     font-family: "RocknRoll One";
     font-size: 3em;
   }
 
-  h4{
+  h4 {
     color: ${Colors.Green_Light};
     font-family: "RocknRoll One";
     font-size: 1em;
   }
 
-  
   .registro {
-      font-family: "RocknRoll One", sans-serif;
-      width: 120px;
-      height: 40px;
-      background-color: ${Colors.Green_Light};
-      color: ${Colors.Erie_Black};
-      border-radius: 10px;
-      font-size: 1.8rem;
-      transition: all 0.5s ease;
-      :hover {
-        transform: scale(1.1);
-        cursor: pointer;
-      }
+    font-family: "RocknRoll One", sans-serif;
+    width: 120px;
+    height: 40px;
+    background-color: ${Colors.Green_Light};
+    color: ${Colors.Erie_Black};
+    border-radius: 10px;
+    font-size: 1.8rem;
+    transition: all 0.5s ease;
+    :hover {
+      transform: scale(1.1);
+      cursor: pointer;
     }
+  }
 `;
 
 const LoginRed = styled.div`
@@ -81,16 +80,16 @@ const LoginRed = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .BTNFace{   
+  .BTNFace {
     /* position: absolute; */
     width: 493px;
     height: 65px;
     left: 449px;
-    top: 567px; 
-    background: #4285F4;
+    top: 567px;
+    background: #4285f4;
     border-radius: 10px;
 
-    font-family: 'RocknRoll One';
+    font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
     font-size: 27px;
@@ -99,19 +98,19 @@ const LoginRed = styled.div`
     align-items: center;
     text-align: center;
 
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
-  .BTNGoogle{   
+  .BTNGoogle {
     /* position: absolute; */
     width: 493px;
     height: 65px;
     left: 449px;
-    top: 665px; 
-    background: #4285F4;
+    top: 665px;
+    background: #4285f4;
     border-radius: 10px;
 
-    font-family: 'RocknRoll One';
+    font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
     font-size: 27px;
@@ -119,9 +118,8 @@ const LoginRed = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
-    color: #FFFFFF;
+    color: #ffffff;
   }
-
 `;
 
 const LoginEmail = styled.div`
@@ -135,14 +133,14 @@ const LoginEmail = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .email{
+  .email {
     /* position: absolute; */
     width: 357px;
     height: 44.56px;
     left: 1079px;
     top: 552.07px;
 
-    font-family: 'RocknRoll One';
+    font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -152,14 +150,14 @@ const LoginEmail = styled.div`
     color: rgba(229, 229, 229, 0.42);
   }
 
-  .password{
+  .password {
     /* position: absolute; */
     width: 357px;
     height: 44.56px;
     left: 1079px;
     top: 649.06px;
 
-    font-family: 'RocknRoll One';
+    font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -169,13 +167,13 @@ const LoginEmail = styled.div`
     color: rgba(229, 229, 229, 0.42);
   }
 
-  .passwordRepeat{
+  .passwordRepeat {
     width: 357px;
     height: 44.56px;
     left: 1079px;
     top: 747.07px;
 
-    font-family: 'RocknRoll One';
+    font-family: "RocknRoll One";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -189,14 +187,18 @@ const LoginEmail = styled.div`
 function Registro() {
   return (
     <LoginStyleCont>
-      <NavBar Home FondoImg />
+      <NavBar LogIn Home FondoImg />
       <LoginStyleCont2>
         <h1>¡Registrate ahora!</h1>
         <h2>Registrate como local o banda</h2>
         <LoginRed>
           <h3>Registrate con una red social</h3>
-          <button type="button" className="BTNFace">Registrate con Facebook</button>
-          <button type="button" className="BTNGoogle">Registrate con Google</button>
+          <button type="button" className="BTNFace">
+            Registrate con Facebook
+          </button>
+          <button type="button" className="BTNGoogle">
+            Registrate con Google
+          </button>
         </LoginRed>
         <LoginEmail>
           <h3>Registrate con tu e-mail</h3>
@@ -204,12 +206,16 @@ function Registro() {
           <input type="text" className="password" placeholder="Ingresa una contraseña" />
           <input type="text" className="passwordRepeat" placeholder="Repite la contraseña" />
           <input type="checkbox" />
-          <h4>Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link></h4>
-          <button type="button" className="registro">Registrarse</button>
+          <h4>
+            Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
+          </h4>
+          <button type="button" className="registro">
+            Registrarse
+          </button>
         </LoginEmail>
       </LoginStyleCont2>
     </LoginStyleCont>
   );
-};
+}
 
 export default Registro;

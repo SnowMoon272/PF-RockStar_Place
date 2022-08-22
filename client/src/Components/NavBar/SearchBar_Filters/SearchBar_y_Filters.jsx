@@ -123,6 +123,12 @@ export default function SearchBarYFilters(props) {
       Active: !props.navState.Active,
       Search: !props.navState.Search,
     });
+    dispatch(
+      updateFilters({
+        Ciudad: false,
+        Sonido: false,
+      }),
+    );
   };
 
   const handlerSubmintFilterCity = (e) => {
@@ -231,7 +237,7 @@ export default function SearchBarYFilters(props) {
                 label="Elige tu opcion."
               />
               <option value="sonidoSi">Si</option>
-              <option value="sonidoNi">No</option>
+              <option value="sonidoNo">No</option>
             </select>
           </div>
         </>
