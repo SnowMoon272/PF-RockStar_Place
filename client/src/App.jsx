@@ -5,6 +5,7 @@ import HomeUNL from "./Components/Home/HomeUNL";
 import Help from "./Components/Help/Help";
 import Registrar from "./Components/Registrar/Registrar";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
+import Login from "./Components/Login/Login";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/registrar" element={<Registrar />} />
         <Route path="/place/:email" element={<DetailPlace />} />
+        <Route exact path="/Login" element={<Login />} />
       </Routes>
     </AppStyle>
   );
