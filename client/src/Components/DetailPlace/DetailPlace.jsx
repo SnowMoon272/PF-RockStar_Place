@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { getDetailPlace, postComment } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import validate from "./validationsComment";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -223,30 +224,41 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  const [render, setRender] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => dispatch(getDetailPlace(params.email)), [dispatch]);
 
   const handleChange = (e) => {
     setInput({ ...input, comment: e.target.value });
+    setErrors(validate({
+      ...input,
+      comment: e.target.value,
+    }));
   };
 
   const handleClick = (e) => {
     setInput({ ...input, rating: e.target.value });
+    setErrors(validate({
+      ...input,
+      rating: e.target.value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postComment({
-      review: {
-        author: "Usuario Anónimo",
-        comment: input.comment,
-        rating: Number(input.rating),
-      },
-      email: place.email,
-    }));
-    setInput({ rating: "", comment: "" });
-    dispatch(getDetailPlace(params.email));
+    if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
+    else if (Object.keys(errors).length) alert("Check for errors and try again");
+    else {
+      dispatch(postComment({
+        review: {
+          author: "Usuario Anónimo",
+          comment: input.comment,
+          rating: Number(input.rating),
+        },
+        email: place.email,
+      }));
+      setInput({ rating: "", comment: "" });
+    }
   };
 
   return (
@@ -310,6 +322,16 @@ export default function DetailPlace() {
                     <button type="button" value={5} onClick={(e) => handleClick(e)}>5</button>
                   </div>
                 </div>
+                {
+                  errors.comment && (
+                    <span>{errors.comment}</span>
+                  )
+                }
+                {
+                  errors.rating && (
+                    <span>{errors.rating}</span>
+                  )
+                }
                 <button type="submit">Comentar</button>
               </div>
             </form>
