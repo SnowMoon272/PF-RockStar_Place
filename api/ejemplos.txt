@@ -1,0 +1,28 @@
+const newReview = {
+  author : "Vladimir Putin",
+  comment : "Increible obra de arte contemporanea, maravillosa",
+  rating : 5
+}
+
+const newReview2 = {
+  author : "Donald Trump",
+  comment : "Si dios existe lo conocí escuchando esta banda",
+  rating : 5
+}
+const newReview3 = {
+  author : "Alan",
+  comment : "Pesímo",
+  rating : 4
+}
+
+const newUser = {
+  "personInCharge" : "Leonardo Davinci",
+  "name": "Miley Cisuus",
+	"email": "soymileycisuus@gmail.com",
+	"password": "holasoymiley",
+	"rating": 5,
+	"reviews": [],
+	"dates": [],
+	"banned": false,
+  "role":"admin"
+}

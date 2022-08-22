@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./src/routes/index.ts");
 
-
+const connect = require('./src/db/db');
 
 const server = express();
 const cors = require("cors");
@@ -23,6 +23,18 @@ server.use((req: any, res: { header: (arg0: string, arg1: string) => void }, nex
 });
 
 server.use("/", routes);
+
+const startServer = async() => {
+
+  try {
+    await connect();
+    console.log('Connected to db 🤑')
+  } catch (error) {
+    console.log(`Something went wrong 😭`);
+    console.log(error);
+  }
+}
+startServer();
 
 server.listen(3001, () => {
   console.log("%s listening at 3001");
