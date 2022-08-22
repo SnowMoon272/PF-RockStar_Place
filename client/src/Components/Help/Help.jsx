@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import Logo from "../../Assets/img/LogoCircular.png";
@@ -9,15 +8,20 @@ import NavBar from "../NavBar/NavBar";
 const StyledContenedor = styled.div`
   background-color: #18191a;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  margin-left: 80px;
+  height: fit-content;
 
   .logoayuda {
-    margin-top: 2.2%;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
     height: 200px;
     width: 200px;
-    margin-left: 46.3%;
-    position: fixed;
     animation-name: Rock;
     animation-duration: 5s;
     animation-iteration-count: infinite;
@@ -37,59 +41,32 @@ const StyledContenedor = styled.div`
       }
     }
   }
-`;
 
-const StyledFrecuentes = styled.div`
-  margin-top: 2.2%;
-  margin-left: 120px;
-  margin-bottom: 2.2%;
-  background-color: #041318;
-  height: fit-content;
-  width: 32.2%;
-  height: 850px;
-  border-radius: 5px;
-  text-align: center;
-  font-family: "RocknRoll One";
-  color: #ffffff;
-  padding: 2%;
-  font-size: 1.5rem;
+  .Sections {
+    margin: 2.2% 5%;
+    background-color: #041318;
+    height: 100%;
+    width: 32.2%;
+    border-radius: 50px;
+    font-family: "RocknRoll One";
+    color: #ffffff;
+    padding: 2%;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  h1 {
-    font-family: "New Rocker", cursive;
-    margin: 0px;
-    color: ${Colors.Platinum};
-    font-size: 4rem;
-    left: 12%;
-    top: 2%;
-  }
-  h2 {
-  }
-`;
-
-const StyledAyuda = styled.div`
-  margin-top: 2.2%;
-  margin-right: 35px;
-  margin-bottom: 2.2%;
-  background-color: #041318;
-  height: fit-content;
-  width: 32.2%;
-  height: 850px;
-  border-radius: 5px;
-  text-align: center;
-  font-family: "RocknRoll One";
-  color: #ffffff;
-  padding: 2%;
-  font-size: 1.5rem;
-
-  h1 {
-    font-family: "New Rocker", cursive;
-    margin: 0px;
-    color: ${Colors.Platinum};
-    font-size: 4rem;
-    left: 12%;
-    top: 2%;
-  }
-  h2 {
+    h1 {
+      font-family: "New Rocker", cursive;
+      border-bottom: 3px solid white;
+      margin: 0px;
+      color: ${Colors.Platinum};
+      font-size: 4rem;
+    }
+    h2 {
+      text-align: center;
+      color: ${Colors.Green_Light};
+    }
   }
 `;
 
@@ -97,7 +74,7 @@ export default function Faqs() {
   return (
     <StyledContenedor>
       <NavBar LogIn Home FondoImg />
-      <StyledFrecuentes>
+      <div className="Sections">
         <h1>Preguntas frecuentes</h1>
         <br />
         <h2>¿Cómo funciona RockStarPlace.com?</h2>
@@ -136,9 +113,9 @@ export default function Faqs() {
         <br />
         <h2>¿Cuales son los metodos de pago?</h2>
         <p>...</p>
-      </StyledFrecuentes>
+      </div>
       <img src={Logo} className="logoayuda" alt="Logo" />
-      <StyledAyuda>
+      <div className="Sections B">
         <h1>Ayuda</h1>
         <br />
         <h2>Tengo una banda/soy artista ¿Cómo me registro en RockStarPlace.com?</h2>
@@ -175,7 +152,7 @@ export default function Faqs() {
           fechas de tu show y en cada una vas a poder ver cuántas postulaciones nuevas tenés, cuáles
           aceptaste, cuáles rechazaste y cuáles aún están pendientes.
         </p>
-      </StyledAyuda>
+      </div>
     </StyledContenedor>
   );
 }

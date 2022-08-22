@@ -169,6 +169,8 @@ const NavBarStyle = styled.nav`
         }
 
         .Link {
+          width: 55px;
+          height: 55px;
           background-color: white;
         }
       }
@@ -219,6 +221,8 @@ function NavBar(props) {
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
+          setFilter={props.setFilter}
+          filter={props.filter}
         />
       </div>
       <div className="FondoVerde">

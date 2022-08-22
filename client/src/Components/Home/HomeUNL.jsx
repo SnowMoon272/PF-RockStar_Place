@@ -284,7 +284,8 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  const [reRender, setreRender] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [reRender, setreRender] = useState(false);
 
   // Pagination
   const [pageNumber, setPageNumber] = useState(1);
@@ -296,6 +297,11 @@ function HomeUNL() {
     setPageNumber(num);
   };
 
+  const [filter, setFilter] = useState({
+    FilterCities: "",
+    FilterSounds: "",
+  });
+
   const handlerClickReset = () => {
     dispatch(getPlaces());
     dispatch(
@@ -304,31 +310,45 @@ function HomeUNL() {
         Sonido: false,
       }),
     );
+    setFilter({
+      FilterCities: "",
+      FilterSounds: "",
+    });
+    paginado(1);
   };
 
   const handleClickSort = () => {
     dispatch(popularitySort(allPlaces));
     paginado(1);
-    setreRender("Renderizar");
+    setreRender(!reRender);
   };
 
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
-      <NavBar LogIn Buscar FiltroA FiltroB FondoImg paginado={paginado} />
+      <NavBar
+        LogIn
+        Buscar
+        FiltroA
+        FiltroB
+        FondoImg
+        paginado={paginado}
+        setFilter={setFilter}
+        filter={filter}
+      />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
           <h1 className="h1">Rock Star Place</h1>
         </div>
         <div className="ButonsContainer">
-          <Link to="/SecondVewStyleCont" className="Link">
+          <a href="#SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+1500 Bandas y Solistas</div>
-          </Link>
-          <Link to="/SecondVewStyleCont" className="Link">
+          </a>
+          <a href="#SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+250 Locales</div>
-          </Link>
-          <Link to="/register" className="Link">
+          </a>
+          <Link to="/registrar" className="Link">
             <div className="FondoVerde">¡Registrate ahora¡</div>
           </Link>
         </div>
