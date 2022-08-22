@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import SVGGoogle from "../../Assets/svg/Google.svg";
+import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
   width: 1920px;
@@ -97,8 +99,14 @@ const LoginRed = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
-
     color: #ffffff;
+    -webkit-appearance: button;
+    cursor: pointer;
+
+    img{
+      width: 55px;
+      height: 55px;
+    }
   }
 
   .BTNGoogle {
@@ -119,6 +127,13 @@ const LoginRed = styled.div`
     align-items: center;
     text-align: center;
     color: #ffffff;
+    -webkit-appearance: button;
+    cursor: pointer;
+
+    img{
+      width: 55px;
+      height: 55px;
+    } 
   }
 `;
 
@@ -182,6 +197,11 @@ const LoginEmail = styled.div`
     align-items: center;
     color: rgba(229, 229, 229, 0.42);
   }
+
+  .Tyc{
+    display: flex;
+    flex-direction: row;
+  }
 `;
 
 function Registro() {
@@ -194,9 +214,11 @@ function Registro() {
         <LoginRed>
           <h3>Registrate con una red social</h3>
           <button type="button" className="BTNFace">
+            <img src={SVGFacebook} alt="face" />
             Registrate con Facebook
           </button>
           <button type="button" className="BTNGoogle">
+            <img src={SVGGoogle} alt="google" />
             Registrate con Google
           </button>
         </LoginRed>
@@ -205,10 +227,12 @@ function Registro() {
           <input type="text" className="email" placeholder="Ingresa con tu e-mail" />
           <input type="text" className="password" placeholder="Ingresa una contraseña" />
           <input type="text" className="passwordRepeat" placeholder="Repite la contraseña" />
-          <input type="checkbox" />
-          <h4>
-            Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
-          </h4>
+          <div className="Tyc">
+            <input type="checkbox" />
+            <h4>
+              Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
+            </h4>
+          </div>
           <button type="button" className="registro">
             Registrarse
           </button>
