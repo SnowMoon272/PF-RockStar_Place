@@ -167,6 +167,12 @@ const NavBarStyle = styled.nav`
           height: 34px;
           padding: 6px;
         }
+
+        .Link {
+          width: 55px;
+          height: 55px;
+          background-color: white;
+        }
       }
     }
   }
@@ -215,6 +221,8 @@ function NavBar(props) {
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
+          setFilter={props.setFilter}
+          filter={props.filter}
         />
       </div>
       <div className="FondoVerde">
@@ -283,10 +291,8 @@ function NavBar(props) {
             )}
             {props.Home && (
               <>
-                <Link to="/">
-                  <button type="button" className="Butons">
-                    <img src={BTNHome} alt="ico-filtro" />
-                  </button>
+                <Link to="/" className="Butons Link">
+                  <img src={BTNHome} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Home</h3>
               </>

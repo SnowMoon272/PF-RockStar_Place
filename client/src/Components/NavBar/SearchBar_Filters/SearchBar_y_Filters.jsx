@@ -76,7 +76,8 @@ const SearchBarYFiltersStyled = styled.div`
     height: fit-content;
 
     .StyleSelect {
-      font-family: "New Rocker", cursive;
+      font-family: "RocknRoll One", sans-serif;
+
       background-color: ${Colors.Green_Light};
       border-radius: 25px;
       text-align: center;
@@ -97,10 +98,10 @@ export default function SearchBarYFilters(props) {
   const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [filter, setFilter] = useState({
-    FilterCities: "",
-    FilterSounds: "",
-  });
+  // const [filter, setFilter] = useState({
+  //   FilterCities: "",
+  //   FilterSounds: "",
+  // });
   const cities = useSelector((state) => state.cities);
 
   useEffect(() => {
@@ -126,8 +127,8 @@ export default function SearchBarYFilters(props) {
 
   const handlerSubmintFilterCity = (e) => {
     e.preventDefault();
-    dispatch(filteredPlaces(e.target.value, filter.FilterSounds));
-    setFilter({ ...filter, FilterCities: e.target.value });
+    dispatch(filteredPlaces(e.target.value, props.filter.FilterSounds));
+    props.setFilter({ ...props.filter, FilterCities: e.target.value });
     dispatch(
       updateFilters({
         ...filters,
@@ -144,8 +145,8 @@ export default function SearchBarYFilters(props) {
 
   const handlerSubmintFilterSound = (e) => {
     e.preventDefault();
-    dispatch(filteredPlaces(filter.FilterCities, e.target.value));
-    setFilter({ ...filter, FilterSounds: e.target.value });
+    dispatch(filteredPlaces(props.filter.FilterCities, e.target.value));
+    props.setFilter({ ...props.filter, FilterSounds: e.target.value });
     dispatch(
       updateFilters({
         ...filters,

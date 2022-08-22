@@ -32,6 +32,10 @@ const PaginateStyleCont = styled.section`
       transform: scale(1.1);
     }
   }
+  .Pg_selected {
+    /* transition: all 0.5s ease; */
+    transform: scale(1.7);
+  }
 `;
 
 function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
@@ -59,7 +63,7 @@ function Pagination({ cardsPerPage, allPlaces, paginado, pageNumber }) {
             onClick={() => paginado(number)}
             key={number}
           >
-            {pageNumber === number ? "🌮" : number}
+            {pageNumber === number ? <b className="Pg_selected">{number}</b> : number}
           </button>
         ))}
 

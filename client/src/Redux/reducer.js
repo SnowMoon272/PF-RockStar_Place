@@ -7,7 +7,6 @@ import {
   GET_CITIES,
   UPDATE_FILTERS,
   POPULARITY_SORT,
-  PRUEBA,
   POST_COMMENT,
 } from "./actions";
 
@@ -59,11 +58,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         places: action.payload.sort((a, b) => b.rating - a.rating),
-      };
-    case PRUEBA:
-      return {
-        ...state,
-        places: action.payload,
       };
     case POST_COMMENT:
       return {
