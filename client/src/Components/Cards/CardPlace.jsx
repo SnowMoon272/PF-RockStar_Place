@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import color from "../../Utils/colors";
 
 const CardStyleCont = styled.div`
@@ -92,7 +92,7 @@ const CardStyleCont = styled.div`
   }
 `;
 
-function CardPlace({ name, city, rating, image, sound }) {
+function CardPlace({ id, name, city, rating, image, sound }) {
   return (
     <CardStyleCont>
       <div className="CardInfo">
@@ -111,7 +111,7 @@ function CardPlace({ name, city, rating, image, sound }) {
             <span className="value"> {rating}</span>
           </div>
         </div>
-        <Link to="/place/:email" className="detailButton">
+        <Link to={`/place/${id}`} className="detailButton">
           Detalle
         </Link>
       </div>

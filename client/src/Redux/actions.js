@@ -5,8 +5,10 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
+  POST_COMMENT = "POST_COMMENT",
   POPULARITY_SORT = "POPULARITY_SORT",
-  GET_CITIES = "GET_CITIES";
+  GET_CITIES = "GET_CITIES",
+  RESET_DETAILS = "RESET_DETAILS";
 
 export function updateFilters(data) {
   return {
@@ -96,6 +98,20 @@ export function getCities() {
 export function popularitySort(payload) {
   return {
     type: POPULARITY_SORT,
+    payload,
+  };
+}
+
+export function postComment(payload) {
+  return async (dispatch) => {
+    const json = await axios.post("http://localhost:3001/placereviews", payload);
+    return json;
+  };
+}
+
+export function resetDetails(payload) {
+  return {
+    type: RESET_DETAILS,
     payload,
   };
 }

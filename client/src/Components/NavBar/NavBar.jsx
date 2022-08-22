@@ -169,6 +169,8 @@ const NavBarStyle = styled.nav`
         }
 
         .Link {
+          width: 55px;
+          height: 55px;
           background-color: white;
         }
       }
@@ -219,6 +221,8 @@ function NavBar(props) {
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
+          setFilter={props.setFilter}
+          filter={props.filter}
         />
       </div>
       <div className="FondoVerde">
@@ -226,14 +230,14 @@ function NavBar(props) {
         <div className="ContainButons">
           {props.LogIn ? (
             <div className="buttonLink">
-              <a className="Ancord" href="/Login">
+              <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogin} alt="ico-login" />
               </a>
               <h3 className="H3">Ingresar</h3>
             </div>
           ) : (
             <div className="buttonLinkLogOut">
-              <a className="Ancord" href="/Login">
+              <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogOut} alt="ico-login" />
               </a>
               <h3 className="H3">Salir</h3>

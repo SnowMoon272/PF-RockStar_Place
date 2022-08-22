@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable comma-dangle */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -191,6 +192,7 @@ const SecondVewStyleCont = styled.section`
 const CarsStyleCont = styled.section`
   width: 75%;
   height: fit-content;
+  margin-bottom: 100px;
   background-color: ${Colors.Green_Nigth};
   margin-top: 160px;
   padding-top: 50px;
@@ -257,6 +259,53 @@ const CarsStyleCont = styled.section`
         }
       }
     }
+
+    .SwitchCont {
+      display: flex;
+      align-items: center;
+
+      label {
+        display: inline-block;
+        width: 65px;
+        height: 33px;
+        background-color: ${Colors.Platinum};
+        border-radius: 100px;
+        position: relative;
+        transition: 0.2s;
+        margin: 0px 10px 0px 0px;
+        cursor: pointer;
+        ::after{
+          content: "";
+          display: block;
+          width: 25px;
+          height: 25px;
+          background-color: ${Colors.Green_Nigth};
+          border-radius: 100px;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          transition: 0.2s;
+        }
+      }
+
+      #switch:checked + label::after {
+        left: 36px;
+      }
+
+      #switch:checked + label {
+        background-color: ${Colors.Green_Light};
+      }
+
+      #switch {
+        display: none;
+      }
+
+      .title {
+        font-family: "RocknRoll One", sans-serif;
+        font-size: 20px;
+        color: ${Colors.Platinum};
+      }
+    }
   }
   .ContainerCards {
     position: relative;
@@ -284,7 +333,7 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  const [reRender, setreRender] = useState("");
+  const [reRender, setreRender] = useState(false);
 
   // Pagination
   const [pageNumber, setPageNumber] = useState(1);
@@ -296,6 +345,11 @@ function HomeUNL() {
     setPageNumber(num);
   };
 
+  const [filter, setFilter] = useState({
+    FilterCities: "",
+    FilterSounds: "",
+  });
+
   const handlerClickReset = () => {
     dispatch(getPlaces());
     dispatch(
@@ -304,32 +358,46 @@ function HomeUNL() {
         Sonido: false,
       }),
     );
+    setFilter({
+      FilterCities: "",
+      FilterSounds: "",
+    });
+    paginado(1);
   };
 
   const handleClickSort = () => {
     dispatch(popularitySort(allPlaces));
     paginado(1);
-    setreRender("Renderizar");
+    setreRender(!reRender);
   };
 
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
-      <NavBar LogIn Buscar FiltroA FiltroB FondoImg paginado={paginado} />
+      <NavBar
+        LogIn
+        Buscar
+        FiltroA
+        FiltroB
+        FondoImg
+        paginado={paginado}
+        setFilter={setFilter}
+        filter={filter}
+      />
       <FirtVewStyleCont>
         <div className="ImgTitleContainer">
           <img src={BGHome} alt="Background" />
           <h1 className="h1">Rock Star Place</h1>
         </div>
         <div className="ButonsContainer">
-          <Link to="/SecondVewStyleCont" className="Link">
+          <a href="#SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+1500 Bandas y Solistas</div>
-          </Link>
-          <Link to="/SecondVewStyleCont" className="Link">
+          </a>
+          <a href="#SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+250 Locales</div>
-          </Link>
-          <Link to="/register" className="Link">
-            <div className="FondoVerde">¡Registrate ahora¡</div>
+          </a>
+          <Link to="/registro" className="Link">
+            <div className="FondoVerde">¡Registrate ahora!</div>
           </Link>
         </div>
         <a href="#SecondVewStyleCont" className="SVGDown">
@@ -378,7 +446,7 @@ function HomeUNL() {
             {currentCards.length ? (
               <CardsPlaces currentPlaces={currentCards} />
             ) : (
-              <div className="NotFound"> !No se encontraron resultados! </div>
+              <div className="NotFound"> ¡No se encontraron resultados! </div>
             )}
           </div>
           <Pagination
