@@ -6,6 +6,7 @@ const PaginateStyleCont = styled.section`
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+  margin-bottom: 20px;
 
   .BTNextPreb {
     line-height: 45px;

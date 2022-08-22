@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
 import Help from "./Components/Help/Help";
-import Registrar from "./Components/Registrar/Registrar";
+import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Login from "./Components/Login/Login";
 
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
         <Route exact path="/help" element={<Help />} />
-        <Route exact path="/registrar" element={<Registrar />} />
+        <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
         <Route exact path="/Login" element={<Login />} />
       </Routes>

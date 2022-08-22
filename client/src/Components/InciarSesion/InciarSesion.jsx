@@ -21,7 +21,7 @@ const RegisterStyleContJr = styled.div`
   height: 70%;
 `;
 
-function Registrar() {
+function InciarSesion() {
   return (
     <RegisterStyleCont>
       <NavBar FondoImg Home />
@@ -30,4 +30,4 @@ function Registrar() {
   );
 }
 
-export default Registrar;
+export default InciarSesion;

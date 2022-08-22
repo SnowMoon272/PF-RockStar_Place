@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getDetailPlace, postComment } from "../../Redux/actions";
+import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
@@ -11,7 +11,7 @@ const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -231,6 +231,12 @@ export default function DetailPlace() {
     if (input.rating === "") dispatch(getDetailPlace(params.email));
   }, [input]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetDetails([]));
+    };
+  }, []);
+
   const handleChange = (e) => {
     setInput({ ...input, comment: e.target.value });
     setErrors(validate({
@@ -293,7 +299,7 @@ export default function DetailPlace() {
               {datesCerradas &&
                 datesCerradas.map((date) => {
                   return (
-                    <div className="DateCard">
+                    <div key={date.date} className="DateCard">
                       <span className="date">{date.date}</span>
                       <span className="band">{date.musicBand}</span>
                     </div>
@@ -302,7 +308,7 @@ export default function DetailPlace() {
               {datesAvaible &&
                 datesAvaible.map((date) => {
                   return (
-                    <div className="DateCard">
+                    <div key={date.date} className="DateCard">
                       <span className="date">{date.date}</span>
                       <span className="available">{date.available ? "Disponible" : "Cerrada"}</span>
                     </div>
@@ -360,7 +366,7 @@ export default function DetailPlace() {
               {place.reviews &&
                 place.reviews.map((p) => {
                   return (
-                    <div className="coment">
+                    <div key={p._id} className="coment">
                       <div className="NameRating">
                         <span className="autor">{p.author}</span>
                         <span className="ratingcoment">Rating: {p.rating}</span>

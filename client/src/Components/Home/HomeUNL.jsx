@@ -192,6 +192,7 @@ const SecondVewStyleCont = styled.section`
 const CarsStyleCont = styled.section`
   width: 75%;
   height: fit-content;
+  margin-bottom: 100px;
   background-color: ${Colors.Green_Nigth};
   margin-top: 160px;
   padding-top: 50px;
@@ -333,7 +334,7 @@ function HomeUNL() {
   }, [dispatch]);
 
   const [reRender, setreRender] = useState(false);
-  
+
   // Pagination
   const [pageNumber, setPageNumber] = useState(1);
   const [cardsPerPage] = useState(10);

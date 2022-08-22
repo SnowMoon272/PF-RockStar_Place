@@ -230,14 +230,14 @@ function NavBar(props) {
         <div className="ContainButons">
           {props.LogIn ? (
             <div className="buttonLink">
-              <a className="Ancord" href="/Login">
+              <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogin} alt="ico-login" />
               </a>
               <h3 className="H3">Ingresar</h3>
             </div>
           ) : (
             <div className="buttonLinkLogOut">
-              <a className="Ancord" href="/Login">
+              <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogOut} alt="ico-login" />
               </a>
               <h3 className="H3">Salir</h3>
