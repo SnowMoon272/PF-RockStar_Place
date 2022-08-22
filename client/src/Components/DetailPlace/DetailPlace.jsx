@@ -68,20 +68,20 @@ const DetailStyleCont = styled.div`
         font-size: 45px;
         text-align: center;
         color: ${Colors.Green_Light};
-        }
+      }
 
       .description {
-        font-family: 'RocknRoll One';
+        font-family: "RocknRoll One";
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
-        }
+      }
 
-        .DatesCont {
-          color: ${Colors.Platinum};
-          /* .DateCard {
+      .DatesCont {
+        color: ${Colors.Platinum};
+        /* .DateCard {
             .date {
 
             }
@@ -89,78 +89,78 @@ const DetailStyleCont = styled.div`
         } */
       }
 
-        .comentar {
-          background: rgba(229, 229, 229, 0.5);
-          width: 100%;
-          height: 150px;
-          margin-top: 3%;
-          display: flex;
-          flex-direction: column;
-          padding: 2%;
-          box-sizing: border-box;
-            input {
-              width: 95%;
-              height: 80%;
-              background-color: transparent;
-              border: none;
-              color: ${Colors.Platinum};
-              font-family: 'RocknRoll One';
-              font-size: 16px;
-            }
-
-            .RateComentCont {
-              display: flex;
-              justify-content: space-between;
-
-              .RateCont {
-                /* display: flex; */
-
-                .rate {
-                  font-family: 'RocknRoll One';
-                  font-style: normal;
-                  font-weight: 400;
-                  font-size: 16px;
-                  text-align: justify;
-                  color: ${Colors.Platinum};
-                }
-
-                .buttons {
-                  display: flex;
-                  margin-top: 5%;
-                  
-                  button {
-                    margin-right: 4%;
-                  }
-                }
-              }
-
-              button {
-                width: 30%;
-              }
-            }
+      .comentar {
+        background: rgba(229, 229, 229, 0.5);
+        width: 100%;
+        height: 150px;
+        margin-top: 3%;
+        display: flex;
+        flex-direction: column;
+        padding: 2%;
+        box-sizing: border-box;
+        input {
+          width: 95%;
+          height: 80%;
+          background-color: transparent;
+          border: none;
+          color: ${Colors.Platinum};
+          font-family: "RocknRoll One";
+          font-size: 16px;
         }
 
-        .comentarios {
-          background: rgba(229, 229, 229, 0.5);
-          width: 100%;
-          margin-top: 3%;
+        .RateComentCont {
+          display: flex;
+          justify-content: space-between;
 
-          .coment{
-            font-family: 'RocknRoll One';
-              font-style: normal;               
+          .RateCont {
+            /* display: flex; */
+
+            .rate {
+              font-family: "RocknRoll One";
+              font-style: normal;
               font-weight: 400;
-              font-size: 15px;
+              font-size: 16px;
+              text-align: justify;
               color: ${Colors.Platinum};
-              margin: 4% 0%;
-              padding: 0% 3%;
-            .NameRating {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
             }
+
+            .buttons {
+              display: flex;
+              margin-top: 5%;
+
+              button {
+                margin-right: 4%;
+              }
+            }
+          }
+
+          button {
+            width: 30%;
           }
         }
       }
+
+      .comentarios {
+        background: rgba(229, 229, 229, 0.5);
+        width: 100%;
+        margin-top: 3%;
+
+        .coment {
+          font-family: "RocknRoll One";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 15px;
+          color: ${Colors.Platinum};
+          margin: 4% 0%;
+          padding: 0% 3%;
+          .NameRating {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
   }
 
   .SecondCont {
@@ -170,8 +170,8 @@ const DetailStyleCont = styled.div`
     padding: 2%;
 
     .stats {
-      font-family: 'RocknRoll One';
-      font-style: normal;               
+      font-family: "RocknRoll One";
+      font-style: normal;
       font-weight: 400;
       font-size: 15px;
       color: ${Colors.Platinum};
@@ -223,9 +223,11 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  const [render, setRender] = useState("");
 
-  useEffect(() => dispatch(getDetailPlace(params.email)), [dispatch]);
+  useEffect(() => {
+    if (place.length === 0) dispatch(getDetailPlace(params.email));
+    if (input.rating === "") dispatch(getDetailPlace(params.email));
+  }, [input]);
 
   const handleChange = (e) => {
     setInput({ ...input, comment: e.target.value });
@@ -237,16 +239,20 @@ export default function DetailPlace() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postComment({
-      review: {
-        author: "Usuario Anónimo",
-        comment: input.comment,
-        rating: Number(input.rating),
-      },
-      email: place.email,
-    }));
+    dispatch(
+      postComment({
+        review: {
+          author: "Usuario Anónimo",
+          comment: input.comment,
+          rating: Number(input.rating),
+        },
+        email: place.email,
+      })
+    );
     setInput({ rating: "", comment: "" });
-    dispatch(getDetailPlace(params.email));
+    setTimeout(() => {
+      setInput({ rating: "", comment: "" });
+    }, 1000);
   };
 
   return (
@@ -270,26 +276,24 @@ export default function DetailPlace() {
               </div>
             </OwlCarousel> */}
             <div className="DatesCont">
-              {
-                datesCerradas && datesCerradas.map((date) => {
+              {datesCerradas &&
+                datesCerradas.map((date) => {
                   return (
                     <div className="DateCard">
                       <span className="date">{date.date}</span>
                       <span className="band">{date.musicBand}</span>
                     </div>
                   );
-                })
-              }
-              {
-                datesAvaible && datesAvaible.map((date) => {
+                })}
+              {datesAvaible &&
+                datesAvaible.map((date) => {
                   return (
                     <div className="DateCard">
                       <span className="date">{date.date}</span>
                       <span className="available">{date.available ? "Disponible" : "Cerrada"}</span>
                     </div>
                   );
-                })
-              }
+                })}
             </div>
           </div>
           {/* <hr />
@@ -298,24 +302,39 @@ export default function DetailPlace() {
           <div className="DataCont">
             <span className="title">Comentarios</span>
             <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-              <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
+              <input
+                placeholder="Ingresa tu comentario"
+                className="input"
+                value={input.comment}
+                onChange={(e) => handleChange(e)}
+              />
               <div className="RateComentCont">
                 <div className="RateCont">
                   <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
                   <div className="buttons">
-                    <button type="button" value={1} onClick={(e) => handleClick(e)}>1</button>
-                    <button type="button" value={2} onClick={(e) => handleClick(e)}>2</button>
-                    <button type="button" value={3} onClick={(e) => handleClick(e)}>3</button>
-                    <button type="button" value={4} onClick={(e) => handleClick(e)}>4</button>
-                    <button type="button" value={5} onClick={(e) => handleClick(e)}>5</button>
+                    <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                      1
+                    </button>
+                    <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                      2
+                    </button>
+                    <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                      3
+                    </button>
+                    <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                      4
+                    </button>
+                    <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                      5
+                    </button>
                   </div>
                 </div>
                 <button type="submit">Comentar</button>
               </div>
             </form>
             <div className="comentarios">
-              {
-                place.reviews && place.reviews.map((p) => {
+              {place.reviews &&
+                place.reviews.map((p) => {
                   return (
                     <div className="coment">
                       <div className="NameRating">
@@ -326,8 +345,7 @@ export default function DetailPlace() {
                       <hr />
                     </div>
                   );
-                })
-              }
+                })}
             </div>
           </div>
         </div>
