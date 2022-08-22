@@ -249,11 +249,10 @@ const CarsStyleCont = styled.section`
 
       .FiltrosData {
         display: flex;
-        width: 200px;
         justify-content: space-between;
 
         p {
-          margin: 0px;
+          margin: 0px 15px;
           color: ${Colors.Platinum};
           font-size: 1.5rem;
         }
@@ -274,7 +273,7 @@ const CarsStyleCont = styled.section`
         transition: 0.2s;
         margin: 0px 10px 0px 0px;
         cursor: pointer;
-        ::after{
+        ::after {
           content: "";
           display: block;
           width: 25px;
@@ -413,7 +412,7 @@ function HomeUNL() {
           <img src={Logo} alt="Logo" />
         </div>
         <CarsStyleCont>
-          <h4>Conoce Nuestros Locales</h4>
+          <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
           <div className="Paginado">
             <Pagination
               cardsPerPage={cardsPerPage}
@@ -432,10 +431,10 @@ function HomeUNL() {
               Resetear Filtros
             </button>
             <div className="Filtros">
-              <h6>Filtros</h6>
+              {/* <h6>Filtros</h6> */}
               <div className="FiltrosData">
-                <p>Ciudad: {filters.Ciudad ? "✔️" : "❌"} </p>
-                <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
+                <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
               </div>
             </div>
             <button type="button" onClick={(e) => handleClickSort(e)}>
