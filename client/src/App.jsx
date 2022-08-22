@@ -3,9 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
 import Help from "./Components/Help/Help";
-import Faqs from "./Components/Faqs/Faqs";
+import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
-import Login from "./Components/Login/Login";
+import Registro from "./Components/Registro/Registro";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -18,9 +18,9 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
         <Route exact path="/help" element={<Help />} />
-        <Route exact path="/faqs" element={<Faqs />} />
+        <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
-        <Route exact path="/Login" element={<Login />} />
+        <Route exact path="/registro" element={<Registro />} />
       </Routes>
     </AppStyle>
   );

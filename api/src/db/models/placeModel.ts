@@ -51,20 +51,21 @@ export const getAllPlaces = async (city?: string, sound?: string) => {
 	}
 };
 
-const getAll = async() => {
-  return await place.find({}, PLACES_REQUIRED_INFO)
-}
-const getPlacesByCity = async(city:string) => {
-  return await place.find({city}, PLACES_REQUIRED_INFO)
-}
-const getPlacesBySound = async(sound: string) => {
-  let filter = sound === "sonidoSi" ? {hasSound: true} : {hasSound: false}
-  return await place.find(filter, PLACES_REQUIRED_INFO)
-}
-const getPlacesByCityAndSound = async(city:string, sound:string) => {
-  let filter = sound === "sonidoSi" ? {city: city, hasSound: true} : {city: city, hasSound: false}
-  return await place.find(filter, PLACES_REQUIRED_INFO)
-}
+const getAll = async () => {
+	return await place.find({}, PLACES_REQUIRED_INFO);
+};
+const getPlacesByCity = async (city: string) => {
+	return await place.find({ city }, PLACES_REQUIRED_INFO);
+};
+const getPlacesBySound = async (sound: string) => {
+	let filter = sound === "sonidoSi" ? { hasSound: true } : { hasSound: false };
+	return await place.find(filter, PLACES_REQUIRED_INFO);
+};
+const getPlacesByCityAndSound = async (city: string, sound: string) => {
+	let filter =
+		sound === "sonidoSi" ? { city: city, hasSound: true } : { city: city, hasSound: false };
+	return await place.find(filter, PLACES_REQUIRED_INFO);
+};
 
 /**
  * getPlace es la función encargada de retornar la información completa de un local según su email.
@@ -189,8 +190,8 @@ export const createPlace = async (newPlace: placeInterface) => {
 	newPlace.banned = false;
 
 	try {
-		await place.create(newPlace);
-		return await place.findOne({ email: newPlace.email });
+		let created = await place.create(newPlace);
+		return created;
 	} catch (error: any) {
 		return { error };
 	}
@@ -214,22 +215,21 @@ export const banHandler = async (email: string) => {
 	}
 };
 
-
 export const getPlaceByName = async (search: string) => {
-  try {
-      let placeResponse = await place.find({"name" : { "$regex" : search}})
-      if (placeResponse !== undefined) return placeResponse;
-      else return { error: "place not found" };
-  } catch (error) {
-      return {error}
-  }
+	try {
+		let placeResponse = await place.find({ name: { $regex: search, $options: "i" } });
+		if (placeResponse !== undefined) return placeResponse;
+		else return { error: "place not found" };
+	} catch (error) {
+		return { error };
+	}
 };
 
 export const getCities = async () => {
-  try {
-    const allCities = await place.find({}, {city : 1}).distinct("city");
-    return allCities;
-  } catch (error) {
-    return {error}
-  }
-}
+	try {
+		const allCities = await place.find({}, { city: 1 }).distinct("city");
+		return allCities;
+	} catch (error) {
+		return { error };
+	}
+};

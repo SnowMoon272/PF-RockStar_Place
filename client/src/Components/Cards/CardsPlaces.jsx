@@ -9,7 +9,7 @@ const CardsStyleCont = styled.div`
   background-color: ${color.Green_Nigth};
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 function CardsPlaces({ currentPlaces }) {
@@ -20,6 +20,7 @@ function CardsPlaces({ currentPlaces }) {
           return (
             <CardPlace
               key={place._id}
+              id={place._id}
               name={place.name}
               city={place.city}
               sound={place.hasSound ? "Sí" : "No"}
