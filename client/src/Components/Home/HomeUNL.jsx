@@ -354,15 +354,14 @@ function HomeUNL() {
     );
   };
 
-  const handleChangeSort = () => {
+  /* const handleChangeSort = () => {
     setChecked({ ...checked, checked: !checked });
     console.log(checked);
     if (!checked.checked) {
       setChecked({ ...checked, unorderedPlaces: allPlaces });
       console.log("copia original guardada");
     }
-
-  };
+  }; */
 
   /* const handleChangeSort = () => {
     setChecked(!checked.checked);

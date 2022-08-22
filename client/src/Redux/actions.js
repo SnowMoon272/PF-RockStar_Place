@@ -7,7 +7,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   UPDATE_FILTERS = "UPDATE_FILTERS",
   GET_CITIES = "GET_CITIES",
   POPULARITY_SORT = "POPULARITY_SORT",
-  PRUEBA = "PRUEBA";
+  PRUEBA = "PRUEBA",
+  POST_COMMENT = "POST_COMMENT";
 
 export function getPlacesByName(name) {
   const encodName = encodeURI(name);
@@ -105,5 +106,12 @@ export function updateFilters(data) {
   return {
     type: UPDATE_FILTERS,
     payload: data,
+  };
+}
+
+export function postComment(payload) {
+  return async (dispatch) => {
+    const json = await axios.post("http://localhost:3001/placereviews", payload);
+    return json;
   };
 }

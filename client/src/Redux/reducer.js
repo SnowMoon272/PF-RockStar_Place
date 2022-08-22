@@ -8,6 +8,7 @@ import {
   UPDATE_FILTERS,
   POPULARITY_SORT,
   PRUEBA,
+  POST_COMMENT,
 } from "./actions";
 
 const initialState = {
@@ -63,6 +64,10 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         places: action.payload,
+      };
+    case POST_COMMENT:
+      return {
+        ...state,
       };
     default:
       return state;
