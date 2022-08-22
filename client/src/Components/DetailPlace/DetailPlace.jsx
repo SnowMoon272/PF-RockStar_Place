@@ -252,20 +252,21 @@ export default function DetailPlace() {
     if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
     else if (Object.keys(errors).length) alert("Check for errors and try again");
     else {
-    dispatch(
-      postComment({
-        review: {
-          author: "Usuario Anónimo",
-          comment: input.comment,
-          rating: Number(input.rating),
-        },
-        email: place.email,
-      })
-    );
-    setInput({ rating: "", comment: "" });
-    setTimeout(() => {
+      dispatch(
+        postComment({
+          review: {
+            author: "Usuario Anónimo",
+            comment: input.comment,
+            rating: Number(input.rating),
+          },
+          email: place.email,
+        })
+      );
       setInput({ rating: "", comment: "" });
-    }, 1000);
+      setTimeout(() => {
+        setInput({ rating: "", comment: "" });
+      }, 1000);
+    }
   };
 
   return (
