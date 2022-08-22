@@ -19,13 +19,21 @@ const RegisterStyleContJr = styled.div`
   background-color: ${Colors.Green_Nigth};
   width: 70%;
   height: 70%;
+  font-family: "New Rocker", cursive;
+  font-size: 8rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function InciarSesion() {
   return (
     <RegisterStyleCont>
       <NavBar FondoImg Home />
-      <RegisterStyleContJr>sfdghdfg</RegisterStyleContJr>
+      <RegisterStyleContJr>
+        PROXIMAMENTE...
+      </RegisterStyleContJr>
     </RegisterStyleCont>
   );
 }

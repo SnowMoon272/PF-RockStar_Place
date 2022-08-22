@@ -371,26 +371,6 @@ function HomeUNL() {
     setreRender(!reRender);
   };
 
-  /* const handleChangeSort = () => {
-    setChecked({ ...checked, checked: !checked });
-    console.log(checked);
-    if (!checked.checked) {
-      setChecked({ ...checked, unorderedPlaces: allPlaces });
-      console.log("copia original guardada");
-    }
-  }; */
-
-  /* const handleChangeSort = () => {
-    setChecked(!checked.checked);
-    console.log(checked);
-    if (checked.checked) {
-      setChecked({ ...checked, unorderedPlaces: allPlaces });
-      dispatch(popularitySort(allPlaces));
-      setPageNumber(1);
-    } else dispatch(stateprueba(checked.unorderedPlaces));
-    setPageNumber(1);
-  }; */
-
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
@@ -416,7 +396,7 @@ function HomeUNL() {
           <a href="#SecondVewStyleCont" className="Link">
             <div className="FondoVerde">+250 Locales</div>
           </a>
-          <Link to="/registrar" className="Link">
+          <Link to="/registro" className="Link">
             <div className="FondoVerde">¡Registrate ahora!</div>
           </Link>
         </div>

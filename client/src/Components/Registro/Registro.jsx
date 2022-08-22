@@ -186,7 +186,7 @@ const LoginEmail = styled.div`
   }
 `;
 
-function Login() {
+function Registro() {
   return (
     <LoginStyleCont>
       <NavBar Home FondoImg />
@@ -212,4 +212,4 @@ function Login() {
   );
 };
 
-export default Login;
+export default Registro;

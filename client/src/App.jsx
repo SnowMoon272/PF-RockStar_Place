@@ -5,7 +5,7 @@ import HomeUNL from "./Components/Home/HomeUNL";
 import Help from "./Components/Help/Help";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
-import Login from "./Components/Login/Login";
+import Registro from "./Components/Registro/Registro";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
-        <Route exact path="/Login" element={<Login />} />
+        <Route exact path="/registro" element={<Registro />} />
       </Routes>
     </AppStyle>
   );
