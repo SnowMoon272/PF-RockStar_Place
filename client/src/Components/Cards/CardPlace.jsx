@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import color from "../../Utils/colors";
@@ -92,7 +93,7 @@ const CardStyleCont = styled.div`
   }
 `;
 
-function CardPlace({ name, city, rating, image, sound }) {
+function CardPlace({ id, name, city, rating, image, sound }) {
   return (
     <CardStyleCont>
       <div className="CardInfo">

@@ -5,6 +5,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
+  POST_COMMENT = "POST_COMMENT";
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES";
 
@@ -97,5 +98,12 @@ export function popularitySort(payload) {
   return {
     type: POPULARITY_SORT,
     payload,
+  };
+}
+
+export function postComment(payload) {
+  return async (dispatch) => {
+    const json = await axios.post("http://localhost:3001/placereviews", payload);
+    return json;
   };
 }

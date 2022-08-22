@@ -20,6 +20,7 @@ function CardsPlaces({ currentPlaces }) {
           return (
             <CardPlace
               key={place._id}
+              id={place._id}
               name={place.name}
               city={place.city}
               sound={place.hasSound ? "Sí" : "No"}

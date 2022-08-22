@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable comma-dangle */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -257,6 +258,53 @@ const CarsStyleCont = styled.section`
         }
       }
     }
+
+    .SwitchCont {
+      display: flex;
+      align-items: center;
+
+      label {
+        display: inline-block;
+        width: 65px;
+        height: 33px;
+        background-color: ${Colors.Platinum};
+        border-radius: 100px;
+        position: relative;
+        transition: 0.2s;
+        margin: 0px 10px 0px 0px;
+        cursor: pointer;
+        ::after{
+          content: "";
+          display: block;
+          width: 25px;
+          height: 25px;
+          background-color: ${Colors.Green_Nigth};
+          border-radius: 100px;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          transition: 0.2s;
+        }
+      }
+
+      #switch:checked + label::after {
+        left: 36px;
+      }
+
+      #switch:checked + label {
+        background-color: ${Colors.Green_Light};
+      }
+
+      #switch {
+        display: none;
+      }
+
+      .title {
+        font-family: "RocknRoll One", sans-serif;
+        font-size: 20px;
+        color: ${Colors.Platinum};
+      }
+    }
   }
   .ContainerCards {
     position: relative;
@@ -284,9 +332,8 @@ function HomeUNL() {
     dispatch(getPlaces());
   }, [dispatch]);
 
-  // eslint-disable-next-line no-unused-vars
   const [reRender, setreRender] = useState(false);
-
+  
   // Pagination
   const [pageNumber, setPageNumber] = useState(1);
   const [cardsPerPage] = useState(10);
@@ -323,6 +370,26 @@ function HomeUNL() {
     setreRender(!reRender);
   };
 
+  /* const handleChangeSort = () => {
+    setChecked({ ...checked, checked: !checked });
+    console.log(checked);
+    if (!checked.checked) {
+      setChecked({ ...checked, unorderedPlaces: allPlaces });
+      console.log("copia original guardada");
+    }
+  }; */
+
+  /* const handleChangeSort = () => {
+    setChecked(!checked.checked);
+    console.log(checked);
+    if (checked.checked) {
+      setChecked({ ...checked, unorderedPlaces: allPlaces });
+      dispatch(popularitySort(allPlaces));
+      setPageNumber(1);
+    } else dispatch(stateprueba(checked.unorderedPlaces));
+    setPageNumber(1);
+  }; */
+
   return (
     <HomeStyleCont>
       {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
@@ -349,7 +416,7 @@ function HomeUNL() {
             <div className="FondoVerde">+250 Locales</div>
           </a>
           <Link to="/registrar" className="Link">
-            <div className="FondoVerde">¡Registrate ahora¡</div>
+            <div className="FondoVerde">¡Registrate ahora!</div>
           </Link>
         </div>
         <a href="#SecondVewStyleCont" className="SVGDown">
@@ -398,7 +465,7 @@ function HomeUNL() {
             {currentCards.length ? (
               <CardsPlaces currentPlaces={currentCards} />
             ) : (
-              <div className="NotFound"> !No se encontraron resultados! </div>
+              <div className="NotFound"> ¡No se encontraron resultados! </div>
             )}
           </div>
           <Pagination
