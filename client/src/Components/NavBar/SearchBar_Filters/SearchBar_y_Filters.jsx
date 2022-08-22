@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlacesByName, getCities, filteredPlaces, updateFilters } from "../../../Redux/actions";
 import Colors from "../../../Utils/colors";
+import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 const SearchBarYFiltersStyled = styled.div`
   display: ${(props) => (props.Active ? "flex" : "none")};
@@ -29,6 +30,25 @@ const SearchBarYFiltersStyled = styled.div`
       font-size: 4rem;
       text-align: center;
       margin: 30px;
+    }
+
+    .BTNCerrar {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background-color: ${Colors.Green_Nigth};
+      border: none;
+      width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
   }
 
@@ -113,6 +133,33 @@ export default function SearchBarYFilters(props) {
     setName(e.target.value);
   };
 
+  const handlerSubmintCloseSearch = (e) => {
+    e.preventDefault();
+    props.setNavState({
+      ...props.navState,
+      Active: !props.navState.Active,
+      Search: !props.navState.Search,
+    });
+  };
+
+  const handlerSubmintCloseCity = (e) => {
+    e.preventDefault();
+    props.setNavState({
+      ...props.navState,
+      Active: !props.navState.Active,
+      FilterCities: !props.navState.FilterCities,
+    });
+  };
+
+  const handlerSubmintCloseSound = (e) => {
+    e.preventDefault();
+    props.setNavState({
+      ...props.navState,
+      Active: !props.navState.Active,
+      FilterSounds: !props.navState.FilterSounds,
+    });
+  };
+
   const handlerSubmintSearch = (e) => {
     e.preventDefault();
     dispatch(getPlacesByName(name));
@@ -129,6 +176,10 @@ export default function SearchBarYFilters(props) {
         Sonido: false,
       }),
     );
+    props.setFilter({
+      FilterCities: "",
+      FilterSounds: "",
+    });
   };
 
   const handlerSubmintFilterCity = (e) => {
@@ -173,6 +224,14 @@ export default function SearchBarYFilters(props) {
         <>
           <div className="ContainerTitle">
             <h4>Busqueda por Local</h4>
+            <button
+              name="Search"
+              onClick={(e) => handlerSubmintCloseSearch(e)}
+              type="button"
+              className="BTNCerrar"
+            >
+              <img src={SVGCerrar} alt="" />
+            </button>
           </div>
           <div className="ContainerSearch">
             <input
@@ -191,6 +250,14 @@ export default function SearchBarYFilters(props) {
         <>
           <div className="ContainerTitle">
             <h4>Filtrar por Ciudad</h4>
+            <button
+              name="FilterCities"
+              onClick={(e) => handlerSubmintCloseCity(e)}
+              type="button"
+              className="BTNCerrar"
+            >
+              <img src={SVGCerrar} alt="" />
+            </button>
           </div>
           <div className="ContainerSound Select">
             <select
@@ -221,6 +288,14 @@ export default function SearchBarYFilters(props) {
         <>
           <div className="ContainerTitle">
             <h4>Locales con equipo de Audio</h4>
+            <button
+              name="FilterSounds"
+              onClick={(e) => handlerSubmintCloseSound(e)}
+              type="button"
+              className="BTNCerrar"
+            >
+              <img src={SVGCerrar} alt="" />
+            </button>
           </div>
           <div className="ContainerSound Select">
             <select
