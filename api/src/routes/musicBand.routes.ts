@@ -14,7 +14,7 @@ export const f = {};
 router.get("/musicbands", getAllBandsController);
 router.post("/musicbands", createMusicBandController);
 router.post("/bandreviews", addBandReviewController);
-router.get("/musicband", getMusicBandByIDController);
+router.get("/musicband/:id", getMusicBandByIDController);
 router.put("/musicband", updateMusicBandController);
 
 module.exports = router;
