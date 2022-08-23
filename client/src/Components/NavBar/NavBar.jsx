@@ -1,10 +1,19 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable react/destructuring-assignment */
+
+/* React stuff */
 import React, { useState } from "react";
+
+/* Modules */
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../../Assets/img/guitar-logo-icon.png";
+import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
+
+/* Components & Actions */
 import Colors from "../../Utils/colors";
+
+/* Form Img & SVG */
+import Logo from "../../Assets/img/guitar-logo-icon.png";
 import BGImg from "../../Assets/img/Metal.jpg";
 import BTNLogin from "../../Assets/svg/Ingresar.svg";
 import BTNSearch from "../../Assets/svg/Buscar.svg";
@@ -14,7 +23,9 @@ import BTNHelp from "../../Assets/svg/Ayuda.svg";
 import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
-import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
+import BTNUser from "../../Assets/svg/User.svg";
+
+/* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 
 const NavBarStyle = styled.nav`
   position: relative;
@@ -140,13 +151,15 @@ const NavBarStyle = styled.nav`
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         height: 70%;
 
         .H3 {
           margin: 4px;
           color: white;
-          margin-bottom: 25px;
+          margin-bottom: 15px;
         }
+
         .Butons {
           display: flex;
           justify-content: center;
@@ -163,9 +176,14 @@ const NavBarStyle = styled.nav`
         }
 
         .Butons img {
-          width: 24px;
-          height: 24px;
+          width: 27px;
+          height: 27px;
           padding: 6px;
+        }
+
+        .Perfil img {
+          width: 50px;
+          height: 50px;
         }
 
         .Link {
@@ -178,7 +196,9 @@ const NavBarStyle = styled.nav`
   }
 `;
 
+/* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function NavBar(props) {
+  /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
     Search: false,
@@ -186,6 +206,7 @@ function NavBar(props) {
     FilterSounds: false,
   });
 
+  /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handlerClickSearch = (e) => {
     setNavState({
       ...navState,
@@ -209,6 +230,8 @@ function NavBar(props) {
       Active: !navState.Active,
     });
   };
+
+  /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
     <NavBarStyle FondoImg={props.FondoImg}>
@@ -307,10 +330,10 @@ function NavBar(props) {
             )}
             {props.Edit && (
               <>
-                <button type="button" className="Butons">
-                  <img src={BTNEdit} alt="ico-filtro" />
+                <button type="button" className="Butons Perfil">
+                  <img src={BTNUser} alt="ico-filtro" />
                 </button>
-                <h3 className="H3">Editar</h3>
+                <h3 className="H3">Perfil</h3>
               </>
             )}
           </div>

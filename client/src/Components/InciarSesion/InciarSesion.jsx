@@ -30,7 +30,7 @@ const RegisterStyleContJr = styled.div`
 function InciarSesion() {
   return (
     <RegisterStyleCont>
-      <NavBar LogIn FondoImg Home />
+      <NavBar LogIn Home FondoImg />
       <RegisterStyleContJr>PROXIMAMENTE...</RegisterStyleContJr>
     </RegisterStyleCont>
   );
