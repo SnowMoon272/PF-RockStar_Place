@@ -1,6 +1,5 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable comma-dangle */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -29,23 +28,24 @@ const NavBarStyle = styled.nav`
   position: fixed;
   left: 0px;
   top: 0px;
-  min-width: 80px;
+  max-width: 80px;
   height: 100vh;
   box-shadow: 0px -4px 20px rgb(217, 217, 217);
+  letter-spacing: 1px;
 
   .Search_Filter {
     position: absolute;
-    left: 80px;
-    top: 285px;
+    left: 90px;
+    top: 280px;
   }
 
   .Logo {
     position: relative;
     top: 0px;
     margin: 0px;
-    padding: 30px 0px;
-    width: 78px;
-    height: 84px;
+    padding: 30px 0px 0px 0px;
+    width: 70px;
+    height: 80px;
   }
 
   .FondoVerde {
@@ -87,8 +87,8 @@ const NavBarStyle = styled.nav`
           justify-content: center;
           border: 4px solid black;
           border-radius: 50%;
-          width: 54px;
-          height: 54px;
+          width: 44px;
+          height: 44px;
           background-color: white;
           transition: all 0.5s ease;
           :hover {
@@ -97,8 +97,8 @@ const NavBarStyle = styled.nav`
           }
 
           img {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
           }
         }
@@ -120,8 +120,8 @@ const NavBarStyle = styled.nav`
           cursor: pointer;
           img {
             transition: all 0.5s ease;
-            width: 62px;
-            height: 62px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
           }
         }
@@ -151,8 +151,8 @@ const NavBarStyle = styled.nav`
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 62px;
-          height: 62px;
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
           border: solid black 4.5px;
           transition: all 0.5s ease;
@@ -163,14 +163,14 @@ const NavBarStyle = styled.nav`
         }
 
         .Butons img {
-          width: 34px;
-          height: 34px;
+          width: 24px;
+          height: 24px;
           padding: 6px;
         }
 
         .Link {
-          width: 55px;
-          height: 55px;
+          width: 45px;
+          height: 45px;
           background-color: white;
         }
       }
@@ -244,6 +244,14 @@ function NavBar(props) {
             </div>
           )}
           <div className="ButonsEdits">
+            {props.Home && (
+              <>
+                <Link to="/" className="Butons Link">
+                  <img src={BTNHome} alt="ico-filtro" />
+                </Link>
+                <h3 className="H3">Home</h3>
+              </>
+            )}
             {props.Buscar && (
               <>
                 <button
@@ -287,14 +295,6 @@ function NavBar(props) {
                   <img src={BTNFiltro} alt="ico-filtro" />
                 </button>
                 <h3 className="H3">Sonido</h3>
-              </>
-            )}
-            {props.Home && (
-              <>
-                <Link to="/" className="Butons Link">
-                  <img src={BTNHome} alt="ico-filtro" />
-                </Link>
-                <h3 className="H3">Home</h3>
               </>
             )}
             {props.Eventos && (
