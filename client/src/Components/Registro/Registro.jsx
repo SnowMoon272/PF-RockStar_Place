@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
@@ -205,6 +205,40 @@ const LoginEmail = styled.div`
 `;
 
 function Registro() {
+
+  const [input, setInput] = useState({
+    Password: "",
+    PasswordR: "",
+    Email: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  function validate(input) {
+    const errors = {};
+    if (!input.Password) {
+      errors.Password = "Ingresar contraseña";
+    }
+    if (!input.PasswordR) {
+      errors.PasswordR = "Repetir contraseña";
+    }
+    if (input.Password !== input.PasswordR) {
+      errors.PasswordR = "Las contraseñas no coinciden";
+    }
+    if (!input.Email) {
+      errors.Email = "Ingresar contraseña";
+    }
+    return errors;
+  };
+
+  function handleChange(e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+    setErrors(validate({ ...input, [e.target.name]: e.target.value }));
+  };
+
   return (
     <LoginStyleCont>
       <NavBar LogIn Home FondoImg />
@@ -223,10 +257,49 @@ function Registro() {
           </button>
         </LoginRed>
         <LoginEmail>
-          <h3>Registrate con tu e-mail</h3>
-          <input type="text" className="email" placeholder="Ingresa con tu e-mail" />
-          <input type="text" className="password" placeholder="Ingresa una contraseña" />
-          <input type="text" className="passwordRepeat" placeholder="Repite la contraseña" />
+          <div className="emailRegistro">
+            <h3>Registrate con tu e-mail</h3>
+            <input
+              type="email"
+              className="email"
+              placeholder="Ingresa con tu e-mail"
+              name="Email"
+              // eslint-disable-next-line react/jsx-no-bind
+              onChange={handleChange}
+              value={input.Email}
+            />
+            {errors.Email && (
+              <p className="error">{errors.Email}</p>
+            )}
+          </div>
+          <div className="PasswordRegistro">
+            <input
+              type="text"
+              className="password"
+              placeholder="Ingresa una contraseña"
+              name="Password"
+              // eslint-disable-next-line react/jsx-no-bind
+              onChange={handleChange}
+              value={input.Password}
+            />
+            {errors.Password && (
+              <p className="error">{errors.Password}</p>
+            )}
+          </div>
+          <div className="PasswordRRegistro">
+            <input
+              type="text"
+              className="passwordRepeat"
+              placeholder="Repite la contraseña"
+              name="PasswordR"
+              // eslint-disable-next-line react/jsx-no-bind
+              onChange={handleChange}
+              value={input.PasswordR}
+            />
+            {errors.PasswordR && (
+              <p className="error">{errors.Password}</p>
+            )}
+          </div>
           <div className="Tyc">
             <input type="checkbox" />
             <h4>
