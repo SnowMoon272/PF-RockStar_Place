@@ -1,3 +1,5 @@
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable indent */
 /* React stuff */
 import React, { useState, useEffect } from "react";
 
@@ -14,25 +16,25 @@ import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const SearchBarYFiltersStyled = styled.div`
-  display: ${(props) => (props.Active ? "flex" : "none")};
+  display: ${({ Active }) => (Active ? "flex" : "none")};
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border: solid black 3px;
-  background-color: ${Colors.Green_Light};
+  background-color: ${({ UserLog }) => (UserLog ? Colors.Oxford_Blue : Colors.Green_Light)};
   min-height: 200px;
   width: 470px;
   border-radius: 15px;
 
   .ContainerTitle {
-    background-color: ${Colors.Green_Nigth};
+    background-color: ${({ UserLog }) => (UserLog ? Colors.Platinum : Colors.Green_Nigth)};
     border-radius: 15px;
     margin: 25px;
     width: 90%;
 
     h4 {
       font-family: "New Rocker", cursive;
-      color: ${Colors.Platinum};
+      color: ${({ UserLog }) => (UserLog ? Colors.Erie_Black : Colors.Platinum)};
       font-size: 4rem;
       text-align: center;
       margin: 30px;
@@ -42,7 +44,7 @@ const SearchBarYFiltersStyled = styled.div`
       position: absolute;
       top: 6px;
       right: 6px;
-      background-color: ${Colors.Green_Nigth};
+      background-color: ${Colors.Erie_Black};
       border: none;
       width: 29px;
       height: 29px;
@@ -75,12 +77,14 @@ const SearchBarYFiltersStyled = styled.div`
     }
 
     button {
+      font-family: "RocknRoll One", sans-serif;
       width: 130px;
       border-radius: 7px;
       transition: all 0.5s ease;
-      background-color: ${Colors.Green_Nigth};
-      color: ${Colors.Platinum};
+      background-color: ${({ UserLog }) => (UserLog ? Colors.Platinum : Colors.Green_Nigth)};
+      color: ${({ UserLog }) => (UserLog ? Colors.Erie_Black : Colors.Platinum)};
       font-size: 1.8rem;
+      font-weight: bold;
       :hover {
         cursor: pointer;
         transform: scale(1.1);
@@ -89,7 +93,7 @@ const SearchBarYFiltersStyled = styled.div`
   }
 
   .ContainerSound {
-    background-color: ${Colors.Green_Nigth};
+    background-color: ${({ UserLog }) => (UserLog ? Colors.Platinum : Colors.Green_Nigth)};
     border-radius: 15px;
     margin-bottom: 25px;
     width: 90%;
@@ -103,8 +107,8 @@ const SearchBarYFiltersStyled = styled.div`
 
     .StyleSelect {
       font-family: "RocknRoll One", sans-serif;
-
-      background-color: ${Colors.Green_Light};
+      background-color: ${({ UserLog }) => (UserLog ? Colors.Oxford_Blue : Colors.Green_Light)};
+      color: ${({ UserLog }) => (UserLog ? Colors.Platinum : Colors.Erie_Black)};
       border-radius: 25px;
       text-align: center;
       width: 90%;
@@ -131,6 +135,7 @@ export default function SearchBarYFilters({
   Search,
   FilterCities,
   FilterSounds,
+  UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const filters = useSelector((state) => state.filters);
@@ -236,7 +241,7 @@ export default function SearchBarYFilters({
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
-    <SearchBarYFiltersStyled Active={Active}>
+    <SearchBarYFiltersStyled UserLog={UserLog} Active={Active}>
       {Search && (
         <>
           <div className="ContainerTitle">
