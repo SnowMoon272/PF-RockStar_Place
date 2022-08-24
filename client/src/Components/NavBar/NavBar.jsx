@@ -100,7 +100,7 @@ const NavBarStyle = styled.nav`
           transition: all 0.5s ease;
           :hover {
             cursor: pointer;
-            transform: scale(1.1);
+            transform: scale(1.2);
           }
 
           img {
@@ -120,7 +120,7 @@ const NavBarStyle = styled.nav`
         font-size: 1.2rem;
 
         & img:hover {
-          transform: scale(1.1);
+          transform: scale(1.2);
         }
 
         .Ancord {
@@ -166,7 +166,7 @@ const NavBarStyle = styled.nav`
           border: solid black 4.5px;
           transition: all 0.5s ease;
           :hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
             cursor: pointer;
           }
         }
@@ -205,6 +205,9 @@ function NavBar({
   Home,
   Buscar,
   FiltroA,
+  HomeLinkBanda,
+  HelpLog,
+  UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
@@ -254,6 +257,7 @@ function NavBar({
           navState={navState}
           setFilter={setFilter}
           filter={filter}
+          UserLog={UserLog}
         />
       </div>
       <div className="FondoVerde">
@@ -277,7 +281,7 @@ function NavBar({
           <div className="ButonsEdits">
             {Home && (
               <>
-                <Link to="/" className="Butons Link">
+                <Link to={HomeLinkBanda ? "/home/band" : "/"} className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Home</h3>
@@ -338,7 +342,7 @@ function NavBar({
             )}
             {Perfil && (
               <>
-                <Link to="/" className="Butons Link">
+                <Link to="/" className="Butons Link Perfil">
                   <img src={BTNUser} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Perfil</h3>
@@ -346,7 +350,7 @@ function NavBar({
             )}
           </div>
           <div className="buttonLink">
-            <a className="Ancord" href="/help">
+            <a className="Ancord" href={HelpLog ? "/help/logeado" : "/help"}>
               <img className="FoundIMG" src={BTNHelp} alt="Help" />
             </a>
             <h3 className="H3">Ayuda</h3>

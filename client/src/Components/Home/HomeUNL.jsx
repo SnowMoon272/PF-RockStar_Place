@@ -380,8 +380,7 @@ function HomeUNL() {
 
   return (
     <HomeStyleCont>
-      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg /> Ejemplo con todo lo que */}
-      puede llevar.
+      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
       <NavBar
         LogIn
         Buscar
