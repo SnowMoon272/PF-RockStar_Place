@@ -24,14 +24,11 @@ const getAllBandsController = async (req: Request, res: Response) => {
 };
 
 const updateMusicBandController = async (req: any, res: any) => {
-	const { email, newData } = req.body;
-	if (newData) {
+	const { email, data } = req.body;
+	if (data) {
 		try {
-			let updated = await updateMusicBand(email, newData);
-			if (updated)
-				return res
-					.status(201)
-					.send({ msg: "Se actualizó la banda correctamente" });
+			let updated = await updateMusicBand(email, data);
+			if (updated) return res.status(201).send({ msg: "Se actualizó la banda correctamente" });
 			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo actualizar la banda" });
@@ -40,15 +37,14 @@ const updateMusicBandController = async (req: any, res: any) => {
 		res.status(404).send({ msg: "Data faltante o incorrecta" });
 	}
 };
+
 const createMusicBandController = async (req: any, res: any) => {
 	const musicBand = req.body.newMusicBand;
 	if (musicBand) {
 		try {
 			let created = await createMusicBand(musicBand);
 			if (created.hasOwnProperty("error"))
-				return res
-					.status(400)
-					.send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó la banda correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
