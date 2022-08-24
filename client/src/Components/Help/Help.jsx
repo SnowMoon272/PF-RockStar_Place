@@ -10,7 +10,7 @@ const StyledContenedor = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 80px;
+  padding-left: 75px;
   height: fit-content;
 
   .logoayuda {
