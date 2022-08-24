@@ -76,7 +76,7 @@ const LoginRed = styled.div`
   width: 501px;
   height: 289px;
   left: 100px;
-  top: 441px;
+  top: 350px;
 
   display: flex;
   flex-direction: column;
@@ -142,7 +142,7 @@ const LoginEmail = styled.div`
   width: 493px;
   height: 499.33px;
   left: 700px;
-  top: 441px;
+  top: 350px;
 
   display: flex;
   flex-direction: column;
@@ -198,13 +198,29 @@ const LoginEmail = styled.div`
     color: rgba(229, 229, 229, 0.42);
   }
 
+  .error{
+    color: red;
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 19px;
+  }
+
   .Tyc{
     display: flex;
     flex-direction: row;
+    //font-family: "RocknRoll One";
+    //font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 19px;
   }
 `;
 
 function Registro() {
+
+  //const history = useHistory();
 
   const [input, setInput] = useState({
     Password: "",
@@ -239,6 +255,18 @@ function Registro() {
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    //dispatch(REGISTRO(input));
+    alert("Usuario creado con exito");
+    setInput({
+      Password: "",
+      PasswordR: "",
+      Email: "",
+    });
+    //history.push("/home");
+  };
+
   return (
     <LoginStyleCont>
       <NavBar LogIn Home FondoImg />
@@ -257,58 +285,60 @@ function Registro() {
           </button>
         </LoginRed>
         <LoginEmail>
-          <div className="emailRegistro">
-            <h3>Registrate con tu e-mail</h3>
-            <input
-              type="email"
-              className="email"
-              placeholder="Ingresa con tu e-mail"
-              name="Email"
-              // eslint-disable-next-line react/jsx-no-bind
-              onChange={handleChange}
-              value={input.Email}
-            />
-            {errors.Email && (
-              <p className="error">{errors.Email}</p>
-            )}
-          </div>
-          <div className="PasswordRegistro">
-            <input
-              type="text"
-              className="password"
-              placeholder="Ingresa una contraseña"
-              name="Password"
-              // eslint-disable-next-line react/jsx-no-bind
-              onChange={handleChange}
-              value={input.Password}
-            />
-            {errors.Password && (
-              <p className="error">{errors.Password}</p>
-            )}
-          </div>
-          <div className="PasswordRRegistro">
-            <input
-              type="text"
-              className="passwordRepeat"
-              placeholder="Repite la contraseña"
-              name="PasswordR"
-              // eslint-disable-next-line react/jsx-no-bind
-              onChange={handleChange}
-              value={input.PasswordR}
-            />
-            {errors.PasswordR && (
-              <p className="error">{errors.Password}</p>
-            )}
-          </div>
-          <div className="Tyc">
-            <input type="checkbox" />
-            <h4>
-              Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
-            </h4>
-          </div>
-          <button type="button" className="registro">
-            Registrarse
-          </button>
+          <form className="form" onSubmit={(e) => handleSubmit(e)}>
+            <div className="emailRegistro">
+              <h3>Registrate con tu e-mail</h3>
+              <input
+                type="email"
+                className="email"
+                placeholder="Ingresa con tu e-mail"
+                name="Email"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.Email}
+              />
+              {errors.Email && (
+                <p className="error">{errors.Email}</p>
+              )}
+            </div>
+            <div className="PasswordRegistro">
+              <input
+                type="text"
+                className="password"
+                placeholder="Ingresa una contraseña"
+                name="Password"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.Password}
+              />
+              {errors.Password && (
+                <p className="error">{errors.Password}</p>
+              )}
+            </div>
+            <div className="PasswordRRegistro">
+              <input
+                type="text"
+                className="passwordRepeat"
+                placeholder="Repite la contraseña"
+                name="PasswordR"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.PasswordR}
+              />
+              {errors.PasswordR && (
+                <p className="error">{errors.PasswordR}</p>
+              )}
+            </div>
+            <div className="Tyc">
+              <input type="checkbox" />
+              <h4>
+                Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
+              </h4>
+            </div>
+            <button type="submit" className="registro" disabled={!input.Email || !input.Password || !input.PasswordR || input.Password !== input.PasswordR}>
+              Registrarse
+            </button>
+          </form>
         </LoginEmail>
       </LoginStyleCont2>
     </LoginStyleCont>
