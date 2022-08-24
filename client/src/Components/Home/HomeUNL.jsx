@@ -1,18 +1,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable comma-dangle */
+
+/* React stuff */
 import React, { useEffect, useState } from "react";
+
+/* Modules */
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+/* Components & Actions */
 import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
+import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
+import NavBar from "../NavBar/NavBar";
+
+/* Form Img & SVG */
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
-import NavBar from "../NavBar/NavBar";
-import Pagination from "../Pagination/Pagination";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -372,7 +380,8 @@ function HomeUNL() {
 
   return (
     <HomeStyleCont>
-      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
+      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg /> Ejemplo con todo lo que */}
+      puede llevar.
       <NavBar
         LogIn
         Buscar
@@ -403,7 +412,6 @@ function HomeUNL() {
           <img src={SVGDown} alt="Down" />
         </a>
       </FirtVewStyleCont>
-
       <SecondVewStyleCont id="SecondVewStyleCont">
         <div className="ContenidoPrevio">
           <button type="button" className="Link">

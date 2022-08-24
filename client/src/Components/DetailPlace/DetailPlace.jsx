@@ -239,18 +239,22 @@ export default function DetailPlace() {
 
   const handleChange = (e) => {
     setInput({ ...input, comment: e.target.value });
-    setErrors(validate({
-      ...input,
-      comment: e.target.value,
-    }));
+    setErrors(
+      validate({
+        ...input,
+        comment: e.target.value,
+      }),
+    );
   };
 
   const handleClick = (e) => {
     setInput({ ...input, rating: e.target.value });
-    setErrors(validate({
-      ...input,
-      rating: e.target.value,
-    }));
+    setErrors(
+      validate({
+        ...input,
+        rating: e.target.value,
+      }),
+    );
   };
 
   const handleSubmit = (e) => {
@@ -266,7 +270,7 @@ export default function DetailPlace() {
             rating: Number(input.rating),
           },
           email: place.email,
-        })
+        }),
       );
       setInput({ rating: "", comment: "" });
       setTimeout(() => {
@@ -349,16 +353,8 @@ export default function DetailPlace() {
                     </button>
                   </div>
                 </div>
-                {
-                  errors.comment && (
-                    <span>{errors.comment}</span>
-                  )
-                }
-                {
-                  errors.rating && (
-                    <span>{errors.rating}</span>
-                  )
-                }
+                {errors.comment && <span>{errors.comment}</span>}
+                {errors.rating && <span>{errors.rating}</span>}
                 <button type="submit">Comentar</button>
               </div>
             </form>
