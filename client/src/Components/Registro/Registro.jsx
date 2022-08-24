@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -82,59 +82,34 @@ const LoginRed = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .BTNFace {
-    /* position: absolute; */
-    width: 493px;
-    height: 65px;
-    left: 449px;
-    top: 567px;
-    background: #4285f4;
-    border-radius: 10px;
+  /* margin: 25px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; */
 
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 27px;
-    line-height: 39px;
+  button {
+    font-family: "RocknRoll One", sans-serif;
+    margin: 8px 0px;
+    width: 75%;
+    height: 60px;
+    background-color: #394b6e;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    text-align: center;
-    color: #ffffff;
-    -webkit-appearance: button;
-    cursor: pointer;
 
-    img{
-      width: 55px;
-      height: 55px;
+    & img {
+      width: 40px;
+      height: 40px;
+    }
+
+    & p {
+      font-size: 2rem;
+      margin: 0px auto;
+      color: ${Colors.Platinum};
     }
   }
-
-  .BTNGoogle {
-    /* position: absolute; */
-    width: 493px;
-    height: 65px;
-    left: 449px;
-    top: 665px;
-    background: #4285f4;
-    border-radius: 10px;
-
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 27px;
-    line-height: 39px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #ffffff;
-    -webkit-appearance: button;
-    cursor: pointer;
-
-    img{
-      width: 55px;
-      height: 55px;
-    } 
-  }
+  
 `;
 
 const LoginEmail = styled.div`
@@ -147,6 +122,16 @@ const LoginEmail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .inptus{
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
 
   .email {
     /* position: absolute; */
@@ -162,7 +147,15 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
   }
 
   .password {
@@ -179,7 +172,15 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
   }
 
   .passwordRepeat {
@@ -195,7 +196,15 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
   }
 
   .error{
@@ -220,7 +229,7 @@ const LoginEmail = styled.div`
 
 function Registro() {
 
-  //const history = useHistory();
+  const navigate = useNavigate();
 
   const [input, setInput] = useState({
     Password: "",
@@ -264,7 +273,7 @@ function Registro() {
       PasswordR: "",
       Email: "",
     });
-    //history.push("/home");
+    navigate("/");
   };
 
   return (
@@ -275,13 +284,13 @@ function Registro() {
         <h2>Registrate como local o banda</h2>
         <LoginRed>
           <h3>Registrate con una red social</h3>
-          <button type="button" className="BTNFace">
-            <img src={SVGFacebook} alt="face" />
-            Registrate con Facebook
+          <button type="button">
+            <img src={SVGFacebook} alt="" />
+            <p>Registrate con Facebook</p>
           </button>
-          <button type="button" className="BTNGoogle">
-            <img src={SVGGoogle} alt="google" />
-            Registrate con Google
+          <button type="button">
+            <img src={SVGGoogle} alt="" />
+            <p>Registrate con Google</p>
           </button>
         </LoginRed>
         <LoginEmail>
@@ -303,7 +312,7 @@ function Registro() {
             </div>
             <div className="PasswordRegistro">
               <input
-                type="text"
+                type="password"
                 className="password"
                 placeholder="Ingresa una contraseña"
                 name="Password"
@@ -317,7 +326,7 @@ function Registro() {
             </div>
             <div className="PasswordRRegistro">
               <input
-                type="text"
+                type="password"
                 className="passwordRepeat"
                 placeholder="Repite la contraseña"
                 name="PasswordR"
