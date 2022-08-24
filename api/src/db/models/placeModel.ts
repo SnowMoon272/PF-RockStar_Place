@@ -233,3 +233,10 @@ export const getCities = async () => {
 		return { error };
 	}
 };
+
+export const addDate = async () => {
+	try {
+	} catch (error) {
+		return { error };
+	}
+};
