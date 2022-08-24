@@ -1,27 +1,33 @@
-/* eslint-disable no-fallthrough */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable comma-dangle */
+/* React stuff */
 import React, { useState } from "react";
+
+/* Modules */
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../../Assets/img/guitar-logo-icon.png";
+import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
+
+/* Components & Actions */
 import Colors from "../../Utils/colors";
+
+/* Form Img & SVG */
+import Logo from "../../Assets/img/guitar-logo-icon.png";
 import BGImg from "../../Assets/img/Metal.jpg";
 import BTNLogin from "../../Assets/svg/Ingresar.svg";
 import BTNSearch from "../../Assets/svg/Buscar.svg";
 import BTNFiltro from "../../Assets/svg/filtro.svg";
 import BTNHome from "../../Assets/svg/Home.svg";
 import BTNHelp from "../../Assets/svg/Ayuda.svg";
-import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
-import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
+import BTNUser from "../../Assets/svg/User.svg";
+
+/* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 
 const NavBarStyle = styled.nav`
   position: relative;
   z-index: 90;
-  background-image: url(${(props) => props.FondoImg && BGImg});
-  background-color: ${(props) => !props.FondoImg && Colors.Oxford_Blue};
+  background-image: url(${({ FondoImg }) => FondoImg && BGImg});
+  background-color: ${({ FondoImg }) => !FondoImg && Colors.Oxford_Blue};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -29,29 +35,30 @@ const NavBarStyle = styled.nav`
   position: fixed;
   left: 0px;
   top: 0px;
-  min-width: 80px;
+  max-width: 80px;
   height: 100vh;
   box-shadow: 0px -4px 20px rgb(217, 217, 217);
+  letter-spacing: 1px;
 
   .Search_Filter {
     position: absolute;
-    left: 80px;
-    top: 285px;
+    left: 90px;
+    top: 280px;
   }
 
   .Logo {
     position: relative;
     top: 0px;
     margin: 0px;
-    padding: 30px 0px;
-    width: 78px;
-    height: 84px;
+    padding: 30px 0px 0px 0px;
+    width: 70px;
+    height: 80px;
   }
 
   .FondoVerde {
     box-sizing: border-box;
     font-family: "RocknRoll One", sans-serif;
-    background-color: ${(props) => (props.FondoImg ? "#132e2e91" : Colors.Oxford_Blue)};
+    background-color: ${({ FondoImg }) => (FondoImg ? "#132e2e91" : Colors.Oxford_Blue)};
     width: 100%;
     height: 100vh;
     display: flex;
@@ -87,8 +94,8 @@ const NavBarStyle = styled.nav`
           justify-content: center;
           border: 4px solid black;
           border-radius: 50%;
-          width: 54px;
-          height: 54px;
+          width: 44px;
+          height: 44px;
           background-color: white;
           transition: all 0.5s ease;
           :hover {
@@ -97,8 +104,8 @@ const NavBarStyle = styled.nav`
           }
 
           img {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
           }
         }
@@ -120,8 +127,8 @@ const NavBarStyle = styled.nav`
           cursor: pointer;
           img {
             transition: all 0.5s ease;
-            width: 62px;
-            height: 62px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
           }
         }
@@ -140,19 +147,21 @@ const NavBarStyle = styled.nav`
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         height: 70%;
 
         .H3 {
           margin: 4px;
           color: white;
-          margin-bottom: 25px;
+          margin-bottom: 15px;
         }
+
         .Butons {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 62px;
-          height: 62px;
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
           border: solid black 4.5px;
           transition: all 0.5s ease;
@@ -163,14 +172,19 @@ const NavBarStyle = styled.nav`
         }
 
         .Butons img {
-          width: 34px;
-          height: 34px;
+          width: 27px;
+          height: 27px;
           padding: 6px;
         }
 
+        .Perfil img {
+          width: 50px;
+          height: 50px;
+        }
+
         .Link {
-          width: 55px;
-          height: 55px;
+          width: 45px;
+          height: 45px;
           background-color: white;
         }
       }
@@ -178,7 +192,21 @@ const NavBarStyle = styled.nav`
   }
 `;
 
-function NavBar(props) {
+/* * * * * * * * * * * React Component Function  * * * * * * * * * * */
+function NavBar({
+  Perfil,
+  Eventos,
+  FondoImg,
+  FiltroB,
+  paginado,
+  setFilter,
+  filter,
+  LogIn,
+  Home,
+  Buscar,
+  FiltroA,
+}) {
+  /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
     Search: false,
@@ -186,6 +214,7 @@ function NavBar(props) {
     FilterSounds: false,
   });
 
+  /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handlerClickSearch = (e) => {
     setNavState({
       ...navState,
@@ -210,25 +239,27 @@ function NavBar(props) {
     });
   };
 
+  /* * * * * * * * * * * React JSX * * * * * * * * * * */
+
   return (
-    <NavBarStyle FondoImg={props.FondoImg}>
+    <NavBarStyle FondoImg={FondoImg}>
       <div className="Search_Filter">
         <SearchBarYFilters
-          paginado={props.paginado}
+          paginado={paginado}
           Search={navState.Search}
           FilterCities={navState.FilterCities}
           FilterSounds={navState.FilterSounds}
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
-          setFilter={props.setFilter}
-          filter={props.filter}
+          setFilter={setFilter}
+          filter={filter}
         />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
         <div className="ContainButons">
-          {props.LogIn ? (
+          {LogIn ? (
             <div className="buttonLink">
               <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogin} alt="ico-login" />
@@ -244,7 +275,15 @@ function NavBar(props) {
             </div>
           )}
           <div className="ButonsEdits">
-            {props.Buscar && (
+            {Home && (
+              <>
+                <Link to="/" className="Butons Link">
+                  <img src={BTNHome} alt="ico-filtro" />
+                </Link>
+                <h3 className="H3">Home</h3>
+              </>
+            )}
+            {Buscar && (
               <>
                 <button
                   type="button"
@@ -259,7 +298,7 @@ function NavBar(props) {
                 <h3 className="H3">Buscar</h3>
               </>
             )}
-            {props.FiltroA && (
+            {FiltroA && (
               <>
                 <button
                   disabled={navState.Search || navState.FilterSounds}
@@ -274,7 +313,7 @@ function NavBar(props) {
                 <h3 className="H3">Ciudad</h3>
               </>
             )}
-            {props.FiltroB && (
+            {FiltroB && (
               <>
                 <button
                   disabled={navState.Search || navState.FilterCities}
@@ -289,28 +328,20 @@ function NavBar(props) {
                 <h3 className="H3">Sonido</h3>
               </>
             )}
-            {props.Home && (
+            {Eventos && (
               <>
                 <Link to="/" className="Butons Link">
-                  <img src={BTNHome} alt="ico-filtro" />
-                </Link>
-                <h3 className="H3">Home</h3>
-              </>
-            )}
-            {props.Eventos && (
-              <>
-                <button type="button" className="Butons">
                   <img src={BTNEvent} alt="ico-filtro" />
-                </button>
+                </Link>
                 <h3 className="H3">Eventos</h3>
               </>
             )}
-            {props.Edit && (
+            {Perfil && (
               <>
-                <button type="button" className="Butons">
-                  <img src={BTNEdit} alt="ico-filtro" />
-                </button>
-                <h3 className="H3">Editar</h3>
+                <Link to="/" className="Butons Link">
+                  <img src={BTNUser} alt="ico-filtro" />
+                </Link>
+                <h3 className="H3">Perfil</h3>
               </>
             )}
           </div>

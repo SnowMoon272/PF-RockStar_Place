@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
+import HomeBL from "./Components/Home/HomeBL";
 import Help from "./Components/Help/Help";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
@@ -17,6 +18,7 @@ function App() {
     <AppStyle>
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
+        <Route exact path="/home/band" element={<HomeBL />} />
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
