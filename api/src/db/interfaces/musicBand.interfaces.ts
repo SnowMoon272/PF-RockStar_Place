@@ -24,8 +24,15 @@ export type musicBandInterface = {
 	dates: dates[];
 	banned: boolean;
 	role: Roles;
-	socialMedia: any;
+	socialMedia: socialMedia;
 	description: string;
 	pendingDates: dates[];
 	profilePicture: string;
+	phoneNumber: string;
+};
+
+export type socialMedia = {
+	instagram: string;
+	spotify: string;
+	youtube: string;
 };

@@ -32,9 +32,14 @@ export type placeInterface = {
 	reviews: reviews[];
 	dates: dates[];
 	availableDates: available[];
-	socialMedia: any;
+	socialMedia: socialMedia;
 	pendingDates: dates[];
 	profilePicture: string;
 	banned: boolean;
 	role: Roles;
+	phoneNumber: string;
+};
+
+export type socialMedia = {
+	instagram: string;
 };
