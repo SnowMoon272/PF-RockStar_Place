@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
-        <Route path="/perfil/:id" element={<PerfilMusico />} />
+        <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
         <Route exact path="/registro" element={<Registro />} />
       </Routes>
     </AppStyle>
