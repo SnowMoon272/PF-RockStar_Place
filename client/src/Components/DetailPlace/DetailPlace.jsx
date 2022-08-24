@@ -2,9 +2,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+//import OwlCarousel from "react-owl-carousel";
+//import "owl.carousel/dist/assets/owl.carousel.css";
+//import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
@@ -324,17 +324,6 @@ export default function DetailPlace() {
           </div>
           <div className="DataCont">
             <div className="DatesCont">
-              <OwlCarousel className="owl-theme" items="3" loop nav dots={false}>
-                {datesCerradas &&
-                  datesCerradas.map((date) => {
-                    return (
-                      <div className="itemDate">
-                        <span className="date">{date.date}</span>
-                        <span className="band">{date.musicBand}</span>
-                      </div>
-                    );
-                  })}
-              </OwlCarousel>
               {/* {datesCerradas &&
                 datesCerradas.map((date) => {
                   return (
