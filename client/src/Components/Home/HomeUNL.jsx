@@ -14,13 +14,13 @@ import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
+import NavBar from "../NavBar/NavBar";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
-import NavBar from "../NavBar/NavBar";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
