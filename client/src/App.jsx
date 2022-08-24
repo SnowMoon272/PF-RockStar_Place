@@ -6,6 +6,7 @@ import Help from "./Components/Help/Help";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
+import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
+        <Route path="/perfil/:id" element={<PerfilMusico />} />
         <Route exact path="/registro" element={<Registro />} />
       </Routes>
     </AppStyle>
