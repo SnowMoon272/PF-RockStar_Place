@@ -4,14 +4,19 @@ import Colors from "../../Utils/colors";
 
 const ButtonStyleSuscribete = styled.div`
   .btnSuscribete {
-    background-color: #3d2aa5b2;
-    height: 200px;
-    width: 400px;
-    font-size: 40px;
-    cursor: pointer;
-  }
-  .btnSuscribete:hover {
-    background-color: red;
+    font-family: "RocknRoll One", sans-serif;
+    width: 190px;
+    height: 55px;
+    padding: 0px 15px;
+    background-color: ${Colors.Green_Light};
+    color: ${Colors.Erie_Black};
+    border-radius: 10px;
+    font-size: 1.8rem;
+    transition: all 0.5s ease;
+    :hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
 `;
 export default function BotonSuscribete() {

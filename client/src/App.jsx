@@ -6,7 +6,7 @@ import Help from "./Components/Help/Help";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
-import BotonSuscribete from "./Components/Suscribete/BotonSuscripcion";
+import Suscripcion from "./Components/Suscribete/Suscripcion";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -22,7 +22,7 @@ function App() {
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
         <Route exact path="/registro" element={<Registro />} />
-        <Route path="/suscribete" element={<BotonSuscribete />} />
+        <Route path="/suscribete" element={<Suscripcion />} />
       </Routes>
     </AppStyle>
   );
