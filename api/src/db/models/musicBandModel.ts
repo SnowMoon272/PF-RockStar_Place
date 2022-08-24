@@ -1,4 +1,10 @@
-import { reviews, dates, Roles, musicBandInterface } from "../interfaces/musicBand.interfaces";
+import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
+import {
+	reviews,
+	dates,
+	Roles,
+	musicBandInterface,
+} from "../interfaces/musicBand.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -89,6 +95,19 @@ export const getMusicBand = async (email: string) => {
 	}
 };
 
+export const getMusicBandByID = async (id: string) => {
+	try {
+		let musicBandResponse = await musicBand.findOne(
+			{ _id: id },
+			{ password: 0 }
+		);
+		if (musicBandResponse !== undefined) return musicBandResponse;
+		else return { error: "Musicband not found" };
+	} catch (error: any) {
+		return { error };
+	}
+};
+
 /**
  *	EncodePassword es la función encargada de encriptar la contraseña del usuario, que le llega {createMusicBand()} por parametro
  *
@@ -173,6 +192,19 @@ export const banHandler = async (email: string) => {
 			? await musicBand.updateOne({ email }, { banned: true })
 			: await musicBand.updateOne({ email }, { banned: false });
 		return musicBand.findOne({ email });
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const updateMusicBand = async (email: string, description: string) => {
+	try {
+		const userToChange = await musicBand.findOne({ email });
+		if (userToChange) {
+			await musicBand.updateOne({ email }, { description: description });
+		} else {
+			return { error: "user does not exist" };
+		}
 	} catch (error: any) {
 		return { error };
 	}
