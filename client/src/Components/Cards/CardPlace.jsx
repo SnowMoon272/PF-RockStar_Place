@@ -7,8 +7,8 @@ const CardStyleCont = styled.div`
   box-sizing: border-box;
   width: 47%;
   height: 270px;
-  background-color: ${color.Green_Nigth};
-  border: 3px solid ${color.Platinum};
+  background-color: ${({ UserLog }) => (UserLog ? color.Oxford_Blue : color.Green_Nigth)};
+  border: 1px solid ${color.Platinum};
   display: flex;
   justify-content: space-between;
   margin: 20px 2px;
@@ -33,7 +33,7 @@ const CardStyleCont = styled.div`
   .name {
     font-family: "New Rocker";
     font-size: 3rem;
-    color: ${color.Green_Light};
+    color: ${({ UserLog }) => (UserLog ? color.Platinum : color.Green_Light)};
     text-align: center;
   }
 
@@ -46,6 +46,7 @@ const CardStyleCont = styled.div`
   .PropCont {
     display: flex;
     justify-content: center;
+    align-items: centerc;
   }
 
   .prop {
@@ -56,7 +57,7 @@ const CardStyleCont = styled.div`
     font-size: 1.5rem;
     line-height: 29px;
     text-align: center;
-    color: ${color.Green_Light};
+    color: ${({ UserLog }) => (UserLog ? color.Blue_Vivid : color.Green_Light)};
   }
 
   .value {
@@ -76,14 +77,15 @@ const CardStyleCont = styled.div`
     text-decoration: none;
     cursor: pointer;
     width: 50%;
-    height: 12%;
-    background: ${color.Green_Light};
-    border-radius: 10px;
+    height: 14%;
+    background-color: ${({ UserLog }) => (UserLog ? color.Blue_life : color.Green_Light)};
+    color: ${({ UserLog }) => (UserLog ? color.Platinum : color.Erie_Black)};
+    border-radius: 6px;
     font-family: "New Rocker";
     font-style: normal;
     font-weight: 400;
     font-size: 2rem;
-    color: ${color.Erie_Black};
+
     transition: all 0.5s ease;
     :hover {
       transform: scale(1.1);
@@ -92,9 +94,9 @@ const CardStyleCont = styled.div`
   }
 `;
 
-function CardPlace({ id, name, city, rating, image, sound }) {
+function CardPlace({ id, name, city, rating, image, sound, UserLog }) {
   return (
-    <CardStyleCont>
+    <CardStyleCont UserLog={UserLog}>
       <div className="CardInfo">
         <span className="name">{name}</span>
         <div className="InfLow">
@@ -108,7 +110,7 @@ function CardPlace({ id, name, city, rating, image, sound }) {
           </div>
           <div className="PropCont">
             <span className="prop">Rating: </span>
-            <span className="value"> {rating}</span>
+            <span className="value">⭐{rating}</span>
           </div>
         </div>
         <Link to={`/place/${id}`} className="detailButton">
