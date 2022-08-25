@@ -75,6 +75,7 @@ const FirtVewStyleCont = styled.div`
 
     .Title {
       font-family: "New Rocker", cursive;
+      font-weight: 400;
       margin: 0px;
       color: ${Colors.Platinum};
       font-size: 8rem;
@@ -95,6 +96,7 @@ const FirtVewStyleCont = styled.div`
     align-items: center;
     height: fit-content;
     color: ${Colors.Platinum};
+    font-weight: 400;
     padding: 40px;
 
     & .ImgBanda {
@@ -125,6 +127,7 @@ const FirtVewStyleCont = styled.div`
           font-size: 3.5rem;
           letter-spacing: 4px;
           margin: 0px;
+          font-weight: 400;
         }
 
         & p {
@@ -132,10 +135,12 @@ const FirtVewStyleCont = styled.div`
           font-size: 1.6rem;
           line-height: 27px;
           max-width: 420px;
+          font-weight: 400;
 
           & span {
             color: ${Colors.Blue_Vivid};
             font-size: 2.4rem;
+            font-weight: 400;
           }
         }
       }
@@ -158,6 +163,7 @@ const FirtVewStyleCont = styled.div`
             font-family: "New Rocker", cursive;
             border: none;
             color: ${Colors.Platinum};
+            font-weight: 400;
             border-radius: 8px;
             width: 160px;
             height: 45px;
@@ -204,6 +210,9 @@ const SecondVewStyleCont = styled.section`
 `;
 
 const SecondStyleCont = styled.section`
+  /* border: solid red 3px; */
+
+  box-sizing: border-box;
   width: 75%;
   height: fit-content;
   margin-bottom: 100px;
@@ -214,11 +223,186 @@ const SecondStyleCont = styled.section`
   flex-direction: column;
   align-items: center;
 
-  h4 {
+  & h4 {
     margin-bottom: 30px;
     color: ${Colors.Platinum};
     font-family: "New Rocker", cursive;
     font-size: 7rem;
+    font-weight: 400;
+  }
+
+  & .FechasCont {
+    /* border: solid blue 3px; */
+
+    box-sizing: border-box;
+    width: 85%;
+    height: fit-content;
+
+    & .TusFechas {
+      /* border: solid green 3px; */
+
+      color: ${Colors.Platinum};
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      & h5 {
+        /* border: solid yellow 3px; */
+
+        font-family: "New Rocker", cursive;
+        font-size: 4rem;
+        font-weight: 400;
+        margin: 0px;
+        padding-bottom: 10px;
+        width: 100%;
+      }
+      & .Carusel {
+        /* border: solid yellow 3px; */
+
+        width: 100%;
+        height: 170px;
+        font-weight: 400;
+        background-color: #cc303060;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & p {
+          color: black;
+          font-size: 2.5rem;
+          transform: rotate(-25deg);
+          border-bottom: 3px solid black;
+          border-top: 3px solid black;
+          background-color: #cc8e3054;
+        }
+      }
+
+      & .AddFecha {
+        border-bottom: solid white 3px;
+
+        box-sizing: border-box;
+        width: 100%;
+        padding: 15px 10px 35px 10px;
+        display: flex;
+        align-items: center;
+
+        & label {
+          font-size: 2rem;
+          font-weight: 400;
+
+          & input {
+            margin-left: 10px;
+            font-size: 2rem;
+            color: ${Colors.Platinum};
+            background-color: ${Colors.Blue_life};
+            /* border: 1px solid white; */
+            outline: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  & .SolicitudesCont {
+    /* border: solid red 3px; */
+    box-sizing: border-box;
+    margin-bottom: 70px;
+
+    color: ${Colors.Platinum};
+    & h5 {
+      /* border: solid yellow 3px; */
+      box-sizing: border-box;
+
+      font-family: "New Rocker", cursive;
+      font-size: 4rem;
+      font-weight: 400;
+      margin: 55px 0px 10px 0px;
+      padding-bottom: 10px;
+      width: 100%;
+    }
+
+    & .SolicitudesContJr {
+      /* border: solid green 3px; */
+
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+
+      & .Solicitud {
+        /* border: solid blue 3px; */
+
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0px;
+        width: 100%;
+        background-color: ${Colors.Blue_life};
+
+        & .Left {
+          /* border: solid orange 3px; */
+
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 70%;
+          & p {
+            font-size: 1.6rem;
+            font-weight: 400;
+          }
+          & button {
+            font-family: "RocknRoll One", sans-serif;
+
+            width: 100px;
+            height: 35px;
+            font-size: 1.5rem;
+            border: none;
+            color: ${Colors.Platinum};
+            border-radius: 8px;
+            background-color: ${Colors.Oxford_Blue};
+            letter-spacing: 1px;
+            transition: all 0.5s ease;
+
+            :hover {
+              transform: scale(1.2);
+              cursor: pointer;
+            }
+          }
+        }
+
+        & .Rigth {
+          /* border: solid purple 3px; */
+
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          width: 30%;
+          margin-left: 150px;
+
+          & button {
+            font-family: "RocknRoll One", sans-serif;
+
+            width: 100px;
+            height: 35px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            color: ${Colors.Oxford_Blue};
+            border-radius: 8px;
+            background-color: ${Colors.Platinum};
+            letter-spacing: 1px;
+            transition: all 0.5s ease;
+            margin: 0px 10px;
+
+            :hover {
+              transform: scale(1.2);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -335,10 +519,73 @@ function HomeBL() {
         <div className="ContenidoPrevio">
           <img src={Logo} alt="Logo" />
         </div>
+
         <SecondStyleCont>
           <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
+          <section className="FechasCont">
+            <div className="TusFechas">
+              <h5>Tus Fechas</h5>
+              <div className="Carusel">
+                <p>!Proximamente Carrusel¡</p>
+                <p>!Proximamente Carrusel¡</p>
+                <p>!Proximamente Carrusel¡</p>
+              </div>
+              <div className="AddFecha">
+                <label htmlFor="start">
+                  Añadir Fecha:
+                  <input
+                    type="date"
+                    id="start"
+                    // value="2022-08-25"
+                    // min="2022-08-25"
+                    // max="2024-12-31"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="SolicitudesCont">
+              <h5>Solicitudes</h5>
+              <div className="SolicitudesContJr">
+                <div className="Solicitud">
+                  <div className="Left">
+                    <p>25/08/2022</p>
+                    <p>Los Angeles Azules</p>
+                    <button type="button">Detalle</button>
+                  </div>
+                  <div className="Rigth">
+                    <button type="button">Aceptar</button>
+                    <button type="button">Rechazar</button>
+                  </div>
+                </div>
+                <div className="Solicitud">
+                  <div className="Left">
+                    <p>25/08/2022</p>
+                    <p>Los Angeles Azules</p>
+                    <button type="button">Detalle</button>
+                  </div>
+                  <div className="Rigth">
+                    <button type="button">Aceptar</button>
+                    <button type="button">Rechazar</button>
+                  </div>
+                </div>
+                <div className="Solicitud">
+                  <div className="Left">
+                    <p>25/08/2022</p>
+                    <p>Los Angeles Azules</p>
+                    <button type="button">Detalle</button>
+                  </div>
+                  <div className="Rigth">
+                    <button type="button">Aceptar</button>
+                    <button type="button">Rechazar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </SecondStyleCont>
       </SecondVewStyleCont>
+
       <FooterStyle>
         Fotter
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
