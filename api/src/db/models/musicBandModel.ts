@@ -1,5 +1,10 @@
 import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
-import { reviews, dates, Roles, musicBandInterface } from "../interfaces/musicBand.interfaces";
+import {
+	musicReviews,
+	musicDates,
+	musicRoles,
+	musicBandInterface,
+} from "../interfaces/musicBand.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -55,7 +60,7 @@ export const deleteMusicBand = async (email: string) => {
  *	@return {object} Retorna todos los reviews de la banda
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const addBandReview = async (email: string, review: reviews) => {
+export const addBandReview = async (email: string, review: musicReviews) => {
 	const userToAddReview = await getMusicBand(email);
 
 	if (userToAddReview) {
@@ -141,7 +146,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 	newMusicBand.password = await encodePassword(newMusicBand.password);
 	newMusicBand.rating = 5;
-	newMusicBand.role = Roles.MUSICBAND;
+	newMusicBand.role = musicRoles.MUSICBAND;
 
 	try {
 		let created = await musicBand.create(newMusicBand);
@@ -206,9 +211,6 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 						youtube: data.socialMedia.youtube,
 						spotify: data.socialMedia.spotify,
 					},
-					/* socialMedia: data.socialMedia.instagram,
-					youtube: data.socialMedia.youtube,
-					spotify: data.socialMedia.spotify, */
 				},
 			);
 			return musicBand.findOne({ email });

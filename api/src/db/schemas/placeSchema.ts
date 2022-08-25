@@ -1,6 +1,12 @@
 const { Schema } = require("mongoose");
 
 export const placeSchema = new Schema({
+	personInCharge: {
+		type: String,
+		trim: true,
+		default: undefined,
+	},
+
 	email: { type: String, trim: true, require: true, unique: true },
 
 	password: { type: String, require: true },
@@ -46,7 +52,7 @@ export const placeSchema = new Schema({
 	],
 	pendingDates: [
 		{
-			place: String,
+			musicBand: String,
 			date: { type: Date, default: Date.now },
 		},
 	],

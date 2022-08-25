@@ -3,12 +3,15 @@ import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
 import HomeBL from "./Components/Home/HomeBL";
+import HomeLL from "./Components/Home/HomeLL";
 import Help from "./Components/Help/Help";
 import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
-import PerfilMusico from "./Components/PerfilesLogueados/PerfilMusico";
+import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
+import Suscripcion from "./Components/Suscribete/Suscripcion";
+import SuscripcionError from "./Components/Suscribete/SuscripcionError";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 
 const AppStyle = styled.div`
@@ -22,6 +25,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
         <Route exact path="/home/band" element={<HomeBL />} />
+        <Route exact path="/home/local" element={<HomeLL />} />
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/help/logeado" element={<HelpLogeado />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
@@ -29,6 +33,8 @@ function App() {
         <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
         <Route path="/placeprofile/:id" element={<PerfilLocal />} />
         <Route exact path="/registro" element={<Registro />} />
+        <Route path="/suscribete" element={<Suscripcion />} />
+        <Route path="/suscripcionerror" element={<SuscripcionError />} />
       </Routes>
     </AppStyle>
   );

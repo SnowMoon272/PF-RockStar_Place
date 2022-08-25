@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const {
 	getAllPlacesController,
 	createPlaceController,
@@ -6,17 +6,23 @@ const {
 	getPlaceByIDController,
 	getPlaceByNameController,
 	getCitiesController,
-} = require('../controllers/place.controller');
+	updatePlaceController,
+	DeleteDatePlaceController,
+	AddDatePlaceController,
+} = require("../controllers/place.controller");
 
 const router = Router();
 
 export const f = {};
 
-router.get('/places', getAllPlacesController);
-router.post('/places', createPlaceController);
-router.post('/placereviews', addPlaceReviewController);
-router.get('/place/:id', getPlaceByIDController);
-router.get('/places/names', getPlaceByNameController);
-router.get('/cities', getCitiesController);
+router.get("/places", getAllPlacesController);
+router.post("/places", createPlaceController);
+router.post("/placereviews", addPlaceReviewController);
+router.get("/place/:id", getPlaceByIDController);
+router.get("/places/names", getPlaceByNameController);
+router.get("/cities", getCitiesController);
+router.put("/place", updatePlaceController);
+router.post("/placesdates", AddDatePlaceController);
+router.delete("/placesdates", DeleteDatePlaceController);
 
 module.exports = router;

@@ -1,14 +1,13 @@
-export interface reviews {
+export interface musicReviews {
 	author: string;
 	comment: string;
 	rating: number;
 }
-export interface dates {
-	author: string;
+export interface musicDates {
 	place: string;
 	date: Date;
 }
-export enum Roles {
+export enum musicRoles {
 	ADMIN = "admin",
 	MUSICBAND = "musicband",
 	PLACE = "place",
@@ -20,18 +19,18 @@ export type musicBandInterface = {
 	email: string;
 	password: string;
 	rating: number;
-	reviews: reviews[];
-	dates: dates[];
+	reviews: musicReviews[];
+	dates: musicDates[];
 	banned: boolean;
-	role: Roles;
-	socialMedia: socialMedia;
+	role: musicRoles;
+	socialMedia: musicSocialMedia;
 	description: string;
-	pendingDates: dates[];
+	pendingDates: musicDates[];
 	profilePicture: string;
 	phoneNumber: string;
 };
 
-export type socialMedia = {
+export type musicSocialMedia = {
 	instagram: string;
 	spotify: string;
 	youtube: string;
