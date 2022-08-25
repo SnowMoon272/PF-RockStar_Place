@@ -89,28 +89,29 @@ const FirtVewStyleCont = styled.div`
     background-color: ${Colors.Oxford_Blue_transparent};
     position: relative;
     z-index: 27;
-    width: 70%;
+    width: fit-content;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: fit-content;
     color: ${Colors.Platinum};
+    padding: 40px;
 
     & .ImgBanda {
-      width: fit-content;
+      width: auto;
 
       & img {
         border-radius: 15px;
-        width: 420px;
+        max-width: 100%;
         height: 300px;
-        margin: 40px;
+        margin-right: 40px;
       }
     }
 
     & .ProximoInfCont {
       display: flex;
       border-left: solid white 3px;
-      width: 65%;
+      width: fit-content;
       height: 300px;
 
       & .ProximoInf {
@@ -164,6 +165,12 @@ const FirtVewStyleCont = styled.div`
             background-color: ${Colors.Blue_life};
             letter-spacing: 1.5px;
             margin-top: 25px;
+            transition: all 0.5s ease;
+
+            :hover {
+              transform: scale(1.2);
+              cursor: pointer;
+            }
           }
         }
       }
@@ -241,7 +248,7 @@ const CarsStyleCont = styled.section`
       font-size: 1.8rem;
       transition: all 0.5s ease;
       :hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
         cursor: pointer;
       }
     }
