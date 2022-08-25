@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt");
 
 const musicBandSchema = require("../schemas/musicBandSchema");
 
-const musicBand = model("musicband", musicBandSchema);
+export const musicBand = model("musicband", musicBandSchema);
 
 /**
  *	reloadMusicBandRating es la función encargada de actualizar el rating general de una banda de música, se ejecuta después de añadir una review
@@ -126,7 +126,7 @@ const encodePassword = async (password: string) => {
  *	@return {boolean} Retorna un valor de true si las contraseñas matchean o false en el caso de que no
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-const comparePassword = async (password: string, encodedPassword: string) => {
+export const comparePassword = async (password: string, encodedPassword: string) => {
 	let valid = await bcrypt.compare(password, encodePassword);
 	return valid;
 };
@@ -194,6 +194,19 @@ export const banHandler = async (email: string) => {
 	}
 };
 
+//Tests
+export const loginMusicBand = async (email: string, password: string) => {
+	try {
+		const user = musicBand.findOne({email});
+		if(!user) return {error: "Email not found"}
+		if(await comparePassword(password, user.password)){
+			return user;
+		}
+	} catch (error) {
+		return {error: "Something went wrong"}
+	}
+}
+
 export const updateMusicBand = async (email: string, data: musicBandInterface) => {
 	try {
 		const userToChange = await musicBand.findOne({ email });
@@ -221,3 +234,4 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 		return { error };
 	}
 };
+

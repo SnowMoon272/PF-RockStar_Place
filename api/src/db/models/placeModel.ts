@@ -11,7 +11,7 @@ const bcrypt = require("bcrypt");
 
 const placeSchemaModel = require("../schemas/placeSchema");
 
-const place = model("place", placeSchemaModel);
+export const place = model("place", placeSchemaModel);
 
 const PLACES_REQUIRED_INFO = {
 	city: 1,
@@ -262,7 +262,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				}
+				},
 			);
 			return place.findOne({ email });
 		} else {
@@ -273,7 +273,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 	}
 };
 
-export const addDate = async (email: string, date: Date) => {
+export const addDate = async (email: string, date: string) => {
 	try {
 		const placeToAddDate = await place.findOne({ email });
 		if (placeToAddDate) {
@@ -281,12 +281,18 @@ export const addDate = async (email: string, date: Date) => {
 			const repeatedDate = allDates.find((d) => d.date.toISOString().substring(0, 10) === date);
 
 			if (repeatedDate) return { error: "La fecha ya está cargada." };
-			allDates.push({
-				date: date,
-				isAvailable: true,
-			});
-
-			await place.updateOne({ email }, { availableDates: allDates });
+			await place.updateOne(
+				{ email },
+				{
+					availableDates: [
+						...placeToAddDate.availableDates,
+						{
+							date: date,
+							isAvailable: true,
+						},
+					],
+				},
+			);
 			return await place.findOne({ email });
 		} else return { error: "User does not exist." };
 	} catch (error: any) {
@@ -294,7 +300,7 @@ export const addDate = async (email: string, date: Date) => {
 	}
 };
 
-export const deleteDate = async (email: string, date: Date) => {
+export const deleteDate = async (email: string, date: string) => {
 	try {
 		const placeToDeleteDate = await place.findOne({ email });
 		if (placeToDeleteDate) {

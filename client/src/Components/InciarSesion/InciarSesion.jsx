@@ -1,12 +1,14 @@
-/* React stuff */
-import React from "react";
-
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import axios from "axios";
+import React, { useState } from "react";
 /* Modules */
+
 import styled from "styled-components";
 
 /* Components & Actions */
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
+import { isMusicband, isAdmin, isPlace } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import IMGoogle from "../../Assets/svg/Google.svg";
@@ -168,9 +170,41 @@ const RegisterStyleContJr = styled.div`
   }
 `;
 
-/* * * * * * * * * * * React Component Function  * * * * * * * * * * */
+const BACK_URI = "http://localhost:3001";
+const user = () => {
+  if (isMusicband()) return <p>This is musicband component</p>;
+  if (isPlace()) return <p>This is place component</p>;
+  if (isAdmin()) return <p>This is admin component</p>;
+  return <p>Component by default</p>;
+};
+
 function InciarSesion() {
-  /* * * * * * * * * * * React JSX * * * * * * * * * * */
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = async () => {
+    const response = await axios({
+      method: "POST",
+      data: {
+        email,
+        password,
+      },
+      withCredentials: true,
+      url: `${BACK_URI}/login`,
+    });
+    if (response) {
+      const { token } = response.data;
+      localStorage.setItem("user-token", token);
+      const header = new Headers();
+      header.append("authorization", token);
+      window.location.replace("http://localhost:3000/");
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user-token");
+  };
+  
   return (
     <RegisterStyleCont>
       <NavBar LogIn Home FondoImg />
@@ -178,7 +212,7 @@ function InciarSesion() {
         <div className="UpSection">
           <h1>¡Hola de Nuevo!</h1>
           <p>
-            ¿No tienes una cuenta? <a href="./registro">Registrate aqui</a>{" "}
+            ¿No tienes una cuenta? <a href="./registro">Registrate aquí</a>{" "}
           </p>
         </div>
         <div className="DownSection">
@@ -196,18 +230,29 @@ function InciarSesion() {
             </div>
           </div>
           <div className="Rigth">
-            <h2>Iniar sesion conun nombre de ussuario</h2>
+            <h2>Inicia sesión con tu email</h2>
             <div className="Inputs">
-              <input type="mail" placeholder="Correo Electronico" />
-              <input type="password" placeholder="Contraseña" />
+              <input
+                name="input-email"
+                id="input_email"
+                type="text"
+                placeholder="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                name="input-password"
+                id="input_password"
+                type="password"
+                placeholder="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <p>¿Olvidaste tu contraseña?</p>
             </div>
-            <button type="button"> Iniciar Sesión </button>
+            <button type="submit" onClick={login}> Iniciar Sesión </button>
           </div>
         </div>
       </RegisterStyleContJr>
     </RegisterStyleCont>
-  );
-}
+    );
 
 export default InciarSesion;
