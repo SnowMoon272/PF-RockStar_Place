@@ -7,6 +7,8 @@ const {
 	getPlaceByNameController,
 	getCitiesController,
 	updatePlaceController,
+	DeleteDatePlaceController,
+	AddDatePlaceController,
 } = require("../controllers/place.controller");
 
 const router = Router();
@@ -20,5 +22,7 @@ router.get("/place/:id", getPlaceByIDController);
 router.get("/places/names", getPlaceByNameController);
 router.get("/cities", getCitiesController);
 router.put("/place", updatePlaceController);
+router.post("/placesdates", AddDatePlaceController);
+router.delete("/placesdates", DeleteDatePlaceController);
 
 module.exports = router;

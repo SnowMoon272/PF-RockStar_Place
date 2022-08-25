@@ -217,10 +217,7 @@ export const updateMusicBand = async (
 						youtube: data.socialMedia.youtube,
 						spotify: data.socialMedia.spotify,
 					},
-					/* socialMedia: data.socialMedia.instagram,
-					youtube: data.socialMedia.youtube,
-					spotify: data.socialMedia.spotify, */
-				}
+				},
 			);
 			return musicBand.findOne({ email });
 		} else {
