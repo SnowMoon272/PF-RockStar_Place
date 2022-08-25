@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
+import { isAuthenticated } from "../../Utils/auth.controller";
+
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
@@ -271,6 +273,10 @@ function Registro() {
     });
     navigate("/");
   }
+
+  useEffect(() => {
+    if (isAuthenticated()) navigate("/");
+  }, []);
 
   return (
     <LoginStyleCont>

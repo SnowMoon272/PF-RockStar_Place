@@ -8,7 +8,6 @@ import styled from "styled-components";
 /* Components & Actions */
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
-import { isMusicband, isAdmin, isPlace } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import IMGoogle from "../../Assets/svg/Google.svg";
@@ -171,12 +170,6 @@ const RegisterStyleContJr = styled.div`
 `;
 
 const BACK_URI = "http://localhost:3001";
-const user = () => {
-  if (isMusicband()) return <p>This is musicband component</p>;
-  if (isPlace()) return <p>This is place component</p>;
-  if (isAdmin()) return <p>This is admin component</p>;
-  return <p>Component by default</p>;
-};
 
 function InciarSesion() {
   const [email, setEmail] = useState("");
@@ -201,10 +194,6 @@ function InciarSesion() {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("user-token");
-  };
-  
   return (
     <RegisterStyleCont>
       <NavBar LogIn Home FondoImg />
@@ -248,11 +237,13 @@ function InciarSesion() {
               />
               <p>¿Olvidaste tu contraseña?</p>
             </div>
-            <button type="submit" onClick={login}> Iniciar Sesión </button>
+            <button type="submit" onClick={login}>
+              Iniciar Sesión
+            </button>
           </div>
         </div>
       </RegisterStyleContJr>
     </RegisterStyleCont>
-    );
-
+  );
+}
 export default InciarSesion;

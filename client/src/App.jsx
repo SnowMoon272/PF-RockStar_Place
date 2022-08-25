@@ -4,7 +4,8 @@ import styled from "styled-components";
 import HomeUNL from "./Components/Home/HomeUNL";
 import HomeBL from "./Components/Home/HomeBL";
 import HomeLL from "./Components/Home/HomeLL";
-import Help from "./Components/Help/Help";
+import Home from "./Components/Home/Home";
+import Help from "./Components/Help/HelpNoLogeado";
 import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
@@ -25,16 +26,18 @@ function App() {
   return (
     <AppStyle>
       <Routes>
-        <Route exact path="/" element={<HomeUNL />} />
-        <Route exact path="/home/band" element={<HomeBL />} />
-        <Route exact path="/home/local" element={<HomeLL />} />
+        <Route exact path="/" element={<Home />} />
+
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/help/logeado" element={<HelpLogeado />} />
+
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
+        <Route exact path="/registro" element={<Registro />} />
+
         <Route exact path="/place/:email" element={<DetailPlace />} />
         <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
+
         <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
-        <Route exact path="/registro" element={<Registro />} />
         <Route exact path="/actualizar" element={<Actualizar />} />
         <Route exact path="/suscribete" element={<Suscripcion />} />
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
