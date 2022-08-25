@@ -8,7 +8,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   POST_COMMENT = "POST_COMMENT",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
-  RESET_DETAILS = "RESET_DETAILS";
+  RESET_DETAILS = "RESET_DETAILS",
+  POST_DATA = "POST_DATA";
 
 export function updateFilters(data) {
   return {
@@ -113,5 +114,12 @@ export function resetDetails(payload) {
   return {
     type: RESET_DETAILS,
     payload,
+  };
+}
+
+export function postData(payload) {
+  return async (dispatch) => {
+    const json = await axios.post("http://localhost:3001/musicbands", payload);
+    return json;
   };
 }
