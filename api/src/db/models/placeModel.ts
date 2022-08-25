@@ -69,9 +69,7 @@ const getPlacesBySound = async (sound: string) => {
 };
 const getPlacesByCityAndSound = async (city: string, sound: string) => {
 	let filter =
-		sound === "sonidoSi"
-			? { city: city, hasSound: true }
-			: { city: city, hasSound: false };
+		sound === "sonidoSi" ? { city: city, hasSound: true } : { city: city, hasSound: false };
 	return await place.find(filter, PLACES_REQUIRED_INFO);
 };
 
@@ -263,7 +261,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				}
+				},
 			);
 			return place.findOne({ email });
 		} else {
@@ -303,7 +301,7 @@ export const deleteDate = async (email: string, date: Date) => {
 			const dates = allDates.filter((d) => d.date.toISOString().substring(0, 10) !== date);
 			if (
 				placeToDeleteDate.dates
-					.map((d: dates) => d.date.toISOString().substring(0, 10))
+					.map((d: placeDates) => d.date.toISOString().substring(0, 10))
 					.includes(date)
 			) {
 				await place.updateOne({ email }, { dates: dates });
@@ -311,7 +309,7 @@ export const deleteDate = async (email: string, date: Date) => {
 			}
 			if (
 				placeToDeleteDate.availableDates
-					.map((d: available) => d.date.toISOString().substring(0, 10))
+					.map((d: placeAvailable) => d.date.toISOString().substring(0, 10))
 					.includes(date)
 			) {
 				await place.updateOne({ email }, { availableDates: dates });
