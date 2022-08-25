@@ -9,6 +9,7 @@ import {
   POPULARITY_SORT,
   POST_COMMENT,
   RESET_DETAILS,
+  GET_DETAIL_MUSIC_BAND,
   POST_DATA,
 } from "./actions";
 
@@ -21,6 +22,7 @@ const initialState = {
     Sonido: false,
   },
   sort_places: [],
+  detail_music_band: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -50,6 +52,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         detail_place: action.payload,
+      };
+    case GET_DETAIL_MUSIC_BAND:
+      return {
+        ...state,
+        detail_music_band: action.payload,
       };
     case GET_CITIES:
       return {

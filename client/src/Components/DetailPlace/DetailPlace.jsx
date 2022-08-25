@@ -302,9 +302,9 @@ export default function DetailPlace() {
           email: place.email,
         }),
       );
-      setInput({ rating: "", comment: "" });
+      setInput({ rating: 0, comment: "" });
       setTimeout(() => {
-        setInput({ rating: "", comment: "" });
+        setInput({ rating: 0, comment: "" });
       }, 1000);
     }
   };

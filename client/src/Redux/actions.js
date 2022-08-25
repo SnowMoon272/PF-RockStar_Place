@@ -9,6 +9,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
+  GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND";
   POST_DATA = "POST_DATA";
 
 export function updateFilters(data) {
@@ -53,6 +54,20 @@ export function getDetailPlace(id) {
       const json = await axios.get(`http://localhost:3001/place/${id}`);
       return dispatch({
         type: GET_DETAIL_PLACE,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getDetailMusicBand(id) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/musicband/${id}`);
+      return dispatch({
+        type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
       });
     } catch (error) {

@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable comma-dangle */
-
+/* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
 
@@ -10,154 +8,181 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
-import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
 
 /* Form Img & SVG */
-import BGHome from "../../Assets/img/HomeConcert.jpg";
-import BGBtn from "../../Assets/img/Metal.jpg";
+import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import IMGLogoA from "../../Assets/img/logo3.png";
+import IMGBand from "../../Assets/img/ROLLING STONES.jpg";
+import IMGLocal from "../../Assets/img/upload_7xCMVkX.png";
 import Logo from "../../Assets/img/LogoCircular.png";
-import SVGDown from "../../Assets/svg/Down.svg";
 
+/* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};
   width: 100%;
   height: fit-content;
+  position: absolute;
 `;
 
-const FirtVewStyleCont = styled.section`
+const FirtVewStyleCont = styled.div`
+  position: relative;
+  z-index: 25;
   box-sizing: border-box;
-  width: auto;
-  height: 100vh;
+  background-color: ${Colors.Erie_Black};
+  width: 100%;
+  height: fit-content;
+  padding-left: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  .ImgTitleContainer {
+  .ImgContainer {
+    position: fixed;
+    z-index: 24;
     box-sizing: border-box;
     width: auto;
     height: 100vh;
+    width: 100%;
 
     & img {
       height: 100%;
       width: 100%;
       object-fit: cover;
     }
+  }
 
-    .h1 {
-      animation-name: Rock;
-      animation-duration: 5s;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-      @keyframes Rock {
-        0% {
-          color: ${Colors.Platinum};
-          transform: scale(1);
-        }
-        50% {
-          color: rgba(4, 19, 24, 0);
-          transform: scale(1.09);
-        }
-        100% {
-          color: ${Colors.Platinum};
-          transform: scale(1);
-        }
-      }
+  .Heder {
+    box-sizing: border-box;
+    position: relative;
+    z-index: 27;
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 385px 20px 100px;
+
+    .Logo {
+      width: 350px;
+      height: 150px;
     }
 
-    h1 {
-      position: absolute;
+    .Title {
       font-family: "New Rocker", cursive;
       margin: 0px;
       color: ${Colors.Platinum};
-      font-size: 9.6rem;
-      filter: blur(1.8px);
-      left: 12%;
-      top: 78%;
+      font-size: 8rem;
+    }
+    .Notificacion {
+      background-color: transparent;
+      border: none;
     }
   }
 
-  .ButonsContainer {
-    box-sizing: border-box;
-    position: absolute;
-    top: 50px;
+  .CardUnicaCont {
+    background-color: ${Colors.Oxford_Blue_transparent};
+    position: relative;
+    z-index: 27;
+    width: fit-content;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 84%;
-    right: 5%;
-    top: 10%;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    color: ${Colors.Platinum};
+    padding: 40px;
 
-    .Link {
-      color: ${Colors.Erie_Black};
-      text-decoration: none;
-      text-align: center;
-      margin: 0%;
-      padding: 0px;
-      background-image: url(${BGBtn});
-      background-size: cover;
-      background-position: center;
-      border-radius: 17px;
-      width: 360px;
-      height: 27%;
-      box-shadow: 5px 5px 500px 25px rgba(0, 0, 0, 0.45);
+    & .ImgBanda {
+      width: auto;
 
-      :hover {
-        box-shadow: none;
-        cursor: pointer;
-        transition: all 1.5s ease;
-        transform: scale(1.1);
+      & img {
+        border-radius: 15px;
+        max-width: 100%;
+        height: 300px;
+        margin-right: 40px;
       }
+    }
 
-      .FondoVerde {
-        font-family: "New Rocker", cursive;
-        background-color: #0c564561;
-        border-radius: 17px;
-        width: 100%;
-        height: 100%;
-        font-size: 4.2rem;
-        font-weight: bold;
+    & .ProximoInfCont {
+      display: flex;
+      border-left: solid white 3px;
+      width: fit-content;
+      height: 300px;
+
+      & .ProximoInf {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-      }
-    }
-  }
+        padding: 0px 35px 0px 15px;
 
-  .SVGDown {
-    position: absolute;
-    bottom: 60px;
-    right: 14px;
-    animation-name: Down;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    @keyframes Down {
-      0% {
-        bottom: 60px;
+        & h4 {
+          font-family: "New Rocker", cursive;
+          font-size: 3.5rem;
+          letter-spacing: 4px;
+          margin: 0px;
+        }
+
+        & p {
+          margin-top: 20px;
+          font-size: 1.6rem;
+          line-height: 27px;
+          max-width: 420px;
+
+          & span {
+            color: ${Colors.Blue_Vivid};
+            font-size: 2.4rem;
+          }
+        }
       }
-      50% {
-        bottom: 10px;
+
+      & .ProximoIMGyBtn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        & img {
+          border-radius: 15px;
+          width: 100%;
+          height: 250px;
+          object-fit: cover;
+        }
+
+        & .Lynk_Btn {
+          button {
+            font-family: "New Rocker", cursive;
+            border: none;
+            color: ${Colors.Platinum};
+            border-radius: 8px;
+            width: 160px;
+            height: 45px;
+            font-size: 2.4rem;
+            background-color: ${Colors.Blue_life};
+            letter-spacing: 1.5px;
+            margin-top: 25px;
+            transition: all 0.5s ease;
+
+            :hover {
+              transform: scale(1.2);
+              cursor: pointer;
+            }
+          }
+        }
       }
-      100% {
-        bottom: 60px;
-      }
-    }
-    :hover {
-      cursor: pointer;
-    }
-    img {
-      width: 55px;
-      height: 55px;
     }
   }
 `;
 
 const SecondVewStyleCont = styled.section`
-  position: relative;
   box-sizing: border-box;
-  margin-left: 80px;
+  position: relative;
+  z-index: 27;
+  margin-left: 75px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -169,31 +194,12 @@ const SecondVewStyleCont = styled.section`
     width: 86%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
+  }
 
-    .Link {
-      font-family: "New Rocker", cursive;
-      border-radius: 10px;
-      background-color: ${Colors.Green_Light};
-      width: 290px;
-      height: 80px;
-      font-size: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-decoration: none;
-      color: ${Colors.Erie_Black};
-      transition: all 0.5s ease;
-      :hover {
-        transform: scale(1.1);
-        cursor: pointer;
-      }
-    }
-
-    img {
-      width: 230px;
-      height: 230px;
-    }
+  img {
+    width: 230px;
+    height: 230px;
   }
 `;
 
@@ -201,7 +207,7 @@ const CarsStyleCont = styled.section`
   width: 75%;
   height: fit-content;
   margin-bottom: 100px;
-  background-color: ${Colors.Green_Nigth};
+  background-color: ${Colors.Oxford_Blue_transparent};
   margin-top: 160px;
   padding-top: 50px;
   display: flex;
@@ -210,7 +216,7 @@ const CarsStyleCont = styled.section`
 
   h4 {
     margin-bottom: 30px;
-    color: ${Colors.Green_Light};
+    color: ${Colors.Platinum};
     font-family: "New Rocker", cursive;
     font-size: 7rem;
   }
@@ -235,13 +241,14 @@ const CarsStyleCont = styled.section`
       width: 190px;
       height: 55px;
       padding: 0px 15px;
-      background-color: ${Colors.Green_Light};
-      color: ${Colors.Erie_Black};
+      background-color: ${Colors.Blue_life};
+      color: ${Colors.Platinum};
       border-radius: 10px;
+      border: none;
       font-size: 1.8rem;
       transition: all 0.5s ease;
       :hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
         cursor: pointer;
       }
     }
@@ -331,11 +338,24 @@ const CarsStyleCont = styled.section`
   }
 `;
 
-function HomeUNL() {
+const FooterStyle = styled.section`
+  box-sizing: border-box;
+  position: relative;
+  background-color: ${Colors.Erie_Black};
+  width: 100%;
+  height: 80px;
+  z-index: 27;
+  color: white;
+  padding-left: 75px;
+`;
+
+/* * * * * * * * * * * React Component Function  * * * * * * * * * * */
+function HomeBL() {
   const dispatch = useDispatch();
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
 
+  /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     dispatch(getPlaces());
   }, [dispatch]);
@@ -357,6 +377,7 @@ function HomeUNL() {
     FilterSounds: "",
   });
 
+  /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handlerClickReset = () => {
     dispatch(getPlaces());
     dispatch(
@@ -378,50 +399,66 @@ function HomeUNL() {
     setreRender(!reRender);
   };
 
+  /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
     <HomeStyleCont>
-      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
       <NavBar
-        LogIn
         Buscar
         FiltroA
         FiltroB
-        FondoImg
+        Eventos
+        Perfil
+        HelpLog
+        UserLog
         paginado={paginado}
         setFilter={setFilter}
         filter={filter}
       />
+
       <FirtVewStyleCont>
-        <div className="ImgTitleContainer">
+        <div className="ImgContainer">
           <img src={BGHome} alt="Background" />
-          <h1 className="h1">Rock Star Place</h1>
         </div>
-        <div className="ButonsContainer">
-          <a href="#SecondVewStyleCont" className="Link">
-            <div className="FondoVerde">+1500 Bandas y Solistas</div>
-          </a>
-          <a href="#SecondVewStyleCont" className="Link">
-            <div className="FondoVerde">+250 Locales</div>
-          </a>
-          <Link to="/registro" className="Link">
-            <div className="FondoVerde">¡Registrate ahora!</div>
-          </Link>
-        </div>
-        <a href="#SecondVewStyleCont" className="SVGDown">
-          <img src={SVGDown} alt="Down" />
-        </a>
-      </FirtVewStyleCont>
-      <SecondVewStyleCont id="SecondVewStyleCont">
-        <div className="ContenidoPrevio">
-          <button type="button" className="Link">
-            Proximo Evento
+        <div className="Heder">
+          <img className="Logo" src={IMGLogoA} alt="" />
+          <h1 className="Title">Nombre de la banda</h1>
+          <button type="button" className="Notificacion">
+            <img src="" alt="" />
           </button>
+        </div>
+        <div className="CardUnicaCont">
+          <div className="ImgBanda">
+            <img src={IMGBand} alt="Banda" />
+          </div>
+          <div className="ProximoInfCont">
+            <div className="ProximoInf">
+              <h4>Proximo Evento</h4>
+              <p>
+                <span>Local: </span>Bar las Americas <br />
+                <span>Fecha: </span>Sabado 27 de Marzo. <br />
+                <span>Contacto: </span>Rafael Gomez Plata <br />
+                <span>Telefono: </span> (+52) 55 6192 2596 <br />
+                <span>Direccion: </span> Av. Siempre Viva #54 interior 12 Colonia Las Americas
+              </p>
+            </div>
+            <div className="ProximoIMGyBtn">
+              <img src={IMGLocal} alt="Local" />
+              <Link className="Lynk_Btn" to="/home/band">
+                <button type="button">Detalle</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </FirtVewStyleCont>
+      <SecondVewStyleCont UserLog id="SecondVewStyleCont">
+        <div className="ContenidoPrevio">
           <img src={Logo} alt="Logo" />
         </div>
         <CarsStyleCont>
           <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
           <div className="Paginado">
             <Pagination
+              UserLog
               cardsPerPage={cardsPerPage}
               allPlaces={allPlaces.length}
               paginado={paginado}
@@ -438,7 +475,6 @@ function HomeUNL() {
               Resetear Filtros
             </button>
             <div className="Filtros">
-              {/* <h6>Filtros</h6> */}
               <div className="FiltrosData">
                 <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
                 <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
@@ -450,12 +486,13 @@ function HomeUNL() {
           </div>
           <div className="ContainerCards">
             {currentCards.length ? (
-              <CardsPlaces currentPlaces={currentCards} />
+              <CardsPlaces UserLog currentPlaces={currentCards} />
             ) : (
               <div className="NotFound"> ¡No se encontraron resultados! </div>
             )}
           </div>
           <Pagination
+            UserLog
             cardsPerPage={cardsPerPage}
             allPlaces={allPlaces.length}
             paginado={paginado}
@@ -463,8 +500,13 @@ function HomeUNL() {
           />
         </CarsStyleCont>
       </SecondVewStyleCont>
+      <FooterStyle>
+        Fotter
+        asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
+        sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
+      </FooterStyle>
     </HomeStyleCont>
   );
 }
 
-export default HomeUNL;
+export default HomeBL;
