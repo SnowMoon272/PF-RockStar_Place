@@ -1,5 +1,10 @@
 import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
-import { reviews, dates, Roles, musicBandInterface } from "../interfaces/musicBand.interfaces";
+import {
+	musicReviews,
+	musicDates,
+	musicRoles,
+	musicBandInterface,
+} from "../interfaces/musicBand.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -55,7 +60,7 @@ export const deleteMusicBand = async (email: string) => {
  *	@return {object} Retorna todos los reviews de la banda
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const addBandReview = async (email: string, review: reviews) => {
+export const addBandReview = async (email: string, review: musicReviews) => {
 	const userToAddReview = await getMusicBand(email);
 
 	if (userToAddReview) {
@@ -92,7 +97,10 @@ export const getMusicBand = async (email: string) => {
 
 export const getMusicBandByID = async (id: string) => {
 	try {
-		let musicBandResponse = await musicBand.findOne({ _id: id }, { password: 0 });
+		let musicBandResponse = await musicBand.findOne(
+			{ _id: id },
+			{ password: 0 }
+		);
 		if (musicBandResponse !== undefined) return musicBandResponse;
 		else return { error: "Musicband not found" };
 	} catch (error: any) {
@@ -141,7 +149,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 	newMusicBand.password = await encodePassword(newMusicBand.password);
 	newMusicBand.rating = 5;
-	newMusicBand.role = Roles.MUSICBAND;
+	newMusicBand.role = musicRoles.MUSICBAND;
 
 	try {
 		let created = await musicBand.create(newMusicBand);
@@ -162,7 +170,7 @@ export const getAllMusicBands = async () => {
 	try {
 		const allMusicBands = await musicBand.find(
 			{},
-			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 },
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
 		);
 		return allMusicBands;
 	} catch (error: any) {
@@ -189,7 +197,10 @@ export const banHandler = async (email: string) => {
 	}
 };
 
-export const updateMusicBand = async (email: string, data: musicBandInterface) => {
+export const updateMusicBand = async (
+	email: string,
+	data: musicBandInterface
+) => {
 	try {
 		const userToChange = await musicBand.findOne({ email });
 		if (userToChange) {

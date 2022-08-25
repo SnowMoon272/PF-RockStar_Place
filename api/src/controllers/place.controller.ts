@@ -6,9 +6,9 @@ import {
 	getPlaceByID,
 	getPlaceByName,
 	getCities,
+	updatePlace,
 	addDate,
 	deleteDate,
-} from "../db/models/placeModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
 	let { city, sound } = req.query;
@@ -30,7 +30,9 @@ const createPlaceController = async (req: Request, res: Response) => {
 		try {
 			let created = await createPlace(places);
 			if (created.hasOwnProperty("error"))
-				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res
+					.status(400)
+					.send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó el lugar correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
@@ -86,6 +88,24 @@ const getCitiesController = async (req: Request, res: Response) => {
 	}
 };
 
+const updatePlaceController = async (req: any, res: any) => {
+	const { email, data } = req.body;
+	if (data) {
+		try {
+			let updated = await updatePlace(email, data);
+			if (updated)
+				return res
+					.status(201)
+					.send({ msg: "Se actualizó el lugar correctamente" });
+			return res.status(400).send({ error: "Ha ocurrido un error" });
+		} catch (error) {
+			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
+		}
+	} else {
+		res.status(404).send({ msg: "Data faltante o incorrecta" });
+	}
+};
+
 const AddDatePlaceController = async (req: any, res: any) => {
 	const { email, date } = req.body;
 	try {
@@ -117,6 +137,7 @@ module.exports = {
 	getPlaceByIDController,
 	getPlaceByNameController,
 	getCitiesController,
+	updatePlaceController,
 	AddDatePlaceController,
 	DeleteDatePlaceController,
 };
