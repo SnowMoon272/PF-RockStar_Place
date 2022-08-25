@@ -31,14 +31,14 @@ function App() {
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/help/logeado" element={<HelpLogeado />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
-        <Route path="/place/:email" element={<DetailPlace />} />
-        <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
-        <Route path="/placeprofile/:id" element={<PerfilLocal />} />
+        <Route exact path="/place/:email" element={<DetailPlace />} />
+        <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
+        <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
         <Route exact path="/registro" element={<Registro />} />
         <Route exact path="/actualizar" element={<Actualizar />} />
-        <Route path="/suscribete" element={<Suscripcion />} />
-        <Route path="/suscripcionerror" element={<SuscripcionError />} />
-        <Route path="/suscripcionsuccess" element={<SuscripcionSucces />} />
+        <Route exact path="/suscribete" element={<Suscripcion />} />
+        <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
+        <Route exact path="/suscripcionsuccess" element={<SuscripcionSucces />} />
       </Routes>
     </AppStyle>
   );

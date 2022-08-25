@@ -10,7 +10,7 @@ import Colors from "../../Utils/colors";
 
 /* Form Img & SVG */
 import IMGoogle from "../../Assets/svg/Google.svg";
-import IMGFace from "../../Assets/svg/Facebook.svg";
+// import IMGFace from "../../Assets/svg/Facebook.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const RegisterStyleCont = styled.div`
@@ -189,10 +189,10 @@ function InciarSesion() {
                 <img src={IMGoogle} alt="" />
                 <p>Ingresar con Google</p>
               </button>
-              <button type="button">
+              {/* <button type="button">
                 <img src={IMGFace} alt="" />
                 <p>Ingresar con FAcebook</p>
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="Rigth">
