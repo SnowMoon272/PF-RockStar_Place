@@ -1,8 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import SVGGoogle from "../../Assets/svg/Google.svg";
+//import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
   width: 1920px;
@@ -74,52 +76,40 @@ const LoginRed = styled.div`
   width: 501px;
   height: 289px;
   left: 100px;
-  top: 441px;
+  top: 350px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .BTNFace {
-    /* position: absolute; */
-    width: 493px;
-    height: 65px;
-    left: 449px;
-    top: 567px;
-    background: #4285f4;
-    border-radius: 10px;
+  /* margin: 25px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; */
 
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 27px;
-    line-height: 39px;
+  button {
+    font-family: "RocknRoll One", sans-serif;
+    margin: 8px 0px;
+    width: 75%;
+    height: 60px;
+    background-color: #394b6e;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    text-align: center;
 
-    color: #ffffff;
+    & img {
+      width: 40px;
+      height: 40px;
+    }
+
+    & p {
+      font-size: 2rem;
+      margin: 0px auto;
+      color: ${Colors.Platinum};
+    }
   }
-
-  .BTNGoogle {
-    /* position: absolute; */
-    width: 493px;
-    height: 65px;
-    left: 449px;
-    top: 665px;
-    background: #4285f4;
-    border-radius: 10px;
-
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 27px;
-    line-height: 39px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #ffffff;
-  }
+  
 `;
 
 const LoginEmail = styled.div`
@@ -127,11 +117,21 @@ const LoginEmail = styled.div`
   width: 493px;
   height: 499.33px;
   left: 700px;
-  top: 441px;
+  top: 350px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .inptus{
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
 
   .email {
     /* position: absolute; */
@@ -147,7 +147,15 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
   }
 
   .password {
@@ -164,7 +172,15 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
   }
 
   .passwordRepeat {
@@ -180,11 +196,86 @@ const LoginEmail = styled.div`
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: rgba(229, 229, 229, 0.42);
+    //color: rgba(229, 229, 229, 0.42);
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
+
+  .error{
+    color: red;
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 19px;
+  }
+
+  .Tyc{
+    display: flex;
+    flex-direction: row;
+    //font-family: "RocknRoll One";
+    //font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 19px;
   }
 `;
 
 function Registro() {
+
+  const navigate = useNavigate();
+
+  const [input, setInput] = useState({
+    Password: "",
+    PasswordR: "",
+    Email: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  function validate(input) {
+    const errors = {};
+    if (!input.Password) {
+      errors.Password = "Ingresar contraseña";
+    }
+    if (!input.PasswordR) {
+      errors.PasswordR = "Repetir contraseña";
+    }
+    if (input.Password !== input.PasswordR) {
+      errors.PasswordR = "Las contraseñas no coinciden";
+    }
+    if (!input.Email) {
+      errors.Email = "Ingresar contraseña";
+    }
+    return errors;
+  };
+
+  function handleChange(e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+    setErrors(validate({ ...input, [e.target.name]: e.target.value }));
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    //dispatch(REGISTRO(input));
+    alert("Usuario creado con exito");
+    setInput({
+      Password: "",
+      PasswordR: "",
+      Email: "",
+    });
+    navigate("/");
+  };
+
   return (
     <LoginStyleCont>
       <NavBar LogIn Home FondoImg />
@@ -193,25 +284,70 @@ function Registro() {
         <h2>Registrate como local o banda</h2>
         <LoginRed>
           <h3>Registrate con una red social</h3>
-          <button type="button" className="BTNFace">
-            Registrate con Facebook
-          </button>
-          <button type="button" className="BTNGoogle">
-            Registrate con Google
+          {/* <button type="button">
+            <img src={SVGFacebook} alt="" />
+            <p>Registrate con Facebook</p>
+          </button> */}
+          <button type="button">
+            <img src={SVGGoogle} alt="" />
+            <p>Registrate con Google</p>
           </button>
         </LoginRed>
         <LoginEmail>
-          <h3>Registrate con tu e-mail</h3>
-          <input type="text" className="email" placeholder="Ingresa con tu e-mail" />
-          <input type="text" className="password" placeholder="Ingresa una contraseña" />
-          <input type="text" className="passwordRepeat" placeholder="Repite la contraseña" />
-          <input type="checkbox" />
-          <h4>
-            Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
-          </h4>
-          <button type="button" className="registro">
-            Registrarse
-          </button>
+          <form className="form" onSubmit={(e) => handleSubmit(e)}>
+            <div className="emailRegistro">
+              <h3>Registrate con tu e-mail</h3>
+              <input
+                type="email"
+                className="email"
+                placeholder="Ingresa con tu e-mail"
+                name="Email"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.Email}
+              />
+              {errors.Email && (
+                <p className="error">{errors.Email}</p>
+              )}
+            </div>
+            <div className="PasswordRegistro">
+              <input
+                type="password"
+                className="password"
+                placeholder="Ingresa una contraseña"
+                name="Password"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.Password}
+              />
+              {errors.Password && (
+                <p className="error">{errors.Password}</p>
+              )}
+            </div>
+            <div className="PasswordRRegistro">
+              <input
+                type="password"
+                className="passwordRepeat"
+                placeholder="Repite la contraseña"
+                name="PasswordR"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleChange}
+                value={input.PasswordR}
+              />
+              {errors.PasswordR && (
+                <p className="error">{errors.PasswordR}</p>
+              )}
+            </div>
+            <div className="Tyc">
+              <input type="checkbox" />
+              <h4>
+                Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
+              </h4>
+            </div>
+            <button type="submit" className="registro" disabled={!input.Email || !input.Password || !input.PasswordR || input.Password !== input.PasswordR}>
+              Registrarse
+            </button>
+          </form>
         </LoginEmail>
       </LoginStyleCont2>
     </LoginStyleCont>
