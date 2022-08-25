@@ -1,5 +1,10 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+//import OwlCarousel from "react-owl-carousel";
+//import "owl.carousel/dist/assets/owl.carousel.css";
+//import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
@@ -89,7 +94,24 @@ const DetailStyleCont = styled.div`
           }
         } */
       }
-
+      // carrousel
+      .owl-theme {
+        width: 270px;
+        display: flex;
+        flex-direction: column;
+        font-size: 10px;
+      }
+      .itemDate {
+        background-color: #d4005fb3;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        height: 75px;
+        width: 75px;
+        border: solid white;
+        margin: 3px;
+      }
       .comentar {
         background: rgba(229, 229, 229, 0.5);
         width: 100%;
@@ -198,6 +220,14 @@ const datesCerradas = [
     date: "19-10-2022",
     musicBand: "Damas Gratis",
   },
+  {
+    date: "25-10-2022",
+    musicBand: "Roberto G. Bolaños",
+  },
+  {
+    date: "02-11-2022",
+    musicBand: "Abel Pintos",
+  },
 ];
 
 //fechas disponibles
@@ -239,18 +269,22 @@ export default function DetailPlace() {
 
   const handleChange = (e) => {
     setInput({ ...input, comment: e.target.value });
-    setErrors(validate({
-      ...input,
-      comment: e.target.value,
-    }));
+    setErrors(
+      validate({
+        ...input,
+        comment: e.target.value,
+      }),
+    );
   };
 
   const handleClick = (e) => {
     setInput({ ...input, rating: e.target.value });
-    setErrors(validate({
-      ...input,
-      rating: e.target.value,
-    }));
+    setErrors(
+      validate({
+        ...input,
+        rating: e.target.value,
+      }),
+    );
   };
 
   const handleSubmit = (e) => {
@@ -266,11 +300,11 @@ export default function DetailPlace() {
             rating: Number(input.rating),
           },
           email: place.email,
-        })
+        }),
       );
-      setInput({ rating: "", comment: "" });
+      setInput({ rating: 0, comment: "" });
       setTimeout(() => {
-        setInput({ rating: "", comment: "" });
+        setInput({ rating: 0, comment: "" });
       }, 1000);
     }
   };
@@ -289,14 +323,8 @@ export default function DetailPlace() {
             <span className="description">{place.description}</span>
           </div>
           <div className="DataCont">
-            <span className="title">Próximos eventos</span>
-            {/* <OwlCarousel className="owl-theme" items="3" autoplay nav dots>
-              <div className="item">
-                <span>hola</span>
-              </div>
-            </OwlCarousel> */}
             <div className="DatesCont">
-              {datesCerradas &&
+              {/* {datesCerradas &&
                 datesCerradas.map((date) => {
                   return (
                     <div key={date.date} className="DateCard">
@@ -304,7 +332,7 @@ export default function DetailPlace() {
                       <span className="band">{date.musicBand}</span>
                     </div>
                   );
-                })}
+                })} */}
               {datesAvaible &&
                 datesAvaible.map((date) => {
                   return (
@@ -349,16 +377,8 @@ export default function DetailPlace() {
                     </button>
                   </div>
                 </div>
-                {
-                  errors.comment && (
-                    <span>{errors.comment}</span>
-                  )
-                }
-                {
-                  errors.rating && (
-                    <span>{errors.rating}</span>
-                  )
-                }
+                {errors.comment && <span>{errors.comment}</span>}
+                {errors.rating && <span>{errors.rating}</span>}
                 <button type="submit">Comentar</button>
               </div>
             </form>

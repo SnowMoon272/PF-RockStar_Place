@@ -6,8 +6,13 @@ const {
 	getPlaceByIDController,
 	getPlaceByNameController,
 	getCitiesController,
+	updatePlaceController,
+	DeleteDatePlaceController,
+	AddDatePlaceController,
+	suscribedSuccessfulController,
 } = require("../controllers/place.controller");
 const { ROLES, checkRoleAuth } = require("./middlewares/authorization.js");
+
 
 const router = Router();
 
@@ -23,5 +28,9 @@ router.post(
 router.get("/place/:id", getPlaceByIDController);
 router.get("/places/names", getPlaceByNameController);
 router.get("/cities", getCitiesController);
+router.put("/place", updatePlaceController);
+router.post("/placesdates", AddDatePlaceController);
+router.delete("/placesdates", DeleteDatePlaceController);
+router.put("/placesuscription", suscribedSuccessfulController);
 
 module.exports = router;
