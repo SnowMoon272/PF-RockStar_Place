@@ -52,7 +52,7 @@ export const placeSchema = new Schema({
 	],
 	pendingDates: [
 		{
-			place: String,
+			musicBand: String,
 			date: { type: Date, default: Date.now },
 		},
 	],
