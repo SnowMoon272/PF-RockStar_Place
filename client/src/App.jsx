@@ -12,6 +12,7 @@ import Registro from "./Components/Registro/Registro";
 import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
 import Suscripcion from "./Components/Suscribete/Suscripcion";
 import SuscripcionError from "./Components/Suscribete/SuscripcionError";
+import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -33,6 +34,7 @@ function App() {
         <Route exact path="/registro" element={<Registro />} />
         <Route path="/suscribete" element={<Suscripcion />} />
         <Route path="/suscripcionerror" element={<SuscripcionError />} />
+        <Route path="/suscripcionsuccess" element={<SuscripcionSucces />} />
       </Routes>
     </AppStyle>
   );

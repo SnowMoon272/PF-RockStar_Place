@@ -19,7 +19,7 @@ const checkOutController = async (req: Request, res: Response) => {
 			back_urls: {
 				failure: "http://localhost:3000/suscripcionerror",
 				pending: "http://localhost:3000/suscripcionerror",
-				success: "http://localhost:3000",
+				success: "http://localhost:3000/suscripcionsuccess",
 			},
 			auto_return: "approved",
 		};
