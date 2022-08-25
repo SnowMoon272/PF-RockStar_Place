@@ -60,7 +60,14 @@ export const placeSchema = new Schema({
 		instagram: { type: String, trim: true, default: undefined },
 	},
 	phoneNumber: { type: String, trim: true },
+
 	profilePicture: { type: String, require: false },
+
+	suscription: {
+		isSuscribed: { type: Boolean, default: false },
+		startDate: { type: Date, default: Date.now },
+		payment_id: { type: String, default: "" },
+	},
 });
 
 module.exports = placeSchema;
