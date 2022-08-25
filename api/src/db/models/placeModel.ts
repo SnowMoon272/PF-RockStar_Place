@@ -234,9 +234,52 @@ export const getCities = async () => {
 	}
 };
 
-export const addDate = async () => {
+export const addDate = async (email: string, date: Date) => {
 	try {
-	} catch (error) {
+		const placeToAddDate = await place.findOne({ email });
+		if (placeToAddDate) {
+			const allDates = [...placeToAddDate.dates, ...placeToAddDate.availableDates];
+			const repeatedDate = allDates.find((d) => d.date.toISOString().substring(0, 10) === date);
+
+			if (repeatedDate) return { error: "La fecha ya está cargada." };
+			allDates.push({
+				date: date,
+				isAvailable: true,
+			});
+
+			await place.updateOne({ email }, { availableDates: allDates });
+			return await place.findOne({ email });
+		} else return { error: "User does not exist." };
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const deleteDate = async (email: string, date: Date) => {
+	try {
+		const placeToDeleteDate = await place.findOne({ email });
+		if (placeToDeleteDate) {
+			const allDates = [...placeToDeleteDate.dates, ...placeToDeleteDate.availableDates];
+			const dates = allDates.filter((d) => d.date.toISOString().substring(0, 10) !== date);
+			if (
+				placeToDeleteDate.dates
+					.map((d: dates) => d.date.toISOString().substring(0, 10))
+					.includes(date)
+			) {
+				await place.updateOne({ email }, { dates: dates });
+				return { msg: "Fecha eliminada correctamente." };
+			}
+			if (
+				placeToDeleteDate.availableDates
+					.map((d: available) => d.date.toISOString().substring(0, 10))
+					.includes(date)
+			) {
+				await place.updateOne({ email }, { availableDates: dates });
+				return { msg: "Fecha eliminada correctamente." };
+			}
+			return { error: "La fecha no existe." };
+		} else return { error: "User does not exist." };
+	} catch (error: any) {
 		return { error };
 	}
 };
