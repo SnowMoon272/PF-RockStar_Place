@@ -4,7 +4,6 @@ export interface musicReviews {
 	rating: number;
 }
 export interface musicDates {
-	author: string;
 	place: string;
 	date: Date;
 }
