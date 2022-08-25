@@ -9,6 +9,7 @@ import {
 	updatePlace,
 	addDate,
 	deleteDate,
+	suscribedSuccessful,
 } from "../db/models/placeModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -126,6 +127,19 @@ const DeleteDatePlaceController = async (req: any, res: any) => {
 	}
 };
 
+const suscribedSuccessfulController = async (req: any, res: any) => {
+	const { email, suscription } = req.body;
+	if (email && suscription) {
+		try {
+			let userUpdate = await suscribedSuccessful(email, suscription);
+			return res.status(200).send(userUpdate);
+		} catch (error) {
+			return res.status(500).send({ error: "Internal problem" });
+		}
+	}
+	return res.status(404).send({ error: "Data faltante o incorrecta" });
+};
+
 module.exports = {
 	getAllPlacesController,
 	createPlaceController,
@@ -136,4 +150,5 @@ module.exports = {
 	updatePlaceController,
 	AddDatePlaceController,
 	DeleteDatePlaceController,
+	suscribedSuccessfulController,
 };

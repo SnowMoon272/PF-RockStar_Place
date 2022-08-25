@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -57,7 +58,31 @@ const SuscripcionDetailCont = styled.div`
   }
 `;
 
-export default function suscripcionError() {
+export default function suscripcionSuccess() {
+  const busqueda = useLocation().search;
+  const createSuscription = () => {
+    const respuesta = {
+      status: new URLSearchParams(busqueda).get("status"),
+      collection_status: new URLSearchParams(busqueda).get("collection_status"),
+      payment_id: new URLSearchParams(busqueda).get("payment_id"),
+    };
+    if (respuesta && respuesta.status === "approved") {
+      const suscription = {
+        isSuscribed: true,
+        startDate: Date.now(),
+        payment_id: respuesta.payment_id,
+      };
+      axios.put("http://localhost:3001/placesuscription", {
+        email: "Email hardcodeado",
+        suscription,
+      });
+    }
+  };
+
+  useEffect(() => {
+    createSuscription();
+  });
+
   return (
     <SuscripcionStyleCont>
       <NavBar Home />
