@@ -7,24 +7,24 @@ import SVGGoogle from "../../Assets/svg/Google.svg";
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100vh;
   background: #18191a;
-
-  position: relative;
+  position: absolute;
   box-sizing: border-box;
-  margin-left: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-left: 80px;
 `;
 
 const LoginStyleCont2 = styled.div`
-  position: absolute;
-  width: 1279px;
-  height: 897px;
-  left: 357px;
-  top: 92px;
+  box-sizing: border-box;
+  position: relative;
+  width: 70%;
+  height: 80%;
+  top: 120px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
   background: #041318;
 
   display: flex;
@@ -57,11 +57,11 @@ const LoginStyleCont2 = styled.div`
 
   .registro {
     font-family: "RocknRoll One", sans-serif;
-    width: 120px;
-    height: 40px;
+    width: 150px;
+    height: 45px;
     background-color: ${Colors.Green_Light};
     color: ${Colors.Erie_Black};
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 1.8rem;
     transition: all 0.5s ease;
     :hover {
@@ -81,12 +81,6 @@ const LoginRed = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* margin: 25px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; */
 
   button {
     font-family: "RocknRoll One", sans-serif;
@@ -109,7 +103,6 @@ const LoginRed = styled.div`
       color: ${Colors.Platinum};
     }
   }
-  
 `;
 
 const LoginEmail = styled.div`
@@ -123,7 +116,7 @@ const LoginEmail = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .inptus{
+  .inptus {
     background-color: transparent;
     border: none;
     border-bottom: 4px solid ${Colors.Blue_life};
@@ -207,7 +200,7 @@ const LoginEmail = styled.div`
     padding-left: 15px;
   }
 
-  .error{
+  .error {
     color: red;
     font-family: "RocknRoll One";
     font-style: normal;
@@ -216,7 +209,7 @@ const LoginEmail = styled.div`
     line-height: 19px;
   }
 
-  .Tyc{
+  .Tyc {
     display: flex;
     flex-direction: row;
     //font-family: "RocknRoll One";
@@ -224,11 +217,14 @@ const LoginEmail = styled.div`
     font-weight: 300;
     font-size: 15px;
     line-height: 19px;
+    a {
+      text-decoration: none;
+      color: ${Colors.Dark_Cornflower_blue};
+    }
   }
 `;
 
 function Registro() {
-
   const navigate = useNavigate();
 
   const [input, setInput] = useState({
@@ -254,7 +250,7 @@ function Registro() {
       errors.Email = "Ingresar contraseña";
     }
     return errors;
-  };
+  }
 
   function handleChange(e) {
     setInput({
@@ -262,7 +258,7 @@ function Registro() {
       [e.target.name]: e.target.value,
     });
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
-  };
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -274,7 +270,7 @@ function Registro() {
       Email: "",
     });
     navigate("/");
-  };
+  }
 
   return (
     <LoginStyleCont>
@@ -306,9 +302,7 @@ function Registro() {
                 onChange={handleChange}
                 value={input.Email}
               />
-              {errors.Email && (
-                <p className="error">{errors.Email}</p>
-              )}
+              {errors.Email && <p className="error">{errors.Email}</p>}
             </div>
             <div className="PasswordRegistro">
               <input
@@ -320,9 +314,7 @@ function Registro() {
                 onChange={handleChange}
                 value={input.Password}
               />
-              {errors.Password && (
-                <p className="error">{errors.Password}</p>
-              )}
+              {errors.Password && <p className="error">{errors.Password}</p>}
             </div>
             <div className="PasswordRRegistro">
               <input
@@ -334,9 +326,7 @@ function Registro() {
                 onChange={handleChange}
                 value={input.PasswordR}
               />
-              {errors.PasswordR && (
-                <p className="error">{errors.PasswordR}</p>
-              )}
+              {errors.PasswordR && <p className="error">{errors.PasswordR}</p>}
             </div>
             <div className="Tyc">
               <input type="checkbox" />
@@ -344,7 +334,16 @@ function Registro() {
                 Acpeto los <Link to="/TerminosyCondiciones"> terminos y condiciones</Link>
               </h4>
             </div>
-            <button type="submit" className="registro" disabled={!input.Email || !input.Password || !input.PasswordR || input.Password !== input.PasswordR}>
+            <button
+              type="submit"
+              className="registro"
+              disabled={
+                !input.Email ||
+                !input.Password ||
+                !input.PasswordR ||
+                input.Password !== input.PasswordR
+              }
+            >
               Registrarse
             </button>
           </form>
