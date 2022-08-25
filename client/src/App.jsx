@@ -16,7 +16,6 @@ import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import Actualizar from "./Components/ActualizarDatos/ActuailzarDatos";
 
-
 const AppStyle = styled.div`
   width: 100%;
   height: 100%;
@@ -36,6 +35,10 @@ function App() {
         <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
         <Route path="/placeprofile/:id" element={<PerfilLocal />} />
         <Route exact path="/registro" element={<Registro />} />
+        <Route exact path="/actualizar" element={<Actualizar />} />
+        <Route path="/suscribete" element={<Suscripcion />} />
+        <Route path="/suscripcionerror" element={<SuscripcionError />} />
+        <Route path="/suscripcionsuccess" element={<SuscripcionSucces />} />
       </Routes>
     </AppStyle>
   );

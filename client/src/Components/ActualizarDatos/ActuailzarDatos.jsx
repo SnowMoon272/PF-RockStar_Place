@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
@@ -32,21 +33,22 @@ const ActualizarDatosStyleCont2 = styled.div`
 
 export default function upLoadData() {
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const [image, setImage] = useState([]);
+  const dispatch = useDispatch();
+
+  const [image, setImage] = useState("");
 
   const [input, setInput] = useState({
-    email: "",
     name: "",
     personInCharge: "",
     description: "",
-    tel: "",
+    phoneNumber: "",
     profilePicture: image,
-    socialMedia: { instagram: "", spotify: "", youtube: "" },
+    instagram: "",
+    spotify: "",
+    youtube: "",
   });
-
-  console.log(input);
 
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
@@ -56,15 +58,13 @@ export default function upLoadData() {
       },
       (err, result) => {
         if (!err && result && result.event === "success") {
-          //console.log("Imagen subida con éxito", result.info);
-          setImage((prev) => [...prev, { url: result.info.url, public_id: result.info.public_id }]);
+          setImage(result.info.url);
           setInput({ ...input, profilePicture: result.info.url });
         }
-      }
+      },
     );
     widgetCloudinary.open();
   };
-  //console.log(input);
 
   function handleChange(e) {
     e.preventDefault();
@@ -81,18 +81,33 @@ export default function upLoadData() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(postData(input));
+    dispatch(postData({
+      email: "willsmith@gmail.com",
+      data: {
+        name: input.name,
+        personInCharge: input.personInCharge,
+        description: input.description,
+        phoneNumber: input.phoneNumber,
+        profilePicture: input.profilePicture,
+        socialMedia: {
+          instagram: input.instagram,
+          spotify: input.spotify,
+          youtube: input.youtube,
+        },
+      },
+    }));
     alert("Datos actualizados con exito");
     setInput({
-      email: "",
       name: "",
       personInCharge: "",
       description: "",
-      tel: "",
-      profilePicture: "",
-      socialMedia: { instagram: "", spotify: "", youtube: "" },
+      phoneNumber: "",
+      profilePicture: image,
+      instagram: "",
+      spotify: "",
+      youtube: "",
     });
-    //navigate("/perfil");
+    navigate("/");
   };
 
   return (
@@ -102,14 +117,14 @@ export default function upLoadData() {
         <h1>Completa/edita tus datos</h1>
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <div className="inputs">
-            <input type="email" placeholder="Email" className="input" value={input.email} name="email" onChange={(e) => handleChange(e)} />
+            {/* <input type="email" placeholder="Email" className="input" value={input.email} name="email" onChange={(e) => handleChange(e)} /> */}
             <input type="text" placeholder="Nombre de la banda o solista" className="input" value={input.name} name="name" onChange={(e) => handleChange(e)} />
             <input type="text" placeholder="Persona a cargo" className="input" value={input.personInCharge} name="personInCharge" onChange={(e) => handleChange(e)} />
             <input type="text" placeholder="Descripcion" className="input" value={input.description} name="description" onChange={(e) => handleChange(e)} />
-            <input type="tel" placeholder="Telefono de contacto" className="input" value={input.tel} name="tel" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Instagram" className="input" value={input.socialMedia.instagram} name="instagram" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Spotify" className="input" value={input.socialMedia.spotify} name="spotify" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Youtube" className="input" value={input.socialMedia.youtube} name="youtube" onChange={(e) => handleChange(e)} />
+            <input type="tel" placeholder="Telefono de contacto" className="input" value={input.phoneNumber} name="phoneNumber" onChange={(e) => handleChange(e)} />
+            <input type="text" placeholder="Instagram" className="input" value={input.instagram} name="instagram" onChange={(e) => handleChange(e)} />
+            <input type="text" placeholder="Spotify" className="input" value={input.spotify} name="spotify" onChange={(e) => handleChange(e)} />
+            <input type="text" placeholder="Youtube" className="input" value={input.youtube} name="youtube" onChange={(e) => handleChange(e)} />
           </div>
           <div>
             <h3>Foto de perfil</h3>
@@ -117,11 +132,12 @@ export default function upLoadData() {
               Subir foto
             </button>
             <div>
-              {image.map((img) => {
-                return (
-                  <img src={img.url ? img.url : notImg} alt="" key={img.public_id} />
-                );
-              })}
+              <img
+                src={image === "" ? notImg : image}
+                alt="img not found"
+                width="250px"
+                height="250px"
+              />
             </div>
           </div>
           <button type="submit" className="BTNActualizar">

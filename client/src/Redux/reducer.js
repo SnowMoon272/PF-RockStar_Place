@@ -10,7 +10,6 @@ import {
   POST_COMMENT,
   RESET_DETAILS,
   GET_DETAIL_MUSIC_BAND,
-  POST_DATA,
 } from "./actions";
 
 const initialState = {
@@ -76,10 +75,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         detail_place: action.payload,
-      };
-    case POST_DATA:
-      return {
-        ...state,
       };
     default:
       return state;

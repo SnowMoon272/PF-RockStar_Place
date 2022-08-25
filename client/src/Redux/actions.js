@@ -10,7 +10,6 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND";
-  POST_DATA = "POST_DATA";
 
 export function updateFilters(data) {
   return {
@@ -134,7 +133,7 @@ export function resetDetails(payload) {
 
 export function postData(payload) {
   return async (dispatch) => {
-    const json = await axios.post("http://localhost:3001/musicbands", payload);
+    const json = await axios.put("http://localhost:3001/musicband", payload);
     return json;
   };
 }
