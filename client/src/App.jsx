@@ -9,7 +9,7 @@ import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
-import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
+import PerfilMusico from "./Components/PerfilesLogueados/PerfilMusico";
 import Suscripcion from "./Components/Suscribete/Suscripcion";
 import SuscripcionError from "./Components/Suscribete/SuscripcionError";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
