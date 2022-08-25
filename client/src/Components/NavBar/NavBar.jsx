@@ -1,6 +1,3 @@
-/* eslint-disable no-fallthrough */
-/* eslint-disable react/destructuring-assignment */
-
 /* React stuff */
 import React, { useState } from "react";
 
@@ -20,7 +17,6 @@ import BTNSearch from "../../Assets/svg/Buscar.svg";
 import BTNFiltro from "../../Assets/svg/filtro.svg";
 import BTNHome from "../../Assets/svg/Home.svg";
 import BTNHelp from "../../Assets/svg/Ayuda.svg";
-import BTNEdit from "../../Assets/svg/Editar.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
 import BTNUser from "../../Assets/svg/User.svg";
@@ -30,8 +26,8 @@ import BTNUser from "../../Assets/svg/User.svg";
 const NavBarStyle = styled.nav`
   position: relative;
   z-index: 90;
-  background-image: url(${(props) => props.FondoImg && BGImg});
-  background-color: ${(props) => !props.FondoImg && Colors.Oxford_Blue};
+  background-image: url(${({ FondoImg }) => FondoImg && BGImg});
+  background-color: ${({ FondoImg }) => !FondoImg && Colors.Oxford_Blue};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -62,7 +58,7 @@ const NavBarStyle = styled.nav`
   .FondoVerde {
     box-sizing: border-box;
     font-family: "RocknRoll One", sans-serif;
-    background-color: ${(props) => (props.FondoImg ? "#132e2e91" : Colors.Oxford_Blue)};
+    background-color: ${({ FondoImg }) => (FondoImg ? "#132e2e91" : Colors.Oxford_Blue)};
     width: 100%;
     height: 100vh;
     display: flex;
@@ -104,7 +100,7 @@ const NavBarStyle = styled.nav`
           transition: all 0.5s ease;
           :hover {
             cursor: pointer;
-            transform: scale(1.1);
+            transform: scale(1.2);
           }
 
           img {
@@ -124,7 +120,7 @@ const NavBarStyle = styled.nav`
         font-size: 1.2rem;
 
         & img:hover {
-          transform: scale(1.1);
+          transform: scale(1.2);
         }
 
         .Ancord {
@@ -170,7 +166,7 @@ const NavBarStyle = styled.nav`
           border: solid black 4.5px;
           transition: all 0.5s ease;
           :hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
             cursor: pointer;
           }
         }
@@ -197,7 +193,22 @@ const NavBarStyle = styled.nav`
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function NavBar(props) {
+function NavBar({
+  Perfil,
+  Eventos,
+  FondoImg,
+  FiltroB,
+  paginado,
+  setFilter,
+  filter,
+  LogIn,
+  Home,
+  Buscar,
+  FiltroA,
+  HomeLinkBanda,
+  HelpLog,
+  UserLog,
+}) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
@@ -234,24 +245,25 @@ function NavBar(props) {
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
-    <NavBarStyle FondoImg={props.FondoImg}>
+    <NavBarStyle FondoImg={FondoImg}>
       <div className="Search_Filter">
         <SearchBarYFilters
-          paginado={props.paginado}
+          paginado={paginado}
           Search={navState.Search}
           FilterCities={navState.FilterCities}
           FilterSounds={navState.FilterSounds}
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
-          setFilter={props.setFilter}
-          filter={props.filter}
+          setFilter={setFilter}
+          filter={filter}
+          UserLog={UserLog}
         />
       </div>
       <div className="FondoVerde">
         <img src={Logo} alt="Logo" className="Logo" />
         <div className="ContainButons">
-          {props.LogIn ? (
+          {LogIn ? (
             <div className="buttonLink">
               <a className="Ancord" href="/iniciarsesion">
                 <img src={BTNLogin} alt="ico-login" />
@@ -267,15 +279,15 @@ function NavBar(props) {
             </div>
           )}
           <div className="ButonsEdits">
-            {props.Home && (
+            {Home && (
               <>
-                <Link to="/" className="Butons Link">
+                <Link to={HomeLinkBanda ? "/home/band" : "/"} className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Home</h3>
               </>
             )}
-            {props.Buscar && (
+            {Buscar && (
               <>
                 <button
                   type="button"
@@ -290,7 +302,7 @@ function NavBar(props) {
                 <h3 className="H3">Buscar</h3>
               </>
             )}
-            {props.FiltroA && (
+            {FiltroA && (
               <>
                 <button
                   disabled={navState.Search || navState.FilterSounds}
@@ -305,7 +317,7 @@ function NavBar(props) {
                 <h3 className="H3">Ciudad</h3>
               </>
             )}
-            {props.FiltroB && (
+            {FiltroB && (
               <>
                 <button
                   disabled={navState.Search || navState.FilterCities}
@@ -320,25 +332,25 @@ function NavBar(props) {
                 <h3 className="H3">Sonido</h3>
               </>
             )}
-            {props.Eventos && (
+            {Eventos && (
               <>
-                <button type="button" className="Butons">
+                <Link to="/" className="Butons Link">
                   <img src={BTNEvent} alt="ico-filtro" />
-                </button>
+                </Link>
                 <h3 className="H3">Eventos</h3>
               </>
             )}
-            {props.Edit && (
+            {Perfil && (
               <>
-                <button type="button" className="Butons Perfil">
+                <Link to="/" className="Butons Link Perfil">
                   <img src={BTNUser} alt="ico-filtro" />
-                </button>
+                </Link>
                 <h3 className="H3">Perfil</h3>
               </>
             )}
           </div>
           <div className="buttonLink">
-            <a className="Ancord" href="/help">
+            <a className="Ancord" href={HelpLog ? "/help/logeado" : "/help"}>
               <img className="FoundIMG" src={BTNHelp} alt="Help" />
             </a>
             <h3 className="H3">Ayuda</h3>

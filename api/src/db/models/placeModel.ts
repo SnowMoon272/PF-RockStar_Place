@@ -1,4 +1,10 @@
-import { reviews, dates, available, placeInterface, Roles } from "../interfaces/place.interfaces";
+import {
+	placeReviews,
+	placeDates,
+	placeAvailable,
+	placeInterface,
+	placeRoles,
+} from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -63,7 +69,9 @@ const getPlacesBySound = async (sound: string) => {
 };
 const getPlacesByCityAndSound = async (city: string, sound: string) => {
 	let filter =
-		sound === "sonidoSi" ? { city: city, hasSound: true } : { city: city, hasSound: false };
+		sound === "sonidoSi"
+			? { city: city, hasSound: true }
+			: { city: city, hasSound: false };
 	return await place.find(filter, PLACES_REQUIRED_INFO);
 };
 
@@ -128,7 +136,7 @@ export const reloadPlaceRating = async (email: string) => {
  * @returns {object} retorna todas las reviews del local.
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const addPlaceReview = async (email: string, review: reviews) => {
+export const addPlaceReview = async (email: string, review: placeReviews) => {
 	const userToAddReview = await getPlace(email);
 
 	if (userToAddReview) {
@@ -186,7 +194,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createPlace = async (newPlace: placeInterface) => {
 	newPlace.password = await encodePassword(newPlace.password);
 	newPlace.rating = 5;
-	newPlace.role = Roles.PLACE;
+	newPlace.role = placeRoles.PLACE;
 	newPlace.banned = false;
 
 	try {
@@ -217,7 +225,9 @@ export const banHandler = async (email: string) => {
 
 export const getPlaceByName = async (search: string) => {
 	try {
-		let placeResponse = await place.find({ name: { $regex: search, $options: "i" } });
+		let placeResponse = await place.find({
+			name: { $regex: search, $options: "i" },
+		});
 		if (placeResponse !== undefined) return placeResponse;
 		else return { error: "place not found" };
 	} catch (error) {
@@ -230,6 +240,36 @@ export const getCities = async () => {
 		const allCities = await place.find({}, { city: 1 }).distinct("city");
 		return allCities;
 	} catch (error) {
+		return { error };
+	}
+};
+
+export const updatePlace = async (email: string, data: placeInterface) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne(
+				{ email },
+				{
+					personInCharge: data.personInCharge,
+					name: data.name,
+					city: data.city,
+					hasSound: data.hasSound,
+					capacity: data.capacity,
+					adress: data.adress,
+					phoneNumber: data.phoneNumber,
+					profilePicture: data.profilePicture,
+					description: data.description,
+					socialMedia: {
+						instagram: data.socialMedia.instagram,
+					},
+				}
+			);
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
 		return { error };
 	}
 };
