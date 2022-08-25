@@ -27,7 +27,9 @@ const createMusicBandController = async (req: any, res: any) => {
 		try {
 			let created = await createMusicBand(musicBand);
 			if (created.hasOwnProperty("error"))
-				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res
+					.status(400)
+					.send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó la banda correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
