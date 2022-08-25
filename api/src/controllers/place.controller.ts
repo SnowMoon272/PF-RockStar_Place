@@ -7,6 +7,8 @@ import {
 	getPlaceByName,
 	getCities,
 	updatePlace,
+	addDate,
+	deleteDate,
 } from "../db/models/placeModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -29,9 +31,7 @@ const createPlaceController = async (req: Request, res: Response) => {
 		try {
 			let created = await createPlace(places);
 			if (created.hasOwnProperty("error"))
-				return res
-					.status(400)
-					.send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó el lugar correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
@@ -92,16 +92,37 @@ const updatePlaceController = async (req: any, res: any) => {
 	if (data) {
 		try {
 			let updated = await updatePlace(email, data);
-			if (updated)
-				return res
-					.status(201)
-					.send({ msg: "Se actualizó el lugar correctamente" });
+			if (updated) return res.status(201).send({ msg: "Se actualizó el lugar correctamente" });
 			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
 		}
 	} else {
 		res.status(404).send({ msg: "Data faltante o incorrecta" });
+	}
+};
+
+const AddDatePlaceController = async (req: any, res: any) => {
+	const { email, date } = req.body;
+	try {
+		let newDate = await addDate(email, date);
+		if (!newDate.hasOwnProperty("error"))
+			return res.status(201).send({ msg: "Se añadio la fecha correctamente" });
+		return res.status(400).send(newDate.error);
+	} catch (error) {
+		return res.status(500).send({ error: "Something went wrong" });
+	}
+};
+
+const DeleteDatePlaceController = async (req: any, res: any) => {
+	const { email, date } = req.body;
+
+	try {
+		let dateToDelete = await deleteDate(email, date);
+		if (!dateToDelete.hasOwnProperty("error")) return res.status(201).send(dateToDelete.msg);
+		return res.status(400).send(dateToDelete.error);
+	} catch (error) {
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
@@ -113,4 +134,6 @@ module.exports = {
 	getPlaceByNameController,
 	getCitiesController,
 	updatePlaceController,
+	AddDatePlaceController,
+	DeleteDatePlaceController,
 };
