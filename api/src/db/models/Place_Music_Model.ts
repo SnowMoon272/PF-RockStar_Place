@@ -40,11 +40,13 @@ export const addPendingDate = async (musicEmail: string, placeEmail: string, dat
 		return { error };
 	}
 };
-/* 
+
 export const confirmedDate = async (musicEmail: string, placeEmail: string, date: Date) => {
 	try {
 		const currentMusicBand = await getMusicBand(musicEmail);
 		const currentPlace = await getPlace(placeEmail);
+		console.log(currentMusicBand);
+		console.log(currentPlace);
 		if (currentMusicBand && currentPlace) {
 		} else {
 			return { error: "No se encontraron los usuarios" };
@@ -52,4 +54,4 @@ export const confirmedDate = async (musicEmail: string, placeEmail: string, date
 	} catch (error: any) {
 		return { error };
 	}
-}; */
+};
