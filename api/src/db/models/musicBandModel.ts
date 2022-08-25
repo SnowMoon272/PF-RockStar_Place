@@ -97,10 +97,7 @@ export const getMusicBand = async (email: string) => {
 
 export const getMusicBandByID = async (id: string) => {
 	try {
-		let musicBandResponse = await musicBand.findOne(
-			{ _id: id },
-			{ password: 0 }
-		);
+		let musicBandResponse = await musicBand.findOne({ _id: id }, { password: 0 });
 		if (musicBandResponse !== undefined) return musicBandResponse;
 		else return { error: "Musicband not found" };
 	} catch (error: any) {
@@ -170,7 +167,7 @@ export const getAllMusicBands = async () => {
 	try {
 		const allMusicBands = await musicBand.find(
 			{},
-			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 },
 		);
 		return allMusicBands;
 	} catch (error: any) {
@@ -197,10 +194,7 @@ export const banHandler = async (email: string) => {
 	}
 };
 
-export const updateMusicBand = async (
-	email: string,
-	data: musicBandInterface
-) => {
+export const updateMusicBand = async (email: string, data: musicBandInterface) => {
 	try {
 		const userToChange = await musicBand.findOne({ email });
 		if (userToChange) {
