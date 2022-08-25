@@ -102,9 +102,17 @@ export function popularitySort(payload) {
   };
 }
 
+//Cambiar el nombre
 export function postComment(payload) {
   return async (dispatch) => {
-    const json = await axios.post("http://localhost:3001/placereviews", payload);
+    const json = await axios({
+      method: "post",
+      url: "http://localhost:3001/placereviews",
+      data: payload,
+      headers: {
+        Authorization: localStorage.getItem("user-token"),
+      },
+    });
     return json;
   };
 }
