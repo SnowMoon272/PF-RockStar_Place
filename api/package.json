@@ -12,10 +12,11 @@
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mercadopago": "^1.5.14",
     "mongoose": "^6.5.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19",
@@ -33,11 +34,11 @@
     "ts-jest": "^28.0.8",
     "typescript": "^4.7.4"
   },
-  "jest" : {
-    "preset" : "ts-jest",
-    "testEnvironment":"node",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
     "collectCoverage": true,
-    "coveragePathIgnorePatterns" : [
+    "coveragePathIgnorePatterns": [
       "/node_modules",
       "/test/",
       "/dist/"
