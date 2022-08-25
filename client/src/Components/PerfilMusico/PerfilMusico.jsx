@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,175 +15,248 @@ import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 
-const ContAll = styled.div`
-  padding-left: 120px;
+const EditStyledCont = styled.div`
+  border: solid 3px red;
+  box-sizing: border-box;
+  padding-left: 70px;
   width: 100%;
   height: 100vh;
   background-image: url(${BGPerfil});
 
-  .divGral {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .divDatos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(20, 33, 61, 0.75);
-    width: 70vh;
-    height: 90vh;
-    margin: 25px 25px 25px 25px;
-  }
-
-  .Name {
-    font-family: "New Rocker";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 79px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: white;
-    margin: 2px 2px 2px 2px;
-  }
-
-  #imgRollingStones {
-    width: 350px;
-    border: white solid;
-  }
-
-  .divsDescripcion {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
-
-  .divContenedorDescripcion {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .Azules {
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 14px;
-    color: #4285f4;
-    margin-right: 5px;
-  }
-
-  .Blancos {
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    margin: 0px 0px 10px 0px;
-    color: white;
-  }
-
-  .divImgLogo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vh;
-    margin: 25px 25px 25px 25px;
-  }
-
-  #imgLogo {
-    width: 300px;
-  }
-
-  .divResenas {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 60vh;
-    background-color: rgba(20, 33, 61, 0.75);
-  }
-
-  .divImgyResenas {
-    width: 120vh;
-  }
-  .coment {
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    color: ${Colors.Platinum};
-    margin: 4% 0%;
-    padding: 0% 3%;
-  }
-  .NameRating {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .comentarios {
-    background: rgba(229, 229, 229, 0.5);
+  .VewContainer {
+    border: solid 3px blue;
+    box-sizing: border-box;
     width: 100%;
-    margin-top: 3%;
-    height: 400px;
-    overflow-y: scroll;
-  }
-
-  .estrella {
-    width: 15px;
-    margin-bottom: 12px;
-  }
-
-  .ImglogosRedes {
-    width: 40px;
-    height: 40px;
-    padding: 4px;
-    border-radius: 50px;
-    background-color: white;
-    margin: 20px 20px 20px 20px;
-  }
-  .ImglogosRedes:hover {
-    transform: scale(1.1);
-  }
-
-  .divRedes {
+    height: 100vh;
     display: flex;
-    flex-direction: row;
-  }
+    padding: 50px;
 
-  .divEditar {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-  .imgEditar {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    padding: 4px;
-    border-radius: 10px;
-    background-color: white;
-  }
-  .imgEditar:hover {
-    transform: scale(1.1);
-  }
+    .InfoBandaCont {
+      border: solid 3px yellow;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: ${Colors.Oxford_Blue_transparent};
+      width: 50%;
+      height: 95%;
+      padding: 25px 35px;
+      margin-right: 50px;
 
-  .divEditaryTexto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+      .TitleA {
+        border: solid 3px yellow;
+        font-family: "New Rocker";
+        font-weight: 400;
+        font-size: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${Colors.Platinum};
+        margin: 0px 0px 25px 0px;
+        width: 100%;
+      }
+      #ImgPerfil {
+        border: white solid 1px;
+        width: 100%;
+        height: 230px;
+      }
+      .divContenedorDescripcion {
+        border: solid 3px red;
 
-    h4 {
-      font-family: "RocknRoll One";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 14px;
-      margin: 10px 0px 10px 0px;
-      color: white;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+
+        .divsDescripcion {
+          border: solid 3px green;
+
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          width: 100%;
+          height: fit-content;
+
+          .Azules {
+            border: solid 3px purple;
+            font-family: "RocknRoll One";
+            letter-spacing: -1px;
+            font-weight: 300;
+            font-size: 2rem;
+            color: ${Colors.Blue_Vivid};
+            margin: 0px 5px 0px 0px;
+            height: fit-content;
+          }
+          .Blancos {
+            border: solid 3px palegreen;
+
+            font-family: "RocknRoll One";
+            font-weight: 400;
+            font-size: 1.4rem;
+            margin: 0px;
+            color: ${Colors.Platinum};
+            height: fit-content;
+          }
+        }
+
+        .RedesyEditarCont {
+          border: solid 3px purple;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .RedesCont {
+            border: solid 3px orange;
+            height: auto;
+            width: 50%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+
+            a {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: solid 3px purple;
+              width: 46px;
+              height: 46px;
+              border-radius: 50px;
+              margin: 0px 20px;
+
+              .ImglogosRedes {
+                width: 40px;
+                height: 40px;
+                padding: 4px;
+                border-radius: 50px;
+                background-color: white;
+                margin: 0px 20px;
+                transition: all 0.5s ease;
+
+                :hover {
+                  cursor: pointer;
+                  transform: scale(1.2);
+                }
+              }
+            }
+          }
+
+          .divEditar {
+            border: solid 3px blue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .imgEditar {
+              border: solid 3px black;
+              cursor: pointer;
+              width: 40px;
+              height: 40px;
+              border-radius: 50px;
+              background-color: white;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transition: all 0.5s ease;
+
+              :hover {
+                cursor: pointer;
+                transform: scale(1.2);
+              }
+
+              img {
+                width: 30px;
+                height: 30px;
+              }
+            }
+
+            h4 {
+              font-family: "RocknRoll One";
+              font-style: normal;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 14px;
+              margin: 10px 0px 10px 0px;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+
+    .ReseñasLogoCont {
+      border: solid 3px gray;
+
+      width: 120vh;
+
+      .divImgLogo {
+        border: solid 3px blue;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100vh;
+        margin: 25px 25px 25px 25px;
+        #imgLogo {
+          border: solid 3px blueviolet;
+
+          width: 300px;
+        }
+      }
+
+      .divResenas {
+        border: solid 3px blueviolet;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 60vh;
+        background-color: rgba(20, 33, 61, 0.75);
+
+        .TitleB {
+          border: solid 3px yellowgreen;
+          font-family: "New Rocker";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 40px;
+          line-height: 79px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          color: white;
+          margin: 2px 2px 2px 2px;
+        }
+
+        .comentarios {
+          border: solid 3px blue;
+
+          background: rgba(229, 229, 229, 0.5);
+          width: 100%;
+          margin-top: 3%;
+          height: 400px;
+          overflow-y: scroll;
+
+          .coment {
+            border: solid 3px orange;
+
+            font-family: "RocknRoll One";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            color: ${Colors.Platinum};
+            margin: 4% 0%;
+            padding: 0% 3%;
+            .NameRating {
+              border: solid 3px orangered;
+
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -244,18 +318,18 @@ export default function PerfilMusico() {
   const dispatch = useDispatch();
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
-
+  console.log(musicBand);
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
   }, [dispatch]);
 
   return (
-    <ContAll>
-      <NavBar Home Eventos Perfil />
-      <div className="divGral">
-        <div className="divDatos">
-          <h1 className="Name">{musicBand.name}</h1>
-          <img id="imgRollingStones" src={ImgRollingStones} alt="" />
+    <EditStyledCont Foto={musicBand}>
+      <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
+      <div className="VewContainer">
+        <div className="InfoBandaCont">
+          <h1 className="TitleA">{musicBand.name}</h1>
+          <img id="ImgPerfil" src={ImgRollingStones} alt="" />
           <div className="divContenedorDescripcion">
             <div className="divsDescripcion">
               <h2 className="Azules">Persona a Cargo:</h2>
@@ -275,12 +349,11 @@ export default function PerfilMusico() {
             </div>
             <div className="divsDescripcion">
               <h2 className="Azules">Rating:</h2>
-              <img className="estrella" src={Estrella} alt="" />
-              <h3 className="Blancos">{musicBand.rating}</h3>
+              <h3 className="Blancos">⭐{musicBand.rating}</h3>
             </div>
             <div>
-              <div className="divRedesyEditar">
-                <div>
+              <div className="RedesyEditarCont">
+                <div className="RedesCont">
                   <a href={`http://www.youtube.com/c/${musicBandMockeada.socialMedia.youtube}`}>
                     <img className="ImglogosRedes" src={LogoYouTube} alt="" />
                   </a>
@@ -294,21 +367,21 @@ export default function PerfilMusico() {
                   </a>
                 </div>
                 <div className="divEditar">
-                  <div className="divEditaryTexto">
-                    <img className="imgEditar" src={Editar} alt="" />
-                    <h4>Editar</h4>
+                  <div className="imgEditar">
+                    <img src={Editar} alt="Edit" />
                   </div>
+                  <h4>Editar</h4>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="divImgyResenas">
+        <div className="ReseñasLogoCont">
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
           <div className="divResenas">
-            <h1 className="Name">Reseñas</h1>
+            <h1 className="TitleB">Reseñas</h1>
             <div className="comentarios">
               {reviews &&
                 reviews.map((review) => {
@@ -327,6 +400,6 @@ export default function PerfilMusico() {
           </div>
         </div>
       </div>
-    </ContAll>
+    </EditStyledCont>
   );
 }
