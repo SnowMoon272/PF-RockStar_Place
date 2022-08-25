@@ -58,7 +58,8 @@ const ReseñasStyleCont = styled.div`
 
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
+        padding: 0px 35px;
       }
     }
   }
@@ -86,74 +87,36 @@ const ReseñasStyleCont = styled.div`
   }
 `;
 
-const reviews = [
-  {
-    author: "Dabchick",
-    comment: "Excelente, cumplieron con todo",
-    rating: 5,
-    _id: "62ff90dea8e5ca245040b11d",
-  },
-  {
-    author: "Wild boar",
-    comment: "Me rompieron el baño",
-    rating: 1,
-    _id: "62ff9102a8e5ca245040b123",
-  },
-  {
-    author: "Lapwing (unidentified)",
-    comment:
-      "Muy profesionales pero sinceramente prefiero pasar mis tardes comiendo carne seca sentado esdñlkifjgjpsiorlfjbopijlsfgjhio sdlfigojjsd lfiug hspdifu ghpiosdff bgpiosdf fjpgoi sdfiopu gsldiof gliosud fgpiousd fhlgiusndfbd vlbkjsdrfg oibuwhn  n mi sillon mientraskjñlk fpgois dfoiughjasdpoifjgpoaisd fpogishjd fligu asd.",
-    rating: 4,
-    _id: "62ff9142a8e5ca245040b12a",
-  },
-  {
-    author: "Wallaby, euro",
-    comment: "Llegaron un poco tarde, pero bien",
-    rating: 3,
-    _id: "6302c0659497c20b077c5b43",
-  },
-  {
-    author: "Tapir, brazilian",
-    comment: "Cumplieron con todo lo pactado",
-    rating: 4,
-    _id: "6303716e2e59e75db909234d",
-  },
-  {
-    author: "Banded mongoose",
-    comment: "Todo ok",
-    rating: 5,
-    _id: "6303aa36d3d008a3ee75e513",
-  },
-  {
-    author: "Red-necked phalarope",
-    comment: "Me hicieron ganar mucho dinero",
-    rating: 5,
-    _id: "6303aa42d3d008a3ee75e526",
-  },
-];
-
-function ReseñasOpinon({ Reseñas, Opinion }) {
+function ReseñasOpinon({ Opinion, musicBand }) {
   return (
     <ReseñasStyleCont>
-      <h1 className="TitleB">Reseñas</h1>
+      <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
       <div className="comentarios">
-        {reviews &&
-          reviews.map((review) => {
-            return (
-              <div key={review._id} className="coment">
-                <div className="NameRating">
-                  <span className="autor">{review.author}</span>
-                  <span className="ratingcoment">Rating: ⭐{review.rating}</span>
+        {Opinion
+          ? "Aqui va tu opinion"
+          : musicBand.reviews &&
+            musicBand.reviews.map((review) => {
+              return (
+                <div key={review._id} className="coment">
+                  <div className="NameRating">
+                    <span className="autor">{review.author}</span>
+                    <span className="ratingcoment">Rating: ⭐{review.rating}</span>
+                  </div>
+                  <p className="contenidocoment">{review.comment}</p>
+                  <hr />
                 </div>
-                <p className="contenidocoment">{review.comment}</p>
-                <hr />
-              </div>
-            );
-          })}
+              );
+            })}
       </div>
-      <Link className="Boton" to="/">
-        Detalles
-      </Link>
+      {Opinion ? (
+        <Link className="Boton" to="/">
+          Detalles B
+        </Link>
+      ) : (
+        <Link className="Boton" to="/">
+          Detalles A
+        </Link>
+      )}
     </ReseñasStyleCont>
   );
 }

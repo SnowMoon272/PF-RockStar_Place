@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -216,7 +216,7 @@ const EditStyledCont = styled.div`
       /* border: solid 3px gray; */
 
       width: 70%;
-      height: 100%;
+      height: 89%;
 
       .divImgLogo {
         /* border: solid 3px blue; */
@@ -229,6 +229,32 @@ const EditStyledCont = styled.div`
           /* border: solid 3px blueviolet; */
           width: 36%;
           margin: 0px 0px 25px 0px;
+        }
+      }
+
+      .BotonOpinion {
+        position: relative;
+        left: 79%;
+        top: 9%;
+        border: none;
+        font-family: "New Rocker";
+        font-weight: 400;
+        font-size: 2rem;
+        border-radius: 10px;
+        background-color: ${Colors.Blue_life};
+        width: 15%;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${Colors.Platinum};
+        text-decoration: none;
+        margin-top: 20px;
+        transition: all 0.5s ease;
+
+        :hover {
+          cursor: pointer;
+          transform: scale(1.2);
         }
       }
     }
@@ -247,10 +273,18 @@ export default function PerfilMusico() {
   const dispatch = useDispatch();
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
-  // console.log(musicBand);
+  console.log(musicBand);
+
+  const [stateReseña, setStateReseña] = useState(false);
+
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
   }, [dispatch]);
+
+  const handlerSutch = (e) => {
+    e.preventDefault();
+    setStateReseña(!stateReseña);
+  };
 
   return (
     <EditStyledCont Foto={musicBand}>
@@ -258,7 +292,7 @@ export default function PerfilMusico() {
       <div className="VewContainer">
         <div className="InfoBandaCont">
           <h1 className="TitleA">{musicBand.name}</h1>
-          <img id="ImgPerfil" src={ImgRollingStones} alt="" />
+          <img id="ImgPerfil" src={musicBand.profilePicture} alt="Foto Perfil" />
           <div className="divContenedorDescripcion">
             <div className="divsDescripcionCont">
               <div className="divsDescripcion">
@@ -271,13 +305,12 @@ export default function PerfilMusico() {
               </div>
               <div className="divsDescripcion">
                 <span className="Azules">Telefono:</span>
-                <h3 className="Blancos">+54 911 6666-6666</h3>
+                <h3 className="Blancos">{musicBand.phoneNumber}</h3>
               </div>
               <div className="divsDescripcion">
                 <h3 className="Blancos">
                   <span className="Azules">Descripción:</span>
-                  Tengo que lograr algo esta noche de trabajo por lo menos que los componentes se
-                  vean mamalones Acá va la descripcion de la banda/solista
+                  {musicBand.description}
                 </h3>
               </div>
               <div className="divsDescripcion">
@@ -314,8 +347,16 @@ export default function PerfilMusico() {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          {/* <ReseñasOpinion Reseñas Opinion /> */}
-          <ReseñasOpinion Reseñas />
+          <button
+            onClick={(e) => {
+              handlerSutch(e);
+            }}
+            className="BotonOpinion"
+            type="button"
+          >
+            {stateReseña ? "Reseñas" : "Opinion"}
+          </button>
+          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>
