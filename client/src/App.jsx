@@ -10,6 +10,7 @@ import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
 import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
 import Suscripcion from "./Components/Suscribete/Suscripcion";
+import SuscripcionError from "./Components/Suscribete/SuscripcionError";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -29,6 +30,7 @@ function App() {
         <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
         <Route exact path="/registro" element={<Registro />} />
         <Route path="/suscribete" element={<Suscripcion />} />
+        <Route path="/suscripcionerror" element={<SuscripcionError />} />
       </Routes>
     </AppStyle>
   );
