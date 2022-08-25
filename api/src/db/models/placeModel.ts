@@ -1,4 +1,10 @@
-import { reviews, dates, available, placeInterface, Roles } from "../interfaces/place.interfaces";
+import {
+	placeReviews,
+	placeDates,
+	placeAvailable,
+	placeInterface,
+	placeRoles,
+} from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -128,7 +134,7 @@ export const reloadPlaceRating = async (email: string) => {
  * @returns {object} retorna todas las reviews del local.
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const addPlaceReview = async (email: string, review: reviews) => {
+export const addPlaceReview = async (email: string, review: placeReviews) => {
 	const userToAddReview = await getPlace(email);
 
 	if (userToAddReview) {
@@ -186,7 +192,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createPlace = async (newPlace: placeInterface) => {
 	newPlace.password = await encodePassword(newPlace.password);
 	newPlace.rating = 5;
-	newPlace.role = Roles.PLACE;
+	newPlace.role = placeRoles.PLACE;
 	newPlace.banned = false;
 
 	try {
@@ -217,7 +223,9 @@ export const banHandler = async (email: string) => {
 
 export const getPlaceByName = async (search: string) => {
 	try {
-		let placeResponse = await place.find({ name: { $regex: search, $options: "i" } });
+		let placeResponse = await place.find({
+			name: { $regex: search, $options: "i" },
+		});
 		if (placeResponse !== undefined) return placeResponse;
 		else return { error: "place not found" };
 	} catch (error) {
@@ -230,6 +238,86 @@ export const getCities = async () => {
 		const allCities = await place.find({}, { city: 1 }).distinct("city");
 		return allCities;
 	} catch (error) {
+		return { error };
+	}
+};
+
+export const updatePlace = async (email: string, data: placeInterface) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne(
+				{ email },
+				{
+					personInCharge: data.personInCharge,
+					name: data.name,
+					city: data.city,
+					hasSound: data.hasSound,
+					capacity: data.capacity,
+					adress: data.adress,
+					phoneNumber: data.phoneNumber,
+					profilePicture: data.profilePicture,
+					description: data.description,
+					socialMedia: {
+						instagram: data.socialMedia.instagram,
+					},
+				},
+			);
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const addDate = async (email: string, date: Date) => {
+	try {
+		const placeToAddDate = await place.findOne({ email });
+		if (placeToAddDate) {
+			const allDates = [...placeToAddDate.dates, ...placeToAddDate.availableDates];
+			const repeatedDate = allDates.find((d) => d.date.toISOString().substring(0, 10) === date);
+
+			if (repeatedDate) return { error: "La fecha ya está cargada." };
+			allDates.push({
+				date: date,
+				isAvailable: true,
+			});
+
+			await place.updateOne({ email }, { availableDates: allDates });
+			return await place.findOne({ email });
+		} else return { error: "User does not exist." };
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const deleteDate = async (email: string, date: Date) => {
+	try {
+		const placeToDeleteDate = await place.findOne({ email });
+		if (placeToDeleteDate) {
+			const allDates = [...placeToDeleteDate.dates, ...placeToDeleteDate.availableDates];
+			const dates = allDates.filter((d) => d.date.toISOString().substring(0, 10) !== date);
+			if (
+				placeToDeleteDate.dates
+					.map((d: placeDates) => d.date.toISOString().substring(0, 10))
+					.includes(date)
+			) {
+				await place.updateOne({ email }, { dates: dates });
+				return { msg: "Fecha eliminada correctamente." };
+			}
+			if (
+				placeToDeleteDate.availableDates
+					.map((d: placeAvailable) => d.date.toISOString().substring(0, 10))
+					.includes(date)
+			) {
+				await place.updateOne({ email }, { availableDates: dates });
+				return { msg: "Fecha eliminada correctamente." };
+			}
+			return { error: "La fecha no existe." };
+		} else return { error: "User does not exist." };
+	} catch (error: any) {
 		return { error };
 	}
 };
