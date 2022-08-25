@@ -1,18 +1,14 @@
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 /* Modules */
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
-import Pagination from "../Pagination/Pagination";
-import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -419,66 +415,10 @@ const FooterStyle = styled.section`
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeBL() {
-  const dispatch = useDispatch();
-  const allPlaces = useSelector((state) => state.places);
-  const filters = useSelector((state) => state.filters);
-
-  /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  useEffect(() => {
-    dispatch(getPlaces());
-  }, [dispatch]);
-
-  const [reRender, setreRender] = useState(false);
-
-  // Pagination
-  const [pageNumber, setPageNumber] = useState(1);
-  const [cardsPerPage] = useState(10);
-  const ultimaCard = pageNumber * cardsPerPage;
-  const primeraCard = ultimaCard - cardsPerPage;
-  const currentCards = allPlaces.slice(primeraCard, ultimaCard);
-  const paginado = (num) => {
-    setPageNumber(num);
-  };
-
-  const [filter, setFilter] = useState({
-    FilterCities: "",
-    FilterSounds: "",
-  });
-
-  /* * * * * * * * * * * Handle´s * * * * * * * * * * */
-  const handlerClickReset = () => {
-    dispatch(getPlaces());
-    dispatch(
-      updateFilters({
-        Ciudad: false,
-        Sonido: false,
-      }),
-    );
-    setFilter({
-      FilterCities: "",
-      FilterSounds: "",
-    });
-    paginado(1);
-  };
-
-  const handleClickSort = () => {
-    dispatch(popularitySort(allPlaces));
-    paginado(1);
-    setreRender(!reRender);
-  };
-
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
     <HomeStyleCont>
-      <NavBar
-        Eventos
-        Perfil
-        HelpLog
-        UserLog
-        paginado={paginado}
-        setFilter={setFilter}
-        filter={filter}
-      />
+      <NavBar Eventos Perfil HelpLog UserLog />
 
       <FirtVewStyleCont>
         <div className="ImgContainer">

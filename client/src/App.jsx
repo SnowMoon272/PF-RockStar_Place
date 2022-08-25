@@ -9,9 +9,12 @@ import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
-import PerfilMusico from "./Components/PerfilMusico/PerfilMusico";
+import PerfilMusico from "./Components/PerfilesLogueados/PerfilMusico";
 import Suscripcion from "./Components/Suscribete/Suscripcion";
 import SuscripcionError from "./Components/Suscribete/SuscripcionError";
+import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
+import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
+
 
 const AppStyle = styled.div`
   width: 100%;
@@ -30,9 +33,11 @@ function App() {
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route path="/place/:email" element={<DetailPlace />} />
         <Route path="/musicbandprofile/:id" element={<PerfilMusico />} />
+        <Route path="/placeprofile/:id" element={<PerfilLocal />} />
         <Route exact path="/registro" element={<Registro />} />
         <Route path="/suscribete" element={<Suscripcion />} />
         <Route path="/suscripcionerror" element={<SuscripcionError />} />
+        <Route path="/suscripcionsuccess" element={<SuscripcionSucces />} />
       </Routes>
     </AppStyle>
   );

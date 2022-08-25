@@ -21,7 +21,7 @@ const SuscripcionStyleCont = styled.div`
 const SuscripcionDetailCont = styled.div`
   box-sizing: border-box;
   width: 40%;
-  height: 450px;
+  height: 30%;
   background-color: ${Colors.Oxford_Blue};
   display: flex;
   margin: 2.5% 10%;
@@ -32,24 +32,9 @@ const SuscripcionDetailCont = styled.div`
 
   text-align: center;
 
-  .divText {
-    width: 150px;
-    position: relative;
-    z-index: 0;
-  }
-  h2 {
-    height: 2px;
-    width: 300px;
-    font-family: "RocknRoll One";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    color: ${Colors.Platinum};
-    margin-top: 3%;
-    margin-left: 95%;
-  }
   img {
     height: 100%;
+    width: 100%;
   }
   .btnCont {
     margin-top: -9%;
@@ -63,10 +48,10 @@ export default function suscripcionError() {
 
       <SuscripcionDetailCont>
         <img src={hombrePerdido} alt="img not found" />
-        <div className="btnCont">
-          <BotonSuscribete />
-        </div>
       </SuscripcionDetailCont>
+      <div className="btnCont">
+        <BotonSuscribete />
+      </div>
     </SuscripcionStyleCont>
   );
 }

@@ -8,7 +8,6 @@ import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import ImgRollingStones from "../../Assets/img/ROLLING STONES.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
 import ReseñasOpinion from "./ReseñasOpinon";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
@@ -273,7 +272,6 @@ export default function PerfilMusico() {
   const dispatch = useDispatch();
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
-  console.log(musicBand);
 
   const [stateReseña, setStateReseña] = useState(false);
 
