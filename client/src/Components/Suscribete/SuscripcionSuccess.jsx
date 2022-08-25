@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import BotonSuscribete from "./BotonSuscripcion";
+import { Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/HomeConcert.jpg";
-import hombrePerdido from "../../Assets/img/hombreperdido.png";
+import hombreFeliz from "../../Assets/img/hombrefeliz.png";
 
 const SuscripcionStyleCont = styled.div`
   background-color: ${Colors.Erie_Black};
@@ -16,6 +16,22 @@ const SuscripcionStyleCont = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  .btnSuscribete {
+    font-family: "RocknRoll One", sans-serif;
+    width: 190px;
+    height: 55px;
+    padding: 0px 15px;
+    background-color: ${Colors.Green_Light};
+    color: ${Colors.Erie_Black};
+    border-radius: 10px;
+    font-size: 1.8rem;
+    transition: all 0.5s ease;
+    :hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
 `;
 
 const SuscripcionDetailCont = styled.div`
@@ -47,11 +63,13 @@ export default function suscripcionError() {
       <NavBar Home />
 
       <SuscripcionDetailCont>
-        <img src={hombrePerdido} alt="img not found" />
+        <img src={hombreFeliz} alt="img not found" />
       </SuscripcionDetailCont>
-      <div className="btnCont">
-        <BotonSuscribete />
-      </div>
+      <Link to="/">
+        <button className="btnSuscribete" type="submit">
+          Home
+        </button>
+      </Link>
     </SuscripcionStyleCont>
   );
 }
