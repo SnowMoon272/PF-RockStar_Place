@@ -76,6 +76,7 @@ const NavBarStyle = styled.nav`
       margin: 30px 0px;
       .H3 {
         margin: 4px;
+        font-weight: 400;
       }
 
       .buttonLinkLogOut {
