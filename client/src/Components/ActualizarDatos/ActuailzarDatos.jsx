@@ -90,6 +90,7 @@ export default function upLoadData() {
       description: "",
       tel: "",
       profilePicture: "",
+      socialMedia: { instagram: "", spotify: "", youtube: "" },
     });
     //navigate("/perfil");
   };
@@ -107,8 +108,8 @@ export default function upLoadData() {
             <input type="text" placeholder="Descripcion" className="input" value={input.description} name="description" onChange={(e) => handleChange(e)} />
             <input type="tel" placeholder="Telefono de contacto" className="input" value={input.tel} name="tel" onChange={(e) => handleChange(e)} />
             <input type="text" placeholder="Instagram" className="input" value={input.socialMedia.instagram} name="instagram" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Spotify" className="input" value={input.socialMedia} name="spotify" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Youtube" className="input" value={input.socialMedia} name="youtube" onChange={(e) => handleChange(e)} />
+            <input type="text" placeholder="Spotify" className="input" value={input.socialMedia.spotify} name="spotify" onChange={(e) => handleChange(e)} />
+            <input type="text" placeholder="Youtube" className="input" value={input.socialMedia.youtube} name="youtube" onChange={(e) => handleChange(e)} />
           </div>
           <div>
             <h3>Foto de perfil</h3>
