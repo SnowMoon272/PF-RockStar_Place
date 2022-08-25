@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
-import SVGFacebook from "../../Assets/svg/Facebook.svg";
+//import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
   width: 1920px;
@@ -284,10 +284,10 @@ function Registro() {
         <h2>Registrate como local o banda</h2>
         <LoginRed>
           <h3>Registrate con una red social</h3>
-          <button type="button">
+          {/* <button type="button">
             <img src={SVGFacebook} alt="" />
             <p>Registrate con Facebook</p>
-          </button>
+          </button> */}
           <button type="button">
             <img src={SVGGoogle} alt="" />
             <p>Registrate con Google</p>
