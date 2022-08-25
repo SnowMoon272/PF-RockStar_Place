@@ -1,25 +1,26 @@
-export interface reviews {
+export interface placeReviews {
 	author: string;
 	comment: string;
 	rating: number;
 }
 
-export interface dates {
+export interface placeDates {
 	musicBand: string;
 	date: Date;
 }
-export interface available {
+export interface placeAvailable {
 	isAvailable: boolean;
 	date: Date;
 }
 
-export enum Roles {
+export enum placeRoles {
 	ADMIN = "admin",
 	MUSICBAND = "musicband",
 	PLACE = "place",
 }
 
 export type placeInterface = {
+	personInCharge: string;
 	capacity: string;
 	name: string;
 	email: string;
@@ -29,17 +30,17 @@ export type placeInterface = {
 	adress: string;
 	rating: number;
 	description: string;
-	reviews: reviews[];
-	dates: dates[];
-	availableDates: available[];
-	socialMedia: socialMedia;
-	pendingDates: dates[];
+	reviews: placeReviews[];
+	dates: placeDates[];
+	availableDates: placeAvailable[];
+	socialMedia: placeSocialMedia;
+	pendingDates: placeDates[];
 	profilePicture: string;
 	banned: boolean;
-	role: Roles;
+	role: placeRoles;
 	phoneNumber: string;
 };
 
-export type socialMedia = {
+export type placeSocialMedia = {
 	instagram: string;
 };
