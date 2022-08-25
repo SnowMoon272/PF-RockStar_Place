@@ -11,7 +11,7 @@ const bcrypt = require("bcrypt");
 
 const placeSchemaModel = require("../schemas/placeSchema");
 
-const place = model("place", placeSchemaModel);
+export const place = model("place", placeSchemaModel);
 
 const PLACES_REQUIRED_INFO = {
 	city: 1,
