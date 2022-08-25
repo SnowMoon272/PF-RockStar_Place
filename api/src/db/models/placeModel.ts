@@ -4,6 +4,7 @@ import {
 	placeAvailable,
 	placeInterface,
 	placeRoles,
+	suscription,
 } from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -261,7 +262,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				},
+				}
 			);
 			return place.findOne({ email });
 		} else {
@@ -319,5 +320,14 @@ export const deleteDate = async (email: string, date: Date) => {
 		} else return { error: "User does not exist." };
 	} catch (error: any) {
 		return { error };
+	}
+};
+
+export const suscribedSuccessful = async (email: string, suscription: suscription) => {
+	try {
+		await place.updateOne({ email }, { suscription });
+		return { msg: "Suscription is done!" };
+	} catch (error) {
+		return { error: "Is something wrong" };
 	}
 };

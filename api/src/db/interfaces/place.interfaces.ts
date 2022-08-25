@@ -44,3 +44,9 @@ export type placeInterface = {
 export type placeSocialMedia = {
 	instagram: string;
 };
+
+export type suscription = {
+	isSuscribed: boolean;
+	startDate: Date;
+	payment_id: string;
+};
