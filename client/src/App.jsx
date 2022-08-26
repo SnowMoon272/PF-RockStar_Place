@@ -16,6 +16,7 @@ import SuscripcionError from "./Components/Suscribete/SuscripcionError";
 import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import Actualizar from "./Components/ActualizarDatos/ActuailzarDatos";
+import DetailPlaceBL from "./Components/DetailPlace/DetailPlaceBL";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -34,6 +35,7 @@ function App() {
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route exact path="/registro" element={<Registro />} />
 
+        <Route exact path="/placeLL/:email" element={<DetailPlaceBL />} />
         <Route exact path="/place/:email" element={<DetailPlace />} />
         <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
 
