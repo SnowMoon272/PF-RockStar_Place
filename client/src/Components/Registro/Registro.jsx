@@ -10,7 +10,7 @@ import { isAuthenticated } from "../../Utils/auth.controller";
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
-  border: solid 3px red;
+  /* border: solid 3px red; */
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
@@ -20,7 +20,7 @@ const LoginStyleCont = styled.div`
 `;
 
 const LoginStyleCont2 = styled.div`
-  border: solid 3px yellow;
+  /* border: solid 3px yellow; */
   box-sizing: border-box;
   position: relative;
   width: 70%;
@@ -37,7 +37,7 @@ const LoginStyleCont2 = styled.div`
   align-items: center;
 
   h1 {
-    border: solid 3px yellow;
+    /* border: solid 3px yellow; */
 
     color: ${Colors.Green_Light};
     font-family: "New Rocker", cursive;
@@ -46,7 +46,7 @@ const LoginStyleCont2 = styled.div`
   }
 
   h2 {
-    border: solid 3px yellow;
+    /* border: solid 3px yellow; */
 
     color: ${Colors.Green_Light};
     font-family: "RocknRoll One";
@@ -55,12 +55,17 @@ const LoginStyleCont2 = styled.div`
   }
 
   .SwitchCont {
-    border: solid 3px yellow;
+    /* border: solid 3px yellow; */
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    width: 220px;
+
+    p {
+      color: white;
+      font-size: 1.4rem;
+    }
 
     label {
       display: inline-block;
@@ -106,7 +111,7 @@ const LoginStyleCont2 = styled.div`
   }
 
   h4 {
-    border: solid 3px yellow;
+    /* border: solid 3px yellow; */
 
     color: ${Colors.Green_Light};
     font-family: "RocknRoll One";
@@ -114,7 +119,7 @@ const LoginStyleCont2 = styled.div`
   }
 
   .registro {
-    border: solid 3px green;
+    /* border: solid 3px green; */
 
     font-family: "RocknRoll One", sans-serif;
     width: 150px;
@@ -131,14 +136,14 @@ const LoginStyleCont2 = styled.div`
   }
 
   .ContRL {
-    border: solid 3px blue;
+    /* border: solid 3px blue; */
     width: 100%;
     height: 58%;
     display: flex;
     justify-content: space-around;
 
     .LoginRed {
-      border: solid 3px green;
+      /* border: solid 3px green; */
 
       width: 40%;
       height: 100%;
@@ -148,14 +153,14 @@ const LoginStyleCont2 = styled.div`
       align-items: center;
 
       .TitleLeft {
-        border: solid 3px blueviolet;
+        /* border: solid 3px blueviolet; */
 
         color: ${Colors.Green_Light};
         font-family: "RocknRoll One";
         font-size: 3em;
       }
       button {
-        border: solid 3px blueviolet;
+        /* border: solid 3px blueviolet; */
 
         font-family: "RocknRoll One", sans-serif;
         margin: 8px 0px;
@@ -180,7 +185,7 @@ const LoginStyleCont2 = styled.div`
     }
 
     .LoginEmail {
-      border: solid 3px red;
+      /* border: solid 3px red; */
 
       width: 40%;
       height: 100%;
@@ -188,13 +193,14 @@ const LoginStyleCont2 = styled.div`
       justify-content: center;
 
       .form {
-        border: solid 3px yellow;
+        /* border: solid 3px yellow; */
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-around;
 
         .TitleRigth {
-          border: solid 3px blue;
+          /* border: solid 3px blue; */
 
           color: ${Colors.Green_Light};
           font-family: "RocknRoll One";
@@ -214,13 +220,11 @@ const LoginStyleCont2 = styled.div`
       }
 
       .email {
-        border: solid 3px purple;
+        /* border: solid 3px purple; */
 
         /* position: absolute; */
         width: 357px;
-        height: 44.56px;
-        left: 1079px;
-        top: 552.07px;
+        height: 50px;
 
         font-family: "RocknRoll One";
         font-style: normal;
@@ -229,11 +233,11 @@ const LoginStyleCont2 = styled.div`
         line-height: 29px;
         display: flex;
         align-items: center;
-        //color: rgba(229, 229, 229, 0.42);
+        color: rgba(229, 229, 229, 0.42);
 
         background-color: transparent;
-        /* border: none;
-    border-bottom: 4px solid ${Colors.Blue_life}; */
+        border: none;
+        border-bottom: 4px solid ${Colors.Blue_life};
         outline: none;
         color: ${Colors.Platinum};
         outline: none;
@@ -241,13 +245,11 @@ const LoginStyleCont2 = styled.div`
       }
 
       .password {
-        border: solid 3px purple;
+        /* border: solid 3px purple; */
 
         /* position: absolute; */
         width: 357px;
         height: 44.56px;
-        left: 1079px;
-        top: 649.06px;
 
         font-family: "RocknRoll One";
         font-style: normal;
@@ -256,11 +258,11 @@ const LoginStyleCont2 = styled.div`
         line-height: 29px;
         display: flex;
         align-items: center;
-        //color: rgba(229, 229, 229, 0.42);
+        color: rgba(229, 229, 229, 0.42);
 
         background-color: transparent;
-        /* border: none;
-    border-bottom: 4px solid ${Colors.Blue_life}; */
+        border: none;
+        border-bottom: 4px solid ${Colors.Blue_life};
         outline: none;
         color: ${Colors.Platinum};
         outline: none;
@@ -268,12 +270,10 @@ const LoginStyleCont2 = styled.div`
       }
 
       .passwordRepeat {
-        border: solid 3px purple;
+        /* border: solid 3px purple; */
 
         width: 357px;
         height: 44.56px;
-        left: 1079px;
-        top: 747.07px;
 
         font-family: "RocknRoll One";
         font-style: normal;
@@ -282,11 +282,11 @@ const LoginStyleCont2 = styled.div`
         line-height: 29px;
         display: flex;
         align-items: center;
-        //color: rgba(229, 229, 229, 0.42);
+        color: rgba(229, 229, 229, 0.42);
 
         background-color: transparent;
-        /* border: none;
-    border-bottom: 4px solid ${Colors.Blue_life}; */
+        border: none;
+        border-bottom: 4px solid ${Colors.Blue_life};
         outline: none;
         color: ${Colors.Platinum};
         outline: none;
@@ -382,9 +382,10 @@ function Registro() {
         <h1>¡Registrate ahora!</h1>
         <h2>Registrate como local o banda</h2>
         <div className="SwitchCont">
+          <p>Banda</p>
           <input id="switch" type="checkbox" />
           <label htmlFor="switch" className="label" />
-          <p className="title">Más populares</p>
+          <p>Local</p>
         </div>
         <div className="ContRL">
           <div className="LoginRed">
@@ -436,12 +437,12 @@ function Registro() {
                 />
                 {errors.PasswordR && <p className="error">{errors.PasswordR}</p>}
               </div>
-              <div className="Tyc">
+              {/* <div className="Tyc">
                 <input type="checkbox" />
                 <h4>
                   Acpeto los <Link to="/TerminosyCondiciones"> Terminos & Condiciones</Link>
                 </h4>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 className="registro"
