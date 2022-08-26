@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
 import { isAuthenticated } from "../../Utils/auth.controller";
+import { registerBand, registerPlace } from "../../Redux/actions";
 
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
@@ -325,28 +327,39 @@ const LoginStyleCont2 = styled.div`
 
 function Registro() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [input, setInput] = useState({
-    Password: "",
     PasswordR: "",
-    Email: "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
 
   function validate(input) {
     const errors = {};
-    if (!input.Password) {
-      errors.Password = "Ingresar contraseña";
+    const noValido = / /;
+    if (!input.password) {
+      errors.password = "Ingresar contraseña";
+    }
+    if (!/^[\s\S]{8,15}$/.test(input.password)) {
+      errors.password = "Al menos contener de 8 a 15 caracteres";
+    }
+    if (!/[A-Z]/.test(input.password)) {
+      errors.password = "Debe contener una letra mayuscula";
+    }
+    if (noValido.test(input.password)) {
+      errors.password = "No debe contener espacio";
     }
     if (!input.PasswordR) {
       errors.PasswordR = "Repetir contraseña";
     }
-    if (input.Password !== input.PasswordR) {
+    if (input.password !== input.PasswordR) {
       errors.PasswordR = "Las contraseñas no coinciden";
     }
-    if (!input.Email) {
-      errors.Email = "Ingresar contraseña";
+    if (!input.email) {
+      errors.email = "Ingresar contraseña";
     }
     return errors;
   }
@@ -359,14 +372,38 @@ function Registro() {
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   }
 
+  const [checked, setChecked] = useState("banda");
+
+  function handleCheck(e) {
+    if (e.target.checked === true) {
+      setChecked("local");
+    } else {
+      setChecked("banda");
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    //dispatch(REGISTRO(input));
+    if (checked === "banda") {
+      dispatch(registerBand({
+        newMusicBand: {
+          email: input.email,
+          password: input.password,
+        },
+      }));
+    } else if (checked === "local") {
+      dispatch(registerPlace({
+        newPlace: {
+          email: input.email,
+          password: input.password,
+        },
+      }));
+    }
     alert("Usuario creado con exito");
     setInput({
-      Password: "",
       PasswordR: "",
-      Email: "",
+      email: "",
+      password: "",
     });
     navigate("/");
   }
@@ -383,7 +420,7 @@ function Registro() {
         <h2>Registrate como local o banda</h2>
         <div className="SwitchCont">
           <p>Banda</p>
-          <input id="switch" type="checkbox" />
+          <input id="switch" type="checkbox" onChange={(e) => handleCheck(e)} />
           <label htmlFor="switch" className="label" />
           <p>Local</p>
         </div>
@@ -403,26 +440,26 @@ function Registro() {
                   type="email"
                   className="email"
                   placeholder="Ingresa con tu e-mail"
-                  name="Email"
+                  name="email"
                   autoComplete="off"
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={handleChange}
-                  value={input.Email}
+                  value={input.email}
                 />
-                {errors.Email && <p className="error">{errors.Email}</p>}
+                {errors.email && <p className="error">{errors.email}</p>}
               </div>
               <div className="PasswordRegistro">
                 <input
                   type="password"
                   className="password"
                   placeholder="Ingresa una contraseña"
-                  name="Password"
+                  name="password"
                   autoComplete="off"
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={handleChange}
-                  value={input.Password}
+                  value={input.password}
                 />
-                {errors.Password && <p className="error">{errors.Password}</p>}
+                {errors.password && <p className="error">{errors.password}</p>}
               </div>
               <div className="PasswordRRegistro">
                 <input
@@ -447,10 +484,10 @@ function Registro() {
                 type="submit"
                 className="registro"
                 disabled={
-                  !input.Email ||
-                  !input.Password ||
+                  !input.email ||
+                  !input.password ||
                   !input.PasswordR ||
-                  input.Password !== input.PasswordR
+                  input.password !== input.PasswordR
                 }
               >
                 Registrarse
