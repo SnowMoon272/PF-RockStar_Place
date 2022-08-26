@@ -439,7 +439,7 @@ function Registro() {
               <div className="Tyc">
                 <input type="checkbox" />
                 <h4>
-                  Acpeto los <Link to="/TerminosyCondiciones"> Terminos y condiciones</Link>
+                  Acpeto los <Link to="/TerminosyCondiciones"> Terminos y Condiciones</Link>
                 </h4>
               </div>
               <button
