@@ -345,8 +345,18 @@ function Registro() {
 
   function validate(input) {
     const errors = {};
+    const noValido = / /;
     if (!input.password) {
       errors.password = "Ingresar contraseña";
+    }
+    if (!/^[\s\S]{8,15}$/.test(input.password)) {
+      errors.password = "Al menos contener de 8 a 15 caracteres";
+    }
+    if (!/[A-Z]/.test(input.password)) {
+      errors.password = "Debe contener una letra mayuscula";
+    }
+    if (noValido.test(input.password)) {
+      errors.password = "No debe contener espacio";
     }
     if (!input.PasswordR) {
       errors.PasswordR = "Repetir contraseña";
