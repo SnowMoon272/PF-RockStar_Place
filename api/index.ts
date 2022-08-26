@@ -20,7 +20,7 @@ server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
-server.get('/', (req, res) => {
+server.get('/', (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 	res.setHeader('Access-Control-Allow-Credentials', 'true');
 	res.setHeader('Access-Control-Max-Age', '1800');
