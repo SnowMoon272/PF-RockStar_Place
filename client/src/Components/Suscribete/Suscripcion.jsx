@@ -70,8 +70,8 @@ export default function suscripcion() {
           boton de abajo, realizá un único pago de $500 ARS y ya podrás empezar tu experiencia Rock
           Star place.
         </p>
-        <BotonSuscribete />
       </SuscripcionDetailCont>
+      <BotonSuscribete />
     </SuscripcionStyleCont>
   );
 }
