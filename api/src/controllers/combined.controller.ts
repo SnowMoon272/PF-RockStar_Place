@@ -2,7 +2,7 @@
 
 const express = require('express');
 
-import { addPendingDate, removePendingDate, confirmedDate } from '../db/models/Place_Music_Model';
+import { addPendingDate, removePendingDate, confirmedDate } from '../db/models/placeMusicModel';
 
 const addPendingDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
