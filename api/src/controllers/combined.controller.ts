@@ -1,8 +1,10 @@
-import { Request, Response } from 'express';
+// import { any, any } from 'express';
+
+const express = require('express');
 
 import { addPendingDate, removePendingDate, confirmedDate } from '../db/models/Place_Music_Model';
 
-const addPendingDateController = async (req: Request, res: Response) => {
+const addPendingDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
 	if (date) {
 		try {
@@ -32,7 +34,7 @@ const removePendingDateController = async (req: any, res: any) => {
 	}
 };
 
-const addConfirmedDateController = async (req: Request, res: Response) => {
+const addConfirmedDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
 	if (date) {
 		try {
