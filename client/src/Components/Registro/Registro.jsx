@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -281,6 +282,11 @@ function Registro() {
   return (
     <LoginStyleCont>
       <NavBar LogIn Home FondoImg />
+      <div className="SwitchCont">
+        <input id="switch" type="checkbox" onChange={(e) => handleChangeSort(e)} />
+        <label htmlFor="switch" className="label" />
+        <p className="title">Más populares</p>
+      </div>
       <LoginStyleCont2>
         <h1>¡Registrate ahora!</h1>
         <h2>Registrate como local o banda</h2>
