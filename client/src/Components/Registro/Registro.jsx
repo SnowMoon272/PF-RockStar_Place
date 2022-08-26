@@ -131,14 +131,17 @@ const LoginStyleCont2 = styled.div`
   }
 
   .ContRL {
+    border: solid 3px blue;
+    width: 100%;
+    height: 58%;
+    display: flex;
+    justify-content: space-around;
+
     .LoginRed {
       border: solid 3px green;
 
-      position: absolute;
-      width: 501px;
-      height: 289px;
-      left: 100px;
-      top: 350px;
+      width: 40%;
+      height: 100%;
 
       display: flex;
       flex-direction: column;
@@ -179,28 +182,30 @@ const LoginStyleCont2 = styled.div`
     .LoginEmail {
       border: solid 3px red;
 
-      position: absolute;
-      width: 493px;
-      height: 499.33px;
-      left: 700px;
-      top: 350px;
-
+      width: 40%;
+      height: 100%;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
 
-      .TitleRigth {
-        border: solid 3px blue;
+      .form {
+        border: solid 3px yellow;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-        color: ${Colors.Green_Light};
-        font-family: "RocknRoll One";
-        font-size: 3em;
+        .TitleRigth {
+          border: solid 3px blue;
+
+          color: ${Colors.Green_Light};
+          font-family: "RocknRoll One";
+          font-size: 3em;
+        }
       }
       .inptus {
-        border: solid 3px purple;
+        /* border: solid 3px purple; */
 
         background-color: transparent;
-        /* border: none; */
+        border: none;
         border-bottom: 4px solid ${Colors.Blue_life};
         outline: none;
         color: ${Colors.Platinum};
@@ -391,8 +396,8 @@ function Registro() {
           </div>
           <div className="LoginEmail">
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
+              <h3 className=" TitleRigth">Registrate con tu e-mail</h3>
               <div className="emailRegistro">
-                <h3 className=" TitleRigth">Registrate con tu e-mail</h3>
                 <input
                   type="email"
                   className="email"
