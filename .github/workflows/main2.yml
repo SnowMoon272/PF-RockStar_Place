@@ -1,5 +1,8 @@
 name: Basic Integration Continues v1.0.1
-
+env:
+  procces.env.DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+  process.env.DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+  procces.env.BACK_JWT_SECRET: ${{secrets.BACK_JWT_SECRET}}
 on:
   pull_request:
     branches: [develop]
