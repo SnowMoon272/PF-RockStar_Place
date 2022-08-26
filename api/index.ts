@@ -43,7 +43,7 @@ startServer();
 
 const PORT = 3001;
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT, () => {
 	console.log(`Server listening: PORT ${PORT}`);
 });
 
