@@ -3,9 +3,13 @@ import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import axios from "axios";
+import dotenv from "dotenv";
 import ReactDOM from "react-dom";
 import { store } from "./Redux/store";
 import App from "./App";
+
+dotenv.config();
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -34,7 +38,7 @@ body {
 }
 `;
 
-// axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
 ReactDOM.render(
   <Provider store={store}>

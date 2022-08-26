@@ -169,8 +169,6 @@ const RegisterStyleContJr = styled.div`
   }
 `;
 
-const BACK_URI = "http://localhost:3001";
-
 function InciarSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -183,14 +181,16 @@ function InciarSesion() {
         password,
       },
       withCredentials: true,
-      url: `${BACK_URI}/login`,
+      url: "/login",
     });
     if (response) {
       const { token } = response.data;
       localStorage.setItem("user-token", token);
       const header = new Headers();
       header.append("authorization", token);
-      window.location.replace("http://localhost:3000/");
+
+      const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+      window.location.replace(homeURL);
     }
   };
 

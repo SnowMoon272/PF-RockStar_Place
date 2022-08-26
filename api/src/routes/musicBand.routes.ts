@@ -8,11 +8,11 @@ const {
 	getMusicBandByIDController,
 	updateMusicBandController,
 	getMusicBandController,
-} = require('../controllers/musicBand.controller');
+} = require('../controllers/musicBand.controller.ts');
 require('dotenv').config();
 
 const jwtSecret = process.env.BACK_JWT_SECRET;
-const { musicBand } = require('../db/models/musicBandModel');
+const { musicBand } = require('../db/models/musicBandModel.ts');
 const { ROLES, checkRoleAuth } = require('./middlewares/authorization.js');
 
 const router = Router();
