@@ -236,7 +236,6 @@ export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
-  console.log(place);
   const [input, setInput] = useState({
     comment: "",
     rating: 0,

@@ -11,8 +11,8 @@ import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import LogoInstagram from "../../Assets/svg/Instagram.svg";
-import Editar from "../../Assets/svg/Editar.svg";
+// import LogoInstagram from "../../Assets/svg/Instagram.svg";
+// import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -239,7 +239,6 @@ export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
-  console.log(place);
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
