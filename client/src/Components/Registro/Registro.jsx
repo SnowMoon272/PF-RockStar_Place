@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
 import { isAuthenticated } from "../../Utils/auth.controller";
-import { registerBand } from "../../Redux/actions";
+import { registerBand, registerPlace } from "../../Redux/actions";
 
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
@@ -330,9 +330,6 @@ function Registro() {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
-    /* Password: "",
-    PasswordR: "",
-    Email: "", */
     PasswordR: "",
     personInCharge: "",
     name: "",
@@ -341,7 +338,7 @@ function Registro() {
     reviews: [],
     dates: [],
     banned: false,
-    role: "musicband",
+    role: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -371,20 +368,50 @@ function Registro() {
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   }
 
+  const [checked, setChecked] = useState("banda");
+
+  function handleCheck(e) {
+    if (e.target.checked === true) {
+      setChecked("local");
+    } else {
+      setChecked("banda");
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(registerBand({
-      newMusicBand: {
-        personInCharge: "",
-        name: "",
-        email: input.email,
-        password: input.password,
-        reviews: [],
-        dates: [],
-        banned: false,
-        role: "musicband",
-      },
-    }));
+    if (checked === "banda") {
+      dispatch(registerBand({
+        newMusicBand: {
+          personInCharge: "",
+          name: "",
+          email: input.email,
+          password: input.password,
+          reviews: [],
+          dates: [],
+          banned: false,
+          role: "musicband",
+        },
+      }));
+    } else if (checked === "local") {
+      dispatch(registerPlace({
+        newPlace: {
+          capacity: "",
+          description: "",
+          name: "",
+          email: input.email,
+          password: input.password,
+          personInCharge: "",
+          city: "",
+          adress: "",
+          reviews: [],
+          dates: [],
+          profilePicture: "",
+          availableDates: [],
+          hasSound: false,
+        },
+      }));
+    }
     alert("Usuario creado con exito");
     setInput({
       PasswordR: "",
@@ -395,7 +422,7 @@ function Registro() {
       reviews: [],
       dates: [],
       banned: false,
-      role: "musicband",
+      role: "",
     });
     navigate("/");
   }
@@ -412,7 +439,7 @@ function Registro() {
         <h2>Registrate como local o banda</h2>
         <div className="SwitchCont">
           <p>Banda</p>
-          <input id="switch" type="checkbox" />
+          <input id="switch" type="checkbox" onChange={(e) => handleCheck(e)} />
           <label htmlFor="switch" className="label" />
           <p>Local</p>
         </div>
