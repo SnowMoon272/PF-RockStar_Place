@@ -249,7 +249,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 		if (placeToChange) {
 			await place.updateOne(
 				{ email },
-				{
+				{ 
 					personInCharge: data.personInCharge,
 					name: data.name,
 					city: data.city,
