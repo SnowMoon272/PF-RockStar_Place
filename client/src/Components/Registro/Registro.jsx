@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
 import { isAuthenticated } from "../../Utils/auth.controller";
+import { registerBand } from "../../Redux/actions";
 
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
@@ -325,28 +327,38 @@ const LoginStyleCont2 = styled.div`
 
 function Registro() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [input, setInput] = useState({
-    Password: "",
+    /* Password: "",
     PasswordR: "",
-    Email: "",
+    Email: "", */
+    PasswordR: "",
+    personInCharge: "",
+    name: "",
+    email: "",
+    password: "",
+    reviews: [],
+    dates: [],
+    banned: false,
+    role: "musicband",
   });
 
   const [errors, setErrors] = useState({});
 
   function validate(input) {
     const errors = {};
-    if (!input.Password) {
-      errors.Password = "Ingresar contraseña";
+    if (!input.password) {
+      errors.password = "Ingresar contraseña";
     }
     if (!input.PasswordR) {
       errors.PasswordR = "Repetir contraseña";
     }
-    if (input.Password !== input.PasswordR) {
+    if (input.password !== input.PasswordR) {
       errors.PasswordR = "Las contraseñas no coinciden";
     }
-    if (!input.Email) {
-      errors.Email = "Ingresar contraseña";
+    if (!input.email) {
+      errors.email = "Ingresar contraseña";
     }
     return errors;
   }
@@ -361,12 +373,29 @@ function Registro() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //dispatch(REGISTRO(input));
+    dispatch(registerBand({
+      newMusicBand: {
+        personInCharge: "",
+        name: "",
+        email: input.email,
+        password: input.password,
+        reviews: [],
+        dates: [],
+        banned: false,
+        role: "musicband",
+      },
+    }));
     alert("Usuario creado con exito");
     setInput({
-      Password: "",
       PasswordR: "",
-      Email: "",
+      personInCharge: "",
+      name: "",
+      email: "",
+      password: "",
+      reviews: [],
+      dates: [],
+      banned: false,
+      role: "musicband",
     });
     navigate("/");
   }
@@ -403,26 +432,26 @@ function Registro() {
                   type="email"
                   className="email"
                   placeholder="Ingresa con tu e-mail"
-                  name="Email"
+                  name="email"
                   autoComplete="off"
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={handleChange}
-                  value={input.Email}
+                  value={input.email}
                 />
-                {errors.Email && <p className="error">{errors.Email}</p>}
+                {errors.email && <p className="error">{errors.email}</p>}
               </div>
               <div className="PasswordRegistro">
                 <input
                   type="password"
                   className="password"
                   placeholder="Ingresa una contraseña"
-                  name="Password"
+                  name="password"
                   autoComplete="off"
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={handleChange}
-                  value={input.Password}
+                  value={input.password}
                 />
-                {errors.Password && <p className="error">{errors.Password}</p>}
+                {errors.password && <p className="error">{errors.password}</p>}
               </div>
               <div className="PasswordRRegistro">
                 <input
@@ -447,10 +476,10 @@ function Registro() {
                 type="submit"
                 className="registro"
                 disabled={
-                  !input.Email ||
-                  !input.Password ||
+                  !input.email ||
+                  !input.password ||
                   !input.PasswordR ||
-                  input.Password !== input.PasswordR
+                  input.password !== input.PasswordR
                 }
               >
                 Registrarse

@@ -9,7 +9,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
-  GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND";
+  GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
+  POST_REGISTER = "POST_REGISTER";
 
 export function updateFilters(data) {
   return {
@@ -142,6 +143,13 @@ export function resetDetails(payload) {
 export function postData(payload) {
   return async (dispatch) => {
     const json = await axios.put("http://localhost:3001/musicband", payload);
+    return json;
+  };
+}
+
+export function registerBand(payload) {
+  return async (dispatch) => {
+    const json = await axios.post("http://localhost:3001/musicbands", payload);
     return json;
   };
 }
