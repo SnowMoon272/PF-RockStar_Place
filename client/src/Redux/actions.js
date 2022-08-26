@@ -148,7 +148,7 @@ export function postData(payload) {
 
 export function updatePlaceData(payload) {
   return async (dispatch) => {
-    const json = await axios.put("http://localhost:3001/place", payload);
+    const json = await axios.put("/place", payload);
     return json;
   };
 }
