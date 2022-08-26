@@ -5,7 +5,7 @@ const routes = require('./src/routes/index.ts');
 const passport = require('passport');
 require('dotenv').config();
 
-const connect = require('./src/db/db');
+const connect = require('./src/db/db.ts');
 const cors = require('cors');
 const server = express();
 require('./src/auth/auth.js');
