@@ -6,11 +6,12 @@ export const musicBandSchema = new Schema({
 	personInCharge: {
 		type: String,
 		trim: true,
-		default: undefined,
+		default: "",
 	},
 	name: {
 		type: String,
 		trim: true,
+		default: "",
 	},
 	email: {
 		type: String,

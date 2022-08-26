@@ -331,14 +331,8 @@ function Registro() {
 
   const [input, setInput] = useState({
     PasswordR: "",
-    personInCharge: "",
-    name: "",
     email: "",
     password: "",
-    reviews: [],
-    dates: [],
-    banned: false,
-    role: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -393,46 +387,23 @@ function Registro() {
     if (checked === "banda") {
       dispatch(registerBand({
         newMusicBand: {
-          personInCharge: "",
-          name: "",
           email: input.email,
           password: input.password,
-          reviews: [],
-          dates: [],
-          banned: false,
-          role: "musicband",
         },
       }));
     } else if (checked === "local") {
       dispatch(registerPlace({
         newPlace: {
-          capacity: "",
-          description: "",
-          name: "",
           email: input.email,
           password: input.password,
-          personInCharge: "",
-          city: "",
-          adress: "",
-          reviews: [],
-          dates: [],
-          profilePicture: "",
-          availableDates: [],
-          hasSound: false,
         },
       }));
     }
     alert("Usuario creado con exito");
     setInput({
       PasswordR: "",
-      personInCharge: "",
-      name: "",
       email: "",
       password: "",
-      reviews: [],
-      dates: [],
-      banned: false,
-      role: "",
     });
     navigate("/");
   }
