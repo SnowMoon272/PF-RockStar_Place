@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
 import React, { useState } from "react";
 
@@ -245,6 +246,11 @@ function NavBar({
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
+  const handlerClickExit = (e) => {
+    // e.preventDefault();
+    localStorage.removeItem("user-token");
+  };
+
   return (
     <NavBarStyle FondoImg={FondoImg}>
       <div className="Search_Filter">
@@ -273,8 +279,8 @@ function NavBar({
             </div>
           ) : (
             <div className="buttonLinkLogOut">
-              <a className="Ancord" href="/iniciarsesion">
-                <img src={BTNLogOut} alt="ico-login" />
+              <a className="Ancord" href="/">
+                <img onClick={(e) => handlerClickExit(e)} src={BTNLogOut} alt="ico-login" />
               </a>
               <h3 className="H3">Salir</h3>
             </div>
@@ -282,6 +288,7 @@ function NavBar({
           <div className="ButonsEdits">
             {Home && (
               <>
+                {/*  */}
                 <Link to={HomeLinkBanda ? "/home/band" : "/"} className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
@@ -354,7 +361,7 @@ function NavBar({
             )}
           </div>
           <div className="buttonLink">
-            <a className="Ancord" href={HelpLog ? "/help/logeado" : "/help"}>
+            <a className="Ancord" href="/help">
               <img className="FoundIMG" src={BTNHelp} alt="Help" />
             </a>
             <h3 className="H3">Ayuda</h3>

@@ -10,10 +10,13 @@ import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
+import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import LogoInstagram from "../../Assets/svg/Instagram.svg";
+import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
-  background-color: ${Colors.Erie_Black};
+  background-image: url(${BGPerfil});
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -25,7 +28,7 @@ const DetailStyleCont = styled.div`
   box-sizing: border-box;
   width: 1500px;
   height: fit-content;
-  background-color: ${Colors.Green_Nigth};
+  background-color: rgba(20, 33, 61, 0.75);
   display: flex;
   margin: 2.5% 10%;
 
@@ -47,7 +50,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 75px;
         text-align: center;
-        color: ${Colors.Green_Light};
+        color: ${Colors.Platinum};
       }
 
       .rating {
@@ -56,7 +59,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 30px;
         text-align: center;
-        color: ${Colors.Green_Light};
+        color: ${Colors.Platinum};
       }
     }
 
@@ -72,7 +75,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 45px;
         text-align: center;
-        color: ${Colors.Green_Light};
+        color: ${Colors.Blue_Vivid};
       }
 
       .description {
@@ -339,7 +342,7 @@ export default function DetailPlace() {
 
   return (
     <HomeStyleCont>
-      <NavBar LogIn Home FondoImg />
+      <NavBar Home Eventos Perfil />
       <DetailStyleCont>
         <div className="FirstCont">
           <div className="NameAndRating">
