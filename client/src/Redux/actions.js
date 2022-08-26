@@ -8,7 +8,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   POST_COMMENT = "POST_COMMENT",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
-  RESET_DETAILS = "RESET_DETAILS";
+  RESET_DETAILS = "RESET_DETAILS",
+  GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND";
 
 export function updateFilters(data) {
   return {
@@ -60,6 +61,20 @@ export function getDetailPlace(id) {
   };
 }
 
+export function getDetailMusicBand(id) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/musicband/${id}`);
+      return dispatch({
+        type: GET_DETAIL_MUSIC_BAND,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
 export function filteredPlaces(city, sound) {
   return async (dispatch) => {
     try {
@@ -102,9 +117,17 @@ export function popularitySort(payload) {
   };
 }
 
+//Cambiar el nombre
 export function postComment(payload) {
   return async (dispatch) => {
-    const json = await axios.post("http://localhost:3001/placereviews", payload);
+    const json = await axios({
+      method: "post",
+      url: "http://localhost:3001/placereviews",
+      data: payload,
+      headers: {
+        Authorization: localStorage.getItem("user-token"),
+      },
+    });
     return json;
   };
 }
@@ -113,5 +136,12 @@ export function resetDetails(payload) {
   return {
     type: RESET_DETAILS,
     payload,
+  };
+}
+
+export function postData(payload) {
+  return async (dispatch) => {
+    const json = await axios.put("http://localhost:3001/musicband", payload);
+    return json;
   };
 }

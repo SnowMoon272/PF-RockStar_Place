@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-import { USERNAME, PASSWORD } from './NOSUBIR';
+export const f ={};
 
 const connect = async () => {
 	await mongoose.connect(
-		`mongodb+srv://${USERNAME}:${PASSWORD}@rockstar-pf.cdbn0ge.mongodb.net/users?retryWrites=true&w=majority`
+		`mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@rockstar-pf.cdbn0ge.mongodb.net/users?retryWrites=true&w=majority`
 	);
 };
 

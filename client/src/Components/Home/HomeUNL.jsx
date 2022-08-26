@@ -1,18 +1,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable comma-dangle */
+
+/* React stuff */
 import React, { useEffect, useState } from "react";
+
+/* Modules */
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+/* Components & Actions */
 import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
+import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
+import NavBar from "../NavBar/NavBar";
+
+/* Form Img & SVG */
 import BGHome from "../../Assets/img/HomeConcert.jpg";
 import BGBtn from "../../Assets/img/Metal.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 import SVGDown from "../../Assets/svg/Down.svg";
-import NavBar from "../NavBar/NavBar";
-import Pagination from "../Pagination/Pagination";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -249,11 +257,10 @@ const CarsStyleCont = styled.section`
 
       .FiltrosData {
         display: flex;
-        width: 200px;
         justify-content: space-between;
 
         p {
-          margin: 0px;
+          margin: 0px 15px;
           color: ${Colors.Platinum};
           font-size: 1.5rem;
         }
@@ -274,7 +281,7 @@ const CarsStyleCont = styled.section`
         transition: 0.2s;
         margin: 0px 10px 0px 0px;
         cursor: pointer;
-        ::after{
+        ::after {
           content: "";
           display: block;
           width: 25px;
@@ -373,7 +380,7 @@ function HomeUNL() {
 
   return (
     <HomeStyleCont>
-      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Edit FondoImg /> Ejemplo con todo lo que puede llevar. */}
+      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
       <NavBar
         LogIn
         Buscar
@@ -404,7 +411,6 @@ function HomeUNL() {
           <img src={SVGDown} alt="Down" />
         </a>
       </FirtVewStyleCont>
-
       <SecondVewStyleCont id="SecondVewStyleCont">
         <div className="ContenidoPrevio">
           <button type="button" className="Link">
@@ -413,7 +419,7 @@ function HomeUNL() {
           <img src={Logo} alt="Logo" />
         </div>
         <CarsStyleCont>
-          <h4>Conoce Nuestros Locales</h4>
+          <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
           <div className="Paginado">
             <Pagination
               cardsPerPage={cardsPerPage}
@@ -432,10 +438,10 @@ function HomeUNL() {
               Resetear Filtros
             </button>
             <div className="Filtros">
-              <h6>Filtros</h6>
+              {/* <h6>Filtros</h6> */}
               <div className="FiltrosData">
-                <p>Ciudad: {filters.Ciudad ? "✔️" : "❌"} </p>
-                <p>Sonido: {filters.Sonido ? "✔️" : "❌"} </p>
+                <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
               </div>
             </div>
             <button type="button" onClick={(e) => handleClickSort(e)}>

@@ -1,18 +1,18 @@
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable max-len */
 import React from "react";
 import styled from "styled-components";
-import color from "../../Utils/colors";
 import CardPlace from "./CardPlace";
 
 const CardsStyleCont = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${color.Green_Nigth};
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 `;
 
-function CardsPlaces({ currentPlaces }) {
+function CardsPlaces({ currentPlaces, UserLog }) {
   return (
     <CardsStyleCont>
       {currentPlaces &&
@@ -26,6 +26,7 @@ function CardsPlaces({ currentPlaces }) {
               sound={place.hasSound ? "Sí" : "No"}
               rating={place.rating}
               image={place.profilePicture}
+              UserLog={UserLog}
             />
           );
         })}

@@ -1,10 +1,16 @@
-import { reviews, dates, Roles, musicBandInterface } from "../interfaces/musicBand.interfaces";
+import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
+import {
+	musicReviews,
+	musicDates,
+	musicRoles,
+	musicBandInterface,
+} from "../interfaces/musicBand.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const musicBandSchema = require("../schemas/musicBandSchema");
 
-const musicBand = model("musicband", musicBandSchema);
+export const musicBand = model("musicband", musicBandSchema);
 
 /**
  *	reloadMusicBandRating es la función encargada de actualizar el rating general de una banda de música, se ejecuta después de añadir una review
@@ -54,7 +60,7 @@ export const deleteMusicBand = async (email: string) => {
  *	@return {object} Retorna todos los reviews de la banda
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const addBandReview = async (email: string, review: reviews) => {
+export const addBandReview = async (email: string, review: musicReviews) => {
 	const userToAddReview = await getMusicBand(email);
 
 	if (userToAddReview) {
@@ -89,6 +95,16 @@ export const getMusicBand = async (email: string) => {
 	}
 };
 
+export const getMusicBandByID = async (id: string) => {
+	try {
+		let musicBandResponse = await musicBand.findOne({ _id: id }, { password: 0 });
+		if (musicBandResponse !== undefined) return musicBandResponse;
+		else return { error: "Musicband not found" };
+	} catch (error: any) {
+		return { error };
+	}
+};
+
 /**
  *	EncodePassword es la función encargada de encriptar la contraseña del usuario, que le llega {createMusicBand()} por parametro
  *
@@ -110,7 +126,7 @@ const encodePassword = async (password: string) => {
  *	@return {boolean} Retorna un valor de true si las contraseñas matchean o false en el caso de que no
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-const comparePassword = async (password: string, encodedPassword: string) => {
+export const comparePassword = async (password: string, encodedPassword: string) => {
 	let valid = await bcrypt.compare(password, encodePassword);
 	return valid;
 };
@@ -130,7 +146,7 @@ const comparePassword = async (password: string, encodedPassword: string) => {
 export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 	newMusicBand.password = await encodePassword(newMusicBand.password);
 	newMusicBand.rating = 5;
-	newMusicBand.role = Roles.MUSICBAND;
+	newMusicBand.role = musicRoles.MUSICBAND;
 
 	try {
 		let created = await musicBand.create(newMusicBand);
@@ -151,7 +167,7 @@ export const getAllMusicBands = async () => {
 	try {
 		const allMusicBands = await musicBand.find(
 			{},
-			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 },
 		);
 		return allMusicBands;
 	} catch (error: any) {
@@ -177,3 +193,45 @@ export const banHandler = async (email: string) => {
 		return { error };
 	}
 };
+
+//Tests
+export const loginMusicBand = async (email: string, password: string) => {
+	try {
+		const user = musicBand.findOne({email});
+		if(!user) return {error: "Email not found"}
+		if(await comparePassword(password, user.password)){
+			return user;
+		}
+	} catch (error) {
+		return {error: "Something went wrong"}
+	}
+}
+
+export const updateMusicBand = async (email: string, data: musicBandInterface) => {
+	try {
+		const userToChange = await musicBand.findOne({ email });
+		if (userToChange) {
+			await musicBand.updateOne(
+				{ email },
+				{
+					personInCharge: data.personInCharge,
+					name: data.name,
+					description: data.description,
+					profilePicture: data.profilePicture,
+					phoneNumber: data.phoneNumber,
+					socialMedia: {
+						instagram: data.socialMedia.instagram,
+						youtube: data.socialMedia.youtube,
+						spotify: data.socialMedia.spotify,
+					},
+				},
+			);
+			return musicBand.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
