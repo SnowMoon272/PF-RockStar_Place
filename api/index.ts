@@ -5,7 +5,7 @@ const routes = require('./src/routes/index.ts');
 const passport = require('passport');
 require('dotenv').config();
 
-const connect = require('./src/db/db');
+const connect = require('./src/db/db.ts');
 const cors = require('cors');
 const server = express();
 require('./src/auth/auth.js');
@@ -16,12 +16,14 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
+if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
+
 server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
 server.get('/', (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Credentials', 'true');
 	res.setHeader('Access-Control-Max-Age', '1800');
 	res.setHeader('Access-Control-Allow-Headers', 'content-type');
@@ -41,10 +43,8 @@ const startServer = async () => {
 };
 startServer();
 
-const PORT = 3001;
-
-server.listen(PORT, () => {
-	console.log(`Server listening: PORT ${PORT}`);
+server.listen(process.env.PORT, () => {
+	console.log(`Server listening: PORT ${process.env.PORT}`);
 });
 
 module.exports = server;

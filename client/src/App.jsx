@@ -1,9 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import HomeUNL from "./Components/Home/HomeUNL";
-import HomeBL from "./Components/Home/HomeBL";
-import HomeLL from "./Components/Home/HomeLL";
 import Home from "./Components/Home/Home";
 import Help from "./Components/Help/HelpNoLogeado";
 import HelpLogeado from "./Components/Help/HelpLogeado";
@@ -17,6 +14,7 @@ import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import Actualizar from "./Components/ActualizarDatos/ActuailzarDatos";
 import DetailPlaceBL from "./Components/DetailPlace/DetailPlaceBL";
+import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -41,6 +39,8 @@ function App() {
 
         <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
         <Route exact path="/actualizar" element={<Actualizar />} />
+        <Route exact path="/place/update/:id" element={<ActualizarLocal />} />
+
         <Route exact path="/suscribete" element={<Suscripcion />} />
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
         <Route exact path="/suscripcionsuccess" element={<SuscripcionSucces />} />

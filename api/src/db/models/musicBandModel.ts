@@ -1,16 +1,16 @@
-import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
+import { newMusicBand } from '../../tests/musicbandTests/create.musicBand.test';
 import {
 	musicReviews,
 	musicDates,
 	musicRoles,
 	musicBandInterface,
-} from "../interfaces/musicBand.interfaces";
-const { model } = require("mongoose");
-const bcrypt = require("bcrypt");
+} from '../interfaces/musicBand.interfaces';
+const { model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const musicBandSchema = require("../schemas/musicBandSchema");
+const musicBandSchema = require('../schemas/musicBandSchema.ts');
 
-export const musicBand = model("musicband", musicBandSchema);
+export const musicBand = model('musicband', musicBandSchema);
 
 /**
  *	reloadMusicBandRating es la función encargada de actualizar el rating general de una banda de música, se ejecuta después de añadir una review
@@ -30,7 +30,7 @@ export const reloadMusicBandRating = async (email: string) => {
 
 	try {
 		await musicBand.updateOne({ email }, { rating: sum });
-		return { response: "Updated" };
+		return { response: 'Updated' };
 	} catch (error) {
 		return { error };
 	}
@@ -74,7 +74,7 @@ export const addBandReview = async (email: string, review: musicReviews) => {
 			return { error };
 		}
 	} else {
-		return { error: "User not found" };
+		return { error: 'User not found' };
 	}
 };
 
@@ -89,7 +89,7 @@ export const getMusicBand = async (email: string) => {
 	try {
 		let musicBandResponse = await musicBand.findOne({ email }, { password: 0 });
 		if (musicBandResponse !== undefined) return musicBandResponse;
-		else return { error: "User not found" };
+		else return { error: 'User not found' };
 	} catch (error: any) {
 		return { error };
 	}
@@ -99,7 +99,7 @@ export const getMusicBandByID = async (id: string) => {
 	try {
 		let musicBandResponse = await musicBand.findOne({ _id: id }, { password: 0 });
 		if (musicBandResponse !== undefined) return musicBandResponse;
-		else return { error: "Musicband not found" };
+		else return { error: 'Musicband not found' };
 	} catch (error: any) {
 		return { error };
 	}
@@ -152,7 +152,7 @@ export const createMusicBand = async (newMusicBand: musicBandInterface) => {
 		let created = await musicBand.create(newMusicBand);
 		return created;
 	} catch (error: any) {
-		return { error: "An error occurred getting user" };
+		return { error: 'An error occurred getting user' };
 	}
 };
 
@@ -167,7 +167,7 @@ export const getAllMusicBands = async () => {
 	try {
 		const allMusicBands = await musicBand.find(
 			{},
-			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 },
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
 		);
 		return allMusicBands;
 	} catch (error: any) {
@@ -197,15 +197,15 @@ export const banHandler = async (email: string) => {
 //Tests
 export const loginMusicBand = async (email: string, password: string) => {
 	try {
-		const user = musicBand.findOne({email});
-		if(!user) return {error: "Email not found"}
-		if(await comparePassword(password, user.password)){
+		const user = musicBand.findOne({ email });
+		if (!user) return { error: 'Email not found' };
+		if (await comparePassword(password, user.password)) {
 			return user;
 		}
 	} catch (error) {
-		return {error: "Something went wrong"}
+		return { error: 'Something went wrong' };
 	}
-}
+};
 
 export const updateMusicBand = async (email: string, data: musicBandInterface) => {
 	try {
@@ -224,14 +224,13 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 						youtube: data.socialMedia.youtube,
 						spotify: data.socialMedia.spotify,
 					},
-				},
+				}
 			);
 			return musicBand.findOne({ email });
 		} else {
-			return { error: "User does not exist." };
+			return { error: 'User does not exist.' };
 		}
 	} catch (error: any) {
 		return { error };
 	}
 };
-
