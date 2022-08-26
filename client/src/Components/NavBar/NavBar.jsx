@@ -247,7 +247,7 @@ function NavBar({
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   const handlerClickExit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     localStorage.removeItem("user-token");
   };
 
@@ -279,7 +279,7 @@ function NavBar({
             </div>
           ) : (
             <div className="buttonLinkLogOut">
-              <a className="Ancord" href="/iniciarsesion">
+              <a className="Ancord" href="/">
                 <img onClick={(e) => handlerClickExit(e)} src={BTNLogOut} alt="ico-login" />
               </a>
               <h3 className="H3">Salir</h3>
