@@ -4,6 +4,7 @@ import HelpLogeado from "./HelpLogeado";
 import HelpNoLogeado from "./HelpNoLogeado";
 
 function Help() {
+  console.log(isAuthenticated());
   if (isAuthenticated()) {
     return <HelpLogeado />;
   }

@@ -22,7 +22,7 @@ export function getPlacesByName(name) {
   const encodName = encodeURI(name);
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/places/names?search=${encodName}`);
+      const json = await axios.get(`/places/names?search=${encodName}`);
       return dispatch({
         type: GET_PLACES_BY_NAME,
         payload: json.data,
@@ -36,7 +36,7 @@ export function getPlacesByName(name) {
 export function getPlaces() {
   return async (dispatch) => {
     try {
-      const results = await axios.get("http://localhost:3001/places");
+      const results = await axios.get("/places");
       return dispatch({
         type: GET_PLACES,
         payload: results.data,
@@ -50,7 +50,7 @@ export function getPlaces() {
 export function getDetailPlace(id) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/place/${id}`);
+      const json = await axios.get(`/place/${id}`);
       return dispatch({
         type: GET_DETAIL_PLACE,
         payload: json.data,
@@ -64,7 +64,7 @@ export function getDetailPlace(id) {
 export function getDetailMusicBand(id) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/musicband/${id}`);
+      const json = await axios.get(`/musicband/${id}`);
       return dispatch({
         type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
@@ -80,12 +80,12 @@ export function filteredPlaces(city, sound) {
     try {
       let json;
       if (city && !sound) {
-        json = await axios.get(`http://localhost:3001/places?city=${city}`);
+        json = await axios.get(`/places?city=${city}`);
       } else if (!city && sound) {
-        json = await axios.get(`http://localhost:3001/places?sound=${sound}`);
+        json = await axios.get(`/places?sound=${sound}`);
       }
       if (city && sound) {
-        json = await axios.get(`http://localhost:3001/places?city=${city}&sound=${sound}`);
+        json = await axios.get(`/places?city=${city}&sound=${sound}`);
       }
       return dispatch({
         type: FILTERED_PLACES,
@@ -99,7 +99,7 @@ export function filteredPlaces(city, sound) {
 export function getCities() {
   return async (dispatch) => {
     try {
-      const results = await axios.get("http://localhost:3001/cities");
+      const results = await axios.get("/cities");
       return dispatch({
         type: GET_CITIES,
         payload: results.data,
@@ -122,7 +122,7 @@ export function postComment(payload) {
   return async (dispatch) => {
     const json = await axios({
       method: "post",
-      url: "http://localhost:3001/placereviews",
+      url: "/placereviews",
       data: payload,
       headers: {
         Authorization: localStorage.getItem("user-token"),
@@ -141,7 +141,7 @@ export function resetDetails(payload) {
 
 export function postData(payload) {
   return async (dispatch) => {
-    const json = await axios.put("http://localhost:3001/musicband", payload);
+    const json = await axios.put("/musicband", payload);
     return json;
   };
 }

@@ -1,4 +1,6 @@
-import { Request, Response } from 'express';
+// import { any, any } from 'express';
+// const { any, any } = require('express');
+const express = require('express');
 import {
 	addBandReview,
 	createMusicBand,
@@ -26,7 +28,7 @@ const getMusicBandController = async (req: any, res: any) => {
 	} else return res.status(404).send({ error: 'Invalid data' });
 };
 
-const getAllBandsController = async (req: Request, res: Response) => {
+const getAllBandsController = async (req: any, res: any) => {
 	try {
 		const musicBands = await getAllMusicBands();
 		if (musicBands) {
@@ -72,7 +74,7 @@ const createMusicBandController = async (req: any, res: any) => {
 	}
 };
 
-const addBandReviewController = async (req: Request, res: Response) => {
+const addBandReviewController = async (req: any, res: any) => {
 	const { review, email } = req.body;
 
 	if (review && email) {
@@ -87,7 +89,7 @@ const addBandReviewController = async (req: Request, res: Response) => {
 	}
 };
 
-const getMusicBandByIDController = async (req: Request, res: Response) => {
+const getMusicBandByIDController = async (req: any, res: any) => {
 	const { id } = req.params;
 	if (id) {
 		const musicBand = await getMusicBandByID(id);

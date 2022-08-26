@@ -5,7 +5,7 @@ const routes = require('./src/routes/index.ts');
 const passport = require('passport');
 require('dotenv').config();
 
-const connect = require('./src/db/db');
+const connect = require('./src/db/db.ts');
 const cors = require('cors');
 const server = express();
 require('./src/auth/auth.js');
@@ -41,10 +41,8 @@ const startServer = async () => {
 };
 startServer();
 
-const PORT = 3001;
-
-server.listen(PORT, () => {
-	console.log(`Server listening: PORT ${PORT}`);
+server.listen(process.env.PORT, () => {
+	console.log(`Server listening: PORT ${process.env.PORT}`);
 });
 
 module.exports = server;
