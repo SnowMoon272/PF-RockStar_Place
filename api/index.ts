@@ -41,10 +41,8 @@ const startServer = async () => {
 };
 startServer();
 
-const PORT = 3001;
-
 server.listen(process.env.PORT, () => {
-	console.log(`Server listening: PORT ${PORT}`);
+	console.log(`Server listening: PORT ${process.env.PORT}`);
 });
 
 module.exports = server;
