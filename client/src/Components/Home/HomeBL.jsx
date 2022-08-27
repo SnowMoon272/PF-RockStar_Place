@@ -360,7 +360,7 @@ function HomeBL() {
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
-
+  console.log(musicBand);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     dispatch(getPlaces());
@@ -440,7 +440,7 @@ function HomeBL() {
           <div className="ProximoInfCont">
             <div className="ProximoInf">
               <h4>Proximo Evento</h4>
-              {!musicBand.dates === undefined ? (
+              {musicBand.dates ? (
                 <p>
                   <span>Local: </span>Inf. Mokeada (Modificar) <br />
                   <span>Fecha: </span>Inf. Mokeada (Modificar)
