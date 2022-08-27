@@ -405,11 +405,11 @@ function Registro() {
       email: "",
       password: "",
     });
-    navigate("/");
+    navigate("/iniciarsesion");
   }
 
   useEffect(() => {
-    if (isAuthenticated()) navigate("/");
+    if (isAuthenticated()) navigate("/iniciarsesion");
   }, []);
 
   return (
