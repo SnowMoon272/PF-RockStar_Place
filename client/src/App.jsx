@@ -36,7 +36,7 @@ function App() {
         <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
 
         <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
-        <Route exact path="/place/update/:id" element={<ActualizarLocal />} />
+        <Route exact path="/actualizarlocal" element={<ActualizarLocal />} />
 
         <Route exact path="/suscribete" element={<Suscripcion />} />
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
