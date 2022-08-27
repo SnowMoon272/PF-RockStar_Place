@@ -39,7 +39,6 @@ const ActualizarDatosStyleCont = styled.div`
         border-radius: 10px;
         background-color: ${Colors.Blue_life};
         width: 15%;
-        /* height: 45px; */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -60,7 +59,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   background-color: ${Colors.Oxford_Blue_transparent};
   width: 80%;
   height: 80%;
-  /* margin-top: -10%; */
   font-family: "New Rocker", cursive;
   font-size: 8rem;
   color: white;
@@ -73,15 +71,11 @@ const ActualizarDatosStyleCont2 = styled.div`
         width: 100%;
         display: flex;
         flex-direction: column;
-        /* align-items: center; */
 
         .div{
           width: 100%;
           display: flex;
           flex-direction: column;
-          /* height: 100%;
-          margin-top: 2px;
-           */ 
         }
 
         .input {
@@ -89,7 +83,6 @@ const ActualizarDatosStyleCont2 = styled.div`
           width: 400%;
           height: 100%;
           font-size: 1.8rem;
-          /* margin-top: 8%; */
           margin-left: 2%;
           background-color: transparent;
           border: none;
@@ -116,44 +109,39 @@ const ActualizarDatosStyleCont2 = styled.div`
     align-items: center;
 
     h3{
-    font-family: "New Rocker", cursive;
-      /* margin: 20px; */
+      font-family: "New Rocker", cursive;
       font-size: 3rem;
-      /* height: 25%;
-    width: 100%; */
-    /* text-align: center; */
-    color: ${Colors.Platinum};
+      color: ${Colors.Platinum};
     }
 
-  img{
-    width: 250px;
-    height: 250px;
-  }
+    img{
+      width: 250px;
+      height: 250px;
+    }
 
-  button{
-        border: none;
-        font-family: "New Rocker";
-        font-weight: 400;
-        font-size: 2rem;
-        border-radius: 10px;
-        background-color: ${Colors.Blue_life};
-        width: 15%;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: ${Colors.Platinum};
-        text-decoration: none;
-        margin-top: 20px;
-        transition: all 0.5s ease;
+    button{
+      border: none;
+      font-family: "New Rocker";
+      font-weight: 400;
+      font-size: 2rem;
+      border-radius: 10px;
+      background-color: ${Colors.Blue_life};
+      width: 15%;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: ${Colors.Platinum};
+      text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.5s ease;
 
-        :hover {
-          cursor: pointer;
-          transform: scale(1.2);
-        }
+      :hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
   }
-  }
-  
 `;
 
 function validate(input) {
@@ -255,7 +243,6 @@ export default function upLoadData() {
     e.preventDefault();
     setInput({
       ...input,
-      //lo seteo con el value
       [e.target.name]: e.target.value,
     });
     setErrors(validate({
@@ -302,14 +289,6 @@ export default function upLoadData() {
       <ActualizarDatosStyleCont2>
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <div className="inputs">
-            {/* <input type="email" placeholder="Email" className="input" value={input.email} name="email" onChange={(e) => handleChange(e)} /> */}
-            {/* <input type="text" placeholder="Nombre de la banda o solista" className="input" value={input.name} name="name" onChange={(e) => handleChange(e)} />
-    <input type="text" placeholder="Persona a cargo" className="input" value={input.personInCharge} name="personInCharge" onChange={(e) => handleChange(e)} />
-    <input type="text" placeholder="Descripcion" className="input" value={input.description} name="description" onChange={(e) => handleChange(e)} />
-    <input type="tel" placeholder="Telefono de contacto" className="input" value={input.phoneNumber} name="phoneNumber" onChange={(e) => handleChange(e)} />
-    <input type="text" placeholder="Instagram" className="input" value={input.instagram} name="instagram" onChange={(e) => handleChange(e)} />
-    <input type="text" placeholder="Spotify" className="input" value={input.spotify} name="spotify" onChange={(e) => handleChange(e)} />
-    <input type="text" placeholder="Youtube" className="input" value={input.youtube} name="youtube" onChange={(e) => handleChange(e)} /> */}
             <div className="div">
               <input
                 type="text"
