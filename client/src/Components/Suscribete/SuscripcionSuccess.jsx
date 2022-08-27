@@ -59,9 +59,8 @@ const SuscripcionDetailCont = styled.div`
 `;
 
 export default function suscripcionSuccess() {
-  const [userPlace, setuserPlace] = useState({});
   const busqueda = useLocation().search;
-  const createSuscription = () => {
+  const createSuscription = async (userPlace) => {
     const respuesta = {
       status: new URLSearchParams(busqueda).get("status"),
       collection_status: new URLSearchParams(busqueda).get("collection_status"),
@@ -73,18 +72,19 @@ export default function suscripcionSuccess() {
         startDate: Date.now(),
         payment_id: respuesta.payment_id,
       };
-      axios.put("http://localhost:3001/placesuscription", {
+      await axios.put("/placesuscription", {
         email: userPlace.email,
         suscription,
       });
     }
   };
-
-  useEffect(() => {
+  useEffect(async () => {
     if (isAuthenticated()) {
-      setuserPlace(getUserInfo());
+      const userInfo = await getUserInfo();
+
+      console.log(userInfo);
+      createSuscription(userInfo);
     }
-    createSuscription();
   }, []);
 
   return (
