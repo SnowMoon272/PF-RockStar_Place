@@ -140,13 +140,6 @@ export function resetDetails(payload) {
   };
 }
 
-export function postData(payload) {
-  return async (dispatch) => {
-    const json = await axios.put("/musicband", payload);
-    return json;
-  };
-}
-
 export function updatePlaceData(payload) {
   return async (dispatch) => {
     const json = await axios.put("/place", payload);
@@ -167,4 +160,3 @@ export function registerPlace(payload) {
     return json;
   };
 }
-

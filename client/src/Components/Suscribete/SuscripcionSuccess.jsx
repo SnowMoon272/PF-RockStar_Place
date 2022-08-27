@@ -59,6 +59,7 @@ const SuscripcionDetailCont = styled.div`
 `;
 
 export default function suscripcionSuccess() {
+  const [userPlace, setuserPlace] = useState({});
   const busqueda = useLocation().search;
   const createSuscription = () => {
     const respuesta = {
@@ -73,15 +74,18 @@ export default function suscripcionSuccess() {
         payment_id: respuesta.payment_id,
       };
       axios.put("http://localhost:3001/placesuscription", {
-        email: "Email hardcodeado",
+        email: userPlace.email,
         suscription,
       });
     }
   };
 
   useEffect(() => {
+    if (isAuthenticated()) {
+      setuserPlace(getUserInfo());
+    }
     createSuscription();
-  });
+  }, []);
 
   return (
     <SuscripcionStyleCont>

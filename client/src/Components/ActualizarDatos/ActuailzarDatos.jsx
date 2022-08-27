@@ -1,14 +1,17 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-useless-escape */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
-import { postData } from "../../Redux/actions";
+// import { postData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -163,11 +166,8 @@ function validate(input) {
   }
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
-  } /* else if (
-    !/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)
-  ) {
-    errors.phoneNumber = "Ingresa un numero de teléfono válido";
-  } */
+  }
+
   if (
     input.instagram &&
     !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
@@ -204,8 +204,15 @@ function validate(input) {
 
 export default function upLoadData() {
   const navigate = useNavigate();
+  const [userBand, setuserBand] = useState({});
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isAuthenticated()) {
+      setuserBand(getUserInfo());
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const [errors, setErrors] = useState({});
 
@@ -252,11 +259,24 @@ export default function upLoadData() {
     );
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    dispatch(
-      postData({
-        email: "CastielAltair0027@outlook.com",
+    if (
+      !errors.name &&
+      input.name &&
+      !errors.personInCharge &&
+      input.personInCharge &&
+      input.description &&
+      !errors.description &&
+      input.phoneNumber &&
+      !errors.phoneNumber &&
+      input.profilePicture &&
+      !errors.instagram &&
+      !errors.spotify &&
+      !errors.youtube
+    ) {
+      await axios.put("/musicband", {
+        email: userBand.email,
         data: {
           name: input.name,
           personInCharge: input.personInCharge,
@@ -269,20 +289,23 @@ export default function upLoadData() {
             youtube: input.youtube,
           },
         },
-      }),
-    );
-    alert("Datos actualizados con exito");
-    setInput({
-      name: "",
-      personInCharge: "",
-      description: "",
-      phoneNumber: "",
-      profilePicture: image,
-      instagram: "",
-      spotify: "",
-      youtube: "",
-    });
-    navigate("/");
+      });
+      alert("Datos actualizados con exito");
+
+      setInput({
+        name: "",
+        personInCharge: "",
+        description: "",
+        phoneNumber: "",
+        profilePicture: image,
+        instagram: "",
+        spotify: "",
+        youtube: "",
+      });
+      navigate("/");
+    } else {
+      alert("Ups! Hay algún problema, revisa la información");
+    }
   }
 
   return (
@@ -381,7 +404,7 @@ export default function upLoadData() {
           </button>
         </div>
       </ActualizarDatosStyleCont2>
-      <button type="submit" className="BTNActualizar" onSubmit={(e) => handleSubmit(e)}>
+      <button type="button" className="BTNActualizar" onClick={(e) => handleSubmit(e)}>
         Actualizar
       </button>
       <br />
