@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
+import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
+import { getPlaces, updateFilters, popularitySort, getDetailMusicBand } from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -354,10 +355,13 @@ function HomeBL() {
   const dispatch = useDispatch();
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
+  const musicBand = useSelector((state) => state.detail_music_band);
 
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     dispatch(getPlaces());
+    const User = getUserInfo();
+    dispatch(getDetailMusicBand(User._id));
   }, [dispatch]);
 
   const [reRender, setreRender] = useState(false);
@@ -393,11 +397,13 @@ function HomeBL() {
     paginado(1);
   };
 
-  const handleClickSort = () => {
-    dispatch(popularitySort(allPlaces));
+  const handleClickSort = async () => {
+    await dispatch(popularitySort(allPlaces));
     paginado(1);
     setreRender(!reRender);
   };
+
+  console.log(musicBand);
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
@@ -408,7 +414,6 @@ function HomeBL() {
         FiltroB
         Eventos
         Perfil
-        HelpLog
         UserLog
         paginado={paginado}
         setFilter={setFilter}

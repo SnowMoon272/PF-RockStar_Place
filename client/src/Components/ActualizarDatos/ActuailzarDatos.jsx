@@ -32,7 +32,6 @@ const ActualizarDatosStyleCont2 = styled.div`
 `;
 
 export default function upLoadData() {
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -64,7 +63,7 @@ export default function upLoadData() {
       },
     );
     widgetCloudinary.open();
-  };
+  }
 
   function handleChange(e) {
     e.preventDefault();
@@ -77,25 +76,27 @@ export default function upLoadData() {
       ...input,
       [e.target.name] : e.target.value
     })); */
-  };
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(postData({
-      email: "willsmith@gmail.com",
-      data: {
-        name: input.name,
-        personInCharge: input.personInCharge,
-        description: input.description,
-        phoneNumber: input.phoneNumber,
-        profilePicture: input.profilePicture,
-        socialMedia: {
-          instagram: input.instagram,
-          spotify: input.spotify,
-          youtube: input.youtube,
+    dispatch(
+      postData({
+        email: "willsmith@gmail.com",
+        data: {
+          name: input.name,
+          personInCharge: input.personInCharge,
+          description: input.description,
+          phoneNumber: input.phoneNumber,
+          profilePicture: input.profilePicture,
+          socialMedia: {
+            instagram: input.instagram,
+            spotify: input.spotify,
+            youtube: input.youtube,
+          },
         },
-      },
-    }));
+      }),
+    );
     alert("Datos actualizados con exito");
     setInput({
       name: "",
@@ -108,7 +109,7 @@ export default function upLoadData() {
       youtube: "",
     });
     navigate("/");
-  };
+  }
 
   return (
     <ActualizarDatosStyleCont>
@@ -118,13 +119,62 @@ export default function upLoadData() {
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <div className="inputs">
             {/* <input type="email" placeholder="Email" className="input" value={input.email} name="email" onChange={(e) => handleChange(e)} /> */}
-            <input type="text" placeholder="Nombre de la banda o solista" className="input" value={input.name} name="name" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Persona a cargo" className="input" value={input.personInCharge} name="personInCharge" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Descripcion" className="input" value={input.description} name="description" onChange={(e) => handleChange(e)} />
-            <input type="tel" placeholder="Telefono de contacto" className="input" value={input.phoneNumber} name="phoneNumber" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Instagram" className="input" value={input.instagram} name="instagram" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Spotify" className="input" value={input.spotify} name="spotify" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Youtube" className="input" value={input.youtube} name="youtube" onChange={(e) => handleChange(e)} />
+            <input
+              type="text"
+              placeholder="Nombre de la banda o solista"
+              className="input"
+              value={input.name}
+              name="name"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="text"
+              placeholder="Persona a cargo"
+              className="input"
+              value={input.personInCharge}
+              name="personInCharge"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="text"
+              placeholder="Descripcion"
+              className="input"
+              value={input.description}
+              name="description"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="tel"
+              placeholder="Telefono de contacto"
+              className="input"
+              value={input.phoneNumber}
+              name="phoneNumber"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="text"
+              placeholder="Instagram"
+              className="input"
+              value={input.instagram}
+              name="instagram"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="text"
+              placeholder="Spotify"
+              className="input"
+              value={input.spotify}
+              name="spotify"
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="text"
+              placeholder="Youtube"
+              className="input"
+              value={input.youtube}
+              name="youtube"
+              onChange={(e) => handleChange(e)}
+            />
           </div>
           <div>
             <h3>Foto de perfil</h3>

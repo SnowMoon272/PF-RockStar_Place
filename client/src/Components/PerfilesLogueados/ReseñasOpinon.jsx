@@ -64,7 +64,7 @@ const ReseñasStyleCont = styled.div`
     }
   }
 
-  .Boton {
+  /* .Boton {
     font-family: "New Rocker";
     font-weight: 400;
     font-size: 2rem;
@@ -84,7 +84,7 @@ const ReseñasStyleCont = styled.div`
       cursor: pointer;
       transform: scale(1.2);
     }
-  }
+  } */
 `;
 
 function ReseñasOpinon({ Opinion, musicBand }) {
@@ -108,7 +108,7 @@ function ReseñasOpinon({ Opinion, musicBand }) {
               );
             })}
       </div>
-      {Opinion ? (
+      {/* {Opinion ? (
         <Link className="Boton" to="/">
           Detalles B
         </Link>
@@ -116,7 +116,7 @@ function ReseñasOpinon({ Opinion, musicBand }) {
         <Link className="Boton" to="/">
           Detalles A
         </Link>
-      )}
+      )} */}
     </ReseñasStyleCont>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Home from "./Components/Home/Home";
-import Help from "./Components/Help/HelpNoLogeado";
+import Help from "./Components/Help/Help";
 import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
@@ -28,7 +28,6 @@ function App() {
         <Route exact path="/" element={<Home />} />
 
         <Route exact path="/help" element={<Help />} />
-        <Route exact path="/help/logeado" element={<HelpLogeado />} />
 
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route exact path="/registro" element={<Registro />} />

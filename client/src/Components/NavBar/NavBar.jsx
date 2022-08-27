@@ -9,6 +9,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -207,8 +208,6 @@ function NavBar({
   Home,
   Buscar,
   FiltroA,
-  HomeLinkBanda,
-  HelpLog,
   UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
@@ -244,12 +243,11 @@ function NavBar({
     });
   };
 
-  /* * * * * * * * * * * React JSX * * * * * * * * * * */
-
   const handlerClickExit = (e) => {
-    // e.preventDefault();
     localStorage.removeItem("user-token");
   };
+
+  /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
     <NavBarStyle FondoImg={FondoImg}>
@@ -289,7 +287,7 @@ function NavBar({
             {Home && (
               <>
                 {/*  */}
-                <Link to={HomeLinkBanda ? "/home/band" : "/"} className="Butons Link">
+                <Link to="/" className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Home</h3>
@@ -351,7 +349,7 @@ function NavBar({
             {Perfil && (
               <>
                 <Link
-                  to="/musicbandprofile/62fe535e5096bb5315fc3e66"
+                  to="/musicbandprofile/63094a704457bfcb1b503267"
                   className="Butons Link Perfil"
                 >
                   <img src={BTNUser} alt="ico-filtro" />

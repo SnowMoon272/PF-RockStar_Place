@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
@@ -332,9 +332,9 @@ export default function PerfilMusico() {
                   </a>
                 </div>
                 <div className="divEditar">
-                  <div className="imgEditar">
+                  <Link to="/actualizar" className="imgEditar">
                     <img src={Editar} alt="Edit" />
-                  </div>
+                  </Link>
                   <h4>Editar</h4>
                 </div>
               </div>
