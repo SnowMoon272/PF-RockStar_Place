@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable no-useless-escape */
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -6,36 +8,207 @@ import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
 import { postData } from "../../Redux/actions";
+import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
-  background-color: ${Colors.Erie_Black};
+  background-image: url(${BGPerfil});
   width: 100%;
   height: 100vh;
   padding-left: 80px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  h1 {
+      font-family: "New Rocker", cursive;
+      margin-top: 5%;
+      font-size: 5rem;
+      height: 25%;
+    width: 100%;
+    text-align: center;
+    color: ${Colors.Platinum};
+  }
+
+  button{
+        border: none;
+        font-family: "New Rocker";
+        font-weight: 400;
+        font-size: 2rem;
+        border-radius: 10px;
+        background-color: ${Colors.Blue_life};
+        width: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${Colors.Platinum};
+        text-decoration: none;
+        margin-top: 20px;
+        transition: all 0.5s ease;
+
+        :hover {
+          cursor: pointer;
+          transform: scale(1.2);
+        }
+  }
 `;
 
 const ActualizarDatosStyleCont2 = styled.div`
   box-sizing: border-box;
-  background-color: ${Colors.Green_Nigth};
-  width: 70%;
-  height: 70%;
-  /* font-family: "New Rocker", cursive;
+  background-color: ${Colors.Oxford_Blue_transparent};
+  width: 80%;
+  height: 80%;
+  font-family: "New Rocker", cursive;
   font-size: 8rem;
-  color: white; */
+  color: white;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+
+  .inputs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .div{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .input {
+          font-family: "RocknRoll One", sans-serif;
+          width: 400%;
+          height: 100%;
+          font-size: 1.8rem;
+          margin-left: 2%;
+          background-color: transparent;
+          border: none;
+          border-bottom: 4px solid ${Colors.Blue_life};
+          outline: none;
+          color: ${Colors.Platinum};
+          outline: none;
+          padding-left: 15px;
+        }
+
+        .errors{
+          color: red;
+          font-size: 1.8rem;
+          width: 500%;
+          font-family: "RocknRoll One", sans-serif;
+        }
+  }
+
+  .cargarImagen{
+    width: 100%;
+    margin-left: 52%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h3{
+      font-family: "New Rocker", cursive;
+      font-size: 3rem;
+      color: ${Colors.Platinum};
+    }
+
+    img{
+      width: 250px;
+      height: 250px;
+    }
+
+    button{
+      border: none;
+      font-family: "New Rocker";
+      font-weight: 400;
+      font-size: 2rem;
+      border-radius: 10px;
+      background-color: ${Colors.Blue_life};
+      width: 15%;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: ${Colors.Platinum};
+      text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.5s ease;
+
+      :hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
+  }
 `;
+
+function validate(input) {
+  const errors = {};
+  if (!input.name) {
+    errors.name = "Ingresa tu nombre o el nombre de la banda";
+  } else if (!/^[a-zA-Z0-9 ]+$/.test(input.name)) {
+    errors.name = "El nombre puede contener letras, numeros y espacios";
+  } else if (!/^[\s\S]{3,25}$/.test(input.name)) {
+    errors.name = "El nombre puede contener entre 3 y 25 caracteres";
+  }
+  if (!input.personInCharge) {
+    errors.personInCharge = "Ingresa el nombre de la persona a cargo de la banda";
+  } else if (!/^[a-zA-Z ]+$/.test(input.personInCharge)) {
+    errors.personInCharge = "El nombre de la persona a cargo puede contener letras y espacios";
+  } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
+    errors.personInCharge =
+      "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
+  }
+  if (!input.phoneNumber) {
+    errors.phoneNumber = "Ingresa un numero de telefono";
+  } else if (
+    !/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)
+  ) {
+    errors.phoneNumber = "Ingresa un numero de teléfono válido";
+  }
+  if (
+    input.instagram &&
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
+      input.instagram,
+    )
+  ) {
+    errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
+  }
+  if (!input.description) {
+    errors.description = "Ingresa la descripción de tu banda";
+  } else if (input.description && !/^[a-zA-Z0-9 .!,]+$/.test(input.description)) {
+    errors.description = "La descripción puede contener letras, números y espacios";
+  } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
+    errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
+  }
+  if (
+    input.spotify &&
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
+      input.spotify,
+    )
+  ) {
+    errors.spotify = "Ingresa una URL válida. 'example: http://example.com'";
+  }
+  if (
+    input.youtube &&
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
+      input.youtube,
+    )
+  ) {
+    errors.youtube = "Ingresa una URL válida. 'example: http://example.com'";
+  }
+  return errors;
+}
 
 export default function upLoadData() {
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const [errors, setErrors] = useState({});
 
   const [image, setImage] = useState("");
 
@@ -70,13 +243,12 @@ export default function upLoadData() {
     e.preventDefault();
     setInput({
       ...input,
-      //lo seteo con el value
       [e.target.name]: e.target.value,
     });
-    /* setErrors(validate({
+    setErrors(validate({
       ...input,
-      [e.target.name] : e.target.value
-    })); */
+      [e.target.name]: e.target.value,
+    }));
   };
 
   function handleSubmit(e) {
@@ -113,38 +285,100 @@ export default function upLoadData() {
   return (
     <ActualizarDatosStyleCont>
       <NavBar FondoImg Home />
+      <h1>Completa/edita tus datos</h1>
       <ActualizarDatosStyleCont2>
-        <h1>Completa/edita tus datos</h1>
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <div className="inputs">
-            {/* <input type="email" placeholder="Email" className="input" value={input.email} name="email" onChange={(e) => handleChange(e)} /> */}
-            <input type="text" placeholder="Nombre de la banda o solista" className="input" value={input.name} name="name" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Persona a cargo" className="input" value={input.personInCharge} name="personInCharge" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Descripcion" className="input" value={input.description} name="description" onChange={(e) => handleChange(e)} />
-            <input type="tel" placeholder="Telefono de contacto" className="input" value={input.phoneNumber} name="phoneNumber" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Instagram" className="input" value={input.instagram} name="instagram" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Spotify" className="input" value={input.spotify} name="spotify" onChange={(e) => handleChange(e)} />
-            <input type="text" placeholder="Youtube" className="input" value={input.youtube} name="youtube" onChange={(e) => handleChange(e)} />
-          </div>
-          <div>
-            <h3>Foto de perfil</h3>
-            <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-              Subir foto
-            </button>
-            <div>
-              <img
-                src={image === "" ? notImg : image}
-                alt="img not found"
-                width="250px"
-                height="250px"
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Nombre de la banda o solista"
+                className="input"
+                value={input.name}
+                name="name"
+                onChange={(e) => handleChange(e)} />
+              {errors.name && <p className="errors">{errors.name}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Persona a cargo"
+                className="input"
+                value={input.personInCharge}
+                name="personInCharge"
+                onChange={(e) => handleChange(e)} />
+              {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Descripcion"
+                className="input"
+                value={input.description}
+                name="description"
+                onChange={(e) => handleChange(e)} />
+              {errors.description && <p className="errors">{errors.description}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="tel"
+                placeholder="Telefono de contacto"
+                className="input"
+                value={input.phoneNumber}
+                name="phoneNumber"
+                onChange={(e) => handleChange(e)} />
+              {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Instagram"
+                className="input"
+                value={input.instagram}
+                name="instagram"
+                onChange={(e) => handleChange(e)} />
+              {errors.instagram && <p className="errors">{errors.instagram}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Spotify"
+                className="input"
+                value={input.spotify}
+                name="spotify"
+                onChange={(e) => handleChange(e)}
               />
+              {errors.spotify && <p className="errors">{errors.spotify}</p>}
+            </div>
+            <div className="div">
+              <input
+                type="text"
+                placeholder="Youtube"
+                className="input"
+                value={input.youtube}
+                name="youtube"
+                onChange={(e) => handleChange(e)} />
+              {errors.youtube && <p className="errors">{errors.youtube}</p>}
             </div>
           </div>
-          <button type="submit" className="BTNActualizar">
-            Actualizar
-          </button>
         </form>
+        <div className="cargarImagen">
+          <h3>Foto de perfil</h3>
+          <div>
+            <img
+              src={image === "" ? notImg : image}
+              alt="img not found"
+            />
+          </div>
+          <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+            Subir foto
+          </button>
+        </div>
       </ActualizarDatosStyleCont2>
+      <button type="submit" className="BTNActualizar">
+        Actualizar
+      </button>
+      <br /><br /><br /><br /><br /><br />
     </ActualizarDatosStyleCont>
   );
 }
