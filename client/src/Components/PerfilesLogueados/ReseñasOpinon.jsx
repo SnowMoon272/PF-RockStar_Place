@@ -87,26 +87,30 @@ const ReseñasStyleCont = styled.div`
   } */
 `;
 
+/* ) : Object.keys(musicBand.reviews).length === 0 ? ( */
 function ReseñasOpinon({ Opinion, musicBand }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
       <div className="comentarios">
-        {Opinion
-          ? "Aqui va tu opinion"
-          : musicBand.reviews &&
-            musicBand.reviews.map((review) => {
-              return (
-                <div key={review._id} className="coment">
-                  <div className="NameRating">
-                    <span className="autor">{review.author}</span>
-                    <span className="ratingcoment">Rating: ⭐{review.rating}</span>
-                  </div>
-                  <p className="contenidocoment">{review.comment}</p>
-                  <hr />
+        {Opinion ? (
+          "Aqui va tu opinion"
+        ) : musicBand.reviews ? (
+          musicBand.reviews.map((review) => {
+            return (
+              <div key={review._id} className="coment">
+                <div className="NameRating">
+                  <span className="autor">{review.author}</span>
+                  <span className="ratingcoment">Rating: ⭐{review.rating}</span>
                 </div>
-              );
-            })}
+                <p className="contenidocoment">{review.comment}</p>
+                <hr />
+              </div>
+            );
+          })
+        ) : (
+          <h6>Aún no tienes reseñas.</h6>
+        )}
       </div>
       {/* {Opinion ? (
         <Link className="Boton" to="/">

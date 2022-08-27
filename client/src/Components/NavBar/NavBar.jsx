@@ -1,6 +1,7 @@
+/* eslint-disable no-var */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 /* Modules */
 import { Link } from "react-router-dom";
@@ -9,7 +10,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
-import { getUserInfo } from "../../Utils/auth.controller";
+import { getUserInfo, isAuthenticated } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -217,7 +218,14 @@ function NavBar({
     FilterCities: false,
     FilterSounds: false,
   });
+  const [infUser, setInfUser] = useState({});
 
+  useEffect(() => {
+    if (isAuthenticated()) {
+      const InfUser = getUserInfo();
+      setInfUser(InfUser);
+    }
+  }, []);
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handlerClickSearch = (e) => {
     setNavState({
@@ -348,10 +356,7 @@ function NavBar({
             )}
             {Perfil && (
               <>
-                <Link
-                  to="/musicbandprofile/62fe535e5096bb5315fc3e66"
-                  className="Butons Link Perfil"
-                >
+                <Link to={`/musicbandprofile/${infUser._id}`} className="Butons Link Perfil">
                   <img src={BTNUser} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Perfil</h3>

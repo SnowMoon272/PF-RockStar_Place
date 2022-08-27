@@ -22,35 +22,35 @@ const ActualizarDatosStyleCont = styled.div`
   align-items: center;
 
   h1 {
-      font-family: "New Rocker", cursive;
-      margin-top: 5%;
-      font-size: 5rem;
-      height: 25%;
+    font-family: "New Rocker", cursive;
+    margin-top: 5%;
+    font-size: 5rem;
+    height: 25%;
     width: 100%;
     text-align: center;
     color: ${Colors.Platinum};
   }
 
-  button{
-        border: none;
-        font-family: "New Rocker";
-        font-weight: 400;
-        font-size: 2rem;
-        border-radius: 10px;
-        background-color: ${Colors.Blue_life};
-        width: 15%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: ${Colors.Platinum};
-        text-decoration: none;
-        margin-top: 20px;
-        transition: all 0.5s ease;
+  button {
+    border: none;
+    font-family: "New Rocker";
+    font-weight: 400;
+    font-size: 2rem;
+    border-radius: 10px;
+    background-color: ${Colors.Blue_life};
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${Colors.Platinum};
+    text-decoration: none;
+    margin-top: 20px;
+    transition: all 0.5s ease;
 
-        :hover {
-          cursor: pointer;
-          transform: scale(1.2);
-        }
+    :hover {
+      cursor: pointer;
+      transform: scale(1.2);
+    }
   }
 `;
 
@@ -68,58 +68,58 @@ const ActualizarDatosStyleCont2 = styled.div`
   align-items: center;
 
   .inputs {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-        .div{
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-        }
+    .div {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .input {
-          font-family: "RocknRoll One", sans-serif;
-          width: 400%;
-          height: 100%;
-          font-size: 1.8rem;
-          margin-left: 2%;
-          background-color: transparent;
-          border: none;
-          border-bottom: 4px solid ${Colors.Blue_life};
-          outline: none;
-          color: ${Colors.Platinum};
-          outline: none;
-          padding-left: 15px;
-        }
+    .input {
+      font-family: "RocknRoll One", sans-serif;
+      width: 400%;
+      height: 100%;
+      font-size: 1.8rem;
+      margin-left: 2%;
+      background-color: transparent;
+      border: none;
+      border-bottom: 4px solid ${Colors.Blue_life};
+      outline: none;
+      color: ${Colors.Platinum};
+      outline: none;
+      padding-left: 15px;
+    }
 
-        .errors{
-          color: red;
-          font-size: 1.8rem;
-          width: 500%;
-          font-family: "RocknRoll One", sans-serif;
-        }
+    .errors {
+      color: red;
+      font-size: 1.8rem;
+      width: 500%;
+      font-family: "RocknRoll One", sans-serif;
+    }
   }
 
-  .cargarImagen{
+  .cargarImagen {
     width: 100%;
     margin-left: 52%;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    h3{
+    h3 {
       font-family: "New Rocker", cursive;
       font-size: 3rem;
       color: ${Colors.Platinum};
     }
 
-    img{
+    img {
       width: 250px;
       height: 250px;
     }
 
-    button{
+    button {
       border: none;
       font-family: "New Rocker";
       font-weight: 400;
@@ -163,11 +163,11 @@ function validate(input) {
   }
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
-  } else if (
+  } /* else if (
     !/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)
   ) {
     errors.phoneNumber = "Ingresa un numero de teléfono válido";
-  }
+  } */
   if (
     input.instagram &&
     !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
@@ -244,17 +244,19 @@ export default function upLoadData() {
       ...input,
       [e.target.name]: e.target.value,
     });
-    setErrors(validate({
-      ...input,
-      [e.target.name]: e.target.value,
-    }));
-  };
+    setErrors(
+      validate({
+        ...input,
+        [e.target.name]: e.target.value,
+      }),
+    );
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(
       postData({
-        email: "willsmith@gmail.com",
+        email: "CastielAltair0027@outlook.com",
         data: {
           name: input.name,
           personInCharge: input.personInCharge,
@@ -285,10 +287,10 @@ export default function upLoadData() {
 
   return (
     <ActualizarDatosStyleCont>
-      <NavBar FondoImg Home />
+      <NavBar Home />
       <h1>Completa/edita tus datos</h1>
       <ActualizarDatosStyleCont2>
-        <form className="form" onSubmit={(e) => handleSubmit(e)}>
+        <form className="form">
           <div className="inputs">
             <div className="div">
               <input
@@ -297,7 +299,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.name}
                 name="name"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.name && <p className="errors">{errors.name}</p>}
             </div>
             <div className="div">
@@ -307,7 +310,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.personInCharge}
                 name="personInCharge"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
             </div>
             <div className="div">
@@ -317,7 +321,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.description}
                 name="description"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.description && <p className="errors">{errors.description}</p>}
             </div>
             <div className="div">
@@ -327,7 +332,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.phoneNumber}
                 name="phoneNumber"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
             </div>
             <div className="div">
@@ -337,7 +343,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.instagram}
                 name="instagram"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.instagram && <p className="errors">{errors.instagram}</p>}
             </div>
             <div className="div">
@@ -358,7 +365,8 @@ export default function upLoadData() {
                 className="input"
                 value={input.youtube}
                 name="youtube"
-                onChange={(e) => handleChange(e)} />
+                onChange={(e) => handleChange(e)}
+              />
               {errors.youtube && <p className="errors">{errors.youtube}</p>}
             </div>
           </div>
@@ -366,20 +374,22 @@ export default function upLoadData() {
         <div className="cargarImagen">
           <h3>Foto de perfil</h3>
           <div>
-            <img
-              src={image === "" ? notImg : image}
-              alt="img not found"
-            />
+            <img src={image === "" ? notImg : image} alt="img not found" />
           </div>
           <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
             Subir foto
           </button>
         </div>
       </ActualizarDatosStyleCont2>
-      <button type="submit" className="BTNActualizar">
+      <button type="submit" className="BTNActualizar" onSubmit={(e) => handleSubmit(e)}>
         Actualizar
       </button>
-      <br /><br /><br /><br /><br /><br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </ActualizarDatosStyleCont>
   );
 }

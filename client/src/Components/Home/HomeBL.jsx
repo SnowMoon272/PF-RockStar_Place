@@ -18,8 +18,7 @@ import { getPlaces, updateFilters, popularitySort, getDetailMusicBand } from "..
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGBand from "../../Assets/img/ROLLING STONES.jpg";
-import IMGLocal from "../../Assets/img/upload_7xCMVkX.png";
+import IMGLocal from "../../Assets/img/BarCerrado.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
@@ -114,6 +113,11 @@ const FirtVewStyleCont = styled.div`
       border-left: solid white 3px;
       width: fit-content;
       height: 300px;
+
+      & .SinEvento {
+        font-family: "RocknRoll One", sans-serif;
+        text-align: center;
+      }
 
       & .ProximoInf {
         display: flex;
@@ -403,8 +407,6 @@ function HomeBL() {
     setreRender(!reRender);
   };
 
-  console.log(musicBand);
-
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
     <HomeStyleCont>
@@ -426,29 +428,39 @@ function HomeBL() {
         </div>
         <div className="Heder">
           <img className="Logo" src={IMGLogoA} alt="" />
-          <h1 className="Title">Nombre de la banda</h1>
+          <h1 className="Title">{musicBand.name}</h1>
           <button type="button" className="Notificacion">
             <img src="" alt="" />
           </button>
         </div>
         <div className="CardUnicaCont">
           <div className="ImgBanda">
-            <img src={IMGBand} alt="Banda" />
+            <img src={musicBand.profilePicture} alt="Banda" />
           </div>
           <div className="ProximoInfCont">
             <div className="ProximoInf">
               <h4>Proximo Evento</h4>
-              <p>
-                <span>Local: </span>Bar las Americas <br />
-                <span>Fecha: </span>Sabado 27 de Marzo. <br />
-                <span>Contacto: </span>Rafael Gomez Plata <br />
-                <span>Telefono: </span> (+52) 55 6192 2596 <br />
-                <span>Direccion: </span> Av. Siempre Viva #54 interior 12 Colonia Las Americas
-              </p>
+              {!musicBand.dates === undefined ? (
+                <p>
+                  <span>Local: </span>Inf. Mokeada (Modificar) <br />
+                  <span>Fecha: </span>Inf. Mokeada (Modificar)
+                  <br />
+                  <span>Contacto: </span>Inf. Mokeada (Modificar)
+                  <br />
+                  <span>Telefono: </span>Inf. Mokeada (Modificar)
+                  <br />
+                  <span>Direccion: </span>Inf. Mokeada (Modificar)
+                </p>
+              ) : (
+                <p className="SinEvento">
+                  Aqui se mostrara la informacion de tu proximo evento confirmado.
+                </p>
+              )}
             </div>
             <div className="ProximoIMGyBtn">
               <img src={IMGLocal} alt="Local" />
-              <Link className="Lynk_Btn" to="/home/band">
+              {/* Cambiar por ternario cuando se tenga acceso a los eventos */}
+              <Link className="Lynk_Btn" to="/">
                 <button type="button">Detalle</button>
               </Link>
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect, useState } from "react";
@@ -277,13 +278,13 @@ export default function PerfilMusico() {
 
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
-  }, [dispatch]);
+  }, []);
 
-  const handlerSutch = (e) => {
+  const handlerSwitch = (e) => {
     e.preventDefault();
     setStateReseña(!stateReseña);
   };
-
+  console.log(musicBand);
   return (
     <EditStyledCont Foto={musicBand}>
       <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
@@ -332,7 +333,7 @@ export default function PerfilMusico() {
                   </a>
                 </div>
                 <div className="divEditar">
-                  <Link to="/actualizar" className="imgEditar">
+                  <Link to="/actualizarbanda" className="imgEditar">
                     <img src={Editar} alt="Edit" />
                   </Link>
                   <h4>Editar</h4>
@@ -347,7 +348,7 @@ export default function PerfilMusico() {
           </div>
           <button
             onClick={(e) => {
-              handlerSutch(e);
+              handlerSwitch(e);
             }}
             className="BotonOpinion"
             type="button"

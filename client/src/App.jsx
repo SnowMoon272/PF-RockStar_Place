@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Home from "./Components/Home/Home";
 import Help from "./Components/Help/Help";
-import HelpLogeado from "./Components/Help/HelpLogeado";
 import InciarSesion from "./Components/InciarSesion/InciarSesion";
 import DetailPlace from "./Components/DetailPlace/DetailPlace";
 import Registro from "./Components/Registro/Registro";
