@@ -1,9 +1,10 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
@@ -277,13 +278,13 @@ export default function PerfilMusico() {
 
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
-  }, [dispatch]);
+  }, []);
 
-  const handlerSutch = (e) => {
+  const handlerSwitch = (e) => {
     e.preventDefault();
     setStateReseña(!stateReseña);
   };
-
+  console.log(musicBand);
   return (
     <EditStyledCont Foto={musicBand}>
       <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
@@ -332,9 +333,9 @@ export default function PerfilMusico() {
                   </a>
                 </div>
                 <div className="divEditar">
-                  <div className="imgEditar">
+                  <Link to="/actualizarbanda" className="imgEditar">
                     <img src={Editar} alt="Edit" />
-                  </div>
+                  </Link>
                   <h4>Editar</h4>
                 </div>
               </div>
@@ -347,7 +348,7 @@ export default function PerfilMusico() {
           </div>
           <button
             onClick={(e) => {
-              handlerSutch(e);
+              handlerSwitch(e);
             }}
             className="BotonOpinion"
             type="button"

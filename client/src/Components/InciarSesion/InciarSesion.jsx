@@ -224,8 +224,9 @@ function InciarSesion() {
               <input
                 name="input-email"
                 id="input_email"
-                type="text"
+                type="email"
                 placeholder="email"
+                autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <input
@@ -233,6 +234,7 @@ function InciarSesion() {
                 id="input_password"
                 type="password"
                 placeholder="password"
+                autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <p>¿Olvidaste tu contraseña?</p>
