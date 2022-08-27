@@ -349,7 +349,7 @@ function NavBar({
             {Perfil && (
               <>
                 <Link
-                  to="/musicbandprofile/63094a704457bfcb1b503267"
+                  to="/musicbandprofile/62fe535e5096bb5315fc3e66"
                   className="Butons Link Perfil"
                 >
                   <img src={BTNUser} alt="ico-filtro" />
