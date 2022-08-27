@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import BGHome from "../../Assets/img/HomeConcert.jpg";
 import hombreFeliz from "../../Assets/img/hombrefeliz.png";
+import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 
 const SuscripcionStyleCont = styled.div`
-  background-color: ${Colors.Erie_Black};
+  background-image: url(${BGHome});
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -39,13 +40,12 @@ const SuscripcionDetailCont = styled.div`
   box-sizing: border-box;
   width: 40%;
   height: 30%;
-  background-color: ${Colors.Oxford_Blue};
+  background-color: rgba(20, 33, 61, 0.75);
   display: flex;
   margin: 2.5% 10%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: ${BGHome};
 
   text-align: center;
 

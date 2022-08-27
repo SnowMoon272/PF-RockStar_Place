@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
