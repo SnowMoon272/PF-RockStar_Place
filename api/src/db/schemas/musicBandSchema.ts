@@ -1,14 +1,17 @@
 const { Schema } = require("mongoose");
+const bcrypt = require("bcrypt");
+
 
 export const musicBandSchema = new Schema({
 	personInCharge: {
 		type: String,
 		trim: true,
-		default: undefined,
+		default: "",
 	},
 	name: {
 		type: String,
 		trim: true,
+		default: "",
 	},
 	email: {
 		type: String,
@@ -49,5 +52,11 @@ export const musicBandSchema = new Schema({
 		},
 	],
 });
+
+musicBandSchema.methods.isValidPassword = async function(password : string){
+  const user = this;
+  const compare = await bcrypt.compare(password, user.password);
+  return compare;
+}
 
 module.exports = musicBandSchema;
