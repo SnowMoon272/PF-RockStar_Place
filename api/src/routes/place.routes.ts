@@ -7,7 +7,7 @@ const {
 	getPlaceByNameController,
 	getCitiesController,
 	updatePlaceController,
-	DeleteDatePlaceController,
+	DeleteAvailableDatePlaceController,
 	AddDatePlaceController,
 	suscribedSuccessfulController,
 } = require("../controllers/place.controller");
@@ -24,6 +24,6 @@ router.get("/places/names", getPlaceByNameController);
 router.get("/cities", getCitiesController);
 router.put("/place", updatePlaceController);
 router.post("/placesdates", AddDatePlaceController);
-router.delete("/placesdates", DeleteDatePlaceController);
+router.put("/placesdates", DeleteAvailableDatePlaceController);
 router.put("/placesuscription", suscribedSuccessfulController);
 module.exports = router;

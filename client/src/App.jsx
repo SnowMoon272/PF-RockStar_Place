@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomeUNL />} />
         <Route exact path="/home/band" element={<HomeBL />} />
-        <Route exact path="/home/local" element={<HomeLL />} />
+        <Route exact path="/home/local/:email" element={<HomeLL />} />
         <Route exact path="/help" element={<Help />} />
         <Route exact path="/help/logeado" element={<HelpLogeado />} />
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />

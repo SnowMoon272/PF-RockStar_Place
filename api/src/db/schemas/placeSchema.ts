@@ -41,7 +41,7 @@ export const placeSchema = new Schema({
 	dates: [
 		{
 			date: { type: Date },
-			musicBand: { type: String },
+			email: { type: String },
 		},
 	],
 	availableDates: [
@@ -53,7 +53,8 @@ export const placeSchema = new Schema({
 	pendingDates: [
 		{
 			musicBand: { type: String },
-			date: { type: Date, default: Date.now },
+			date: { type: Date },
+			email: { type: String },
 		},
 	],
 	socialMedia: {

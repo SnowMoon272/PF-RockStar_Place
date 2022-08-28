@@ -207,44 +207,6 @@ const DetailStyleCont = styled.div`
     }
   }
 `;
-const datesCerradas = [
-  {
-    date: "01-09-2022",
-    musicBand: "The Rolling Stones",
-  },
-  {
-    date: "07-10-2022",
-    musicBand: "Roger Waters",
-  },
-  {
-    date: "19-10-2022",
-    musicBand: "Damas Gratis",
-  },
-  {
-    date: "25-10-2022",
-    musicBand: "Roberto G. Bolaños",
-  },
-  {
-    date: "02-11-2022",
-    musicBand: "Abel Pintos",
-  },
-];
-
-//fechas disponibles
-const datesAvaible = [
-  {
-    date: "20-09-2022",
-    available: true,
-  },
-  {
-    date: "27-09-2022",
-    available: true,
-  },
-  {
-    date: "09-10-2022",
-    available: true,
-  },
-];
 
 export default function DetailPlace() {
   const dispatch = useDispatch();
@@ -303,6 +265,7 @@ export default function DetailPlace() {
         }),
       );
       setInput({ rating: 0, comment: "" });
+      //CORREGIR (CAMBIAR A ASYNC AWAIT)
       setTimeout(() => {
         setInput({ rating: 0, comment: "" });
       }, 1000);

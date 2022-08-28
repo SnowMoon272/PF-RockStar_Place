@@ -22,7 +22,11 @@ export const addPendingDate = async (musicEmail: string, placeEmail: string, dat
 				{
 					pendingDates: [
 						...currentPlace.pendingDates,
-						{ musicBand: currentMusicBand.name, date: date },
+						{
+							musicBand: currentMusicBand.name,
+							date: date,
+							email: musicEmail,
+						},
 					],
 				},
 			);
@@ -31,7 +35,7 @@ export const addPendingDate = async (musicEmail: string, placeEmail: string, dat
 				{
 					pendingDates: [
 						...currentMusicBand.pendingDates,
-						{ place: currentPlace.name, date: date },
+						{ place: currentPlace.name, date: date, email: placeEmail },
 					],
 				},
 			);
@@ -81,10 +85,48 @@ export const removePendingDate = async (musicEmail: string, placeEmail: string, 
 	}
 };
 
+export const removeConfirmedDate = async (musicEmail: string, placeEmail: string, date: string) => {
+	try {
+		const currentMusicBand = await getMusicBand(musicEmail);
+		const currentPlace = await getPlace(placeEmail);
+		if (currentMusicBand && currentPlace && date) {
+			const dateToDelete = currentPlace.dates.find(
+				(d: placeDates) => d.date.toISOString().substring(0, 10) === date,
+			);
+			if (dateToDelete) {
+				await place.updateOne(
+					{ email: placeEmail },
+					{
+						dates: currentPlace.dates.filter(
+							(e: placeDates) => e.date.toISOString().substring(0, 10) !== date,
+						),
+					},
+				);
+				await musicBand.updateOne(
+					{ email: musicEmail },
+					{
+						dates: currentMusicBand.dates.filter(
+							(e: musicDates) => e.date.toISOString().substring(0, 10) !== date,
+						),
+					},
+				);
+				return { msg: "Se eliminó la fecha correctamente" };
+			} else {
+				return { msg: "La fecha no existe" };
+			}
+		} else {
+			return { error: "No se encontraron los usuarios" };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
 export const confirmedDate = async (musicEmail: string, placeEmail: string, date: string) => {
 	try {
 		const currentMusicBand = await getMusicBand(musicEmail);
 		const currentPlace = await getPlace(placeEmail);
+
 		if (currentMusicBand && currentPlace) {
 			await removePendingDate(musicEmail, placeEmail, date);
 			await place.updateOne(
@@ -93,12 +135,20 @@ export const confirmedDate = async (musicEmail: string, placeEmail: string, date
 					availableDates: currentPlace.availableDates.filter(
 						(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date,
 					),
-					dates: [...currentPlace.dates, { musicBand: currentMusicBand.name, date: date }],
+					dates: [
+						...currentPlace.dates,
+						{ musicBand: currentMusicBand.name, date: date, email: musicEmail },
+					],
 				},
 			);
 			await musicBand.updateOne(
 				{ email: musicEmail },
-				{ dates: [...currentMusicBand.dates, { place: currentPlace.name, date: date }] },
+				{
+					dates: [
+						...currentMusicBand.dates,
+						{ place: currentPlace.name, date: date, email: placeEmail },
+					],
+				},
 			);
 			return { msg: "Fecha matcheada!" };
 		} else {

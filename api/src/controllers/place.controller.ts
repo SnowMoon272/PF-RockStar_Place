@@ -8,7 +8,7 @@ import {
 	getCities,
 	updatePlace,
 	addDate,
-	deleteDate,
+	deleteAvailableDate,
 	suscribedSuccessful,
 } from "../db/models/placeModel";
 
@@ -115,11 +115,11 @@ const AddDatePlaceController = async (req: any, res: any) => {
 	}
 };
 
-const DeleteDatePlaceController = async (req: any, res: any) => {
+const DeleteAvailableDatePlaceController = async (req: any, res: any) => {
 	const { email, date } = req.body;
 
 	try {
-		let dateToDelete = await deleteDate(email, date);
+		let dateToDelete = await deleteAvailableDate(email, date);
 		if (!dateToDelete.hasOwnProperty("error")) return res.status(201).send(dateToDelete.msg);
 		return res.status(400).send(dateToDelete.error);
 	} catch (error) {
@@ -149,6 +149,6 @@ module.exports = {
 	getCitiesController,
 	updatePlaceController,
 	AddDatePlaceController,
-	DeleteDatePlaceController,
+	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
 };

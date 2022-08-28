@@ -69,6 +69,15 @@ const addBandReviewController = async (req: Request, res: Response) => {
 	}
 };
 
+const getMusicBandByEmailController = async (req: Request, res: Response) => {
+	const { email } = req.params;
+	if (email) {
+		const musicBand = await getMusicBand(email);
+		return res.status(200).send(musicBand);
+	}
+	return res.status(404).send({ msg: "Invalid data" });
+};
+
 const getMusicBandByIDController = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	if (id) {
@@ -82,6 +91,7 @@ module.exports = {
 	getAllBandsController,
 	createMusicBandController,
 	addBandReviewController,
+	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
 };
