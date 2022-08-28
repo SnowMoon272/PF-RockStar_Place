@@ -15,12 +15,9 @@ import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import SVGCerrar from "../../Assets/svg/Cerrar.svg";
 
 const EditStyledCont = styled.div`
-  /* border: solid 3px red; */
-  position: fixed;
   box-sizing: border-box;
-  padding-left: 70px;
-  width: 100%;
-  height: 100vh;
+  border: solid 3px white;
+  border-radius: 15px;
   background-color: ${Colors.Erie_Black};
 
   .BTNCerrar {
@@ -56,7 +53,7 @@ const EditStyledCont = styled.div`
       flex-direction: column;
       align-items: center;
       background-color: ${Colors.Oxford_Blue_transparent};
-      width: 30%;
+      width: 34%;
       height: 95%;
       padding: 25px 35px;
       margin-right: 50px;
@@ -191,7 +188,7 @@ const EditStyledCont = styled.div`
     .ReseñasLogoCont {
       /* border: solid 3px gray; */
 
-      width: 70%;
+      width: 68%;
       height: 100%;
 
       .divImgLogo {
@@ -219,7 +216,7 @@ const musicBandMockeada = {
   },
 };
 
-export default function PerfilMusico() {
+export default function DetalleMusicoPOP({ setzIndex, zIndex }) {
   const dispatch = useDispatch();
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
@@ -228,8 +225,13 @@ export default function PerfilMusico() {
     dispatch(getDetailMusicBand(params.id));
   }, []);
 
+  const handlerSubmintCloseSearch = (e) => {
+    e.preventDefault();
+    setzIndex(!zIndex);
+  };
+
   return (
-    <EditStyledCont Foto={musicBand}>
+    <EditStyledCont>
       <button
         name="Search"
         onClick={(e) => handlerSubmintCloseSearch(e)}
