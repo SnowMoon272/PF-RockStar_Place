@@ -5,8 +5,9 @@ export interface placeReviews {
 }
 
 export interface placeDates {
-	musicBand: string;
 	date: Date;
+	email: string;
+	musicBand: string;
 }
 export interface placeAvailable {
 	isAvailable: boolean;

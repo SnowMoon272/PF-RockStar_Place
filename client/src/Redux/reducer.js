@@ -10,6 +10,7 @@ import {
   POST_COMMENT,
   RESET_DETAILS,
   GET_DETAIL_MUSIC_BAND,
+  GET_DETAIL_MUSIC_BAND_EMAIL,
   POST_REGISTER,
 } from "./actions";
 
@@ -54,6 +55,11 @@ function rootReducer(state = initialState, action) {
         detail_place: action.payload,
       };
     case GET_DETAIL_MUSIC_BAND:
+      return {
+        ...state,
+        detail_music_band: action.payload,
+      };
+    case GET_DETAIL_MUSIC_BAND_EMAIL:
       return {
         ...state,
         detail_music_band: action.payload,
