@@ -6,24 +6,38 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
-import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
-import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
-import ReseñasOpinion from "./ReseñasOpinon";
+import Reseña from "./Reseña";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
-import Editar from "../../Assets/svg/Editar.svg";
+import SVGCerrar from "../../Assets/svg/Cerrar.svg";
 
 const EditStyledCont = styled.div`
-  /* border: solid 3px red; */
-  position: fixed;
   box-sizing: border-box;
-  padding-left: 70px;
-  width: 100%;
-  height: 100vh;
-  background-image: url(${BGPerfil});
+  border: solid 3px white;
+  border-radius: 15px;
+  background-color: ${Colors.Erie_Black};
+
+  .BTNCerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: ${Colors.Erie_Black};
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
   .VewContainer {
     /* border: solid 3px blue; */
@@ -39,7 +53,7 @@ const EditStyledCont = styled.div`
       flex-direction: column;
       align-items: center;
       background-color: ${Colors.Oxford_Blue_transparent};
-      width: 30%;
+      width: 34%;
       height: 95%;
       padding: 25px 35px;
       margin-right: 50px;
@@ -167,47 +181,6 @@ const EditStyledCont = styled.div`
               }
             }
           }
-
-          .divEditar {
-            /* border: solid 3px blue; */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            .imgEditar {
-              border: solid 3px black;
-              cursor: pointer;
-              width: 40px;
-              height: 40px;
-              border-radius: 50px;
-              background-color: white;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              transition: all 0.5s ease;
-
-              :hover {
-                cursor: pointer;
-                transform: scale(1.2);
-              }
-
-              img {
-                width: 30px;
-                height: 30px;
-              }
-            }
-
-            h4 {
-              font-family: "RocknRoll One";
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 14px;
-              margin: 5px 0px 0px 0px;
-              color: white;
-            }
-          }
         }
       }
     }
@@ -215,8 +188,8 @@ const EditStyledCont = styled.div`
     .ReseñasLogoCont {
       /* border: solid 3px gray; */
 
-      width: 70%;
-      height: 89%;
+      width: 68%;
+      height: 100%;
 
       .divImgLogo {
         /* border: solid 3px blue; */
@@ -231,32 +204,6 @@ const EditStyledCont = styled.div`
           margin: 0px 0px 25px 0px;
         }
       }
-
-      .BotonOpinion {
-        position: relative;
-        left: 79%;
-        top: 9%;
-        border: none;
-        font-family: "New Rocker";
-        font-weight: 400;
-        font-size: 2rem;
-        border-radius: 10px;
-        background-color: ${Colors.Blue_life};
-        width: 15%;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: ${Colors.Platinum};
-        text-decoration: none;
-        margin-top: 20px;
-        transition: all 0.5s ease;
-
-        :hover {
-          cursor: pointer;
-          transform: scale(1.2);
-        }
-      }
     }
   }
 `;
@@ -269,24 +216,31 @@ const musicBandMockeada = {
   },
 };
 
-export default function PerfilMusico() {
+export default function DetalleMusicoPOP({ setzIndex, zIndex }) {
   const dispatch = useDispatch();
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
-
-  const [stateReseña, setStateReseña] = useState(false);
 
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
   }, []);
 
-  const handlerSwitch = (e) => {
+  const handlerSubmintCloseSearch = (e) => {
     e.preventDefault();
-    setStateReseña(!stateReseña);
+    setzIndex(!zIndex);
   };
+
   return (
-    <EditStyledCont Foto={musicBand}>
-      <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
+    <EditStyledCont>
+      <button
+        name="Search"
+        onClick={(e) => handlerSubmintCloseSearch(e)}
+        type="button"
+        className="BTNCerrar"
+      >
+        <img src={SVGCerrar} alt="" />
+      </button>
+
       <div className="VewContainer">
         <div className="InfoBandaCont">
           <h1 className="TitleA">{musicBand.name}</h1>
@@ -331,12 +285,6 @@ export default function PerfilMusico() {
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 </div>
-                <div className="divEditar">
-                  <Link to="/actualizarbanda" className="imgEditar">
-                    <img src={Editar} alt="Edit" />
-                  </Link>
-                  <h4>Editar</h4>
-                </div>
               </div>
             </div>
           </div>
@@ -345,16 +293,7 @@ export default function PerfilMusico() {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <button
-            onClick={(e) => {
-              handlerSwitch(e);
-            }}
-            className="BotonOpinion"
-            type="button"
-          >
-            {stateReseña ? "Reseñas" : "Opinion"}
-          </button>
-          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
+          <Reseña musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>
