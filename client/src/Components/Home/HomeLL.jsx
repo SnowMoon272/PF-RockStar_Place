@@ -14,12 +14,11 @@ import "react-multi-carousel/lib/styles.css";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBandByEmail, getDetailPlace } from "../../Redux/actions";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGBand from "../../Assets/img/ROLLING STONES.jpg";
-import IMGLocal from "../../Assets/img/upload_7xCMVkX.png";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
@@ -448,10 +447,10 @@ const FooterStyle = styled.section`
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeLL() {
   const dispatch = useDispatch();
-  const params = useParams();
   const place = useSelector((state) => state.detail_place);
   const musicBand = useSelector((state) => state.detail_music_band);
   const [date, setDate] = useState("");
+  const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
 
   const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
@@ -460,15 +459,24 @@ function HomeLL() {
 
   const allDates = [...confirmedDates, ...availableDates];
 
+  function validate(input) {
+    //NO BORRAR - me falta hacer validaciones
+    const errors = {};
+    if (input === "") {
+      errors.date = "Ingresa une fecha";
+    }
+    return errors;
+  }
+
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  useEffect(() => {
-    dispatch(getDetailPlace(params.email));
-    /* if (confirmedDates.length > 0) {
-        dispatch(getDetailMusicBandByEmail(confirmedDates[0].email));
-      }, 3000);
-    } */
-    /* if (confirmedDates.length > 0) dispatch(getDetailMusicBandByEmail(confirmedDates[0].email)); */
+  useEffect(async () => {
+    const User = await getUserInfo();
+    dispatch(getDetailPlace(User._id));
   }, [dispatch, render]);
+
+  if (place._id && !musicBand._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailMusicBandByEmail(confirmedDates[0].email));
+  }
 
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handleDateChange = (e) => {
@@ -477,12 +485,14 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    await axios.post("http://localhost:3001/placesdates", {
-      email: place.email,
-      date,
-    });
-    setDate("");
-    setRender(!render);
+    if (date !== "") {
+      await axios.post("http://localhost:3001/placesdates", {
+        email: place.email,
+        date,
+      });
+      setDate("");
+      setRender(!render);
+    } else alert("Ingrese una fecha");
   };
 
   const handleDeleteAvailableDate = async (e) => {
@@ -578,26 +588,37 @@ function HomeLL() {
         </div>
         <div className="CardUnicaCont">
           <div className="ImgBanda">
-            <img src={IMGLocal} alt="Banda" />
+            <img src={place.profilePicture} alt="Banda" />
           </div>
-          <div className="ProximoInfCont">
-            <div className="ProximoInf">
-              <h4>Proximo Evento</h4>
-              <p>
-                <span>Banda: </span>Los Autenticos Tlacuaches <br />
-                <span>Fecha: </span>Sabado 27 de Marzo. <br />
-                <span>Contacto: </span>Dimitri Gomez Plata <br />
-                <span>Telefono: </span> (+52) 55 6192 2596 <br />
-                <span>Direccion: </span> Av. Siempre Viva #54 interior 12 Colonia Las Americas
-              </p>
-            </div>
-            <div className="ProximoIMGyBtn">
-              <img src={IMGBand} alt="Local" />
-              <Link className="Lynk_Btn" to="/home/band">
-                <button type="button">Detalle</button>
-              </Link>
-            </div>
-          </div>
+          {
+            confirmedDates.length > 0 ?
+              (
+                <div className="ProximoInfCont">
+                  <div className="ProximoInf">
+                    <h4>Próximo Evento</h4>
+                    <p>
+                      <span>Banda: </span>{musicBand.name} <br />
+                      <span>Fecha: </span>{
+                        confirmedDates.length > 0 ?
+                          `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(confirmedDates[0].date.substring(5, 7))} de ${confirmedDates[0].date.substring(0, 4)}`
+                          : null
+                      }
+                      <br />
+                      <span>Contacto: </span>{musicBand.personInCharge} <br />
+                      <span>Telefono: </span>{musicBand.phoneNumber} <br />
+                      <span>Direccion: </span>{place.adress}
+                    </p>
+                  </div>
+                  <div className="ProximoIMGyBtn">
+                    <img src={musicBand.profilePicture} alt="Local" />
+                    <Link className="Lynk_Btn" to="/home/band">
+                      <button type="button">Detalle</button>
+                    </Link>
+                  </div>
+                </div>
+              )
+              : <div className="ProximoInfCont"><span>Acá aparecerá la información de tu próximo evento confirmado.</span></div>
+          }
         </div>
       </FirtVewStyleCont>
       <SecondVewStyleCont UserLog id="SecondVewStyleCont">

@@ -1,17 +1,16 @@
 import {
 	placeReviews,
-	placeDates,
 	placeAvailable,
 	placeInterface,
 	placeRoles,
 	suscription,
-} from '../interfaces/place.interfaces';
-const { model } = require('mongoose');
-const bcrypt = require('bcrypt');
+} from "../interfaces/place.interfaces";
+const { model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const placeSchemaModel = require('../schemas/placeSchema.ts');
+const placeSchemaModel = require("../schemas/placeSchema.ts");
 
-export const place = model('place', placeSchemaModel);
+export const place = model("place", placeSchemaModel);
 
 const PLACES_REQUIRED_INFO = {
 	city: 1,
@@ -65,12 +64,12 @@ const getPlacesByCity = async (city: string) => {
 	return await place.find({ city }, PLACES_REQUIRED_INFO);
 };
 const getPlacesBySound = async (sound: string) => {
-	let filter = sound === 'sonidoSi' ? { hasSound: true } : { hasSound: false };
+	let filter = sound === "sonidoSi" ? { hasSound: true } : { hasSound: false };
 	return await place.find(filter, PLACES_REQUIRED_INFO);
 };
 const getPlacesByCityAndSound = async (city: string, sound: string) => {
 	let filter =
-		sound === 'sonidoSi' ? { city: city, hasSound: true } : { city: city, hasSound: false };
+		sound === "sonidoSi" ? { city: city, hasSound: true } : { city: city, hasSound: false };
 	return await place.find(filter, PLACES_REQUIRED_INFO);
 };
 
@@ -84,7 +83,7 @@ export const getPlace = async (email: string) => {
 	try {
 		let placeResponse = await place.findOne({ email }, { password: 0 });
 		if (placeResponse !== undefined) return placeResponse;
-		else return { error: 'user not found' };
+		else return { error: "user not found" };
 	} catch (error: any) {
 		return { error };
 	}
@@ -100,7 +99,7 @@ export const getPlaceByID = async (id: string) => {
 	try {
 		let placeResponse = await place.findOne({ _id: id }, { password: 0 });
 		if (placeResponse !== undefined) return placeResponse;
-		else return { error: 'place not found' };
+		else return { error: "place not found" };
 	} catch (error: any) {
 		return { error };
 	}
@@ -149,7 +148,7 @@ export const addPlaceReview = async (email: string, review: placeReviews) => {
 			return { error };
 		}
 	} else {
-		return { error: 'Place not found' };
+		return { error: "Place not found" };
 	}
 };
 
@@ -225,10 +224,10 @@ export const banHandler = async (email: string) => {
 export const getPlaceByName = async (search: string) => {
 	try {
 		let placeResponse = await place.find({
-			name: { $regex: search, $options: 'i' },
+			name: { $regex: search, $options: "i" },
 		});
 		if (placeResponse !== undefined) return placeResponse;
-		else return { error: 'place not found' };
+		else return { error: "place not found" };
 	} catch (error) {
 		return { error };
 	}
@@ -236,7 +235,7 @@ export const getPlaceByName = async (search: string) => {
 
 export const getCities = async () => {
 	try {
-		const allCities = await place.find({}, { city: 1 }).distinct('city');
+		const allCities = await place.find({}, { city: 1 }).distinct("city");
 		return allCities;
 	} catch (error) {
 		return { error };
@@ -249,7 +248,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 		if (placeToChange) {
 			await place.updateOne(
 				{ email },
-				{ 
+				{
 					personInCharge: data.personInCharge,
 					name: data.name,
 					city: data.city,
@@ -262,11 +261,11 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				}
+				},
 			);
 			return place.findOne({ email });
 		} else {
-			return { error: 'User does not exist.' };
+			return { error: "User does not exist." };
 		}
 	} catch (error: any) {
 		return { error };
@@ -280,7 +279,7 @@ export const addDate = async (email: string, date: string) => {
 			const allDates = [...placeToAddDate.dates, ...placeToAddDate.availableDates];
 			const repeatedDate = allDates.find((d) => d.date.toISOString().substring(0, 10) === date);
 
-			if (repeatedDate) return { error: 'La fecha ya está cargada.' };
+			if (repeatedDate) return { error: "La fecha ya está cargada." };
 			await place.updateOne(
 				{ email },
 				{
@@ -291,10 +290,10 @@ export const addDate = async (email: string, date: string) => {
 							isAvailable: true,
 						},
 					],
-				}
+				},
 			);
 			return await place.findOne({ email });
-		} else return { error: 'User does not exist.' };
+		} else return { error: "User does not exist." };
 	} catch (error: any) {
 		return { error };
 	}
@@ -319,8 +318,8 @@ export const deleteAvailableDate = async (email: string, date: string) => {
 				);
 				return { msg: "Fecha eliminada correctamente." };
 			}
-			return { error: 'La fecha no existe.' };
-		} else return { error: 'User does not exist.' };
+			return { error: "La fecha no existe." };
+		} else return { error: "User does not exist." };
 	} catch (error: any) {
 		return { error };
 	}
@@ -329,8 +328,8 @@ export const deleteAvailableDate = async (email: string, date: string) => {
 export const suscribedSuccessful = async (email: string, suscription: suscription) => {
 	try {
 		await place.updateOne({ email }, { suscription });
-		return { msg: 'Suscription is done!' };
+		return { msg: "Suscription is done!" };
 	} catch (error) {
-		return { error: 'Is something wrong' };
+		return { error: "Is something wrong" };
 	}
 };
