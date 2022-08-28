@@ -168,6 +168,59 @@ const ContainerGralStyled = styled.div`
     }
   }
 
+  .detailBtn {
+    font-family: "New Rocker";
+    width: 8em;
+    height: 2.3em;
+    margin: 0.5em;
+    background: rgba(35, 71, 150, 0.75);
+    color: #e9dcdc;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    :hover {
+      transition: 0.7s;
+      background-color: #918cb9;
+    }
+  }
+
+  .dateBtn {
+    width: 5em;
+    height: 1.5em;
+    margin: 0.7em;
+    background: #c5d8f3;
+    color: #2a4ba3;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .pendingBtn {
+    width: 6em;
+    height: 1.5em;
+    margin: 0.8em;
+    background: #00013f;
+    color: #dad5d5;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
   .divsSmallConfirmados {
     display: flex;
     flex-direction: row;
@@ -200,10 +253,10 @@ function EventosBanda() {
   }, []);
 
   if (musicBand._id && !placeFirstDate._id) {
-    dispatch(getDetailPlaceByEmail(orderedConfirmedDates[0].email));
+    if (orderedConfirmedDates.length > 0) {
+      dispatch(getDetailPlaceByEmail(orderedConfirmedDates[0].email));
+    }
   }
-
-  console.log("estado de redux:", musicBand);
 
   //console.log("fecha confirmada:", orderedConfirmedDates[0]);
   //console.log("lugar en donde van a tocar:", placeFirstDate);
@@ -265,7 +318,9 @@ function EventosBanda() {
             </div>
             <div className="divColumna3">
               <img src={placeFirstDate.profilePicture} alt="Img not found" />
-              <button type="button">Detalle del Local</button>
+              <button type="button" className="detailBtn">
+                Detalle del Local
+              </button>
             </div>
           </div>
         </div>
@@ -278,7 +333,9 @@ function EventosBanda() {
               <div className="divsSmallConfirmados">
                 <p>{date.date.substring(0, 10)}</p>
                 <p>{date.place}</p>
-                <button type="button">Detalle</button>
+                <button type="button" className="dateBtn">
+                  Detalle
+                </button>
               </div>
             );
           })}
@@ -290,7 +347,9 @@ function EventosBanda() {
               <div className="divsSmallConfirmados">
                 <p>{date.date.substring(0, 10)}</p>
                 <p>{date.place}</p>
-                <button type="button">Cancelar</button>
+                <button type="button" className="pendingBtn">
+                  Cancelar
+                </button>
               </div>
             );
           })}

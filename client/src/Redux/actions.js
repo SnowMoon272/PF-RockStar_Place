@@ -91,6 +91,20 @@ export function getDetailEvent(email) {
   };
 }
 
+export function getDetailPlaceEvent(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/place-email/${email}`);
+      return dispatch({
+        type: GET_DETAIL_EVENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
 export function getDetailMusicBandByEmail(email) {
   return async (dispatch) => {
     try {
