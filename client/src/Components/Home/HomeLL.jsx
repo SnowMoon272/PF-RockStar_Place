@@ -472,7 +472,6 @@ function HomeLL() {
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
   const [zIndex, setzIndex] = useState(true);
-  console.log(zIndex);
 
   const confirmedDates = place.dates
     ? place.dates.sort(

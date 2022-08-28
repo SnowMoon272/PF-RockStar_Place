@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import ImgLogo from "../../Assets/img/logo3.png";
@@ -255,15 +255,15 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
             <div>
               <div className="RedesyEditarCont">
                 <div className="RedesCont">
-                  <a href={`http://www.youtube.com/c/${musicBand.youtube}`}>
+                  <a href={`http://www.youtube.com/c/${musicBand.socialMedia.youtube}`}>
                     <img className="ImglogosRedes" src={LogoYouTube} alt="" />
                   </a>
                   <a
-                    href={`http://open.spotify.com/artist/${musicBand.spotify}`}
+                    href={`http://open.spotify.com/artist/${musicBand.socialMedia.spotify}`}
                   >
                     <img className="ImglogosRedes" src={LogoSpotify} alt="" />
                   </a>
-                  <a href={`http://instagram.com/${musicBand.instagram}`}>
+                  <a href={`http://instagram.com/${musicBand.socialMedia.instagram}`}>
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 </div>
