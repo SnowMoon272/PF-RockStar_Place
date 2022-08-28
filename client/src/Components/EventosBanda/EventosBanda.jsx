@@ -210,7 +210,7 @@ function EventosBanda() {
 
   return (
     <ContainerGralStyled>
-      <NavBar Home Eventos Perfil />
+      <NavBar Home Perfil />
       <div className="divLogo">
         <img src={ImgLogo} alt="" />
       </div>

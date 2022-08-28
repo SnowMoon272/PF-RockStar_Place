@@ -348,7 +348,7 @@ function NavBar({
             )}
             {Eventos && (
               <>
-                <Link to="/" className="Butons Link">
+                <Link to={`/musicband/events/${infUser._id}`} className="Butons Link">
                   <img src={BTNEvent} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Eventos</h3>

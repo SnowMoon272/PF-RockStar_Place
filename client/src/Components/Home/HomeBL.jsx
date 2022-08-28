@@ -366,11 +366,14 @@ function HomeBL() {
   if (musicBand.name === "") {
     //alert("Debe cargar los datos de la banda");
     navigate("/actualizarbanda");
-  };
+  }
+
+  const [User, setUser] = useState({});
 
   useEffect(async () => {
     dispatch(getPlaces());
     const User = await getUserInfo();
+    setUser(User);
     dispatch(getDetailMusicBand(User._id));
     /* setTimeout(() => {
       console.log(musicBand);
@@ -473,7 +476,7 @@ function HomeBL() {
             <div className="ProximoIMGyBtn">
               <img src={IMGLocal} alt="Local" />
               {/* Cambiar por ternario cuando se tenga acceso a los eventos */}
-              <Link className="Lynk_Btn" to="/">
+              <Link className="Lynk_Btn" to={`/musicband/events/${User._id}`}>
                 <button type="button">Detalle</button>
               </Link>
             </div>
