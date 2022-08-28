@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import ImgLogo from "../../Assets/img/logo3.png";
@@ -206,13 +206,6 @@ const EditStyledCont = styled.div`
 `;
 
 export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const musicBand = useSelector((state) => state.detail_music_band);
-
-  useEffect(() => {
-    dispatch(getDetailMusicBand(params.id));
-  }, []);
 
   const handlerSubmintCloseSearch = (e) => {
     e.preventDefault();
@@ -256,7 +249,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
               </div>
               <div className="divsDescripcion">
                 <span className="Azules">Rating:</span>
-                <h3 className="Blancos">⭐{rating}</h3>
+                <h3 className="Blancos">⭐{musicBand.rating}</h3>
               </div>
             </div>
             <div>
