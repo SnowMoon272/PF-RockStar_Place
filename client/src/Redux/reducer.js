@@ -82,6 +82,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         detail_place: action.payload,
+        detail_music_band: action.payload,
       };
     case POST_REGISTER:
       return {

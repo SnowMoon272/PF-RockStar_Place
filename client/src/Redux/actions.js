@@ -168,3 +168,17 @@ export function registerPlace(payload) {
     return json;
   };
 }
+
+export function getDetailPlaceByEmail(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`/place-email/${email}`);
+      return dispatch({
+        type: GET_DETAIL_PLACE,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}

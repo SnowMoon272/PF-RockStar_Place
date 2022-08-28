@@ -13,6 +13,7 @@ import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
+import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import Manu from "./Components/DetalleMusico/DetalleMusicoPOP";
 
 const AppStyle = styled.div`
@@ -42,6 +43,8 @@ function App() {
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
         <Route exact path="/suscripcionsuccess" element={<SuscripcionSucces />} />
         <Route exact path="/actualizarbanda" element={<ActualizarBanda />} />
+
+        <Route exact path="/musicband/events/:id" element={<EventosBanda />} />
       </Routes>
     </AppStyle>
   );

@@ -13,7 +13,8 @@ import {
 	addDate,
 	deleteAvailableDate,
 	suscribedSuccessful,
-} from "../db/models/placeModel";
+	getPlace,
+} from '../db/models/placeModel';
 
 const getAllPlacesController = async (req: any, res: any) => {
 	let { city, sound } = req.query;
@@ -68,6 +69,16 @@ const getPlaceByIDController = async (req: any, res: any) => {
 	}
 
 	if (!id) return res.status(404).send({ message: "Invalid data" });
+};
+
+const getPlaceByEmailController = async (req: any, res: any) => {
+	const { email } = req.params;
+	if (email) {
+		const place = await getPlace(email);
+		return res.status(200).send(place);
+	}
+
+	if (!email) return res.status(404).send({ message: 'Invalid data' });
 };
 
 const getPlaceByNameController = async (req: any, res: any) => {
@@ -155,4 +166,5 @@ module.exports = {
 	AddDatePlaceController,
 	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
+	getPlaceByEmailController
 };
