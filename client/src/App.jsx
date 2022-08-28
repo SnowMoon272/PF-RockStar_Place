@@ -14,7 +14,6 @@ import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
-import Manu from "./Components/DetalleMusico/DetalleMusicoPOP";
 
 const AppStyle = styled.div`
   width: 100%;
