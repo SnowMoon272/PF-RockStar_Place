@@ -10,7 +10,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
-  GET_DETAIL_MUSIC_BAND_EMAIL = "GET_DETAIL_MUSIC_BAND_EMAIL",
+  GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
   POST_REGISTER = "POST_REGISTER";
 
 export function updateFilters(data) {
@@ -77,12 +77,26 @@ export function getDetailMusicBand(id) {
   };
 }
 
+export function getDetailEvent(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
+      return dispatch({
+        type: GET_DETAIL_EVENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
 export function getDetailMusicBandByEmail(email) {
   return async (dispatch) => {
     try {
       const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
       return dispatch({
-        type: GET_DETAIL_MUSIC_BAND_EMAIL,
+        type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
       });
     } catch (error) {

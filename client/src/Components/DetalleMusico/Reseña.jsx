@@ -85,13 +85,13 @@ const ReseñasStyleCont = styled.div`
   } */
 `;
 
-function ReseñasOpinon({ musicBand }) {
+function Reseñas({ reviews }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">Reseñas</h1>
       <div className="comentarios">
-        {musicBand.reviews ? (
-          musicBand.reviews.map((review) => {
+        {reviews ? (
+          reviews.map((review) => {
             return (
               <div key={review._id} className="coment">
                 <div className="NameRating">
@@ -104,11 +104,11 @@ function ReseñasOpinon({ musicBand }) {
             );
           })
         ) : (
-          <h6>Aún no tienes reseñas.</h6>
+          <h6>Este perfil aún no tiene reseñas.</h6>
         )}
       </div>
     </ReseñasStyleCont>
   );
 }
 
-export default ReseñasOpinon;
+export default Reseñas;

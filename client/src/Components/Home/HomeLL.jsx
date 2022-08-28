@@ -1,7 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
@@ -13,7 +13,7 @@ import "react-multi-carousel/lib/styles.css";
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import { getDetailMusicBandByEmail, getDetailPlace } from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
@@ -448,7 +448,8 @@ const FooterStyle = styled.section`
 function HomeLL() {
   const dispatch = useDispatch();
   const place = useSelector((state) => state.detail_place);
-  const musicBand = useSelector((state) => state.detail_music_band);
+  const musicBandEvent = useSelector((state) => state.detail_event);
+  const musicBandDetail = useSelector((state) => state.detail_music_band);
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
@@ -474,8 +475,8 @@ function HomeLL() {
     dispatch(getDetailPlace(User._id));
   }, [dispatch, render]);
 
-  if (place._id && !musicBand._id) {
-    if (confirmedDates.length > 0) dispatch(getDetailMusicBandByEmail(confirmedDates[0].email));
+  if (place._id && !musicBandEvent._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailEvent(confirmedDates[0].email));
   }
 
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
@@ -574,7 +575,6 @@ function HomeLL() {
   return (
     <HomeStyleCont>
       <NavBar Eventos Perfil HelpLog UserLog />
-
       <FirtVewStyleCont>
         <div className="ImgContainer">
           <img src={BGHome} alt="Background" />
@@ -597,20 +597,20 @@ function HomeLL() {
                   <div className="ProximoInf">
                     <h4>Próximo Evento</h4>
                     <p>
-                      <span>Banda: </span>{musicBand.name} <br />
+                      <span>Banda: </span>{musicBandEvent.name} <br />
                       <span>Fecha: </span>{
                         confirmedDates.length > 0 ?
                           `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(confirmedDates[0].date.substring(5, 7))} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null
                       }
                       <br />
-                      <span>Contacto: </span>{musicBand.personInCharge} <br />
-                      <span>Telefono: </span>{musicBand.phoneNumber} <br />
+                      <span>Contacto: </span>{musicBandEvent.personInCharge} <br />
+                      <span>Telefono: </span>{musicBandEvent.phoneNumber} <br />
                       <span>Direccion: </span>{place.adress}
                     </p>
                   </div>
                   <div className="ProximoIMGyBtn">
-                    <img src={musicBand.profilePicture} alt="Local" />
+                    <img src={musicBandEvent.profilePicture} alt="Local" />
                     <Link className="Lynk_Btn" to="/home/band">
                       <button type="button">Detalle</button>
                     </Link>
