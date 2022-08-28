@@ -35,16 +35,16 @@ const HomeStyleCont = styled.div`
 
   .POPContainer {
     display: flex;
+    justify-content: center;
     position: fixed;
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
     width: 80%;
-    height: 750px;
+    height: 80%;
     margin: auto;
     z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
-    /* z-index: 0; */
   }
 `;
 
@@ -116,6 +116,11 @@ const FirtVewStyleCont = styled.div`
     color: ${Colors.Platinum};
     font-weight: 400;
     padding: 40px;
+
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
 
     & .ImgBanda {
       width: auto;
@@ -475,14 +480,14 @@ function HomeLL() {
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -514,7 +519,7 @@ function HomeLL() {
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
     if (date !== "") {
-      await axios.post("http://localhost:3001/placesdates", {
+      await axios.post("/placesdates", {
         email: place.email,
         date,
       });
@@ -525,7 +530,7 @@ function HomeLL() {
 
   const handleDeleteAvailableDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/placesdates", {
+    await axios.put("/placesdates", {
       email: place.email,
       date: e.target.value.split(",")[0],
     });
@@ -534,7 +539,7 @@ function HomeLL() {
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/dates", {
+    await axios.put("/dates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
@@ -544,7 +549,7 @@ function HomeLL() {
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/matchdate", {
+    await axios.put("/matchdate", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
@@ -609,9 +614,9 @@ function HomeLL() {
     <HomeStyleCont zIndex={zIndex}>
       <NavBar Perfil HelpLog />
       <div className="POPContainer">
-        {musicBandDetail._id ?
+        {musicBandDetail._id ? (
           <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} />
-          : null}
+        ) : null}
       </div>
       <FirtVewStyleCont>
         <div className="ImgContainer">
@@ -638,8 +643,8 @@ function HomeLL() {
                   <span>Fecha: </span>
                   {confirmedDates.length > 0
                     ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                      confirmedDates[0].date.substring(5, 7),
-                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
                   <span>Contacto: </span>
@@ -653,15 +658,19 @@ function HomeLL() {
               <div className="ProximoIMGyBtn">
                 <img src={musicBandEvent.profilePicture} alt="Band" />
                 <Link className="Lynk_Btn" to="/">
-                  <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
+                  <button
+                    type="button"
+                    onClick={(e) => handleShowDetail(e)}
+                    value={musicBandEvent.email}
+                  >
                     Detalle
                   </button>
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="ProximoInfCont">
-              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
           )}
         </div>
@@ -708,7 +717,12 @@ function HomeLL() {
                             {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                           </div>
                           {date.isAvailable ? null : (
-                            <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                            <button
+                              className="BtnVerMas"
+                              type="button"
+                              onClick={(e) => handleShowDetail(e)}
+                              value={date.email}
+                            >
                               Ver más
                             </button>
                           )}
@@ -745,7 +759,13 @@ function HomeLL() {
                         <div className="Left">
                           <p>{`${day}/${month}/${year}`}</p>
                           <p>{date.musicBand}</p>
-                          <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>Detalle</button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleShowDetail(e)}
+                            value={date.email}
+                          >
+                            Detalle
+                          </button>
                         </div>
                         <div className="Rigth">
                           <button
