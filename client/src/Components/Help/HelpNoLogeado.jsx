@@ -44,7 +44,7 @@ const StyledContenedor = styled.div`
 
   .Sections {
     margin: 2.2% 5%;
-    background: rgba(20, 33, 61, 0.65);
+    background-color: #041318;
     height: 100%;
     width: 32.2%;
     border-radius: 50px;
@@ -65,7 +65,7 @@ const StyledContenedor = styled.div`
     }
     h2 {
       text-align: center;
-      color: ${Colors.Dark_Cornflower_blue};
+      color: ${Colors.Green_Light};
     }
   }
 `;
@@ -73,7 +73,7 @@ const StyledContenedor = styled.div`
 export default function Faqs() {
   return (
     <StyledContenedor>
-      <NavBar Home />
+      <NavBar LogIn Home FondoImg />
       <div className="Sections">
         <h1>Preguntas frecuentes</h1>
         <br />

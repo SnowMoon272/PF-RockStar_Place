@@ -64,7 +64,7 @@ const ReseñasStyleCont = styled.div`
     }
   }
 
-  .Boton {
+  /* .Boton {
     font-family: "New Rocker";
     font-weight: 400;
     font-size: 2rem;
@@ -84,31 +84,35 @@ const ReseñasStyleCont = styled.div`
       cursor: pointer;
       transform: scale(1.2);
     }
-  }
+  } */
 `;
 
+/* ) : Object.keys(musicBand.reviews).length === 0 ? ( */
 function ReseñasOpinon({ Opinion, musicBand }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
       <div className="comentarios">
-        {Opinion
-          ? "Aqui va tu opinion"
-          : musicBand.reviews &&
-            musicBand.reviews.map((review) => {
-              return (
-                <div key={review._id} className="coment">
-                  <div className="NameRating">
-                    <span className="autor">{review.author}</span>
-                    <span className="ratingcoment">Rating: ⭐{review.rating}</span>
-                  </div>
-                  <p className="contenidocoment">{review.comment}</p>
-                  <hr />
+        {Opinion ? (
+          "Aqui va tu opinion"
+        ) : musicBand.reviews ? (
+          musicBand.reviews.map((review) => {
+            return (
+              <div key={review._id} className="coment">
+                <div className="NameRating">
+                  <span className="autor">{review.author}</span>
+                  <span className="ratingcoment">Rating: ⭐{review.rating}</span>
                 </div>
-              );
-            })}
+                <p className="contenidocoment">{review.comment}</p>
+                <hr />
+              </div>
+            );
+          })
+        ) : (
+          <h6>Aún no tienes reseñas.</h6>
+        )}
       </div>
-      {Opinion ? (
+      {/* {Opinion ? (
         <Link className="Boton" to="/">
           Detalles B
         </Link>
@@ -116,7 +120,7 @@ function ReseñasOpinon({ Opinion, musicBand }) {
         <Link className="Boton" to="/">
           Detalles A
         </Link>
-      )}
+      )} */}
     </ReseñasStyleCont>
   );
 }

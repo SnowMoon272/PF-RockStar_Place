@@ -1,43 +1,50 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const routes = require("./src/routes/index.ts");
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const routes = require('./src/routes/index.ts');
+const passport = require('passport');
+require('dotenv').config();
 
-const connect = require('./src/db/db');
-
+const connect = require('./src/db/db.ts');
+const cors = require('cors');
 const server = express();
-const cors = require("cors");
+require('./src/auth/auth.js');
 
-// server.name = "API";
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+	optionSuccessStatus: 200,
+};
 
-server.use(cors());
-server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-server.use(bodyParser.json({ limit: "50mb" }));
-server.use(morgan("dev"));
-server.use((req: any, res: { header: (arg0: string, arg1: string) => void }, next: () => void) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
+if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
+
+server.use(cors(corsOptions));
+server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+server.use(bodyParser.json({ limit: '50mb' }));
+server.use(morgan('dev'));
+server.get('/', (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
+	res.setHeader('Access-Control-Max-Age', '1800');
+	res.setHeader('Access-Control-Allow-Headers', 'content-type');
+	res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
 });
 
-server.use("/", routes);
+server.use('/', routes);
 
-const startServer = async() => {
-
-  try {
-    await connect();
-    console.log('Connected to db 🤑')
-  } catch (error) {
-    console.log(`Something went wrong 😭`);
-    console.log(error);
-  }
-}
+const startServer = async () => {
+	try {
+		await connect();
+		console.log('Connected to db 🤑');
+	} catch (error) {
+		console.log(`Something went wrong 😭`);
+		console.log(error);
+	}
+};
 startServer();
 
-server.listen(3001, () => {
-  console.log("%s listening at 3001");
+server.listen(process.env.PORT, () => {
+	console.log(`Server listening: PORT ${process.env.PORT}`);
 });
 
 module.exports = server;

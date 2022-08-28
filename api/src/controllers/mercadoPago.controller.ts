@@ -1,4 +1,8 @@
-import { Request, Response } from "express";
+// import { any, any } from "express";
+
+const express = require("express");
+
+export const f = {};
 
 const mercadopago = require("mercadopago");
 
@@ -6,7 +10,7 @@ mercadopago.configure({
 	access_token: "TEST-2008030907073777-082315-afe1ae7f4b90cc0cb186397d52cd83f6-1184744317",
 });
 
-const checkOutController = async (req: Request, res: Response) => {
+const checkOutController = async (req: any, res: any) => {
 	try {
 		let preference = {
 			items: [
@@ -25,7 +29,6 @@ const checkOutController = async (req: Request, res: Response) => {
 		};
 		mercadopago.preferences.create(preference).then(function (response: any) {
 			res.redirect(response.body.init_point);
-			console.log(response);
 		});
 	} catch (error) {
 		console.log(error);
