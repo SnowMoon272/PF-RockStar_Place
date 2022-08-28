@@ -651,7 +651,7 @@ function HomeLL() {
                 </p>
               </div>
               <div className="ProximoIMGyBtn">
-                <img src={musicBandEvent.profilePicture} alt="Local" />
+                <img src={musicBandEvent.profilePicture} alt="Band" />
                 <Link className="Lynk_Btn" to="/">
                   <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
                     Detalle
