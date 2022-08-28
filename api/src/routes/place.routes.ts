@@ -10,6 +10,7 @@ const {
 	DeleteDatePlaceController,
 	AddDatePlaceController,
 	suscribedSuccessfulController,
+	getPlaceByEmailController
 } = require('../controllers/place.controller.ts');
 const { ROLES, checkRoleAuth } = require('./middlewares/authorization.js');
 
@@ -24,6 +25,7 @@ router.post(
 	checkRoleAuth([ROLES.admin, ROLES.musicBand]),
 	addPlaceReviewController
 );
+router.get('/place-email/:email', getPlaceByEmailController);
 router.get('/place/:id', getPlaceByIDController);
 router.get('/places/names', getPlaceByNameController);
 router.get('/cities', getCitiesController);
