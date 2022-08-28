@@ -6,6 +6,7 @@ export interface musicReviews {
 export interface musicDates {
 	place: string;
 	date: Date;
+	email: string;
 }
 export enum musicRoles {
 	ADMIN = "admin",

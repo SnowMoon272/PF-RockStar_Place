@@ -5,6 +5,7 @@ const {
 	getAllBandsController,
 	createMusicBandController,
 	addBandReviewController,
+	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
 	getMusicBandController,
@@ -19,13 +20,14 @@ const router = Router();
 
 export const f = {};
 
-router.get('/musicbands', getAllBandsController);
-router.post('/musicbands', createMusicBandController);
+router.get("/musicbands", getAllBandsController);
+router.post("/musicbands", createMusicBandController);
+router.post("/bandreviews", addBandReviewController);
+router.get("/musicbandemail/:email", getMusicBandByEmailController);
+router.get("/musicband/:id", getMusicBandByIDController);
+router.put("/musicband", updateMusicBandController);
 
 router.post('/bandreviews', checkRoleAuth([ROLES.admin, ROLES.place]), addBandReviewController);
-router.get('/musicband', getMusicBandController);
-router.get('/musicband/:id', getMusicBandByIDController);
-router.put('/musicband', updateMusicBandController);
 
 router.post(
 	'/signup',
