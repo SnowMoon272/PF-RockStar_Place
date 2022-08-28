@@ -470,8 +470,8 @@ function HomeLL() {
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
-  const [zIndex, setzIndex] = useState(false);
-  console.log(zIndex);
+  const [zIndex, setzIndex] = useState(true);
+
   const confirmedDates = place.dates
     ? place.dates.sort(
         (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
