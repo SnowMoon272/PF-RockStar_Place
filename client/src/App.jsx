@@ -28,21 +28,20 @@ function App() {
         <Route exact path="/" element={<Home />} />
 
         <Route exact path="/help" element={<Help />} />
-        <Route exact path="/manupruebas/:id" element={<Manu />} />
 
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route exact path="/registro" element={<Registro />} />
 
         <Route exact path="/place/:id" element={<DetailPlace />} />
         <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
-
         <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
+
         <Route exact path="/actualizarlocal" element={<ActualizarLocal />} />
+        <Route exact path="/actualizarbanda" element={<ActualizarBanda />} />
 
         <Route exact path="/suscribete" element={<Suscripcion />} />
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />
         <Route exact path="/suscripcionsuccess" element={<SuscripcionSucces />} />
-        <Route exact path="/actualizarbanda" element={<ActualizarBanda />} />
 
         <Route exact path="/musicband/events/:id" element={<EventosBanda />} />
       </Routes>
