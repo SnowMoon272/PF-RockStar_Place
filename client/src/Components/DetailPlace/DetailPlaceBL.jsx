@@ -5,12 +5,14 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import { getUserInfo } from "../../Utils/auth.controller";
 // import LogoInstagram from "../../Assets/svg/Instagram.svg";
 // import Editar from "../../Assets/svg/Editar.svg";
 
@@ -239,6 +241,7 @@ export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
+  const band = getUserInfo();
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
@@ -339,6 +342,15 @@ export default function DetailPlace() {
     }
   };
 
+  const handleAplica = async (e) => {
+    await axios.post("/pendingdates", {
+      musicEmail: band.email,
+      placeEmail: place.email,
+      date: e.target.value,
+    });
+    alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+  };
+
   return (
     <HomeStyleCont>
       <NavBar Home Eventos Perfil />
@@ -373,7 +385,12 @@ export default function DetailPlace() {
                           {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                         </div>
                         {!date.isAvailable ? null : (
-                          <button className="BtnVerMas" type="button">
+                          <button
+                            className="BtnVerMas"
+                            type="button"
+                            value={date.date.substring(0, 10)}
+                            onClick={(e) => handleAplica(e)}
+                          >
                             Aplica
                           </button>
                         )}

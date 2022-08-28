@@ -336,11 +336,11 @@ export default function DetailPlace() {
           <hr className="hr" />
           <div className="divsUnderImage">
             <span className="statsUnderImage">Persona a cargo:</span>
-            <span className="descriptionSmall"> Nombre Apellido</span>
+            <span className="descriptionSmall"> {place.personInCharge}</span>
           </div>
           <div className="divsUnderImage">
             <span className="statsUnderImage">Telefono:</span>
-            <span className="descriptionSmall"> Telefono</span>
+            <span className="descriptionSmall">{place.phoneNumber}</span>
           </div>
           <div className="divsUnderImage">
             <span className="statsUnderImage">Email:</span>
