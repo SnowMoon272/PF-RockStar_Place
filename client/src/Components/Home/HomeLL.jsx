@@ -4,7 +4,7 @@
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
@@ -16,7 +16,7 @@ import "react-multi-carousel/lib/styles.css";
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import { getDetailMusicBandByEmail, getDetailPlace } from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
@@ -466,7 +466,8 @@ const FooterStyle = styled.section`
 function HomeLL() {
   const dispatch = useDispatch();
   const place = useSelector((state) => state.detail_place);
-  const musicBand = useSelector((state) => state.detail_music_band);
+  const musicBandEvent = useSelector((state) => state.detail_event);
+  const musicBandDetail = useSelector((state) => state.detail_music_band);
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
@@ -474,14 +475,14 @@ function HomeLL() {
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -501,8 +502,8 @@ function HomeLL() {
     dispatch(getDetailPlace(User._id));
   }, [dispatch, render]);
 
-  if (place._id && !musicBand._id) {
-    if (confirmedDates.length > 0) dispatch(getDetailMusicBandByEmail(confirmedDates[0].email));
+  if (place._id && !musicBandEvent._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailEvent(confirmedDates[0].email));
   }
 
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
@@ -561,8 +562,9 @@ function HomeLL() {
     setRender(!render);
   };
 
-  const handlerSwitch = (e) => {
+  const handleShowDetail = async (e) => {
     e.preventDefault();
+    await dispatch(getDetailMusicBandByEmail(e.target.value));
     setzIndex(!zIndex);
   };
 
@@ -607,9 +609,10 @@ function HomeLL() {
     <HomeStyleCont zIndex={zIndex}>
       <NavBar Perfil HelpLog />
       <div className="POPContainer">
-        <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} />
+        {musicBandDetail._id ?
+          <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} />
+          : null}
       </div>
-
       <FirtVewStyleCont>
         <div className="ImgContainer">
           <img src={BGHome} alt="Background" />
@@ -631,26 +634,26 @@ function HomeLL() {
                 <h4>Próximo Evento</h4>
                 <p>
                   <span>Banda: </span>
-                  {musicBand.name} <br />
+                  {musicBandEvent.name} <br />
                   <span>Fecha: </span>
                   {confirmedDates.length > 0
                     ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                        confirmedDates[0].date.substring(5, 7),
-                      )} de ${confirmedDates[0].date.substring(0, 4)}`
+                      confirmedDates[0].date.substring(5, 7),
+                    )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
                   <span>Contacto: </span>
-                  {musicBand.personInCharge} <br />
+                  {musicBandEvent.personInCharge} <br />
                   <span>Telefono: </span>
-                  {musicBand.phoneNumber} <br />
+                  {musicBandEvent.phoneNumber} <br />
                   <span>Direccion: </span>
                   {place.adress}
                 </p>
               </div>
               <div className="ProximoIMGyBtn">
-                <img src={musicBand.profilePicture} alt="Local" />
+                <img src={musicBandEvent.profilePicture} alt="Local" />
                 <Link className="Lynk_Btn" to="/">
-                  <button type="button" onClick={(e) => handlerSwitch(e)}>
+                  <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
                     Detalle
                   </button>
                 </Link>
@@ -705,7 +708,7 @@ function HomeLL() {
                             {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                           </div>
                           {date.isAvailable ? null : (
-                            <button className="BtnVerMas" type="button">
+                            <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
                               Ver más
                             </button>
                           )}
@@ -742,7 +745,7 @@ function HomeLL() {
                         <div className="Left">
                           <p>{`${day}/${month}/${year}`}</p>
                           <p>{date.musicBand}</p>
-                          <button type="button">Detalle</button>
+                          <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>Detalle</button>
                         </div>
                         <div className="Rigth">
                           <button

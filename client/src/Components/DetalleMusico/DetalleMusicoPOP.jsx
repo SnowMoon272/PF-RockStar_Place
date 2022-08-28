@@ -1,14 +1,11 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
-import { getDetailMusicBand } from "../../Redux/actions";
 import ImgLogo from "../../Assets/img/logo3.png";
-import Reseña from "./Reseña";
+import Reseñas from "./Reseña";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -208,22 +205,7 @@ const EditStyledCont = styled.div`
   }
 `;
 
-const musicBandMockeada = {
-  socialMedia: {
-    instagram: "notevagustaroficial",
-    spotify: "4ZDoy7AWNgQVmX7T0u0B1j",
-    youtube: "NoTeVaGustarOficial",
-  },
-};
-
-export default function DetalleMusicoPOP({ setzIndex, zIndex }) {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const musicBand = useSelector((state) => state.detail_music_band);
-
-  useEffect(() => {
-    dispatch(getDetailMusicBand(params.id));
-  }, []);
+export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
 
   const handlerSubmintCloseSearch = (e) => {
     e.preventDefault();
@@ -273,15 +255,15 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex }) {
             <div>
               <div className="RedesyEditarCont">
                 <div className="RedesCont">
-                  <a href={`http://www.youtube.com/c/${musicBandMockeada.socialMedia.youtube}`}>
+                  <a href={`http://www.youtube.com/c/${musicBand.socialMedia.youtube}`}>
                     <img className="ImglogosRedes" src={LogoYouTube} alt="" />
                   </a>
                   <a
-                    href={`http://open.spotify.com/artist/${musicBandMockeada.socialMedia.spotify}`}
+                    href={`http://open.spotify.com/artist/${musicBand.socialMedia.spotify}`}
                   >
                     <img className="ImglogosRedes" src={LogoSpotify} alt="" />
                   </a>
-                  <a href={`http://instagram.com/${musicBandMockeada.socialMedia.instagram}`}>
+                  <a href={`http://instagram.com/${musicBand.socialMedia.instagram}`}>
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 </div>
@@ -293,7 +275,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex }) {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <Reseña musicBand={musicBand} />
+          <Reseñas musicBand={musicBand.reviews} />
         </div>
       </div>
     </EditStyledCont>
