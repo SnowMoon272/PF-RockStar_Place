@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
-import { getDetailPlace, updatePlaceData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
+import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -199,10 +199,6 @@ function validate(input) {
   }
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
-  } else if (
-    !/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)
-  ) {
-    errors.phoneNumber = "Ingresa un numero de teléfono válido";
   }
   if (
     input.instagram &&
@@ -247,13 +243,15 @@ function validate(input) {
 
 export default function ActualizarLocal() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const params = useParams();
-  const myPlace = useSelector((state) => state.detail_place);
+  const [userPlace, setuserPlace] = useState({});
 
   useEffect(() => {
-    dispatch(getDetailPlace(params.id));
-  }, [dispatch]);
+    if (isAuthenticated()) {
+      setuserPlace(getUserInfo());
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const [image, setImage] = useState("");
 
@@ -302,28 +300,26 @@ export default function ActualizarLocal() {
     );
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (input.name && Object.entries(errors).length === 0) {
-      dispatch(
-        updatePlaceData({
-          email: myPlace.email,
-          data: {
-            name: input.name,
-            personInCharge: input.personInCharge,
-            city: input.city,
-            hasSound: input.hasSound,
-            capacity: input.capacity,
-            adress: input.adress,
-            phoneNumber: input.phoneNumber,
-            profilePicture: input.profilePicture,
-            description: input.description,
-            socialMedia: {
-              instagram: input.instagram,
-            },
+      await axios.put("/place", {
+        email: userPlace.email,
+        data: {
+          name: input.name,
+          personInCharge: input.personInCharge,
+          city: input.city,
+          hasSound: input.hasSound,
+          capacity: input.capacity,
+          adress: input.adress,
+          phoneNumber: input.phoneNumber,
+          profilePicture: input.profilePicture,
+          description: input.description,
+          socialMedia: {
+            instagram: input.instagram,
           },
-        }),
-      );
+        },
+      });
       alert("Datos actualizados con exito");
       setInput({
         name: "",
@@ -337,7 +333,7 @@ export default function ActualizarLocal() {
         capacity: "",
         instagram: "",
       });
-      navigate(`/placeprofile/${myPlace._id}`);
+      navigate("/");
     } else {
       alert("Por favor complete todos los campos correctamente");
     }

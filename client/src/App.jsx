@@ -11,10 +11,10 @@ import Suscripcion from "./Components/Suscribete/Suscripcion";
 import SuscripcionError from "./Components/Suscribete/SuscripcionError";
 import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
-import DetailPlaceBL from "./Components/DetailPlace/DetailPlaceBL";
 import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
+import Manu from "./Components/DetalleMusico/DetalleMusicoPOP";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -28,16 +28,16 @@ function App() {
         <Route exact path="/" element={<Home />} />
 
         <Route exact path="/help" element={<Help />} />
+        <Route exact path="/manupruebas/:id" element={<Manu />} />
 
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route exact path="/registro" element={<Registro />} />
 
-        <Route exact path="/placeLL/:email" element={<DetailPlaceBL />} />
-        <Route exact path="/place/:email" element={<DetailPlace />} />
+        <Route exact path="/place/:id" element={<DetailPlace />} />
         <Route exact path="/musicbandprofile/:id" element={<PerfilMusico />} />
 
         <Route exact path="/placeprofile/:id" element={<PerfilLocal />} />
-        <Route exact path="/place/update/:id" element={<ActualizarLocal />} />
+        <Route exact path="/actualizarlocal" element={<ActualizarLocal />} />
 
         <Route exact path="/suscribete" element={<Suscripcion />} />
         <Route exact path="/suscripcionerror" element={<SuscripcionError />} />

@@ -10,7 +10,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
-import { getUserInfo, isAuthenticated } from "../../Utils/auth.controller";
+import { getUserInfo, isAuthenticated, isPlace, isMusicband } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -356,7 +356,14 @@ function NavBar({
             )}
             {Perfil && (
               <>
-                <Link to={`/musicbandprofile/${infUser._id}`} className="Butons Link Perfil">
+                <Link
+                  to={
+                    isMusicband()
+                      ? `/musicbandprofile/${infUser._id}`
+                      : `/placeprofile/${infUser._id}`
+                  }
+                  className="Butons Link Perfil"
+                >
                   <img src={BTNUser} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Perfil</h3>

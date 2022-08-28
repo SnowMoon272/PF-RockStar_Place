@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 /* Modules */
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
@@ -357,15 +357,28 @@ const FooterStyle = styled.section`
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeBL() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
-
+  console.log(musicBand);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  useEffect(() => {
+  if (musicBand.name === "") {
+    //alert("Debe cargar los datos de la banda");
+    navigate("/actualizarbanda");
+  };
+
+  useEffect(async () => {
     dispatch(getPlaces());
-    const User = getUserInfo();
+    const User = await getUserInfo();
     dispatch(getDetailMusicBand(User._id));
+    /* setTimeout(() => {
+      console.log(musicBand);
+      if (musicBand.name === "") {
+        alert("Debe cargar los datos de la banda");
+        navigate("/actualizarbanda");
+      }
+    }, 5000); */
   }, [dispatch]);
 
   const [reRender, setreRender] = useState(false);
@@ -440,7 +453,7 @@ function HomeBL() {
           <div className="ProximoInfCont">
             <div className="ProximoInf">
               <h4>Proximo Evento</h4>
-              {!musicBand.dates === undefined ? (
+              {musicBand.dates ? (
                 <p>
                   <span>Local: </span>Inf. Mokeada (Modificar) <br />
                   <span>Fecha: </span>Inf. Mokeada (Modificar)
