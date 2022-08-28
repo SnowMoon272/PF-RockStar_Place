@@ -286,7 +286,7 @@ export default function PerfilMusico() {
   };
   return (
     <EditStyledCont Foto={musicBand}>
-      <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
+      <NavBar HomeLinkBanda Home Eventos UserLog />
       <div className="VewContainer">
         <div className="InfoBandaCont">
           <h1 className="TitleA">{musicBand.name}</h1>

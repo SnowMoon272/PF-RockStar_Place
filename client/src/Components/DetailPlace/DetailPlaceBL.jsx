@@ -348,6 +348,7 @@ export default function DetailPlace() {
       placeEmail: place.email,
       date: e.target.value,
     });
+    alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
   };
 
   return (
