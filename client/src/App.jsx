@@ -13,6 +13,7 @@ import SuscripcionSucces from "./Components/Suscribete/SuscripcionSuccess";
 import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
+import Manu from "./Components/DetalleMusico/DetalleMusicoPOP";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
 
         <Route exact path="/help" element={<Help />} />
+        <Route exact path="/manupruebas/:id" element={<Manu />} />
 
         <Route exact path="/iniciarsesion" element={<InciarSesion />} />
         <Route exact path="/registro" element={<Registro />} />
