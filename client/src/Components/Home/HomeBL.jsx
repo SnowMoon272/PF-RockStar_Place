@@ -361,10 +361,10 @@ function HomeBL() {
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
-  //console.log(musicBand);
+
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   if (musicBand.name === "") {
-    alert("Debe cargar los datos de la banda");
+    //alert("Debe cargar los datos de la banda");
     navigate("/actualizarbanda");
   };
 
