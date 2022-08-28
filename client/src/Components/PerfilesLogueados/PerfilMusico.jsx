@@ -284,7 +284,6 @@ export default function PerfilMusico() {
     e.preventDefault();
     setStateReseña(!stateReseña);
   };
-  console.log(musicBand);
   return (
     <EditStyledCont Foto={musicBand}>
       <NavBar HomeLinkBanda Home Eventos Perfil UserLog />

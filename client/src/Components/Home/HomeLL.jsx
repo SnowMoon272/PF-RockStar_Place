@@ -1,3 +1,6 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
@@ -15,6 +18,7 @@ import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
+import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -28,6 +32,20 @@ const HomeStyleCont = styled.div`
   width: 100%;
   height: fit-content;
   position: absolute;
+
+  .POPContainer {
+    display: flex;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 80%;
+    height: 750px;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+    /* z-index: 0; */
+  }
 `;
 
 const FirtVewStyleCont = styled.div`
@@ -268,7 +286,7 @@ const SecondStyleCont = styled.section`
           /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
-          & .item {  
+          & .item {
             width: 90%;
             height: 250px;
             background-color: ${Colors.Blue_life};
@@ -453,10 +471,19 @@ function HomeLL() {
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
+  const [zIndex, setzIndex] = useState(false);
+  console.log(zIndex);
+  const confirmedDates = place.dates
+    ? place.dates.sort(
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
+    : [];
 
-  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
-
-  const availableDates = place.availableDates ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+  const availableDates = place.availableDates
+    ? place.availableDates.sort(
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
@@ -527,12 +554,17 @@ function HomeLL() {
 
   const handleRejectDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/pendingdates", {
+    await axios.put("/pendingdates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
     setRender(!render);
+  };
+
+  const handlerSwitch = (e) => {
+    e.preventDefault();
+    setzIndex(!zIndex);
   };
 
   /* * * * * * * * * * * Extra function´s * * * * * * * * * * */
@@ -573,8 +605,11 @@ function HomeLL() {
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
-    <HomeStyleCont>
-      <NavBar Eventos Perfil HelpLog UserLog />
+    <HomeStyleCont zIndex={zIndex}>
+      <NavBar Perfil HelpLog />
+      <div className="POPContainer">
+        <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} />
+      </div>
       <FirtVewStyleCont>
         <div className="ImgContainer">
           <img src={BGHome} alt="Background" />
@@ -590,35 +625,42 @@ function HomeLL() {
           <div className="ImgBanda">
             <img src={place.profilePicture} alt="Banda" />
           </div>
-          {
-            confirmedDates.length > 0 ?
-              (
-                <div className="ProximoInfCont">
-                  <div className="ProximoInf">
-                    <h4>Próximo Evento</h4>
-                    <p>
-                      <span>Banda: </span>{musicBandEvent.name} <br />
-                      <span>Fecha: </span>{
-                        confirmedDates.length > 0 ?
-                          `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(confirmedDates[0].date.substring(5, 7))} de ${confirmedDates[0].date.substring(0, 4)}`
-                          : null
-                      }
-                      <br />
-                      <span>Contacto: </span>{musicBandEvent.personInCharge} <br />
-                      <span>Telefono: </span>{musicBandEvent.phoneNumber} <br />
-                      <span>Direccion: </span>{place.adress}
-                    </p>
-                  </div>
-                  <div className="ProximoIMGyBtn">
-                    <img src={musicBandEvent.profilePicture} alt="Local" />
-                    <Link className="Lynk_Btn" to="/home/band">
-                      <button type="button">Detalle</button>
-                    </Link>
-                  </div>
-                </div>
-              )
-              : <div className="ProximoInfCont"><span>Acá aparecerá la información de tu próximo evento confirmado.</span></div>
-          }
+          {confirmedDates.length > 0 ? (
+            <div className="ProximoInfCont">
+              <div className="ProximoInf">
+                <h4>Próximo Evento</h4>
+                <p>
+                  <span>Banda: </span>
+                  {musicBand.name} <br />
+                  <span>Fecha: </span>
+                  {confirmedDates.length > 0
+                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
+                    : null}
+                  <br />
+                  <span>Contacto: </span>
+                  {musicBand.personInCharge} <br />
+                  <span>Telefono: </span>
+                  {musicBand.phoneNumber} <br />
+                  <span>Direccion: </span>
+                  {place.adress}
+                </p>
+              </div>
+              <div className="ProximoIMGyBtn">
+                <img src={musicBand.profilePicture} alt="Local" />
+                <Link className="Lynk_Btn" to="/">
+                  <button type="button" onClick={(e) => handlerSwitch(e)}>
+                    Detalle
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="ProximoInfCont">
+              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
+            </div>
+          )}
         </div>
       </FirtVewStyleCont>
       <SecondVewStyleCont UserLog id="SecondVewStyleCont">
@@ -640,28 +682,36 @@ function HomeLL() {
                   minimumTouchDrag={80}
                   slidesToSlide={1}
                 >
-                  {
-                    allDates && allDates.map((date) => {
+                  {allDates &&
+                    allDates.map((date) => {
                       return (
                         <div className="item" key={date._id}>
                           <button
                             type="button"
                             className="BtnDelete"
-                            onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
+                            onClick={
+                              date.isAvailable
+                                ? (e) => handleDeleteAvailableDate(e)
+                                : (e) => handleDeleteClosedDate(e)
+                            }
                             value={[date.date.substring(0, 10), date.email]}
-                          >X
+                          >
+                            X
                           </button>
                           <span className="day">{date.date.substring(8, 10)}</span>
                           <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                           <span className="year">{date.date.substring(0, 4)}</span>
-                          <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
-                          {
-                            date.isAvailable ? null : <button className="BtnVerMas" type="button">Ver más</button>
-                          }
+                          <div className="dateStatus">
+                            {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                          </div>
+                          {date.isAvailable ? null : (
+                            <button className="BtnVerMas" type="button">
+                              Ver más
+                            </button>
+                          )}
                         </div>
                       );
-                    })
-                  }
+                    })}
                 </Carousel>
               </div>
               <div className="AddFecha">
@@ -673,15 +723,17 @@ function HomeLL() {
                     value={date}
                     onChange={(e) => handleDateChange(e)}
                   />
-                  <button type="button" onClick={(e) => handleSubmitDate(e)}>Añadir</button>
+                  <button type="button" onClick={(e) => handleSubmitDate(e)}>
+                    Añadir
+                  </button>
                 </label>
               </div>
             </div>
             <div className="SolicitudesCont">
               <h5>Solicitudes</h5>
               <div className="SolicitudesContJr">
-                {
-                  place.pendingDates && place.pendingDates.map((date) => {
+                {place.pendingDates &&
+                  place.pendingDates.map((date) => {
                     const year = date.date.substring(0, 4);
                     const month = date.date.substring(5, 7);
                     const day = date.date.substring(8, 10);
@@ -693,13 +745,24 @@ function HomeLL() {
                           <button type="button">Detalle</button>
                         </div>
                         <div className="Rigth">
-                          <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>Aceptar</button>
-                          <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>Rechazar</button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleConfirmDate(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            Aceptar
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleRejectDate(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            Rechazar
+                          </button>
                         </div>
                       </div>
                     );
-                  })
-                }
+                  })}
               </div>
             </div>
           </section>
