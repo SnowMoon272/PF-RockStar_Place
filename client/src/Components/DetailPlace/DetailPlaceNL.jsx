@@ -5,20 +5,16 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
+import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
-import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import { getUserInfo } from "../../Utils/auth.controller";
-// import LogoInstagram from "../../Assets/svg/Instagram.svg";
-// import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
-  background-image: url(${BGPerfil});
+  background-color: ${Colors.Erie_Black};
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -30,7 +26,7 @@ const DetailStyleCont = styled.div`
   box-sizing: border-box;
   width: 1500px;
   height: fit-content;
-  background-color: rgba(20, 33, 61, 0.75);
+  background-color: ${Colors.Green_Nigth};
   display: flex;
   margin: 2.5% 10%;
 
@@ -52,7 +48,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 75px;
         text-align: center;
-        color: ${Colors.Platinum};
+        color: ${Colors.Green_Light};
       }
 
       .rating {
@@ -61,7 +57,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 30px;
         text-align: center;
-        color: ${Colors.Platinum};
+        color: ${Colors.Green_Light};
       }
     }
 
@@ -77,7 +73,7 @@ const DetailStyleCont = styled.div`
         font-weight: 400;
         font-size: 45px;
         text-align: center;
-        color: ${Colors.Blue_Vivid};
+        color: ${Colors.Green_Light};
       }
 
       .description {
@@ -238,10 +234,10 @@ const DetailStyleCont = styled.div`
 `;
 
 export default function DetailPlace() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
-  const band = getUserInfo();
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
@@ -322,38 +318,33 @@ export default function DetailPlace() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
-    else if (Object.keys(errors).length) alert("Check for errors and try again");
-    else {
-      dispatch(
-        postComment({
-          review: {
-            author: "Usuario Anónimo",
-            comment: input.comment,
-            rating: Number(input.rating),
-          },
-          email: place.email,
-        }),
-      );
-      setInput({ rating: 0, comment: "" });
-      setTimeout(() => {
-        setInput({ rating: 0, comment: "" });
-      }, 1000);
-    }
-  };
+    const isLog = isAuthenticated();
+    alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
+    !isLog && navigate("/iniciarsesion");
 
-  const handleAplica = async (e) => {
-    await axios.post("/pendingdates", {
-      musicEmail: band.email,
-      placeEmail: place.email,
-      date: e.target.value,
-    });
-    alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+    // if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
+    // else if (Object.keys(errors).length) alert("Check for errors and try again");
+    // else {
+    //   dispatch(
+    //     postComment({
+    //       review: {
+    //         author: "Usuario Anónimo",
+    //         comment: input.comment,
+    //         rating: Number(input.rating),
+    //       },
+    //       email: place.email,
+    //     }),
+    //   );
+    //   setInput({ rating: 0, comment: "" });
+    //   setTimeout(() => {
+    //     setInput({ rating: 0, comment: "" });
+    //   }, 1000);
+    // }
   };
 
   return (
     <HomeStyleCont>
-      <NavBar Home Eventos Perfil />
+      <NavBar LogIn Home FondoImg />
       <DetailStyleCont>
         <div className="FirstCont">
           <div className="NameAndRating">
@@ -385,12 +376,7 @@ export default function DetailPlace() {
                           {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                         </div>
                         {!date.isAvailable ? null : (
-                          <button
-                            className="BtnVerMas"
-                            type="button"
-                            value={date.date.substring(0, 10)}
-                            onClick={(e) => handleAplica(e)}
-                          >
+                          <button className="BtnVerMas" type="button">
                             Aplica
                           </button>
                         )}

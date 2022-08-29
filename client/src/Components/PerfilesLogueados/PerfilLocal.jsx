@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -336,11 +336,11 @@ export default function DetailPlace() {
           <hr className="hr" />
           <div className="divsUnderImage">
             <span className="statsUnderImage">Persona a cargo:</span>
-            <span className="descriptionSmall"> Nombre Apellido</span>
+            <span className="descriptionSmall"> {place.personInCharge}</span>
           </div>
           <div className="divsUnderImage">
             <span className="statsUnderImage">Telefono:</span>
-            <span className="descriptionSmall"> Telefono</span>
+            <span className="descriptionSmall">{place.phoneNumber}</span>
           </div>
           <div className="divsUnderImage">
             <span className="statsUnderImage">Email:</span>
@@ -353,7 +353,10 @@ export default function DetailPlace() {
           </div>
           <div className="divEditar">
             <div className="divEditaryTexto">
-              <img className="imgEditar" src={Editar} alt="" />
+              <Link to="/actualizarlocal" className="imgEditar">
+                <img src={Editar} alt="Edit" />
+              </Link>
+
               <h4>Editar</h4>
             </div>
           </div>

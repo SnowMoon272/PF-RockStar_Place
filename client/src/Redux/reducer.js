@@ -10,6 +10,7 @@ import {
   POST_COMMENT,
   RESET_DETAILS,
   GET_DETAIL_MUSIC_BAND,
+  GET_DETAIL_EVENT,
   POST_REGISTER,
 } from "./actions";
 
@@ -23,6 +24,7 @@ const initialState = {
   },
   sort_places: [],
   detail_music_band: [],
+  detail_event: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -58,6 +60,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         detail_music_band: action.payload,
       };
+    case GET_DETAIL_EVENT:
+      return {
+        ...state,
+        detail_event: action.payload,
+      };
     case GET_CITIES:
       return {
         ...state,
@@ -76,6 +83,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         detail_place: action.payload,
+        detail_music_band: action.payload,
       };
     case POST_REGISTER:
       return {

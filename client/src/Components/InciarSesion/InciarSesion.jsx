@@ -37,6 +37,10 @@ function InciarSesion() {
       const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
       window.location.replace(homeURL);
     }
+    //console.log(response);
+    if (!response) {
+      alert("Verifica tu email o clave");
+    }
   };
 
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";

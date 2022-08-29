@@ -10,6 +10,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
+  GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
   POST_REGISTER = "POST_REGISTER";
 
 export function updateFilters(data) {
@@ -66,6 +67,48 @@ export function getDetailMusicBand(id) {
   return async (dispatch) => {
     try {
       const json = await axios.get(`/musicband/${id}`);
+      return dispatch({
+        type: GET_DETAIL_MUSIC_BAND,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getDetailEvent(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
+      return dispatch({
+        type: GET_DETAIL_EVENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getDetailPlaceEvent(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/place-email/${email}`);
+      return dispatch({
+        type: GET_DETAIL_EVENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getDetailMusicBandByEmail(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
       return dispatch({
         type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
@@ -140,20 +183,6 @@ export function resetDetails(payload) {
   };
 }
 
-export function postData(payload) {
-  return async (dispatch) => {
-    const json = await axios.put("/musicband", payload);
-    return json;
-  };
-}
-
-export function updatePlaceData(payload) {
-  return async (dispatch) => {
-    const json = await axios.put("/place", payload);
-    return json;
-  };
-}
-
 export function registerBand(payload) {
   return async (dispatch) => {
     const json = await axios.post("http://localhost:3001/musicbands", payload);
@@ -168,3 +197,16 @@ export function registerPlace(payload) {
   };
 }
 
+export function getDetailPlaceByEmail(email) {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`/place-email/${email}`);
+      return dispatch({
+        type: GET_DETAIL_PLACE,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}

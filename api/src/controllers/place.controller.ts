@@ -1,6 +1,6 @@
-// import { any, any } from "express";
+import { Request, Response } from "express";
 
-const express = require('express');
+const express = require("express");
 
 import {
 	addPlaceReview,
@@ -11,8 +11,9 @@ import {
 	getCities,
 	updatePlace,
 	addDate,
-	deleteDate,
+	deleteAvailableDate,
 	suscribedSuccessful,
+	getPlace,
 } from '../db/models/placeModel';
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -22,10 +23,10 @@ const getAllPlacesController = async (req: any, res: any) => {
 		if (response) {
 			return res.status(200).send(response);
 		} else {
-			return res.status(404).send({ message: 'Lugares no encontrados' });
+			return res.status(404).send({ message: "Lugares no encontrados" });
 		}
 	} catch (error) {
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
@@ -34,15 +35,14 @@ const createPlaceController = async (req: any, res: any) => {
 	if (places) {
 		try {
 			let created = await createPlace(places);
-
-			if (created.hasOwnProperty('error'))
-				return res.status(400).send({ error: 'Already exist an account with this email' });
-			return res.status(201).send({ message: 'success' });
+			if (created.hasOwnProperty("error"))
+				return res.status(400).send({ error: "Already exist an account with this email" });
+			return res.status(201).send({ message: "success" });
 		} catch (error) {
-			return res.status(500).send({ error: 'Something went wrong' });
+			return res.status(500).send({ error: "Something went wrong" });
 		}
 	} else {
-		return res.status(400).send({ message: 'Invalid data' });
+		return res.status(400).send({ message: "Invalid data" });
 	}
 };
 
@@ -52,12 +52,12 @@ const addPlaceReviewController = async (req: any, res: any) => {
 	if (review && email) {
 		try {
 			await addPlaceReview(email, review);
-			return res.status(201).send({ message: 'Se añadio la reseña exitosamente' });
+			return res.status(201).send({ message: "Se añadio la reseña exitosamente" });
 		} catch (error) {
-			return res.status(500).send({ error: 'Something went wrong' });
+			return res.status(500).send({ error: "Something went wrong" });
 		}
 	} else {
-		return res.status(400).send({ message: 'Data faltante o incorrecta' });
+		return res.status(400).send({ message: "Data faltante o incorrecta" });
 	}
 };
 
@@ -68,18 +68,28 @@ const getPlaceByIDController = async (req: any, res: any) => {
 		return res.status(200).send(place);
 	}
 
-	if (!id) return res.status(404).send({ message: 'Invalid data' });
+	if (!id) return res.status(404).send({ message: "Invalid data" });
+};
+
+const getPlaceByEmailController = async (req: any, res: any) => {
+	const { email } = req.params;
+	if (email) {
+		const place = await getPlace(email);
+		return res.status(200).send(place);
+	}
+
+	if (!email) return res.status(404).send({ message: 'Invalid data' });
 };
 
 const getPlaceByNameController = async (req: any, res: any) => {
 	let { search } = req.query;
-	if (!search) return res.status(404).send({ message: 'Invalid data' });
+	if (!search) return res.status(404).send({ message: "Invalid data" });
 	search = decodeURI(search);
 	try {
 		const places = await getPlaceByName(search);
 		return res.status(200).send(places);
 	} catch (error) {
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
@@ -87,9 +97,9 @@ const getCitiesController = async (req: any, res: any) => {
 	try {
 		let cities = await getCities();
 		if (cities) return res.status(200).send(cities);
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	} catch (error) {
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
@@ -98,13 +108,13 @@ const updatePlaceController = async (req: any, res: any) => {
 	if (data) {
 		try {
 			let updated = await updatePlace(email, data);
-			if (updated) return res.status(201).send({ msg: 'Se actualizó el lugar correctamente' });
-			return res.status(400).send({ error: 'Ha ocurrido un error' });
+			if (updated) return res.status(201).send({ msg: "Se actualizó el lugar correctamente" });
+			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
-			return res.status(500).send({ error: 'No se pudo actualizar el lugar' });
+			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
 		}
 	} else {
-		res.status(404).send({ msg: 'Data faltante o incorrecta' });
+		res.status(404).send({ msg: "Data faltante o incorrecta" });
 	}
 };
 
@@ -112,23 +122,23 @@ const AddDatePlaceController = async (req: any, res: any) => {
 	const { email, date } = req.body;
 	try {
 		let newDate = await addDate(email, date);
-		if (!newDate.hasOwnProperty('error'))
-			return res.status(201).send({ msg: 'Se añadio la fecha correctamente' });
+		if (!newDate.hasOwnProperty("error"))
+			return res.status(201).send({ msg: "Se añadio la fecha correctamente" });
 		return res.status(400).send(newDate.error);
 	} catch (error) {
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
-const DeleteDatePlaceController = async (req: any, res: any) => {
+const DeleteAvailableDatePlaceController = async (req: any, res: any) => {
 	const { email, date } = req.body;
 
 	try {
-		let dateToDelete = await deleteDate(email, date);
-		if (!dateToDelete.hasOwnProperty('error')) return res.status(201).send(dateToDelete.msg);
+		let dateToDelete = await deleteAvailableDate(email, date);
+		if (!dateToDelete.hasOwnProperty("error")) return res.status(201).send(dateToDelete.msg);
 		return res.status(400).send(dateToDelete.error);
 	} catch (error) {
-		return res.status(500).send({ error: 'Something went wrong' });
+		return res.status(500).send({ error: "Something went wrong" });
 	}
 };
 
@@ -139,10 +149,10 @@ const suscribedSuccessfulController = async (req: any, res: any) => {
 			let userUpdate = await suscribedSuccessful(email, suscription);
 			return res.status(200).send(userUpdate);
 		} catch (error) {
-			return res.status(500).send({ error: 'Internal problem' });
+			return res.status(500).send({ error: "Internal problem" });
 		}
 	}
-	return res.status(404).send({ error: 'Data faltante o incorrecta' });
+	return res.status(404).send({ error: "Data faltante o incorrecta" });
 };
 
 module.exports = {
@@ -154,6 +164,7 @@ module.exports = {
 	getCitiesController,
 	updatePlaceController,
 	AddDatePlaceController,
-	DeleteDatePlaceController,
+	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
+	getPlaceByEmailController
 };
