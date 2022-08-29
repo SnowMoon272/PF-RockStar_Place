@@ -10,7 +10,7 @@ import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
-import ReseñasOpinion from "./ReseñasOpinon";
+import Reseñas from "./Reseñas";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -232,7 +232,7 @@ const EditStyledCont = styled.div`
         }
       }
 
-      .BotonOpinion {
+      /* .BotonOpinion {
         position: relative;
         left: 79%;
         top: 9%;
@@ -255,8 +255,9 @@ const EditStyledCont = styled.div`
         :hover {
           cursor: pointer;
           transform: scale(1.2);
-        }
+        } 
       }
+      */
     }
   }
 `;
@@ -341,16 +342,7 @@ export default function PerfilMusico() {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <button
-            onClick={(e) => {
-              handlerSwitch(e);
-            }}
-            className="BotonOpinion"
-            type="button"
-          >
-            {stateReseña ? "Reseñas" : "Opinion"}
-          </button>
-          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
+          <Reseñas musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>

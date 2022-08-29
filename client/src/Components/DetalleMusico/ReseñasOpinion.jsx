@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
 import React from "react";
-
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 
@@ -11,7 +9,7 @@ const ReseñasStyleCont = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 68.5%;
+  height: 60%;
   background-color: ${Colors.Oxford_Blue_transparent};
 
   .TitleB {
@@ -25,10 +23,22 @@ const ReseñasStyleCont = styled.div`
 
   .comentarios {
     /* border: solid 3px red; */
+    display: flex;
+    margin-bottom: 35px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    h6 {
+      font-size: 3rem;
+      font-weight: 400;
+      color: ${Colors.Platinum};
+    }
 
     background: transparent;
     width: 90%;
-    height: 65%;
+    height: 74%;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 12px;
@@ -47,6 +57,7 @@ const ReseñasStyleCont = styled.div`
 
       background-color: #2d327c55;
       font-family: "RocknRoll One";
+      width: 95%;
       font-weight: 400;
       font-size: 1.6rem;
       color: ${Colors.Platinum};
@@ -63,35 +74,12 @@ const ReseñasStyleCont = styled.div`
       }
     }
   }
-
-  /* .Boton {
-    font-family: "New Rocker";
-    font-weight: 400;
-    font-size: 2rem;
-    border-radius: 10px;
-    background-color: ${Colors.Blue_life};
-    width: 15%;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${Colors.Platinum};
-    text-decoration: none;
-    margin-top: 20px;
-    transition: all 0.5s ease;
-
-    :hover {
-      cursor: pointer;
-      transform: scale(1.2);
-    }
-  } */
 `;
 
-/* ) : Object.keys(musicBand.reviews).length === 0 ? ( */
-function ReseñasOpinon({ Opinion, musicBand }) {
+function ReseñasOpinion({ musicBand, Opinion }) {
   return (
     <ReseñasStyleCont>
-      <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
+      <h1 className="TitleB">Reseñas</h1>
       <div className="comentarios">
         {Opinion ? (
           "Aqui va tu opinion"
@@ -109,20 +97,11 @@ function ReseñasOpinon({ Opinion, musicBand }) {
             );
           })
         ) : (
-          <h6>Aún no tienes reseñas.</h6>
+          <h6>Este perfil aún no tiene reseñas.</h6>
         )}
       </div>
-      {/* {Opinion ? (
-        <Link className="Boton" to="/">
-          Detalles B
-        </Link>
-      ) : (
-        <Link className="Boton" to="/">
-          Detalles A
-        </Link>
-      )} */}
     </ReseñasStyleCont>
   );
 }
 
-export default ReseñasOpinon;
+export default ReseñasOpinion;

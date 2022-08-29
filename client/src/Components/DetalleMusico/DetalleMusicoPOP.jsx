@@ -1,11 +1,11 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import ImgLogo from "../../Assets/img/logo3.png";
-import Reseñas from "./Reseña";
+import ReseñasOpinion from "./ReseñasOpinion";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -186,8 +186,12 @@ const EditStyledCont = styled.div`
     .ReseñasLogoCont {
       /* border: solid 3px gray; */
 
-      width: 68%;
-      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 70%;
+      height: 102.5%;
 
       .divImgLogo {
         /* border: solid 3px blue; */
@@ -199,7 +203,32 @@ const EditStyledCont = styled.div`
         #imgLogo {
           /* border: solid 3px blueviolet; */
           width: 36%;
-          margin: 0px 0px 25px 0px;
+          margin: 0px;
+        }
+      }
+      .BotonOpinion {
+        position: relative;
+        left: 79%;
+        top: 9%;
+        border: none;
+        font-family: "New Rocker";
+        font-weight: 400;
+        font-size: 2rem;
+        border-radius: 10px;
+        background-color: ${Colors.Blue_life};
+        width: 15%;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${Colors.Platinum};
+        text-decoration: none;
+        margin-top: 20px;
+        transition: all 0.5s ease;
+
+        :hover {
+          cursor: pointer;
+          transform: scale(1.2);
         }
       }
     }
@@ -210,6 +239,13 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
   const handlerSubmintCloseSearch = (e) => {
     e.preventDefault();
     setzIndex(!zIndex);
+  };
+
+  const [stateReseña, setStateReseña] = useState(false);
+
+  const handlerSwitch = (e) => {
+    e.preventDefault();
+    setStateReseña(!stateReseña);
   };
 
   return (
@@ -279,7 +315,16 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <Reseñas musicBand={musicBand.reviews} />
+          <button
+            onClick={(e) => {
+              handlerSwitch(e);
+            }}
+            className="BotonOpinion"
+            type="button"
+          >
+            {stateReseña ? "Reseñas" : "Opinion"}
+          </button>
+          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>
