@@ -23,7 +23,7 @@ const initialState = {
     Sonido: false,
   },
   sort_places: [],
-  detail_music_band: [],
+  detail_music_band: {},
   detail_event: [],
 };
 

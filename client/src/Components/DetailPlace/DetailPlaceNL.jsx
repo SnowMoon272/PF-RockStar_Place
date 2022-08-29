@@ -321,25 +321,11 @@ export default function DetailPlace() {
     const isLog = isAuthenticated();
     alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
     !isLog && navigate("/iniciarsesion");
+  };
 
-    // if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
-    // else if (Object.keys(errors).length) alert("Check for errors and try again");
-    // else {
-    //   dispatch(
-    //     postComment({
-    //       review: {
-    //         author: "Usuario Anónimo",
-    //         comment: input.comment,
-    //         rating: Number(input.rating),
-    //       },
-    //       email: place.email,
-    //     }),
-    //   );
-    //   setInput({ rating: 0, comment: "" });
-    //   setTimeout(() => {
-    //     setInput({ rating: 0, comment: "" });
-    //   }, 1000);
-    // }
+  const handleAplica = (e) => {
+    alert("Debes registrarte para poder aplicar a tocar en un local");
+    navigate("/registro");
   };
 
   return (
@@ -376,7 +362,11 @@ export default function DetailPlace() {
                           {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                         </div>
                         {!date.isAvailable ? null : (
-                          <button className="BtnVerMas" type="button">
+                          <button
+                            className="BtnVerMas"
+                            type="button"
+                            onClick={(e) => handleAplica(e)}
+                          >
                             Aplica
                           </button>
                         )}
