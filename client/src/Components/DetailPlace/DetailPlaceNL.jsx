@@ -11,6 +11,7 @@ import Colors from "../../Utils/colors";
 import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
+import LogoInstagram from "../../Assets/svg/Instagram.svg";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -24,7 +25,7 @@ const HomeStyleCont = styled.div`
 
 const DetailStyleCont = styled.div`
   box-sizing: border-box;
-  width: 1500px;
+  width: 80%;
   height: fit-content;
   background-color: ${Colors.Green_Nigth};
   display: flex;
@@ -235,6 +236,26 @@ const DetailStyleCont = styled.div`
     flex-direction: column;
     padding: 2%;
 
+    .profile {
+      width: 100%;
+    }
+
+    .ImglogosRedes {
+      width: 40px;
+      height: 40px;
+      padding: 4px;
+      border-radius: 50px;
+      background-color: white;
+      cursor: pointer;
+      margin: 25px 0px 0px 0px;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
+
     .stats {
       font-family: "RocknRoll One";
       font-style: normal;
@@ -339,13 +360,11 @@ export default function DetailPlace() {
     const isLog = isAuthenticated();
     alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
     !isLog && navigate("/iniciarsesion");
-
   };
 
   const handleAplica = (e) => {
     alert("Debes registrarte para poder aplicar a tocar en un local");
     navigate("/registro");
-
   };
 
   return (
@@ -454,13 +473,20 @@ export default function DetailPlace() {
           </div>
         </div>
         <div className="SecondCont">
-          <img src={place.profilePicture} alt="Img not found" />
+          <img src={place.profilePicture} className="profile" alt="Img not found" />
           <span className="stats">Ciudad: {place.city}</span>
           <span className="stats">Dirección: {place.adress}</span>
+          <span className="stats">Persona a cargo: {place.personInCharge}</span>
+          <span className="stats">Teléfono: {place.phoneNumber}</span>
           <span className="stats">Capacidad: {place.capacity}</span>
           <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
           <hr className="hr" />
           <p className="stats">Email: {place.email}</p>
+          {place.socialMedia && place.socialMedia.instagram !== "" ? (
+            <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+              <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+            </a>
+          ) : null}
         </div>
       </DetailStyleCont>
     </HomeStyleCont>
