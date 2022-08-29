@@ -1,9 +1,9 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
