@@ -7,7 +7,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { getDetailMusicBandByEmail, getDetailPlace, getDetailPlaceByEmail, resetDetails } from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
@@ -316,11 +316,11 @@ export default function DetailPlace() {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5,
+      items: 4,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5,
+      items: 4,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },

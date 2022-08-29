@@ -81,7 +81,16 @@ const ContainerGralStyled = styled.div`
             font-size: 30px;
             line-height: 79px;
             color: ${Colors.Platinum};
-            margin: 0px 0px 0px 0px;
+            margin: 0px;
+          }
+
+          h2 {
+            font-family: "New Rocker";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 79px;
+            color: ${Colors.Platinum};
           }
         }
 
@@ -387,8 +396,8 @@ function EventosBanda() {
 
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   useEffect(() => {
@@ -434,7 +443,7 @@ function EventosBanda() {
               <h1>Proximo Evento / Detalle del Evento</h1>
             </div>
             {musicBand._id && musicBand.dates.length === 0 ? (
-              <h1>No tenes fechas flaco</h1>
+              <h2>Aquí aparecerá la información de tu próximo evento confirmado.</h2>
             ) : (
               <div className="div3Columnas">
                 <div className="divColumna1">
