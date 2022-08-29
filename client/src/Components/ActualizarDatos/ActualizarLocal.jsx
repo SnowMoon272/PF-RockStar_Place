@@ -10,7 +10,7 @@ import notImg from "../../Assets/img/mystery.webp";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { getDetailPlace } from "../../Redux/actions";
+import { getDetailPlace, resetDetails } from "../../Redux/actions";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -221,6 +221,9 @@ const ActualizarDatosStyleCont2 = styled.div`
       border-radius: 15px;
       object-fit: cover;
     }
+    font-family: "New Rocker";
+    font-size: 4rem;
+    color: ${Colors.Platinum};
   }
 
   #btn-foto {
@@ -472,6 +475,7 @@ export default function ActualizarLocal() {
         capacity: "",
         instagram: "",
       });
+      dispatch(resetDetails([]));
       navigate("/");
     } else {
       alert("Por favor complete todos los campos correctamente");
@@ -620,7 +624,7 @@ export default function ActualizarLocal() {
               <div className="ImgACargar">
                 <img
                   src={image === "" ? place.profilePicture : image}
-                  alt="img not found"
+                  alt="ingresa una imagen"
                   width="350px"
                   height="350px"
                 />
