@@ -20,7 +20,8 @@ const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-image: url(${BGPerfil});
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
+  padding-left: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,10 +33,10 @@ const DetailStyleCont = styled.div`
   height: fit-content;
   background-color: rgba(20, 33, 61, 0.75);
   display: flex;
-  margin: 2.5% 10%;
+  margin: 2.5% 0px;
 
   .FirstCont {
-    width: 65%;
+    width: 61.4%;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -216,7 +217,7 @@ const DetailStyleCont = styled.div`
   }
 
   .SecondCont {
-    width: 35%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     padding: 2%;

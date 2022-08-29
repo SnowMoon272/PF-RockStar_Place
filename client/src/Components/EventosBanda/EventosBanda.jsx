@@ -11,232 +11,367 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
 
 const ContainerGralStyled = styled.div`
-  padding-left: 80px;
-  background-image: url(${BGPerfil});
-  width: 100vw;
-  .divLogo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+  /* border: red solid 3px; */
+
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
+  padding-left: 67px;
+
+  .IMG {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
     img {
-      height: 150px;
-      padding-right: 500px;
-      margin: 10px 0px 10px 0px;
+      width: 100%;
     }
   }
 
-  .divTitle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    h1 {
-      font-family: "New Rocker";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 79px;
-      color: ${Colors.Platinum};
-      margin: 0px 0px 0px 0px;
+  .Container {
+    /* border: red solid 3px; */
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+
+    .ContenedorDeArriba {
+      /* border: 3px green solid; */
+
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 20;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .divLogo {
+        /* border: 3px purple solid; */
+
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        img {
+          height: 150px;
+          margin: 10px 0px 10px 0px;
+        }
+      }
+
+      .div1 {
+        /* border: 3px purple solid; */
+
+        background-color: ${Colors.Oxford_Blue_transparent};
+        padding: 15px 25px;
+        width: 70%;
+
+        .divTitle {
+          /* border: yellow solid; */
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          h1 {
+            font-family: "New Rocker";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 30px;
+            line-height: 79px;
+            color: ${Colors.Platinum};
+            margin: 0px 0px 0px 0px;
+          }
+        }
+
+        .div3Columnas {
+          /* border: blue solid 3px; */
+          display: flex;
+          justify-content: space-between;
+
+          .divColumna1 {
+            /* border: red solid; */
+
+            max-width: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+            h3 {
+              /* border: greenyellow solid 3px; */
+
+              text-align: center;
+              font-family: "New Rocker";
+              font-weight: 400;
+              font-size: 3rem;
+              margin: 10px 15px;
+              color: ${Colors.Platinum};
+            }
+
+            .divsTituloyDesc {
+              /* border: white solid 3px; */
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin: 0px;
+
+              .pTitulo {
+                /* border: black solid 3px; */
+
+                font-family: "RocknRoll One";
+                letter-spacing: -1px;
+                font-weight: 400;
+                font-size: 2rem;
+                color: ${Colors.Blue_Vivid};
+                margin: 0px;
+              }
+
+              .pDesc {
+                /* border: black solid 3px; */
+
+                font-family: "RocknRoll One";
+                margin: 0px;
+                font-weight: 400;
+                font-size: 1.5rem;
+
+                color: ${Colors.Platinum};
+              }
+            }
+          }
+
+          .divColumna2 {
+            /* border: red solid; */
+            max-width: 35%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin: 2px 20px 2px 20px;
+
+            .pTitulo {
+              font-family: "RocknRoll One";
+              letter-spacing: -1px;
+              font-weight: 400;
+              font-size: 1.8rem;
+              color: ${Colors.Blue_Vivid};
+              margin: 8px 5px 8px 0px;
+              height: fit-content;
+            }
+
+            .pDesc {
+              font-family: "RocknRoll One";
+              font-weight: 400;
+              font-size: 1.5rem;
+              margin: 0px 0px 0px 0px;
+              color: ${Colors.Platinum};
+              margin-top: 10px;
+            }
+
+            .divsTituloyDesc {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+
+              .pTitulo {
+                font-family: "RocknRoll One";
+                letter-spacing: -1px;
+                font-weight: 400;
+                font-size: 2rem;
+                color: ${Colors.Blue_Vivid};
+                margin: 8px 5px 8px 0px;
+                height: fit-content;
+              }
+
+              .pDesc {
+                font-family: "RocknRoll One";
+                font-weight: 400;
+                font-size: 1.5rem;
+                margin: 0px 0px 0px 0px;
+                color: ${Colors.Platinum};
+                margin-top: 10px;
+              }
+            }
+          }
+
+          .divColumna3 {
+            /* border: red solid; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+
+            img {
+              width: 350px;
+              height: 250px;
+              object-fit: cover;
+              border: solid white 3px;
+              margin-bottom: 15px;
+            }
+            .detailBtn {
+              font-family: "New Rocker";
+              width: 175px;
+              font-size: 2rem;
+              height: 2.3em;
+              background: ${Colors.Blue_life};
+              color: #e9dcdc;
+              border: none;
+              letter-spacing: 1px;
+              border-radius: 7px;
+              cursor: pointer;
+              transition: all 0.5s ease;
+
+              :hover {
+                cursor: pointer;
+                transform: scale(1.2);
+              }
+            }
+          }
+        }
+      }
     }
-  }
 
-  .div3Columnas {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    // border: blue solid;
-  }
+    .divContainerdeAbajo {
+      /* border: 3px red solid; */
 
-  .divColumna1 {
-    border: red solid;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 2px 20px 2px 20px;
-    h3 {
-      font-family: "New Rocker";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 55px;
-      margin: 2px 0px 2px 0px;
-      color: ${Colors.Platinum};
-      align-items: left;
-    }
-  }
+      position: relative;
+      z-index: 20;
+      margin-top: 130px;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      /* height: auto; */
 
-  .divColumna2 {
-    border: red solid;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 2px 20px 2px 20px;
-  }
+      .divContainerdeAbajoContainer {
+        /* border: 3px green solid; */
+        display: flex;
+        width: 73%;
+        justify-content: space-between;
+        margin-bottom: 150px;
 
-  .divColumna3 {
-    border: red solid;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 2px 20px 2px 20px;
-    img {
-      width: 20vw;
-    }
-  }
+        .divEventosConfirmados {
+          /* border: blue solid; */
+          width: 45%;
 
-  .div1 {
-    border: yellow solid;
-    width: 90vw;
-    background-color: rgba(20, 33, 61, 0.75);
-    margin-left: 4%;
-    margin-right: 10%;
-    margin-bottom: 40px;
-  }
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: ${Colors.Oxford_Blue_transparent};
+          height: auto;
+          padding-bottom: 50px;
 
-  .divContainer1 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border: #fddde35a solid;
-  }
+          h1 {
+            /* border: red solid; */
 
-  .divsTituloyDesc {
-    display: flex;
-    flex-direction: row;
-  }
+            font-family: "New Rocker";
+            font-weight: 400;
+            font-size: 4rem;
+            color: ${Colors.Platinum};
+            margin: 30px;
+          }
 
-  .pTitulo {
-    font-family: "RocknRoll One";
-    letter-spacing: -1px;
-    font-weight: 400;
-    font-size: 1.8rem;
-    color: ${Colors.Blue_Vivid};
-    margin: 8px 5px 8px 0px;
-    height: fit-content;
-  }
+          .divsSmallConfirmados {
+            /* border: red solid; */
 
-  .pDesc {
-    font-family: "RocknRoll One";
-    font-weight: 400;
-    font-size: 1.5rem;
-    margin: 0px 0px 0px 0px;
-    color: ${Colors.Platinum};
-    margin-top: 10px;
-  }
+            display: flex;
+            background-color: #264380;
+            justify-content: space-between;
+            margin: 10px;
+            align-items: center;
+            width: 80%;
 
-  .divContainerdeAbajo {
-    border: red solid;
-    width: 90vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    height: auto;
-  }
+            p {
+              font-family: "RocknRoll One";
+              font-weight: 400;
+              font-size: 1.5rem;
+              color: ${Colors.Platinum};
+              padding: 5px 15px;
+            }
 
-  .divEventosConfirmados {
-    border: blue solid;
-    margin-left: 1%;
-    width: 50vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: ${Colors.Oxford_Blue_transparent};
-    height: auto;
-    h1 {
-      font-family: "New Rocker";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 79px;
-      color: ${Colors.Platinum};
-      margin: 0px 0px 0px 0px;
-    }
-  }
+            .dateBtn {
+              width: 70px;
+              height: 3rem;
+              margin-right: 15px;
+              background: ${Colors.Platinum};
+              color: ${Colors.Dark_Cornflower_blue};
+              border: none;
+              border-radius: 8px;
+              font-size: 1.5rem;
+              font-weight: bold;
+              cursor: pointer;
+              transition: all 0.5s ease;
 
-  .divSolicitudesPendientes {
-    border: blue solid;
-    width: 30vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: ${Colors.Oxford_Blue_transparent};
-    h1 {
-      font-family: "New Rocker";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 79px;
-      color: ${Colors.Platinum};
-      margin: 0px 0px 0px 0px;
-    }
-  }
+              :hover {
+                cursor: pointer;
+                transform: scale(1.2);
+              }
+            }
+          }
+        }
 
-  .detailBtn {
-    font-family: "New Rocker";
-    width: 8em;
-    height: 2.3em;
-    margin: 0.5em;
-    background: rgba(35, 71, 150, 0.75);
-    color: #e9dcdc;
-    border: none;
-    border-radius: 0.625em;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    :hover {
-      transition: 0.7s;
-      background-color: #918cb9;
-    }
-  }
+        .divSolicitudesPendientes {
+          /* border: red solid; */
 
-  .dateBtn {
-    width: 5em;
-    height: 1.5em;
-    margin: 0.7em;
-    background: #c5d8f3;
-    color: #2a4ba3;
-    border: none;
-    border-radius: 0.625em;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-  }
+          width: 45%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: ${Colors.Oxford_Blue_transparent};
+          height: auto;
+          padding-bottom: 50px;
 
-  .pendingBtn {
-    width: 6em;
-    height: 1.5em;
-    margin: 0.8em;
-    background: #00013f;
-    color: #dad5d5;
-    border: none;
-    border-radius: 0.625em;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-  }
+          h1 {
+            /* border: red solid; */
 
-  .divsSmallConfirmados {
-    display: flex;
-    flex-direction: row;
-    background-color: #264380;
-    margin: 8px 8px 8px 8px;
-    p {
-      font-family: "RocknRoll One";
-      font-weight: 400;
-      font-size: 1.5rem;
-      color: ${Colors.Platinum};
-      margin: 12px 8px 12px 8px;
+            font-family: "New Rocker";
+            font-weight: 400;
+            font-size: 4rem;
+            color: ${Colors.Platinum};
+            margin: 30px;
+          }
+
+          .divsSmallConfirmados {
+            /* border: red solid; */
+
+            display: flex;
+            background-color: #264380;
+            justify-content: space-between;
+            margin: 10px;
+            align-items: center;
+            width: 80%;
+            padding: 5px 15px;
+
+            p {
+              font-family: "RocknRoll One";
+              font-weight: 400;
+              font-size: 1.5rem;
+              color: ${Colors.Platinum};
+              /* padding: 5px 15px; */
+            }
+
+            .pendingBtn {
+              font-family: "New Rocker";
+              width: 80px;
+              font-size: 1.5rem;
+              height: 2.3em;
+              background: ${Colors.Oxford_Blue};
+              color: #e9dcdc;
+              border: none;
+              letter-spacing: 1px;
+              border-radius: 7px;
+              cursor: pointer;
+              transition: all 0.5s ease;
+
+              :hover {
+                cursor: pointer;
+                transform: scale(1.2);
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -286,114 +421,123 @@ function EventosBanda() {
   return (
     <ContainerGralStyled>
       <NavBar Home Perfil />
-      <div className="divLogo">
-        <img src={ImgLogo} alt="" />
+      <div className="IMG">
+        <img src={BGPerfil} alt="" />
       </div>
-      <div className="divContainer1">
-        <div className="div1">
-          <div className="divTitle">
-            <h1>Proximo Evento / Detalle del Evento</h1>
+      <div className="Container">
+        <div className="ContenedorDeArriba">
+          <div className="divLogo">
+            <img src={ImgLogo} alt="" />
           </div>
-          {musicBand._id && musicBand.dates.length === 0 ? (
-            <h1>No tenes fechas flaco</h1>
-          ) : (
-            <div className="div3Columnas">
-              <div className="divColumna1">
-                <h3>{placeFirstDate.name}</h3>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Fecha:</p>
-                  <p className="pDesc">
-                    {dateToRender === ""
-                      ? orderedConfirmedDates.length > 0
-                        ? orderedConfirmedDates[0].date.substring(0, 10)
-                        : "Cargando..."
-                      : dateToRender.substring(0, 10)}
-                  </p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Persona a cargo:</p>
-                  <p className="pDesc">{placeFirstDate.personInCharge}</p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Telefono:</p>
-                  <p className="pDesc">{placeFirstDate.phoneNumber}</p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Ciudad:</p>
-                  <p className="pDesc">{placeFirstDate.city}</p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Direccion:</p>
-                  <p className="pDesc">{placeFirstDate.adress}</p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Capacidad:</p>
-                  <p className="pDesc">{placeFirstDate.capacity}</p>
-                </div>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Sonido propio:</p>
-                  <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
-                </div>
-              </div>
-              <div className="divColumna2">
-                <p className="pTitulo">Descripción:</p>
-                <p className="pDesc">{placeFirstDate.description}</p>
-                <div className="divsTituloyDesc">
-                  <p className="pTitulo">Rating:</p>
-                  <p className="pDesc">{placeFirstDate.rating}</p>
-                </div>
-              </div>
-              <div className="divColumna3">
-                <img src={placeFirstDate.profilePicture} alt="Img not found" />
-                <Link to={`/place/${placeFirstDate._id}`}>
-                  <button type="button" className="detailBtn">
-                    Detalle del Local
-                  </button>
-                </Link>
-              </div>
+          <div className="div1">
+            <div className="divTitle">
+              <h1>Proximo Evento / Detalle del Evento</h1>
             </div>
-          )}
-        </div>
-      </div>
-      <div className="divContainerdeAbajo">
-        <div className="divEventosConfirmados">
-          <h1>Eventos Confirmados</h1>
-          {musicBand.dates?.map((date) => {
-            return (
-              <div key={date._id} className="divsSmallConfirmados">
-                <p>{date.date.substring(0, 10)}</p>
-                <p>{date.place}</p>
-                <button
-                  value={date.email}
-                  name={date.date}
-                  onClick={(e) => handleClickDetalles(e)}
-                  type="button"
-                  className="dateBtn"
-                >
-                  Detalle
-                </button>
+            {musicBand._id && musicBand.dates.length === 0 ? (
+              <h1>No tenes fechas flaco</h1>
+            ) : (
+              <div className="div3Columnas">
+                <div className="divColumna1">
+                  <h3>{placeFirstDate.name}</h3>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Fecha:⠀</p>
+                    <p className="pDesc">
+                      {dateToRender === ""
+                        ? orderedConfirmedDates.length > 0
+                          ? orderedConfirmedDates[0].date.substring(0, 10)
+                          : "Cargando..."
+                        : dateToRender.substring(0, 10)}
+                    </p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Persona a cargo:⠀</p>
+                    <p className="pDesc">{placeFirstDate.personInCharge}</p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Telefono:⠀</p>
+                    <p className="pDesc">{placeFirstDate.phoneNumber}</p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Ciudad:⠀</p>
+                    <p className="pDesc">{placeFirstDate.city}</p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Direccion:⠀</p>
+                    <p className="pDesc">{placeFirstDate.adress}</p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Capacidad:⠀</p>
+                    <p className="pDesc">{placeFirstDate.capacity}</p>
+                  </div>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Sonido propio:⠀</p>
+                    <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
+                  </div>
+                </div>
+                <div className="divColumna2">
+                  <p className="pDesc">
+                    <p className="pTitulo">Descripción:</p>
+                    {placeFirstDate.description}
+                  </p>
+                  <div className="divsTituloyDesc">
+                    <p className="pTitulo">Rating:</p>
+                    <p className="pDesc">⭐{placeFirstDate.rating}</p>
+                  </div>
+                </div>
+                <div className="divColumna3">
+                  <img src={placeFirstDate.profilePicture} alt="Img not found" />
+                  <Link to={`/place/${placeFirstDate._id}`}>
+                    <button type="button" className="detailBtn">
+                      Detalle del Local
+                    </button>
+                  </Link>
+                </div>
               </div>
-            );
-          })}
+            )}
+          </div>
         </div>
-        <div className="divSolicitudesPendientes">
-          <h1>Solicitudes Pendientes</h1>
-          {musicBand.pendingDates?.map((date) => {
-            return (
-              <div key={date._id} className="divsSmallConfirmados">
-                <p>{date.date.substring(0, 10)}</p>
-                <p>{date.place}</p>
-                <button
-                  onClick={(e) => handleClickCancelar(e)}
-                  value={[date.date.substring(0, 10), date.email]}
-                  type="button"
-                  className="pendingBtn"
-                >
-                  Cancelar
-                </button>
-              </div>
-            );
-          })}
+        <div className="divContainerdeAbajo">
+          <div className="divContainerdeAbajoContainer">
+            <div className="divEventosConfirmados">
+              <h1>Eventos Confirmados</h1>
+              {musicBand.dates?.map((date) => {
+                return (
+                  <div key={date._id} className="divsSmallConfirmados">
+                    <p>{date.date.substring(0, 10)}</p>
+                    <p>{date.place}</p>
+                    <button
+                      value={date.email}
+                      name={date.date}
+                      onClick={(e) => handleClickDetalles(e)}
+                      type="button"
+                      className="dateBtn"
+                    >
+                      Detalle
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="divSolicitudesPendientes">
+              <h1>Solicitudes Pendientes</h1>
+              {musicBand.pendingDates?.map((date) => {
+                return (
+                  <div key={date._id} className="divsSmallConfirmados">
+                    <p>{date.date.substring(0, 10)}</p>
+                    <p>{date.place}</p>
+                    <button
+                      onClick={(e) => handleClickCancelar(e)}
+                      value={[date.date.substring(0, 10), date.email]}
+                      type="button"
+                      className="pendingBtn"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </ContainerGralStyled>
