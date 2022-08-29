@@ -1,4 +1,3 @@
-import { newMusicBand } from '../../tests/musicbandTests/create.musicBand.test';
 import {
 	musicReviews,
 	musicDates,
