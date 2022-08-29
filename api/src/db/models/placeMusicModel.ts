@@ -53,15 +53,18 @@ export const removePendingDate = async (musicEmail: string, placeEmail: string, 
 		const currentMusicBand = await getMusicBand(musicEmail);
 		const currentPlace = await getPlace(placeEmail);
 		if (currentMusicBand && currentPlace && date) {
-			const dateToDelete = currentPlace.pendingDates.find(
-				(d: placeDates) => d.date.toISOString().substring(0, 10) === date,
+			const dateToDeletePlace = currentPlace.pendingDates.find(
+				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail,
 			);
-			if (dateToDelete) {
+			const dateToDeleteMusic = currentMusicBand.pendingDates.find(
+				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail,
+			);
+			if (dateToDeletePlace && dateToDeleteMusic) {
 				await place.updateOne(
 					{ email: placeEmail },
 					{
 						pendingDates: currentPlace.pendingDates.filter(
-							(e: placeDates) => e.date.toISOString().substring(0, 10) !== date,
+							(e: placeDates) => e !== dateToDeletePlace,
 						),
 					},
 				);
@@ -69,7 +72,7 @@ export const removePendingDate = async (musicEmail: string, placeEmail: string, 
 					{ email: musicEmail },
 					{
 						pendingDates: currentMusicBand.pendingDates.filter(
-							(e: musicDates) => e.date.toISOString().substring(0, 10) !== date,
+							(e: musicDates) => e !== dateToDeleteMusic,
 						),
 					},
 				);
