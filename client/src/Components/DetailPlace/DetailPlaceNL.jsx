@@ -86,7 +86,7 @@ const DetailStyleCont = styled.div`
       }
 
       .DatesCont {
-        color: ${Colors.Platinum};
+        color: ${Colors.Green_Nigth};
 
         width: 100%;
         height: 300px;
@@ -101,7 +101,7 @@ const DetailStyleCont = styled.div`
           & .item {
             width: 90%;
             height: 250px;
-            background-color: ${Colors.Blue_life};
+            background-color: ${Colors.Green_Light};
             text-align: center;
             margin: 0px 6px;
             font-family: "RocknRoll One";
@@ -122,8 +122,9 @@ const DetailStyleCont = styled.div`
             }
             & .dateStatus {
               width: 100%;
-              background-color: ${Colors.Oxford_Blue};
+              background-color: ${Colors.Erie_Black};
               font-size: 20px;
+              color: ${Colors.Platinum};
             }
             & .BtnVerMas {
               position: absolute;
@@ -159,6 +160,23 @@ const DetailStyleCont = styled.div`
         .RateComentCont {
           display: flex;
           justify-content: space-between;
+
+          .BotonComent {
+            font-family: "New Rocker";
+            width: 190px;
+            height: 55px;
+            padding: 0px 15px;
+            background-color: ${Colors.Green_Light};
+            color: ${Colors.Erie_Black};
+            border-radius: 10px;
+            font-size: 2rem;
+            border: none;
+            transition: all 0.5s ease;
+            :hover {
+              transform: scale(1.1);
+              cursor: pointer;
+            }
+          }
 
           .RateCont {
             /* display: flex; */
@@ -321,11 +339,13 @@ export default function DetailPlace() {
     const isLog = isAuthenticated();
     alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
     !isLog && navigate("/iniciarsesion");
+
   };
 
   const handleAplica = (e) => {
     alert("Debes registrarte para poder aplicar a tocar en un local");
     navigate("/registro");
+
   };
 
   return (
@@ -411,7 +431,9 @@ export default function DetailPlace() {
                 </div>
                 {errors.comment && <span>{errors.comment}</span>}
                 {errors.rating && <span>{errors.rating}</span>}
-                <button type="submit">Comentar</button>
+                <button className="BotonComent" type="submit">
+                  Comentar
+                </button>
               </div>
             </form>
             <div className="comentarios">

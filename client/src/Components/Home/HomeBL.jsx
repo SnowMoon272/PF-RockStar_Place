@@ -106,6 +106,11 @@ const FirtVewStyleCont = styled.div`
     color: ${Colors.Platinum};
     padding: 40px;
 
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
+
     & .ImgBanda {
       width: auto;
 
@@ -518,8 +523,8 @@ function HomeBL() {
               </div>
             </div>
           ) : (
-            <div className="ProximoInfCont">
-              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
           )}
         </div>

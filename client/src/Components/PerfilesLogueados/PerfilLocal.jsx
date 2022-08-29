@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/jsx-props-no-multi-spaces */
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -166,9 +168,12 @@ const DetailStyleCont = styled.div`
     background-color: white;
     cursor: pointer;
     margin: 25px 0px 0px 0px;
-  }
-  .ImglogosRedes:hover {
-    transform: scale(1.1);
+    transition: all 0.5s ease;
+
+    :hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
   }
 
   .divEditar {
@@ -176,27 +181,42 @@ const DetailStyleCont = styled.div`
     flex-direction: row;
     justify-content: flex-end;
   }
-  .imgEditar {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    padding: 4px;
-    border-radius: 10px;
-    background-color: white;
-  }
-  .imgEditar:hover {
-    transform: scale(1.1);
-  }
+
   .divEditaryTexto {
+    position: relative;
+    top: -70px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    & .imgEditar {
+      display: flex;
+      justify-content: center;
+      background-color: white;
+      align-items: center;
+      height: 45px;
+      padding: 4px;
+
+      width: 45px;
+      border-radius: 50%;
+      border: 4px solid black;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+
+      img {
+        height: 40px;
+        width: 40px;
+      }
+    }
     h4 {
       font-family: "RocknRoll One";
       font-style: normal;
       font-weight: 400;
-      font-size: 12px;
+      font-size: 1.5rem;
       line-height: 14px;
       margin: 10px 0px 10px 0px;
       color: white;
@@ -251,7 +271,7 @@ export default function DetailPlace() {
 
   return (
     <HomeStyleCont>
-      <NavBar Home Eventos Perfil />
+      <NavBar Home />
       <DetailStyleCont>
         <div className="FirstCont">
           <div className="NameAndRating">
@@ -265,11 +285,6 @@ export default function DetailPlace() {
           <hr className="hr" />
           <div className="DataCont">
             <span className="title">Próximos eventos</span>
-            {/* <OwlCarousel className="owl-theme" items="3" autoplay nav dots>
-              <div className="item">
-                <span>hola</span>
-              </div>
-            </OwlCarousel> */}
             <div className="DatesCont">
               {datesCerradas &&
                 datesCerradas.map((date) => {
@@ -292,9 +307,6 @@ export default function DetailPlace() {
             </div>
             <hr className="hr" />
           </div>
-          {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
           <div className="DataCont">
             <span className="title">Reseñas</span>
 
@@ -347,16 +359,17 @@ export default function DetailPlace() {
             <span className="descriptionSmall"> {place.email}</span>
           </div>
           <div className="divsUnderImage">
-            <a href="http://www.intagram.com/hardrockcafe">
+            {/* {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? ( */}
+            <a target="_blank" /* href={musicBand.socialMedia.instagram} */ rel="noreferrer">
               <img className="ImglogosRedes" src={LogoInstagram} alt="" />
             </a>
+            {/* ) : null} */}
           </div>
           <div className="divEditar">
             <div className="divEditaryTexto">
               <Link to="/actualizarlocal" className="imgEditar">
                 <img src={Editar} alt="Edit" />
               </Link>
-
               <h4>Editar</h4>
             </div>
           </div>
