@@ -1,7 +1,11 @@
-import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
-import { musicReviews, musicRoles, musicBandInterface } from "../interfaces/musicBand.interfaces";
-const { model } = require("mongoose");
-const bcrypt = require("bcrypt");
+
+import {
+	musicReviews,
+	musicRoles,
+	musicBandInterface,
+} from '../interfaces/musicBand.interfaces';
+const { model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const musicBandSchema = require("../schemas/musicBandSchema.ts");
 

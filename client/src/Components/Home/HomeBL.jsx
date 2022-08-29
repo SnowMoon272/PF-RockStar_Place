@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
@@ -13,7 +14,15 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort, getDetailMusicBand, getDetailPlaceEvent } from "../../Redux/actions";
+import {
+  getPlaces,
+  updateFilters,
+  popularitySort,
+  getDetailMusicBand,
+  resetDetails,
+  getDetailMusicBandByEmail,
+  getDetailPlaceEvent,
+} from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -95,6 +104,11 @@ const FirtVewStyleCont = styled.div`
     height: fit-content;
     color: ${Colors.Platinum};
     padding: 40px;
+
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
 
     & .ImgBanda {
       width: auto;
@@ -361,38 +375,35 @@ function HomeBL() {
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);
-
+  let user = {};
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates
     ? musicBand.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   if (musicBand._id && !placeEvent._id) {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
 
-  if (musicBand.name === "") {
-    //alert("Debe cargar los datos de la banda");
-    navigate("/actualizarbanda");
+  function validate() {
+    if (musicBand && musicBand.name === "") {
+      alert("Debe cargar los datos de la banda");
+      dispatch(resetDetails([]));
+      navigate("/actualizarbanda");
+    }
   }
-
-  const [User, setUser] = useState({});
 
   useEffect(async () => {
     dispatch(getPlaces());
-    const User = await getUserInfo();
-    setUser(User);
-    dispatch(getDetailMusicBand(User._id));
-    /* setTimeout(() => {
-      console.log(musicBand);
-      if (musicBand.name === "") {
-        alert("Debe cargar los datos de la banda");
-        navigate("/actualizarbanda");
-      }
-    }, 5000); */
-  }, [dispatch]);
+    user = await getUserInfo();
+    dispatch(getDetailMusicBand(user._id));
+  }, []);
+
+  useEffect(() => {
+    validate();
+  }, [musicBand]);
 
   const [reRender, setreRender] = useState(false);
 
@@ -484,31 +495,35 @@ function HomeBL() {
               <div className="ProximoInf">
                 <h4>Proximo Evento</h4>
                 <p>
-                  <span>Local: </span>{placeEvent.name} <br />
+                  <span>Local: </span>
+                  {placeEvent.name} <br />
                   <span>Fecha: </span>
-                  {confirmedDates.length > 0 ?
-                    `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                      confirmedDates[0].date.substring(5, 7),
-                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                  {confirmedDates.length > 0
+                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
-                  <span>Contacto: </span>{placeEvent.personInCharge}
+                  <span>Contacto: </span>
+                  {placeEvent.personInCharge}
                   <br />
-                  <span>Telefono: </span>{placeEvent.phoneNumber}
+                  <span>Telefono: </span>
+                  {placeEvent.phoneNumber}
                   <br />
-                  <span>Direccion: </span>{placeEvent.adress}
+                  <span>Direccion: </span>
+                  {placeEvent.adress}
                 </p>
               </div>
               <div className="ProximoIMGyBtn">
                 <img src={placeEvent.profilePicture} alt="Local" />
-                <Link className="Lynk_Btn" to={`/musicband/events/${User._id}`}>
+                <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
                   <button type="button">Detalle</button>
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="ProximoInfCont">
-              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
           )}
         </div>
