@@ -29,63 +29,63 @@ const ReseñasStyleCont = styled.div`
     display: flex;
     margin-bottom: 35px;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
 
     .comentar {
-        background: rgba(229, 229, 229, 0.5);
-        width: 100%;
-        height: 150px;
-        margin-top: 3%;
+      background: rgba(229, 229, 229, 0.5);
+      width: 100%;
+      height: 150px;
+      margin-top: 3%;
+      display: flex;
+      flex-direction: column;
+      padding: 2%;
+      box-sizing: border-box;
+      input {
+        width: 95%;
+        height: 80%;
+        background-color: transparent;
+        border: none;
+        color: ${Colors.Platinum};
+        font-family: "RocknRoll One";
+        font-size: 16px;
+      }
+      input::placeholder {
+        color: ${Colors.Platinum};
+      }
+
+      .RateComentCont {
         display: flex;
-        flex-direction: column;
-        padding: 2%;
-        box-sizing: border-box;
-        input {
-          width: 95%;
-          height: 80%;
-          background-color: transparent;
-          border: none;
-          color: ${Colors.Platinum};
-          font-family: "RocknRoll One";
-          font-size: 16px;
-        }
-        input::placeholder {
-          color: ${Colors.Platinum};
-        }
+        justify-content: space-between;
 
-        .RateComentCont {
-          display: flex;
-          justify-content: space-between;
+        .RateCont {
+          /* display: flex; */
 
-          .RateCont {
-            /* display: flex; */
-
-            .rate {
-              font-family: "RocknRoll One";
-              font-style: normal;
-              font-weight: 400;
-              font-size: 16px;
-              text-align: justify;
-              color: ${Colors.Platinum};
-            }
-
-            .buttons {
-              display: flex;
-              margin-top: 5%;
-
-              button {
-                margin-right: 4%;
-              }
-            }
+          .rate {
+            font-family: "RocknRoll One";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            text-align: justify;
+            color: ${Colors.Platinum};
           }
 
-          button {
-            width: 30%;
+          .buttons {
+            display: flex;
+            margin-top: 5%;
+
+            button {
+              margin-right: 4%;
+            }
           }
+        }
+
+        button {
+          width: 30%;
         }
       }
+    }
 
     h6 {
       font-size: 3rem;
@@ -95,8 +95,9 @@ const ReseñasStyleCont = styled.div`
 
     background: transparent;
     width: 90%;
-    height: 74%;
+    height: 100%;
     overflow-y: scroll;
+
     &::-webkit-scrollbar {
       width: 12px;
     }
@@ -211,7 +212,7 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
 
   return (
     <ReseñasStyleCont>
-      <h1 className="TitleB">Reseñas</h1>
+      <h1 className="TitleB">{!Opinion ? "Reseñas" : "Opinion"}</h1>
       <div className="comentarios">
         {Opinion ? (
           <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
