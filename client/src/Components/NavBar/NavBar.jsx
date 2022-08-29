@@ -294,7 +294,6 @@ function NavBar({
           <div className="ButonsEdits">
             {Home && (
               <>
-                {/*  */}
                 <Link to="/" className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
