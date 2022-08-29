@@ -5,7 +5,6 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
-  POST_COMMENT = "POST_COMMENT",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
@@ -158,21 +157,6 @@ export function popularitySort(payload) {
   return {
     type: POPULARITY_SORT,
     payload,
-  };
-}
-
-//Cambiar el nombre
-export function postComment(payload) {
-  return async (dispatch) => {
-    const json = await axios({
-      method: "post",
-      url: "/placereviews",
-      data: payload,
-      headers: {
-        Authorization: localStorage.getItem("user-token"),
-      },
-    });
-    return json;
   };
 }
 

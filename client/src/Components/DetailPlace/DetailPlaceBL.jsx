@@ -6,8 +6,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
+import { useParams } from "react-router-dom";
+import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
@@ -246,6 +246,9 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
+  const [userName, setUserName] = useState("");
+  const [render, setRender] = useState(false);
+
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
   const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
@@ -254,10 +257,14 @@ export default function DetailPlace() {
 
   const [errors, setErrors] = useState({});
 
+  useEffect(async () => {
+    const User = await getUserInfo();
+    setUserName(User.name);
+  });
+
   useEffect(() => {
-    if (place.length === 0) dispatch(getDetailPlace(params.id));
-    if (input.rating === "") dispatch(getDetailPlace(params.id));
-  }, [input]);
+    dispatch(getDetailPlace(params.id));
+  }, [dispatch, render]);
 
   useEffect(() => {
     return () => {
@@ -320,25 +327,27 @@ export default function DetailPlace() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
     else if (Object.keys(errors).length) alert("Check for errors and try again");
     else {
-      dispatch(
-        postComment({
+      await axios({
+        method: "post",
+        url: "/placereviews",
+        data: {
           review: {
-            author: "Usuario Anónimo",
+            author: userName,
             comment: input.comment,
             rating: Number(input.rating),
           },
           email: place.email,
-        }),
-      );
-      setInput({ rating: 0, comment: "" });
-      setTimeout(() => {
-        setInput({ rating: 0, comment: "" });
-      }, 1000);
+        },
+        headers: {
+          Authorization: localStorage.getItem("user-token"),
+        },
+      });
+      setRender(!render);
     }
   };
 
