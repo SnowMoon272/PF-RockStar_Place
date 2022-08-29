@@ -378,7 +378,8 @@ function HomeBL() {
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);
-  let user = {};
+  const [user, setuser] = useState({});
+
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates
     ? musicBand.dates.sort(
@@ -400,7 +401,8 @@ function HomeBL() {
 
   useEffect(async () => {
     dispatch(getPlaces());
-    user = await getUserInfo();
+    const user = await getUserInfo();
+    setuser(user);
     dispatch(getDetailMusicBand(user._id));
   }, []);
 
