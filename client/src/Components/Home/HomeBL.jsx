@@ -13,12 +13,11 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort, getDetailMusicBand, getDetailMusicBandByEmail, getDetailPlaceEvent } from "../../Redux/actions";
+import { getPlaces, updateFilters, popularitySort, getDetailMusicBand, getDetailPlaceEvent } from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGLocal from "../../Assets/img/BarCerrado.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */

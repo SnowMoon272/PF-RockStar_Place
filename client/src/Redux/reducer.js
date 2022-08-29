@@ -7,7 +7,6 @@ import {
   GET_CITIES,
   UPDATE_FILTERS,
   POPULARITY_SORT,
-  POST_COMMENT,
   RESET_DETAILS,
   GET_DETAIL_MUSIC_BAND,
   GET_DETAIL_EVENT,
@@ -74,10 +73,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         places: action.payload.sort((a, b) => b.rating - a.rating),
-      };
-    case POST_COMMENT:
-      return {
-        ...state,
       };
     case RESET_DETAILS:
       return {
