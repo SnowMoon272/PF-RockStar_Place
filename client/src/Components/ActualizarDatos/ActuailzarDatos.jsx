@@ -5,13 +5,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
 // import { postData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { resetDetails } from "../../Redux/actions";
+import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -85,6 +86,10 @@ const ActualizarDatosStyleCont2 = styled.div`
       flex-direction: column;
     }
 
+    .div span {
+      font-size: 2rem;
+    }
+
     .input {
       line-height: 28px;
       border: 2px solid transparent;
@@ -95,6 +100,7 @@ const ActualizarDatosStyleCont2 = styled.div`
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       margin: 5px 0px 5px 0px;
+      font-size: 2rem;
     }
 
     .input:focus,
@@ -224,13 +230,14 @@ function validate(input) {
 
 export default function upLoadData() {
   const navigate = useNavigate();
-  const [userBand, setuserBand] = useState({});
-
-  useEffect(async () => {
+  const dispatch = useDispatch();
+  const userBand = getUserInfo();
+  const musicBand = useSelector((state) => state.detail_music_band);
+  useEffect(() => {
     if (isAuthenticated()) {
-      setuserBand(getUserInfo());
+      dispatch(getDetailMusicBand(userBand._id));
     } else {
-      navigate("/musicbandprofile");
+      navigate("/");
     }
   }, []);
 
@@ -239,14 +246,14 @@ export default function upLoadData() {
   const [image, setImage] = useState("");
 
   const [input, setInput] = useState({
-    name: "",
-    personInCharge: "",
-    description: "",
-    phoneNumber: "",
-    profilePicture: image,
-    instagram: "",
-    spotify: "",
-    youtube: "",
+    name: musicBand && musicBand.name ? musicBand.name : "",
+    personInCharge: musicBand && musicBand.personInCharge ? musicBand.personInCharge : "",
+    description: musicBand && musicBand.description ? musicBand.description : "",
+    profilePicture: musicBand && musicBand.profilePicture ? musicBand.profilePicture : image,
+    phoneNumber: musicBand && musicBand.phoneNumber ? musicBand.phoneNumber : "",
+    instagram: musicBand && musicBand.socialMedia ? musicBand.socialMedia.instagram : "",
+    spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+    youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
 
   function handleOpenWidget() {
@@ -337,7 +344,9 @@ export default function upLoadData() {
         <form className="form">
           <div className="inputs">
             <div className="div">
+              <span>Nombre</span>
               <input
+                id="input1"
                 type="text"
                 placeholder="Nombre de la banda o solista"
                 className="input"
@@ -345,9 +354,11 @@ export default function upLoadData() {
                 name="name"
                 onChange={(e) => handleChange(e)}
               />
+              {/* </label> */}
               {errors.name && <p className="errors">{errors.name}</p>}
             </div>
             <div className="div">
+              <span>Persona a cargo</span>
               <input
                 type="text"
                 placeholder="Persona a cargo"
@@ -359,6 +370,7 @@ export default function upLoadData() {
               {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
             </div>
             <div className="div">
+              <span>Descripción</span>
               <input
                 type="text"
                 placeholder="Descripcion"
@@ -370,6 +382,7 @@ export default function upLoadData() {
               {errors.description && <p className="errors">{errors.description}</p>}
             </div>
             <div className="div">
+              <span>Teléfono</span>
               <input
                 type="tel"
                 placeholder="Telefono de contacto"
@@ -381,6 +394,7 @@ export default function upLoadData() {
               {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
             </div>
             <div className="div">
+              <span>Instagram</span>
               <input
                 type="text"
                 placeholder="Instagram"
@@ -392,6 +406,7 @@ export default function upLoadData() {
               {errors.instagram && <p className="errors">{errors.instagram}</p>}
             </div>
             <div className="div">
+              <span>Spotify</span>
               <input
                 type="text"
                 placeholder="Spotify"
@@ -403,6 +418,7 @@ export default function upLoadData() {
               {errors.spotify && <p className="errors">{errors.spotify}</p>}
             </div>
             <div className="div">
+              <span>Youtube</span>
               <input
                 type="text"
                 placeholder="Youtube"
@@ -418,7 +434,7 @@ export default function upLoadData() {
         <div className="cargarImagen">
           <h3>Foto de perfil</h3>
           <div>
-            <img src={image === "" ? notImg : image} alt="img not found" />
+            <img src={image === "" ? musicBand.profilePicture : image} alt="img not found" />
           </div>
           <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
             Subir foto

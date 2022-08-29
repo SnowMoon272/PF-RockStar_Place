@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { getDetailPlace } from "../../Redux/actions";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -102,6 +104,7 @@ const ActualizarDatosStyleCont2 = styled.div`
     color: ${Colors.Platinum};
     transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     margin: 5px 0px 5px 0px;
+    font-size: 1.5rem;
   }
 
   .textarea:focus,
@@ -131,6 +134,7 @@ const ActualizarDatosStyleCont2 = styled.div`
     color: ${Colors.Platinum};
     transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     margin: 5px 0px 5px 0px;
+    font-size: 2rem;
   }
 
   .input:focus,
@@ -243,11 +247,13 @@ function validate(input) {
 
 export default function ActualizarLocal() {
   const navigate = useNavigate();
-  const [userPlace, setuserPlace] = useState({});
+  const dispatch = useDispatch();
+  const userPlace = getUserInfo();
+  const place = useSelector((state) => state.detail_place);
 
   useEffect(() => {
     if (isAuthenticated()) {
-      setuserPlace(getUserInfo());
+      dispatch(getDetailPlace(userPlace._id));
     } else {
       navigate("/");
     }
@@ -258,18 +264,18 @@ export default function ActualizarLocal() {
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
-    name: "",
-    personInCharge: "",
-    city: "",
-    hasSound: false,
-    adress: "",
-    phoneNumber: "",
-    profilePicture: notImg,
-    description: "",
-    capacity: "",
-    instagram: "",
+    name: place && place.name ? place.name : "",
+    personInCharge: place && place.personInCharge ? place.personInCharge : "",
+    city: place && place.city ? place.city : "",
+    hasSound: place && place.hasSound ? place.hasSound : false,
+    adress: place && place.adress ? place.adress : "",
+    phoneNumber: place && place.phoneNumber ? place.phoneNumber : "",
+    profilePicture: place && place.profilePicture ? place.profilePicture : image,
+    description: place && place.description ? place.description : "",
+    capacity: place && place.capacity ? place.capacity : "",
+    instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
   });
-
+  console.log(place);
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
       {
@@ -455,7 +461,7 @@ export default function ActualizarLocal() {
               </button>
               <div>
                 <img
-                  src={image === "" ? notImg : image}
+                  src={image === "" ? place.profilePicture : image}
                   alt="img not found"
                   width="250px"
                   height="250px"
