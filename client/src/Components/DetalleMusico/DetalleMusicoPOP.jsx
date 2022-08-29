@@ -324,7 +324,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
           >
             {stateReseña ? "Reseñas" : "Opinion"}
           </button>
-          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
+          <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>

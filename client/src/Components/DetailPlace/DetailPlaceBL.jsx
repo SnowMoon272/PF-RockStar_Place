@@ -7,7 +7,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { getDetailMusicBandByEmail, getDetailPlace, getDetailPlaceByEmail, resetDetails } from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";

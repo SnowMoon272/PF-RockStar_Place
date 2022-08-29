@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import Colors from "../../Utils/colors";
-import validate from "../DetailPlace/validationsComment";
+import { getDetailMusicBandByEmail } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
-//import { getDetailMusicBandByEmail, getDetailPlace, getDetailPlaceByEmail, resetDetails } from "../../Redux/actions";
 
 const ReseñasStyleCont = styled.div`
   /* border: solid 3px blueviolet; */
@@ -133,70 +133,82 @@ const ReseñasStyleCont = styled.div`
   }
 `;
 
-/* const user = getUserInfo();
-console.log(user); */
-const musicBand = useSelector((state) => state.detail_music_band);
-const user = getUserInfo();
-const [render, setRender] = useState(false);
-//const [render2, setRender2] = useState(false);
-const [input, setInput] = useState({
-  comment: "",
-  rating: 0,
-});
-/* useEffect(() => {
-  dispatch(getDetailMusicBandByEmail(user.email));
-}, [render2]); */
+function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
+  const dispatch = useDispatch();
+  const user = getUserInfo();
+  const [render, setRender] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [input, setInput] = useState({
+    comment: "",
+    rating: 0,
+  });
 
-console.log(musicBand);
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
-  //else if (Object.keys(errors).length) alert("Check for errors and try again");
-  else {
-    await axios({
-      method: "post",
-      url: "/bandreviews",
-      data: {
-        email: musicBand.email,
-        review: {
-          author: user.name,
-          comment: input.comment,
-          rating: Number(input.rating),
+  useEffect(() => {
+    dispatch(getDetailMusicBandByEmail(musicBand.email));
+  }, [render]);
+
+  const validate = (input) => {
+    const errors = {};
+
+    if (!input.comment) errors.comment = "Ingresa un comentario";
+    else if (!/^[\s\S]{5,200}$/.test(input.comment)) {
+      errors.comment = "El comentario debe tener entre 5 y 200 caracteres";
+    }
+
+    if (input.rating === 0) errors.rating = "Seleccione un puntaje";
+
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
+    else if (Object.keys(errors).length) alert("Check for errors and try again");
+    else {
+      await axios({
+        method: "post",
+        url: "/bandreviews",
+        data: {
+          email: musicBand.email,
+          review: {
+            author: user.name,
+            comment: input.comment,
+            rating: Number(input.rating),
+          },
         },
-      },
-      /* headers: {
-        Authorization: localStorage.getItem("user-token"),
-      }, */
-    });
-    setInput({
-      comment: "",
-      rating: 0,
-    });
-    setRender(!render);
-  }
-};
+        headers: {
+          Authorization: localStorage.getItem("user-token"),
+        },
+      });
+      setInput({
+        comment: "",
+        rating: 0,
+      });
+      setRender(!render);
+      setOpinion(!Opinion);
+    }
+  };
 
-const handleChange = (e) => {
-  setInput({ ...input, comment: e.target.value });
-  /* setErrors(
-    validate({
-      ...input,
-      comment: e.target.value,
-    }),
-  ); */
-};
+  const handleChange = (e) => {
+    setInput({ ...input, comment: e.target.value });
+    setErrors(
+      validate({
+        ...input,
+        comment: e.target.value,
+      }),
+    );
+  };
 
-const handleClick = (e) => {
-  setInput({ ...input, rating: e.target.value });
-  /* setErrors(
-    validate({
-      ...input,
-      rating: e.target.value,
-    }),
-  ); */
-};
+  const handleClick = (e) => {
+    setInput({ ...input, rating: e.target.value });
+    setErrors(
+      validate({
+        ...input,
+        rating: e.target.value,
+      }),
+    );
+  };
 
-function ReseñasOpinion({ musicBand, Opinion }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">Reseñas</h1>
@@ -230,6 +242,8 @@ function ReseñasOpinion({ musicBand, Opinion }) {
                   </button>
                 </div>
               </div>
+              {errors.comment && <span>{errors.comment}</span>}
+              {errors.rating && <span>{errors.rating}</span>}
               <button type="submit">Comentar</button>
             </div>
           </form>
