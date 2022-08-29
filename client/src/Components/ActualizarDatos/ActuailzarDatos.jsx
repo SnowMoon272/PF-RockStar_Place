@@ -76,30 +76,38 @@ const ActualizarDatosStyleCont2 = styled.div`
   align-items: center;
 
   .inputs {
+    /* border: solid 3px red; */
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+  & .div {
+    /* border: solid 3px red; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    margin: 10px 0px;
+    border-bottom: 3px solid ${Colors.Blue_Vivid};
 
-    .div {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .div span {
+    & span {
+      /* border: solid 3px yellow; */
       font-size: 2rem;
+      width: 100%;
     }
 
     .input {
+      width: 50%;
+
       line-height: 28px;
       border: 2px solid transparent;
-      border-bottom-color: ${Colors.Blue_Vivid};
       padding: 0.2rem 0;
       outline: none;
       background-color: transparent;
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      margin: 5px 0px 5px 0px;
+      margin: 0px 0px 0px 15px;
       font-size: 2rem;
     }
 
@@ -113,9 +121,60 @@ const ActualizarDatosStyleCont2 = styled.div`
 
     .input::placeholder {
       color: ${Colors.Platinum};
+      font-size: 1.5rem;
+      opacity: 50%;
     }
 
     .input:focus::placeholder {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .textarea {
+      /* border: solid 3px red; */
+
+      resize: none;
+      opacity: 100%;
+      width: 100%;
+      border: 2px solid transparent;
+      /* border-bottom-color: ${Colors.Blue_Vivid}; */
+      padding: 0.2rem 0;
+      outline: none;
+      background-color: transparent;
+      color: ${Colors.Platinum};
+      transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      margin: 5px 0px 5px 8px;
+      font-size: 1.5rem;
+      height: 6rem;
+      /* display: flex; */
+
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: ${Colors.Oxford_Blue_transparent};
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #14213d;
+        border-radius: 25px;
+        border: 1px solid white;
+      }
+    }
+
+    .textarea:focus,
+    textarea:hover {
+      outline: none;
+      padding: 0.2rem 1rem;
+      border-radius: 1rem;
+      border-color: ${Colors.Platinum};
+    }
+
+    .textarea::placeholder {
+      color: ${Colors.Platinum};
+      opacity: 50%;
+    }
+
+    .textarea:focus::placeholder {
       opacity: 0;
       transition: opacity 0.3s;
     }
@@ -132,20 +191,26 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 
   .cargarImagen {
-    width: 20vw;
+    /* border: solid 3px red; */
+
+    width: 450px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     h3 {
       font-family: "New Rocker", cursive;
-      font-size: 3rem;
+      font-size: 4rem;
+      font-weight: 400;
       color: ${Colors.Platinum};
     }
 
     img {
-      width: 250px;
-      height: 250px;
+      width: 300px;
+      height: 300px;
+      border: 3px solid ${Colors.Blue_Vivid};
+      border-radius: 10px;
+      object-fit: cover;
     }
 
     button {
@@ -162,7 +227,7 @@ const ActualizarDatosStyleCont2 = styled.div`
       justify-content: center;
       color: ${Colors.Platinum};
       text-decoration: none;
-      margin-top: 20px;
+      margin-top: 0px;
       transition: all 0.5s ease;
 
       :hover {
@@ -344,90 +409,103 @@ export default function upLoadData() {
         <form className="form">
           <div className="inputs">
             <div className="div">
-              <span>Nombre</span>
-              <input
-                id="input1"
-                type="text"
-                placeholder="Nombre de la banda o solista"
-                className="input"
-                value={input.name}
-                name="name"
-                onChange={(e) => handleChange(e)}
-              />
-              {/* </label> */}
+              <span>
+                Nombre:
+                <input
+                  id="input1"
+                  type="text"
+                  placeholder="Nombre de la banda o solista"
+                  className="input"
+                  value={input.name}
+                  name="name"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.name && <p className="errors">{errors.name}</p>}
             </div>
             <div className="div">
-              <span>Persona a cargo</span>
-              <input
-                type="text"
-                placeholder="Persona a cargo"
-                className="input"
-                value={input.personInCharge}
-                name="personInCharge"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Persona a cargo:
+                <input
+                  type="text"
+                  placeholder="Persona a cargo"
+                  className="input"
+                  value={input.personInCharge}
+                  name="personInCharge"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
             </div>
             <div className="div">
-              <span>Descripción</span>
-              <input
-                type="text"
-                placeholder="Descripcion"
-                className="input"
-                value={input.description}
-                name="description"
-                onChange={(e) => handleChange(e)}
-              />
-              {errors.description && <p className="errors">{errors.description}</p>}
-            </div>
-            <div className="div">
-              <span>Teléfono</span>
-              <input
-                type="tel"
-                placeholder="Telefono de contacto"
-                className="input"
-                value={input.phoneNumber}
-                name="phoneNumber"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Teléfono:
+                <input
+                  type="tel"
+                  placeholder="Telefono de contacto"
+                  className="input"
+                  value={input.phoneNumber}
+                  name="phoneNumber"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
             </div>
             <div className="div">
-              <span>Instagram</span>
-              <input
-                type="text"
-                placeholder="Instagram"
-                className="input"
-                value={input.instagram}
-                name="instagram"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Instagram:
+                <input
+                  type="text"
+                  placeholder="Instagram"
+                  className="input"
+                  value={input.instagram}
+                  name="instagram"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.instagram && <p className="errors">{errors.instagram}</p>}
             </div>
             <div className="div">
-              <span>Spotify</span>
-              <input
-                type="text"
-                placeholder="Spotify"
-                className="input"
-                value={input.spotify}
-                name="spotify"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Spotify:
+                <input
+                  type="text"
+                  placeholder="Spotify"
+                  className="input"
+                  value={input.spotify}
+                  name="spotify"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.spotify && <p className="errors">{errors.spotify}</p>}
             </div>
             <div className="div">
-              <span>Youtube</span>
-              <input
-                type="text"
-                placeholder="Youtube"
-                className="input"
-                value={input.youtube}
-                name="youtube"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Youtube:
+                <input
+                  type="text"
+                  placeholder="Youtube"
+                  className="input"
+                  value={input.youtube}
+                  name="youtube"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.youtube && <p className="errors">{errors.youtube}</p>}
+            </div>
+            <div className="div">
+              <span>
+                Descripción:
+                <textarea
+                  type="text"
+                  placeholder="Descripcion"
+                  className="textarea"
+                  value={input.description}
+                  name="description"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
+              {errors.description && <p className="errors">{errors.description}</p>}
             </div>
           </div>
         </form>
