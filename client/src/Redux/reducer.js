@@ -16,7 +16,7 @@ import {
 
 const initialState = {
   places: [],
-  detail_place: {},
+  detail_place: [],
   cities: [],
   filters: {
     Ciudad: false,

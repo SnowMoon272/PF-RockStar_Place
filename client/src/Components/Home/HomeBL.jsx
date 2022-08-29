@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ import {
   getDetailMusicBand,
   resetDetails,
   getDetailMusicBandByEmail,
-  getDetailPlaceEvent
+  getDetailPlaceEvent,
 } from "../../Redux/actions";
 
 /* Form Img & SVG */
@@ -374,14 +375,13 @@ function HomeBL() {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates
     ? musicBand.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   if (musicBand._id && !placeEvent._id) {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
-
 
   function validate() {
     if (musicBand && musicBand.name === "") {
@@ -390,7 +390,6 @@ function HomeBL() {
       navigate("/actualizarbanda");
     }
   }
-  
 
   useEffect(async () => {
     dispatch(getPlaces());
@@ -492,19 +491,23 @@ function HomeBL() {
               <div className="ProximoInf">
                 <h4>Proximo Evento</h4>
                 <p>
-                  <span>Local: </span>{placeEvent.name} <br />
+                  <span>Local: </span>
+                  {placeEvent.name} <br />
                   <span>Fecha: </span>
-                  {confirmedDates.length > 0 ?
-                    `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                      confirmedDates[0].date.substring(5, 7),
-                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                  {confirmedDates.length > 0
+                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
-                  <span>Contacto: </span>{placeEvent.personInCharge}
+                  <span>Contacto: </span>
+                  {placeEvent.personInCharge}
                   <br />
-                  <span>Telefono: </span>{placeEvent.phoneNumber}
+                  <span>Telefono: </span>
+                  {placeEvent.phoneNumber}
                   <br />
-                  <span>Direccion: </span>{placeEvent.adress}
+                  <span>Direccion: </span>
+                  {placeEvent.adress}
                 </p>
               </div>
               <div className="ProximoIMGyBtn">
