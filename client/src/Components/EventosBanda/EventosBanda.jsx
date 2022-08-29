@@ -14,8 +14,6 @@ const ContainerGralStyled = styled.div`
   padding-left: 80px;
   background-image: url(${BGPerfil});
   width: 100vw;
-  border: blue solid;
-
   .divLogo {
     display: flex;
     flex-direction: column;
@@ -46,7 +44,7 @@ const ContainerGralStyled = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: blue solid;
+    // border: blue solid;
   }
 
   .divColumna1 {
@@ -59,10 +57,11 @@ const ContainerGralStyled = styled.div`
       font-family: "New Rocker";
       font-style: normal;
       font-weight: 400;
-      font-size: 25px;
+      font-size: 30px;
       line-height: 55px;
       margin: 2px 0px 2px 0px;
       color: ${Colors.Platinum};
+      align-items: left;
     }
   }
 
@@ -90,13 +89,16 @@ const ContainerGralStyled = styled.div`
     border: yellow solid;
     width: 90vw;
     background-color: rgba(20, 33, 61, 0.75);
+    margin-left: 4%;
+    margin-right: 10%;
+    margin-bottom: 40px;
   }
 
   .divContainer1 {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: pink solid;
+    border: #fddde35a solid;
   }
 
   .divsTituloyDesc {
@@ -134,7 +136,8 @@ const ContainerGralStyled = styled.div`
 
   .divEventosConfirmados {
     border: blue solid;
-    width: 30vw;
+    margin-left: 1%;
+    width: 50vw;
     display: flex;
     flex-direction: column;
     align-items: center;
