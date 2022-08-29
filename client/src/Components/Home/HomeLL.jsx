@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable indent */
@@ -499,13 +500,14 @@ function HomeLL() {
   const allDates = [...confirmedDates, ...availableDates];
 
   function validate(input) {
-    //NO BORRAR - me falta hacer validaciones
     const errors = {};
-    if (input === "") {
-      errors.date = "Ingresa une fecha";
+
+    if (allDates.find((d) => d.date.substring(0, 10)) === input) {
+      errors.repeated = "La fecha ya se encuentra cargada";
     }
     return errors;
   }
+
   function validateData() {
     if (place && place.name === "") {
       alert("Debe cargar los datos del local");
@@ -534,10 +536,12 @@ function HomeLL() {
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handleDateChange = (e) => {
     setDate(e.target.value);
+    setErrors(validate(e.target.value));
   };
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
+    if (errors.hasOwnProperty(repeated)) alert("La fecha ya se encuentra cargada");
     if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
@@ -627,6 +631,14 @@ function HomeLL() {
     if (mes === "11") return "Noviembre";
     if (mes === "12") return "Diciembre";
     return mes;
+  };
+
+  const getCurrentDate = () => {
+    const date = new Date();
+    let month = date.getMonth() + 1;
+    if (month.toString().length < 2) month = `0${month}`;
+    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
+    return currentDate;
   };
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
@@ -758,6 +770,7 @@ function HomeLL() {
                     type="date"
                     id="start"
                     value={date}
+                    min={getCurrentDate()}
                     onChange={(e) => handleDateChange(e)}
                   />
                   <button type="button" onClick={(e) => handleSubmitDate(e)}>
