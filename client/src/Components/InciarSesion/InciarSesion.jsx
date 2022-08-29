@@ -19,26 +19,26 @@ function InciarSesion() {
 
   //Login tradicional
   const login = async () => {
-    const response = await axios({
-      method: "POST",
-      data: {
-        email,
-        password,
-      },
-      withCredentials: true,
-      url: "/login",
-    });
-    if (response) {
-      const { token } = response.data;
-      localStorage.setItem("user-token", token);
-      const header = new Headers();
-      header.append("authorization", token);
+    try {
+      const response = await axios({
+        method: "POST",
+        data: {
+          email,
+          password,
+        },
+        withCredentials: true,
+        url: "/login",
+      });
+      if (response) {
+        const { token } = response.data;
+        localStorage.setItem("user-token", token);
+        const header = new Headers();
+        header.append("authorization", token);
 
-      const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
-      window.location.replace(homeURL);
-    }
-    //console.log(response);
-    if (!response) {
+        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        window.location.replace(homeURL);
+      }
+    } catch (error) {
       alert("Verifica tu email o clave");
     }
   };

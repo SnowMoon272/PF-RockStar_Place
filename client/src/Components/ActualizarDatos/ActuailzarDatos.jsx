@@ -242,21 +242,21 @@ function validate(input) {
   const errors = {};
   if (!input.name) {
     errors.name = "Ingresa tu nombre o el nombre de la banda";
-  } else if (!/^[a-zA-Z0-9 ]+$/.test(input.name)) {
-    errors.name = "El nombre puede contener letras, numeros y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.name)) {
     errors.name = "El nombre puede contener entre 3 y 25 caracteres";
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo de la banda";
-  } else if (!/^[a-zA-Z ]+$/.test(input.personInCharge)) {
-    errors.personInCharge = "El nombre de la persona a cargo puede contener letras y espacios";
+  } else if (!/^[a-zA-Z Ññ ]+$/.test(input.personInCharge)) {
+    errors.personInCharge = "El nombre de la persona a cargo  puede contener letras y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge =
       "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
   }
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
+  } else if (!/^[0-9]+$/.test(input.phoneNumber)) {
+    errors.phoneNumber = "El telefono solo puede contener numeros";
   }
 
   if (
