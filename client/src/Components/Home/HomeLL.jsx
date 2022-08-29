@@ -501,8 +501,7 @@ function HomeLL() {
 
   function validate(input) {
     const errors = {};
-
-    if (allDates.find((d) => d.date.substring(0, 10)) === input) {
+    if ((allDates.find((d) => d.date.substring(0, 10) === input)) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
     }
     return errors;
@@ -519,6 +518,17 @@ function HomeLL() {
       navigate("/suscribete");
     }
   }
+
+  const checkConfirmed = (date) => {
+    if (place.dates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    return false;
+  };
+
+  const checkExists = (date) => {
+    if (allDates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    return false;
+  };
+
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     validateData();
@@ -541,8 +551,8 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.hasOwnProperty(repeated)) alert("La fecha ya se encuentra cargada");
-    if (date !== "") {
+    if (errors.repeated) alert("La fecha ya se encuentra cargada");
+    else if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
         date,
@@ -573,12 +583,16 @@ function HomeLL() {
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/matchdate", {
-      placeEmail: place.email,
-      musicEmail: e.target.value.split(",")[1],
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    if (checkExists(e.target.value.split(",")[0]) === true) {
+      if (checkConfirmed(e.target.value.split(",")[0]) === false) {
+        await axios.put("/matchdate", {
+          placeEmail: place.email,
+          musicEmail: e.target.value.split(",")[1],
+          date: e.target.value.split(",")[0],
+        });
+        setRender(!render);
+      } else alert("Ya hay un usuario confirmado en esa fecha");
+    } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
   };
 
   const handleRejectDate = async (e) => {
