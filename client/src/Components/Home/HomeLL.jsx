@@ -486,14 +486,14 @@ function HomeLL() {
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -663,8 +663,8 @@ function HomeLL() {
                   <span>Fecha: </span>
                   {confirmedDates.length > 0
                     ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                        confirmedDates[0].date.substring(5, 7),
-                      )} de ${confirmedDates[0].date.substring(0, 4)}`
+                      confirmedDates[0].date.substring(5, 7),
+                    )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
                   <span>Contacto: </span>
@@ -709,7 +709,7 @@ function HomeLL() {
                 <Carousel
                   className="carousel"
                   responsive={responsive}
-                  showDots={true}
+                  /* showDots={true} */
                   /* centerMode={true} */
                   minimumTouchDrag={80}
                   slidesToSlide={1}
