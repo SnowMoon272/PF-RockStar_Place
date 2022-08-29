@@ -62,29 +62,33 @@ const LoginStyleCont2 = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 220px;
+    width: auto;
+    /* border: solid white 3px; */
+    border-radius: 20px;
+    padding: 0px 50px;
+    background-color: #394b6e;
 
     p {
       color: white;
-      font-size: 1.4rem;
+      font-size: 3rem;
     }
 
     label {
       display: inline-block;
       width: 65px;
       height: 33px;
-      background-color: ${Colors.Platinum};
+      background-color: ${Colors.Oxford_Blue};
       border-radius: 100px;
       position: relative;
       transition: 0.2s;
-      margin: 0px 10px 0px 0px;
+      margin: 0px 20px 0px 20px;
       cursor: pointer;
       ::after {
         content: "";
         display: block;
         width: 25px;
         height: 25px;
-        background-color: ${Colors.Green_Nigth};
+        background-color: ${Colors.Green_Light};
         border-radius: 100px;
         position: absolute;
         top: 4px;
@@ -98,7 +102,7 @@ const LoginStyleCont2 = styled.div`
     }
 
     #switch:checked + label {
-      background-color: ${Colors.Green_Light};
+      background-color: ${Colors.Platinum};
     }
 
     #switch {
@@ -108,7 +112,7 @@ const LoginStyleCont2 = styled.div`
     .title {
       font-family: "RocknRoll One", sans-serif;
       font-size: 20px;
-      color: ${Colors.Platinum};
+      color: ${Colors.Orange_Web};
     }
   }
 
@@ -385,19 +389,23 @@ function Registro() {
   function handleSubmit(e) {
     e.preventDefault();
     if (checked === "banda") {
-      dispatch(registerBand({
-        newMusicBand: {
-          email: input.email,
-          password: input.password,
-        },
-      }));
+      dispatch(
+        registerBand({
+          newMusicBand: {
+            email: input.email,
+            password: input.password,
+          },
+        }),
+      );
     } else if (checked === "local") {
-      dispatch(registerPlace({
-        newPlace: {
-          email: input.email,
-          password: input.password,
-        },
-      }));
+      dispatch(
+        registerPlace({
+          newPlace: {
+            email: input.email,
+            password: input.password,
+          },
+        }),
+      );
     }
     alert("Usuario creado con exito");
     setInput({

@@ -319,17 +319,21 @@ export default function PerfilMusico() {
             <div>
               <div className="RedesyEditarCont">
                 <div className="RedesCont">
-                  <a href={`http://www.youtube.com/c/${musicBandMockeada.socialMedia.youtube}`}>
-                    <img className="ImglogosRedes" src={LogoYouTube} alt="" />
-                  </a>
-                  <a
-                    href={`http://open.spotify.com/artist/${musicBandMockeada.socialMedia.spotify}`}
-                  >
-                    <img className="ImglogosRedes" src={LogoSpotify} alt="" />
-                  </a>
-                  <a href={`http://instagram.com/${musicBandMockeada.socialMedia.instagram}`}>
-                    <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-                  </a>
+                  {musicBand.socialMedia && musicBand.socialMedia.youtube !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.youtube} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoYouTube} alt="" />
+                    </a>
+                  ) : null}
+                  {musicBand.socialMedia && musicBand.socialMedia.spotify !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.spotify} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoSpotify} alt="" />
+                    </a>
+                  ) : null}
+                  {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.instagram} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                    </a>
+                  ) : null}
                 </div>
                 <div className="divEditar">
                   <Link to="/actualizarbanda" className="imgEditar">

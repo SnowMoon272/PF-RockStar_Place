@@ -40,16 +40,16 @@ const HomeStyleCont = styled.div`
 
   .POPContainer {
     display: flex;
+    justify-content: center;
     position: fixed;
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
     width: 80%;
-    height: 750px;
+    height: 80%;
     margin: auto;
     z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
-    /* z-index: 0; */
   }
 `;
 
@@ -121,6 +121,11 @@ const FirtVewStyleCont = styled.div`
     color: ${Colors.Platinum};
     font-weight: 400;
     padding: 40px;
+
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
 
     & .ImgBanda {
       width: auto;
@@ -534,7 +539,7 @@ function HomeLL() {
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
     if (date !== "") {
-      await axios.post("http://localhost:3001/placesdates", {
+      await axios.post("/placesdates", {
         email: place.email,
         date,
       });
@@ -545,7 +550,7 @@ function HomeLL() {
 
   const handleDeleteAvailableDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/placesdates", {
+    await axios.put("/placesdates", {
       email: place.email,
       date: e.target.value.split(",")[0],
     });
@@ -554,7 +559,7 @@ function HomeLL() {
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/dates", {
+    await axios.put("/dates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
@@ -564,7 +569,7 @@ function HomeLL() {
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("http://localhost:3001/matchdate", {
+    await axios.put("/matchdate", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
@@ -671,7 +676,7 @@ function HomeLL() {
                 </p>
               </div>
               <div className="ProximoIMGyBtn">
-                <img src={musicBandEvent.profilePicture} alt="Local" />
+                <img src={musicBandEvent.profilePicture} alt="Band" />
                 <Link className="Lynk_Btn" to="/">
                   <button
                     type="button"
@@ -684,8 +689,8 @@ function HomeLL() {
               </div>
             </div>
           ) : (
-            <div className="ProximoInfCont">
-              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
           )}
         </div>

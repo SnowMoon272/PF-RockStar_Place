@@ -19,6 +19,8 @@ import {
   popularitySort,
   getDetailMusicBand,
   resetDetails,
+  getDetailMusicBandByEmail,
+  getDetailPlaceEvent
 } from "../../Redux/actions";
 
 /* Form Img & SVG */
@@ -367,8 +369,19 @@ function HomeBL() {
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
+  const placeEvent = useSelector((state) => state.detail_event);
   let user = {};
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
+  const confirmedDates = musicBand.dates
+    ? musicBand.dates.sort(
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
+    : [];
+
+  if (musicBand._id && !placeEvent._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
+  }
+
 
   function validate() {
     if (musicBand && musicBand.name === "") {
@@ -377,6 +390,7 @@ function HomeBL() {
       navigate("/actualizarbanda");
     }
   }
+  
 
   useEffect(async () => {
     dispatch(getPlaces());
@@ -427,6 +441,22 @@ function HomeBL() {
     setreRender(!reRender);
   };
 
+  const getMonth = (mes) => {
+    if (mes === "01") return "Enero";
+    if (mes === "02") return "Febrero";
+    if (mes === "03") return "Marzo";
+    if (mes === "04") return "Abril";
+    if (mes === "05") return "Mayo";
+    if (mes === "06") return "Junio";
+    if (mes === "07") return "Julio";
+    if (mes === "08") return "Agosto";
+    if (mes === "09") return "Septiembre";
+    if (mes === "10") return "Octubre";
+    if (mes === "11") return "Noviembre";
+    if (mes === "12") return "Diciembre";
+    return mes;
+  };
+
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
     <HomeStyleCont>
@@ -457,34 +487,38 @@ function HomeBL() {
           <div className="ImgBanda">
             <img src={musicBand.profilePicture} alt="Banda" />
           </div>
-          <div className="ProximoInfCont">
-            <div className="ProximoInf">
-              <h4>Proximo Evento</h4>
-              {musicBand.dates ? (
+          {confirmedDates.length > 0 ? (
+            <div className="ProximoInfCont">
+              <div className="ProximoInf">
+                <h4>Proximo Evento</h4>
                 <p>
-                  <span>Local: </span>Inf. Mokeada (Modificar) <br />
-                  <span>Fecha: </span>Inf. Mokeada (Modificar)
+                  <span>Local: </span>{placeEvent.name} <br />
+                  <span>Fecha: </span>
+                  {confirmedDates.length > 0 ?
+                    `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                      confirmedDates[0].date.substring(5, 7),
+                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                    : null}
                   <br />
-                  <span>Contacto: </span>Inf. Mokeada (Modificar)
+                  <span>Contacto: </span>{placeEvent.personInCharge}
                   <br />
-                  <span>Telefono: </span>Inf. Mokeada (Modificar)
+                  <span>Telefono: </span>{placeEvent.phoneNumber}
                   <br />
-                  <span>Direccion: </span>Inf. Mokeada (Modificar)
+                  <span>Direccion: </span>{placeEvent.adress}
                 </p>
-              ) : (
-                <p className="SinEvento">
-                  Aqui se mostrara la informacion de tu proximo evento confirmado.
-                </p>
-              )}
+              </div>
+              <div className="ProximoIMGyBtn">
+                <img src={placeEvent.profilePicture} alt="Local" />
+                <Link className="Lynk_Btn" to={`/musicband/events/${User._id}`}>
+                  <button type="button">Detalle</button>
+                </Link>
+              </div>
             </div>
-            <div className="ProximoIMGyBtn">
-              <img src={IMGLocal} alt="Local" />
-              {/* Cambiar por ternario cuando se tenga acceso a los eventos */}
-              <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
-                <button type="button">Detalle</button>
-              </Link>
+          ) : (
+            <div className="ProximoInfCont">
+              <span>Acá aparecerá la información de tu próximo evento confirmado.</span>
             </div>
-          </div>
+          )}
         </div>
       </FirtVewStyleCont>
       <SecondVewStyleCont UserLog id="SecondVewStyleCont">

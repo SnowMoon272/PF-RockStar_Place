@@ -23,6 +23,15 @@ const ReseñasStyleCont = styled.div`
 
   .comentarios {
     /* border: solid 3px red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h6 {
+      font-size: 3rem;
+      font-weight: 400;
+      color: ${Colors.Platinum};
+    }
 
     background: transparent;
     width: 90%;
@@ -61,28 +70,6 @@ const ReseñasStyleCont = styled.div`
       }
     }
   }
-
-  /* .Boton {
-    font-family: "New Rocker";
-    font-weight: 400;
-    font-size: 2rem;
-    border-radius: 10px;
-    background-color: ${Colors.Blue_life};
-    width: 15%;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${Colors.Platinum};
-    text-decoration: none;
-    margin-top: 20px;
-    transition: all 0.5s ease;
-
-    :hover {
-      cursor: pointer;
-      transform: scale(1.2);
-    }
-  } */
 `;
 
 function Reseñas({ reviews }) {
