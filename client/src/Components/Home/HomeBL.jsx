@@ -13,7 +13,13 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort, getDetailMusicBand } from "../../Redux/actions";
+import {
+  getPlaces,
+  updateFilters,
+  popularitySort,
+  getDetailMusicBand,
+  resetDetails,
+} from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -361,28 +367,26 @@ function HomeBL() {
   const allPlaces = useSelector((state) => state.places);
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
-  console.log(musicBand);
+  let user = {};
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  if (musicBand.name === "") {
-    //alert("Debe cargar los datos de la banda");
-    navigate("/actualizarbanda");
-  }
 
-  const [User, setUser] = useState({});
+  function validate() {
+    if (musicBand && musicBand.name === "") {
+      alert("Debe cargar los datos de la banda");
+      dispatch(resetDetails({}));
+      navigate("/actualizarbanda");
+    }
+  }
 
   useEffect(async () => {
     dispatch(getPlaces());
-    const User = await getUserInfo();
-    setUser(User);
-    dispatch(getDetailMusicBand(User._id));
-    /* setTimeout(() => {
-      console.log(musicBand);
-      if (musicBand.name === "") {
-        alert("Debe cargar los datos de la banda");
-        navigate("/actualizarbanda");
-      }
-    }, 5000); */
-  }, [dispatch]);
+    user = await getUserInfo();
+    dispatch(getDetailMusicBand(user._id));
+  }, []);
+
+  useEffect(() => {
+    validate();
+  }, [musicBand]);
 
   const [reRender, setreRender] = useState(false);
 
@@ -476,7 +480,7 @@ function HomeBL() {
             <div className="ProximoIMGyBtn">
               <img src={IMGLocal} alt="Local" />
               {/* Cambiar por ternario cuando se tenga acceso a los eventos */}
-              <Link className="Lynk_Btn" to={`/musicband/events/${User._id}`}>
+              <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
                 <button type="button">Detalle</button>
               </Link>
             </div>

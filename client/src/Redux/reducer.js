@@ -16,14 +16,14 @@ import {
 
 const initialState = {
   places: [],
-  detail_place: [],
+  detail_place: {},
   cities: [],
   filters: {
     Ciudad: false,
     Sonido: false,
   },
   sort_places: [],
-  detail_music_band: [],
+  detail_music_band: {},
   detail_event: [],
 };
 

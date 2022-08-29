@@ -4,7 +4,7 @@
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
@@ -16,7 +16,12 @@ import "react-multi-carousel/lib/styles.css";
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace } from "../../Redux/actions";
+import {
+  getDetailMusicBandByEmail,
+  getDetailEvent,
+  getDetailPlace,
+  resetDetails,
+} from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
@@ -472,17 +477,18 @@ function HomeLL() {
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
   const [zIndex, setzIndex] = useState(true);
+  const navigate = useNavigate();
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -495,8 +501,22 @@ function HomeLL() {
     }
     return errors;
   }
-
+  function validateData() {
+    if (place && place.name === "") {
+      alert("Debe cargar los datos del local");
+      dispatch(resetDetails({}));
+      navigate("/actualizarlocal");
+    } else if (place && place.suscription?.isSuscribed === false) {
+      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
+      dispatch(resetDetails({}));
+      navigate("/suscribete");
+    }
+  }
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
+  useEffect(() => {
+    validateData();
+  }, [place]);
+
   useEffect(async () => {
     const User = await getUserInfo();
     dispatch(getDetailPlace(User._id));
@@ -609,9 +629,9 @@ function HomeLL() {
     <HomeStyleCont zIndex={zIndex}>
       <NavBar Perfil HelpLog />
       <div className="POPContainer">
-        {musicBandDetail._id ?
+        {musicBandDetail._id ? (
           <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} />
-          : null}
+        ) : null}
       </div>
       <FirtVewStyleCont>
         <div className="ImgContainer">
@@ -638,8 +658,8 @@ function HomeLL() {
                   <span>Fecha: </span>
                   {confirmedDates.length > 0
                     ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                      confirmedDates[0].date.substring(5, 7),
-                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
                   <span>Contacto: </span>
@@ -653,7 +673,11 @@ function HomeLL() {
               <div className="ProximoIMGyBtn">
                 <img src={musicBandEvent.profilePicture} alt="Local" />
                 <Link className="Lynk_Btn" to="/">
-                  <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
+                  <button
+                    type="button"
+                    onClick={(e) => handleShowDetail(e)}
+                    value={musicBandEvent.email}
+                  >
                     Detalle
                   </button>
                 </Link>
@@ -708,7 +732,12 @@ function HomeLL() {
                             {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                           </div>
                           {date.isAvailable ? null : (
-                            <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                            <button
+                              className="BtnVerMas"
+                              type="button"
+                              onClick={(e) => handleShowDetail(e)}
+                              value={date.email}
+                            >
                               Ver más
                             </button>
                           )}
@@ -745,7 +774,13 @@ function HomeLL() {
                         <div className="Left">
                           <p>{`${day}/${month}/${year}`}</p>
                           <p>{date.musicBand}</p>
-                          <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>Detalle</button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleShowDetail(e)}
+                            value={date.email}
+                          >
+                            Detalle
+                          </button>
                         </div>
                         <div className="Rigth">
                           <button
