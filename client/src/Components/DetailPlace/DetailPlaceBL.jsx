@@ -6,8 +6,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
+import { useParams } from "react-router-dom";
+import { getDetailMusicBandByEmail, getDetailPlace, getDetailPlaceByEmail, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
@@ -260,11 +260,15 @@ export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
-  const band = getUserInfo();
+  const musicBand = useSelector((state) => state.detail_music_band);
+  const user = getUserInfo();
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
   });
+  const [render, setRender] = useState(false);
+  const [render2, setRender2] = useState(false);
+
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
   const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
@@ -274,15 +278,23 @@ export default function DetailPlace() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (place.length === 0) dispatch(getDetailPlace(params.id));
-    if (input.rating === "") dispatch(getDetailPlace(params.id));
-  }, [input]);
+    dispatch(getDetailPlace(params.id));
+  }, [dispatch, render]);
 
   useEffect(() => {
     return () => {
       dispatch(resetDetails([]));
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(getDetailMusicBandByEmail(user.email));
+  }, [render2]);
+
+  const checkAplied = (date) => {
+    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    return false;
+  };
 
   const getMonth = (mes) => {
     if (mes === "01") return "Enero";
@@ -339,35 +351,46 @@ export default function DetailPlace() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
     else if (Object.keys(errors).length) alert("Check for errors and try again");
     else {
-      dispatch(
-        postComment({
+      await axios({
+        method: "post",
+        url: "/placereviews",
+        data: {
           review: {
-            author: "Usuario Anónimo",
+            author: user.name,
             comment: input.comment,
             rating: Number(input.rating),
           },
           email: place.email,
-        }),
-      );
-      setInput({ rating: 0, comment: "" });
-      setTimeout(() => {
-        setInput({ rating: 0, comment: "" });
-      }, 1000);
+        },
+        headers: {
+          Authorization: localStorage.getItem("user-token"),
+        },
+      });
+      setInput({
+        comment: "",
+        rating: 0,
+      });
+      setRender(!render);
     }
   };
 
   const handleAplica = async (e) => {
-    await axios.post("/pendingdates", {
-      musicEmail: band.email,
-      placeEmail: place.email,
-      date: e.target.value,
-    });
-    alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+    if (checkAplied(e.target.value) === false) {
+      await axios.post("/pendingdates", {
+        musicEmail: user.email,
+        placeEmail: place.email,
+        date: e.target.value,
+      });
+      setRender2(!render2);
+      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+    } else {
+      alert("Ya aplicaste a esta fecha, espera una respuesta del local");
+    }
   };
 
   return (

@@ -6,7 +6,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDetailPlace, postComment, resetDetails } from "../../Redux/actions";
+import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";

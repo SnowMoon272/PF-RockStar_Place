@@ -27,7 +27,6 @@ import {
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGLocal from "../../Assets/img/BarCerrado.jpg";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
