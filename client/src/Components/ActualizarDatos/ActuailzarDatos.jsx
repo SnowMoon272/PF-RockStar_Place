@@ -405,7 +405,7 @@ export default function upLoadData() {
         spotify: "",
         youtube: "",
       });
-      resetDetails({});
+      dispatch(resetDetails([]));
       navigate(`/musicbandprofile/${userBand._id}`);
     } else {
       alert("Ups! Hay algún problema, revisa la información");
