@@ -513,7 +513,7 @@ function HomeLL() {
       navigate("/actualizarlocal");
     } else if (place && place.suscription?.isSuscribed === false) {
       alert("Debes suscribirte para obtener los beneficios de Rock Star place");
-      dispatch(resetDetails({}));
+      dispatch(resetDetails([]));
       navigate("/suscribete");
     }
   }

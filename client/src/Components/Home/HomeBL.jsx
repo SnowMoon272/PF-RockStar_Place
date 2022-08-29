@@ -386,7 +386,7 @@ function HomeBL() {
   function validate() {
     if (musicBand && musicBand.name === "") {
       alert("Debe cargar los datos de la banda");
-      dispatch(resetDetails({}));
+      dispatch(resetDetails([]));
       navigate("/actualizarbanda");
     }
   }
