@@ -517,7 +517,7 @@ function HomeBL() {
               </div>
               <div className="ProximoIMGyBtn">
                 <img src={placeEvent.profilePicture} alt="Local" />
-                <Link className="Lynk_Btn" to={`/musicband/events/${User._id}`}>
+                <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
                   <button type="button">Detalle</button>
                 </Link>
               </div>
