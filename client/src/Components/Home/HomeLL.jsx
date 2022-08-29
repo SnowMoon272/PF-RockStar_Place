@@ -487,14 +487,14 @@ function HomeLL() {
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -509,7 +509,7 @@ function HomeLL() {
 
   function validate(input) {
     const errors = {};
-    if ((allDates.find((d) => d.date.substring(0, 10) === input)) !== undefined) {
+    if (allDates.find((d) => d.date.substring(0, 10) === input) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
     }
     if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
@@ -525,7 +525,7 @@ function HomeLL() {
   function validateData() {
     if (place && place.name === "") {
       alert("Debe cargar los datos del local");
-      dispatch(resetDetails({}));
+      dispatch(resetDetails([]));
       navigate("/actualizarlocal");
     } else if (place && place.suscription?.isSuscribed === false) {
       alert("Debes suscribirte para obtener los beneficios de Rock Star place");
@@ -697,8 +697,8 @@ function HomeLL() {
                   <span>Fecha: </span>
                   {confirmedDates.length > 0
                     ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                      confirmedDates[0].date.substring(5, 7),
-                    )} de ${confirmedDates[0].date.substring(0, 4)}`
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
                     : null}
                   <br />
                   <span>Contacto: </span>

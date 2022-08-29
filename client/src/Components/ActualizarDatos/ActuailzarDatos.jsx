@@ -197,6 +197,7 @@ const ActualizarDatosStyleCont2 = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 4rem;
 
     h3 {
       font-family: "New Rocker", cursive;
@@ -392,8 +393,6 @@ export default function upLoadData() {
         },
       });
 
-      console.log(data);
-
       if (data) localStorage.setItem("user-token", data);
 
       setInput({
@@ -524,7 +523,7 @@ export default function upLoadData() {
         <div className="cargarImagen">
           <h3>Foto de perfil</h3>
           <div>
-            <img src={image === "" ? musicBand.profilePicture : image} alt="img not found" />
+            <img src={image === "" ? musicBand.profilePicture : image} alt="ingresa una imagen" />
           </div>
           <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
             Subir foto
