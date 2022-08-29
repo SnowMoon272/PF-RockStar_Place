@@ -55,6 +55,10 @@ const ActualizarDatosStyleCont = styled.div`
       transform: scale(1.2);
     }
   }
+
+  .form {
+    width: 40vw;
+  }
 `;
 
 const ActualizarDatosStyleCont2 = styled.div`
@@ -67,7 +71,7 @@ const ActualizarDatosStyleCont2 = styled.div`
   color: white;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   .inputs {
@@ -82,31 +86,47 @@ const ActualizarDatosStyleCont2 = styled.div`
     }
 
     .input {
-      font-family: "RocknRoll One", sans-serif;
-      width: 400%;
-      height: 100%;
-      font-size: 1.8rem;
-      margin-left: 2%;
+      line-height: 28px;
+      border: 2px solid transparent;
+      border-bottom-color: ${Colors.Blue_Vivid};
+      padding: 0.2rem 0;
+      outline: none;
       background-color: transparent;
-      border: none;
-      border-bottom: 4px solid ${Colors.Blue_life};
-      outline: none;
       color: ${Colors.Platinum};
+      transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      margin: 5px 0px 5px 0px;
+    }
+
+    .input:focus,
+    input:hover {
       outline: none;
-      padding-left: 15px;
+      padding: 0.2rem 1rem;
+      border-radius: 1rem;
+      border-color: #7a9cc6;
+    }
+
+    .input::placeholder {
+      color: ${Colors.Platinum};
+    }
+
+    .input:focus::placeholder {
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .errors {
-      color: red;
-      font-size: 1.8rem;
-      width: 500%;
-      font-family: "RocknRoll One", sans-serif;
+      font-family: "RocknRoll One";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      text-align: justify;
+      color: #9d4747;
+      margin: 0px 2px 0px 2px;
     }
   }
 
   .cargarImagen {
-    width: 100%;
-    margin-left: 52%;
+    width: 20vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -129,7 +149,7 @@ const ActualizarDatosStyleCont2 = styled.div`
       font-size: 2rem;
       border-radius: 10px;
       background-color: ${Colors.Blue_life};
-      width: 15%;
+      width: 45%;
       height: 45px;
       display: flex;
       align-items: center;
@@ -206,11 +226,11 @@ export default function upLoadData() {
   const navigate = useNavigate();
   const [userBand, setuserBand] = useState({});
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isAuthenticated()) {
       setuserBand(getUserInfo());
     } else {
-      navigate("/");
+      navigate("/musicbandprofile");
     }
   }, []);
 
@@ -303,7 +323,7 @@ export default function upLoadData() {
         youtube: "",
       });
       resetDetails({});
-      navigate("/");
+      navigate(`/musicbandprofile/${userBand._id}`);
     } else {
       alert("Ups! Hay algún problema, revisa la información");
     }
