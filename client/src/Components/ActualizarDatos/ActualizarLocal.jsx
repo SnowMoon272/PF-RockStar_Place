@@ -382,6 +382,7 @@ export default function ActualizarLocal() {
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <div className="div2Columnas">
             <div className="divInputsColumna1">
+              <span>Nombre local</span>
               <input
                 type="text"
                 placeholder="Nombre del local"
@@ -391,6 +392,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.name && <p>{errors.name}</p>}
+              <span>Persona a cargo</span>
               <input
                 type="text"
                 placeholder="Persona a cargo"
@@ -400,6 +402,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.personInCharge && <p>{errors.personInCharge}</p>}
+              <span>Ciudad</span>
               <input
                 type="text"
                 placeholder="Ciudad"
@@ -409,6 +412,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.city && <p>{errors.city}</p>}
+              <span>Dirección</span>
               <input
                 type="text"
                 placeholder="Direccion"
@@ -418,6 +422,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.adress && <p>{errors.adress}</p>}
+              <span>Teléfono</span>
               <input
                 type="text"
                 placeholder="Telefono de contacto"
@@ -427,6 +432,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+              <span>Capacidad del local</span>
               <input
                 type="text"
                 placeholder="Capacidad de personas"
@@ -436,6 +442,7 @@ export default function ActualizarLocal() {
                 onChange={(e) => handleChange(e)}
               />
               {errors.capacity && <p>{errors.capacity}</p>}
+              <span>Instagram</span>
               <input
                 type="text"
                 placeholder="Instagram"
@@ -455,7 +462,7 @@ export default function ActualizarLocal() {
               />
             </div>
             <div className="divsColumna2">
-              <h1>Foto principal del local</h1>
+              <h1>Foto de perfil</h1>
               <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
                 Subir foto
               </button>
