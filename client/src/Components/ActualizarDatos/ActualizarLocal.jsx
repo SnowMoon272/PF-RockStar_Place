@@ -180,26 +180,35 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
+/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+
 function validate(input) {
   const errors = {};
   if (!input.name) {
     errors.name = "Ingresa el nombre de tu lugar";
-  } else if (!/^[a-zA-Z0-9 ]+$/.test(input.name)) {
-    errors.name = "El nombre solo puede contener letras, numeros y espacios";
   } else if (!/^[\s\S]{1,25}$/.test(input.name)) {
     errors.name = "El nombre solo puede contener entre 1 y 25 caracteres";
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (!/^[a-zA-Z ]+$/.test(input.personInCharge)) {
-    errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios";
+  } else if (
+    !/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
+      input.personInCharge,
+    )
+  ) {
+    errors.personInCharge =
+      "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge =
       "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
   }
+
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
+  } else if (!/^[0-9]+$/.test(input.phoneNumber)) {
+    errors.phoneNumber = "El telefono solo puede contener numeros";
   }
+
   if (
     input.instagram &&
     !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
@@ -210,21 +219,21 @@ function validate(input) {
   }
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu local";
-  } else if (input.description && !/^[a-zA-Z0-9 .!,]+$/.test(input.description)) {
+  } else if (input.description && !/^[a-zA-Z0-9 .!,Ññ?¿¡]+$/.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
     errors.description = "La descripción puede tener entre 3 y 250 caracteres";
   }
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";
-  } else if (!/^[a-zA-Z0-9 ]+$/.test(input.city)) {
+  } else if (!/^[a-zA-Z0-9 Ññ ]+$/.test(input.city)) {
     errors.city = "El nombre solo puede contener letras, numeros y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.city)) {
     errors.city = "El nombre solo puede contener entre 3 y 25 caracteres";
   }
   if (!input.adress) {
     errors.adress = "Ingresa la dirección de tu lugar";
-  } else if (!/^[a-zA-Z0-9 ]+$/.test(input.adress)) {
+  } else if (!/^[a-zA-Z0-9 Ññ,.]+$/.test(input.adress)) {
     errors.adress = "La dirección solo puede contener letras, numeros y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.adress)) {
     errors.adress = "La dirección solo puede contener entre 3 y 25 caracteres";
