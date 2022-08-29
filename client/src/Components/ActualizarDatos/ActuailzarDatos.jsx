@@ -5,13 +5,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import notImg from "../../Assets/img/mystery.webp";
 // import { postData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { resetDetails } from "../../Redux/actions";
+import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -75,26 +76,39 @@ const ActualizarDatosStyleCont2 = styled.div`
   align-items: center;
 
   .inputs {
+    /* border: solid 3px red; */
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+  & .div {
+    /* border: solid 3px red; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    margin: 10px 0px;
+    border-bottom: 3px solid ${Colors.Blue_Vivid};
 
-    .div {
+    & span {
+      /* border: solid 3px yellow; */
+      font-size: 2rem;
       width: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
     .input {
+      width: 50%;
+
       line-height: 28px;
       border: 2px solid transparent;
-      border-bottom-color: ${Colors.Blue_Vivid};
       padding: 0.2rem 0;
       outline: none;
       background-color: transparent;
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      margin: 5px 0px 5px 0px;
+      margin: 0px 0px 0px 15px;
+      font-size: 2rem;
     }
 
     .input:focus,
@@ -107,9 +121,60 @@ const ActualizarDatosStyleCont2 = styled.div`
 
     .input::placeholder {
       color: ${Colors.Platinum};
+      font-size: 1.5rem;
+      opacity: 50%;
     }
 
     .input:focus::placeholder {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .textarea {
+      /* border: solid 3px red; */
+
+      resize: none;
+      opacity: 100%;
+      width: 100%;
+      border: 2px solid transparent;
+      /* border-bottom-color: ${Colors.Blue_Vivid}; */
+      padding: 0.2rem 0;
+      outline: none;
+      background-color: transparent;
+      color: ${Colors.Platinum};
+      transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      margin: 5px 0px 5px 8px;
+      font-size: 1.5rem;
+      height: 6rem;
+      /* display: flex; */
+
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: ${Colors.Oxford_Blue_transparent};
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #14213d;
+        border-radius: 25px;
+        border: 1px solid white;
+      }
+    }
+
+    .textarea:focus,
+    textarea:hover {
+      outline: none;
+      padding: 0.2rem 1rem;
+      border-radius: 1rem;
+      border-color: ${Colors.Platinum};
+    }
+
+    .textarea::placeholder {
+      color: ${Colors.Platinum};
+      opacity: 50%;
+    }
+
+    .textarea:focus::placeholder {
       opacity: 0;
       transition: opacity 0.3s;
     }
@@ -126,20 +191,26 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 
   .cargarImagen {
-    width: 20vw;
+    /* border: solid 3px red; */
+
+    width: 450px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     h3 {
       font-family: "New Rocker", cursive;
-      font-size: 3rem;
+      font-size: 4rem;
+      font-weight: 400;
       color: ${Colors.Platinum};
     }
 
     img {
-      width: 250px;
-      height: 250px;
+      width: 300px;
+      height: 300px;
+      border: 3px solid ${Colors.Blue_Vivid};
+      border-radius: 10px;
+      object-fit: cover;
     }
 
     button {
@@ -156,7 +227,7 @@ const ActualizarDatosStyleCont2 = styled.div`
       justify-content: center;
       color: ${Colors.Platinum};
       text-decoration: none;
-      margin-top: 20px;
+      margin-top: 0px;
       transition: all 0.5s ease;
 
       :hover {
@@ -224,13 +295,14 @@ function validate(input) {
 
 export default function upLoadData() {
   const navigate = useNavigate();
-  const [userBand, setuserBand] = useState({});
-
-  useEffect(async () => {
+  const dispatch = useDispatch();
+  const userBand = getUserInfo();
+  const musicBand = useSelector((state) => state.detail_music_band);
+  useEffect(() => {
     if (isAuthenticated()) {
-      setuserBand(getUserInfo());
+      dispatch(getDetailMusicBand(userBand._id));
     } else {
-      navigate("/musicbandprofile");
+      navigate("/");
     }
   }, []);
 
@@ -239,14 +311,14 @@ export default function upLoadData() {
   const [image, setImage] = useState("");
 
   const [input, setInput] = useState({
-    name: "",
-    personInCharge: "",
-    description: "",
-    phoneNumber: "",
-    profilePicture: image,
-    instagram: "",
-    spotify: "",
-    youtube: "",
+    name: musicBand && musicBand.name ? musicBand.name : "",
+    personInCharge: musicBand && musicBand.personInCharge ? musicBand.personInCharge : "",
+    description: musicBand && musicBand.description ? musicBand.description : "",
+    profilePicture: musicBand && musicBand.profilePicture ? musicBand.profilePicture : image,
+    phoneNumber: musicBand && musicBand.phoneNumber ? musicBand.phoneNumber : "",
+    instagram: musicBand && musicBand.socialMedia ? musicBand.socialMedia.instagram : "",
+    spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+    youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
 
   function handleOpenWidget() {
@@ -337,88 +409,110 @@ export default function upLoadData() {
         <form className="form">
           <div className="inputs">
             <div className="div">
-              <input
-                type="text"
-                placeholder="Nombre de la banda o solista"
-                className="input"
-                value={input.name}
-                name="name"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Nombre:
+                <input
+                  id="input1"
+                  type="text"
+                  placeholder="Nombre de la banda o solista"
+                  className="input"
+                  value={input.name}
+                  name="name"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.name && <p className="errors">{errors.name}</p>}
             </div>
             <div className="div">
-              <input
-                type="text"
-                placeholder="Persona a cargo"
-                className="input"
-                value={input.personInCharge}
-                name="personInCharge"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Persona a cargo:
+                <input
+                  type="text"
+                  placeholder="Persona a cargo"
+                  className="input"
+                  value={input.personInCharge}
+                  name="personInCharge"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
             </div>
             <div className="div">
-              <input
-                type="text"
-                placeholder="Descripcion"
-                className="input"
-                value={input.description}
-                name="description"
-                onChange={(e) => handleChange(e)}
-              />
-              {errors.description && <p className="errors">{errors.description}</p>}
-            </div>
-            <div className="div">
-              <input
-                type="tel"
-                placeholder="Telefono de contacto"
-                className="input"
-                value={input.phoneNumber}
-                name="phoneNumber"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Teléfono:
+                <input
+                  type="tel"
+                  placeholder="Telefono de contacto"
+                  className="input"
+                  value={input.phoneNumber}
+                  name="phoneNumber"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
             </div>
             <div className="div">
-              <input
-                type="text"
-                placeholder="Instagram"
-                className="input"
-                value={input.instagram}
-                name="instagram"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Instagram:
+                <input
+                  type="text"
+                  placeholder="Instagram"
+                  className="input"
+                  value={input.instagram}
+                  name="instagram"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.instagram && <p className="errors">{errors.instagram}</p>}
             </div>
             <div className="div">
-              <input
-                type="text"
-                placeholder="Spotify"
-                className="input"
-                value={input.spotify}
-                name="spotify"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Spotify:
+                <input
+                  type="text"
+                  placeholder="Spotify"
+                  className="input"
+                  value={input.spotify}
+                  name="spotify"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.spotify && <p className="errors">{errors.spotify}</p>}
             </div>
             <div className="div">
-              <input
-                type="text"
-                placeholder="Youtube"
-                className="input"
-                value={input.youtube}
-                name="youtube"
-                onChange={(e) => handleChange(e)}
-              />
+              <span>
+                Youtube:
+                <input
+                  type="text"
+                  placeholder="Youtube"
+                  className="input"
+                  value={input.youtube}
+                  name="youtube"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
               {errors.youtube && <p className="errors">{errors.youtube}</p>}
+            </div>
+            <div className="div">
+              <span>
+                Descripción:
+                <textarea
+                  type="text"
+                  placeholder="Descripcion"
+                  className="textarea"
+                  value={input.description}
+                  name="description"
+                  onChange={(e) => handleChange(e)}
+                />
+              </span>
+              {errors.description && <p className="errors">{errors.description}</p>}
             </div>
           </div>
         </form>
         <div className="cargarImagen">
           <h3>Foto de perfil</h3>
           <div>
-            <img src={image === "" ? notImg : image} alt="img not found" />
+            <img src={image === "" ? musicBand.profilePicture : image} alt="img not found" />
           </div>
           <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
             Subir foto
