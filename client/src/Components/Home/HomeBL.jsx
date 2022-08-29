@@ -581,11 +581,11 @@ function HomeBL() {
           />
         </CarsStyleCont>
       </SecondVewStyleCont>
-      <FooterStyle>
+      {/* <FooterStyle>
         Fotter
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
         sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle>
+      </FooterStyle> */}
     </HomeStyleCont>
   );
 }
