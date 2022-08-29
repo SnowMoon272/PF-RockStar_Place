@@ -499,10 +499,25 @@ function HomeLL() {
 
   const allDates = [...confirmedDates, ...availableDates];
 
+  const getCurrentDate = () => {
+    const date = new Date();
+    let month = date.getMonth() + 1;
+    if (month.toString().length < 2) month = `0${month}`;
+    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
+    return currentDate;
+  };
+
   function validate(input) {
     const errors = {};
     if ((allDates.find((d) => d.date.substring(0, 10) === input)) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
+    }
+    if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
+      if (getCurrentDate().split("-")[1] >= input.split("-")[1]) {
+        if (getCurrentDate().split("-")[2] > input.split("-")[2]) {
+          errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
+        }
+      }
     }
     return errors;
   }
@@ -552,6 +567,7 @@ function HomeLL() {
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
     if (errors.repeated) alert("La fecha ya se encuentra cargada");
+    if (errors.menor) alert("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
@@ -645,14 +661,6 @@ function HomeLL() {
     if (mes === "11") return "Noviembre";
     if (mes === "12") return "Diciembre";
     return mes;
-  };
-
-  const getCurrentDate = () => {
-    const date = new Date();
-    let month = date.getMonth() + 1;
-    if (month.toString().length < 2) month = `0${month}`;
-    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
-    return currentDate;
   };
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
