@@ -339,6 +339,13 @@ export default function DetailPlace() {
     const isLog = isAuthenticated();
     alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
     !isLog && navigate("/iniciarsesion");
+
+  };
+
+  const handleAplica = (e) => {
+    alert("Debes registrarte para poder aplicar a tocar en un local");
+    navigate("/registro");
+
   };
 
   return (
@@ -375,7 +382,11 @@ export default function DetailPlace() {
                           {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
                         </div>
                         {!date.isAvailable ? null : (
-                          <button className="BtnVerMas" type="button">
+                          <button
+                            className="BtnVerMas"
+                            type="button"
+                            onClick={(e) => handleAplica(e)}
+                          >
                             Aplica
                           </button>
                         )}

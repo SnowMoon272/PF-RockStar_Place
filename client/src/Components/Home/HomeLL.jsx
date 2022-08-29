@@ -4,7 +4,7 @@
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
@@ -16,7 +16,12 @@ import "react-multi-carousel/lib/styles.css";
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace } from "../../Redux/actions";
+import {
+  getDetailMusicBandByEmail,
+  getDetailEvent,
+  getDetailPlace,
+  resetDetails,
+} from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
@@ -477,6 +482,7 @@ function HomeLL() {
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
   const [zIndex, setzIndex] = useState(true);
+  const navigate = useNavigate();
 
   const confirmedDates = place.dates
     ? place.dates.sort(
@@ -500,8 +506,22 @@ function HomeLL() {
     }
     return errors;
   }
-
+  function validateData() {
+    if (place && place.name === "") {
+      alert("Debe cargar los datos del local");
+      dispatch(resetDetails({}));
+      navigate("/actualizarlocal");
+    } else if (place && place.suscription?.isSuscribed === false) {
+      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
+      dispatch(resetDetails([]));
+      navigate("/suscribete");
+    }
+  }
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
+  useEffect(() => {
+    validateData();
+  }, [place]);
+
   useEffect(async () => {
     const User = await getUserInfo();
     dispatch(getDetailPlace(User._id));

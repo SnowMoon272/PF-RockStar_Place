@@ -11,6 +11,7 @@ import notImg from "../../Assets/img/mystery.webp";
 // import { postData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { resetDetails } from "../../Redux/actions";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -301,6 +302,7 @@ export default function upLoadData() {
         spotify: "",
         youtube: "",
       });
+      resetDetails({});
       navigate("/");
     } else {
       alert("Ups! Hay algún problema, revisa la información");

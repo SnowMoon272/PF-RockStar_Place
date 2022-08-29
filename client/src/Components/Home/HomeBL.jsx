@@ -19,6 +19,7 @@ import {
   updateFilters,
   popularitySort,
   getDetailMusicBand,
+  resetDetails,
   getDetailMusicBandByEmail,
   getDetailPlaceEvent,
 } from "../../Redux/actions";
@@ -375,7 +376,7 @@ function HomeBL() {
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);
-
+  let user = {};
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates
     ? musicBand.dates.sort(
@@ -387,26 +388,23 @@ function HomeBL() {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
 
-  if (musicBand.name === "") {
-    //alert("Debe cargar los datos de la banda");
-    navigate("/actualizarbanda");
+  function validate() {
+    if (musicBand && musicBand.name === "") {
+      alert("Debe cargar los datos de la banda");
+      dispatch(resetDetails([]));
+      navigate("/actualizarbanda");
+    }
   }
-
-  const [User, setUser] = useState({});
 
   useEffect(async () => {
     dispatch(getPlaces());
-    const User = await getUserInfo();
-    setUser(User);
-    dispatch(getDetailMusicBand(User._id));
-    /* setTimeout(() => {
-      console.log(musicBand);
-      if (musicBand.name === "") {
-        alert("Debe cargar los datos de la banda");
-        navigate("/actualizarbanda");
-      }
-    }, 5000); */
-  }, [dispatch]);
+    user = await getUserInfo();
+    dispatch(getDetailMusicBand(user._id));
+  }, []);
+
+  useEffect(() => {
+    validate();
+  }, [musicBand]);
 
   const [reRender, setreRender] = useState(false);
 
