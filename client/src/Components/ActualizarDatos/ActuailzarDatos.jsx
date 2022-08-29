@@ -312,6 +312,18 @@ export default function upLoadData() {
       });
       alert("Datos actualizados con exito");
 
+      const { data } = await axios({
+        method: "post",
+        url: "/refreshToken",
+        data: {
+          email: userBand.email,
+        },
+      });
+
+      console.log(data);
+
+      if (data) localStorage.setItem("user-token", data);
+
       setInput({
         name: "",
         personInCharge: "",

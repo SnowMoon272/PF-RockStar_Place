@@ -321,6 +321,16 @@ export default function ActualizarLocal() {
         },
       });
       alert("Datos actualizados con exito");
+
+      const { data } = await axios({
+        method: "post",
+        url: "/refreshToken",
+        data: {
+          email: userPlace.email,
+        },
+      });
+      if (data) localStorage.setItem("user-token", data);
+
       setInput({
         name: "",
         personInCharge: "",
