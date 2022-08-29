@@ -329,6 +329,15 @@ function Registro() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  localStorage.setItem("role", "musicband");
+
+  const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
+
+  const google = () => {
+    localStorage.setItem("loggedWithGoogle", "true");
+    window.open(`${BACK_URL}/auth/google`, "_self");
+  };
+
   const [input, setInput] = useState({
     PasswordR: "",
     email: "",
@@ -377,8 +386,10 @@ function Registro() {
   function handleCheck(e) {
     if (e.target.checked === true) {
       setChecked("local");
+      localStorage.setItem("role", "place");
     } else {
       setChecked("banda");
+      localStorage.setItem("role", "musicband");
     }
   }
 
@@ -427,7 +438,7 @@ function Registro() {
         <div className="ContRL">
           <div className="LoginRed">
             <h3 className=" TitleLeft">Registrate con una red social</h3>
-            <button type="button">
+            <button type="button" onClick={google}>
               <img src={SVGGoogle} alt="" />
               <p>Registrate con Google</p>
             </button>
