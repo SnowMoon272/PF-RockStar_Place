@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand, getDetailPlaceByEmail } from "../../Redux/actions";
@@ -95,6 +96,7 @@ const ContainerGralStyled = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    border: pink solid;
   }
 
   .divsTituloyDesc {
@@ -242,6 +244,9 @@ function EventosBanda() {
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeFirstDate = useSelector((state) => state.detail_place);
 
+  const [dateToRender, setDateToRender] = useState("");
+  const [render, setRender] = useState(false);
+
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort(
         (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
@@ -250,7 +255,7 @@ function EventosBanda() {
 
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
-  }, []);
+  }, [dispatch, render]);
 
   if (musicBand._id && !placeFirstDate._id) {
     if (orderedConfirmedDates.length > 0) {
@@ -258,8 +263,22 @@ function EventosBanda() {
     }
   }
 
-  //console.log("fecha confirmada:", orderedConfirmedDates[0]);
-  //console.log("lugar en donde van a tocar:", placeFirstDate);
+  function handleClickDetalles(e) {
+    e.preventDefault();
+    dispatch(getDetailPlaceByEmail(e.target.value));
+    setDateToRender(e.target.name);
+  }
+
+  async function handleClickCancelar(e) {
+    e.preventDefault();
+    //console.log(e.target.value);
+    await axios.put("/pendingdates", {
+      musicEmail: musicBand.email,
+      placeEmail: e.target.value.split(",")[1],
+      date: e.target.value.split(",")[0],
+    });
+    setRender(!render);
+  }
 
   return (
     <ContainerGralStyled>
@@ -272,57 +291,65 @@ function EventosBanda() {
           <div className="divTitle">
             <h1>Proximo Evento / Detalle del Evento</h1>
           </div>
-          <div className="div3Columnas">
-            <div className="divColumna1">
-              <h3>{placeFirstDate.name}</h3>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Fecha:</p>
-                <p className="pDesc">
-                  {orderedConfirmedDates.length > 0
-                    ? orderedConfirmedDates[0].date.substring(0, 10)
-                    : "Cargando..."}
-                </p>
+          {musicBand._id && musicBand.dates.length === 0 ? (
+            <h1>No tenes fechas flaco</h1>
+          ) : (
+            <div className="div3Columnas">
+              <div className="divColumna1">
+                <h3>{placeFirstDate.name}</h3>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Fecha:</p>
+                  <p className="pDesc">
+                    {dateToRender === ""
+                      ? orderedConfirmedDates.length > 0
+                        ? orderedConfirmedDates[0].date.substring(0, 10)
+                        : "Cargando..."
+                      : dateToRender.substring(0, 10)}
+                  </p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Persona a cargo:</p>
+                  <p className="pDesc">{placeFirstDate.personInCharge}</p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Telefono:</p>
+                  <p className="pDesc">{placeFirstDate.phoneNumber}</p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Ciudad:</p>
+                  <p className="pDesc">{placeFirstDate.city}</p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Direccion:</p>
+                  <p className="pDesc">{placeFirstDate.adress}</p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Capacidad:</p>
+                  <p className="pDesc">{placeFirstDate.capacity}</p>
+                </div>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Sonido propio:</p>
+                  <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
+                </div>
               </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Persona a cargo:</p>
-                <p className="pDesc">{placeFirstDate.personInCharge}</p>
+              <div className="divColumna2">
+                <p className="pTitulo">Descripción:</p>
+                <p className="pDesc">{placeFirstDate.description}</p>
+                <div className="divsTituloyDesc">
+                  <p className="pTitulo">Rating:</p>
+                  <p className="pDesc">{placeFirstDate.rating}</p>
+                </div>
               </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Telefono:</p>
-                <p className="pDesc">{placeFirstDate.phoneNumber}</p>
-              </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Ciudad:</p>
-                <p className="pDesc">{placeFirstDate.city}</p>
-              </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Direccion:</p>
-                <p className="pDesc">{placeFirstDate.adress}</p>
-              </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Capacidad:</p>
-                <p className="pDesc">{placeFirstDate.capacity}</p>
-              </div>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Sonido propio:</p>
-                <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
+              <div className="divColumna3">
+                <img src={placeFirstDate.profilePicture} alt="Img not found" />
+                <Link to={`/place/${placeFirstDate._id}`}>
+                  <button type="button" className="detailBtn">
+                    Detalle del Local
+                  </button>
+                </Link>
               </div>
             </div>
-            <div className="divColumna2">
-              <p className="pTitulo">Descripción:</p>
-              <p className="pDesc">{placeFirstDate.description}</p>
-              <div className="divsTituloyDesc">
-                <p className="pTitulo">Rating:</p>
-                <p className="pDesc">{placeFirstDate.rating}</p>
-              </div>
-            </div>
-            <div className="divColumna3">
-              <img src={placeFirstDate.profilePicture} alt="Img not found" />
-              <button type="button" className="detailBtn">
-                Detalle del Local
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="divContainerdeAbajo">
@@ -330,10 +357,16 @@ function EventosBanda() {
           <h1>Eventos Confirmados</h1>
           {musicBand.dates?.map((date) => {
             return (
-              <div className="divsSmallConfirmados">
+              <div key={date._id} className="divsSmallConfirmados">
                 <p>{date.date.substring(0, 10)}</p>
                 <p>{date.place}</p>
-                <button type="button" className="dateBtn">
+                <button
+                  value={date.email}
+                  name={date.date}
+                  onClick={(e) => handleClickDetalles(e)}
+                  type="button"
+                  className="dateBtn"
+                >
                   Detalle
                 </button>
               </div>
@@ -344,10 +377,15 @@ function EventosBanda() {
           <h1>Solicitudes Pendientes</h1>
           {musicBand.pendingDates?.map((date) => {
             return (
-              <div className="divsSmallConfirmados">
+              <div key={date._id} className="divsSmallConfirmados">
                 <p>{date.date.substring(0, 10)}</p>
                 <p>{date.place}</p>
-                <button type="button" className="pendingBtn">
+                <button
+                  onClick={(e) => handleClickCancelar(e)}
+                  value={[date.date.substring(0, 10), date.email]}
+                  type="button"
+                  className="pendingBtn"
+                >
                   Cancelar
                 </button>
               </div>
