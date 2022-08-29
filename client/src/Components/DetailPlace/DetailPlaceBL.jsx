@@ -13,7 +13,7 @@ import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
-// import LogoInstagram from "../../Assets/svg/Instagram.svg";
+import LogoInstagram from "../../Assets/svg/Instagram.svg";
 // import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
@@ -28,7 +28,7 @@ const HomeStyleCont = styled.div`
 
 const DetailStyleCont = styled.div`
   box-sizing: border-box;
-  width: 1500px;
+  width: 80%;
   height: fit-content;
   background-color: rgba(20, 33, 61, 0.75);
   display: flex;
@@ -221,6 +221,25 @@ const DetailStyleCont = styled.div`
     flex-direction: column;
     padding: 2%;
 
+    .ImglogosRedes {
+      width: 40px;
+      height: 40px;
+      padding: 4px;
+      border-radius: 50px;
+      background-color: white;
+      cursor: pointer;
+      margin: 25px 0px 0px 0px;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
+
+    .profile {
+      width: 100%;
+    }
     .stats {
       font-family: "RocknRoll One";
       font-style: normal;
@@ -456,13 +475,20 @@ export default function DetailPlace() {
           </div>
         </div>
         <div className="SecondCont">
-          <img src={place.profilePicture} alt="Img not found" />
+          <img src={place.profilePicture} className="profile" alt="Img not found" />
           <span className="stats">Ciudad: {place.city}</span>
           <span className="stats">Dirección: {place.adress}</span>
+          <span className="stats">Persona a cargo: {place.personInCharge}</span>
+          <span className="stats">Teléfono: {place.phoneNumber}</span>
           <span className="stats">Capacidad: {place.capacity}</span>
           <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
           <hr className="hr" />
           <p className="stats">Email: {place.email}</p>
+          {place.socialMedia && place.socialMedia.instagram !== "" ? (
+            <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+              <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+            </a>
+          ) : null}
         </div>
       </DetailStyleCont>
     </HomeStyleCont>

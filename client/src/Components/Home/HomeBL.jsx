@@ -372,7 +372,10 @@ const FooterStyle = styled.section`
 function HomeBL() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const allPlaces = useSelector((state) => state.places);
+  let allPlaces = useSelector((state) => state.places);
+  allPlaces = allPlaces.filter((place) => {
+    return place.name !== "";
+  });
   const filters = useSelector((state) => state.filters);
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);

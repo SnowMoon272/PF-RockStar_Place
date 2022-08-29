@@ -261,14 +261,6 @@ const EditStyledCont = styled.div`
   }
 `;
 
-const musicBandMockeada = {
-  socialMedia: {
-    instagram: "notevagustaroficial",
-    spotify: "4ZDoy7AWNgQVmX7T0u0B1j",
-    youtube: "NoTeVaGustarOficial",
-  },
-};
-
 export default function PerfilMusico() {
   const dispatch = useDispatch();
   const params = useParams();

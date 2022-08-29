@@ -709,7 +709,7 @@ function HomeLL() {
                 <Carousel
                   className="carousel"
                   responsive={responsive}
-                  showDots={true}
+                  // showDots={true}
                   /* centerMode={true} */
                   minimumTouchDrag={80}
                   slidesToSlide={1}
