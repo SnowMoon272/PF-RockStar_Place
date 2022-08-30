@@ -35,7 +35,7 @@ function InciarSesion() {
         const header = new Headers();
         header.append("authorization", token);
 
-        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        const homeURL = process.env.FRONT_VERCEL || "http://localhost:3000/";
         window.location.replace(homeURL);
       }
     } catch (error) {
