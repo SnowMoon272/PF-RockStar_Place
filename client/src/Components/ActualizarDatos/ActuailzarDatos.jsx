@@ -8,8 +8,6 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
-import notImg from "../../Assets/img/mystery.webp";
-// import { postData } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";

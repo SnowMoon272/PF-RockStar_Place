@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -82,7 +82,6 @@ export default function suscripcionSuccess() {
     if (isAuthenticated()) {
       const userInfo = await getUserInfo();
 
-      console.log(userInfo);
       createSuscription(userInfo);
     }
   }, []);

@@ -20,7 +20,6 @@ import {
   popularitySort,
   getDetailMusicBand,
   resetDetails,
-  getDetailMusicBandByEmail,
   getDetailPlaceEvent,
 } from "../../Redux/actions";
 
@@ -356,16 +355,16 @@ const CarsStyleCont = styled.section`
   }
 `;
 
-const FooterStyle = styled.section`
-  box-sizing: border-box;
-  position: relative;
-  background-color: ${Colors.Erie_Black};
-  width: 100%;
-  height: 80px;
-  z-index: 27;
-  color: white;
-  padding-left: 75px;
-`;
+// const FooterStyle = styled.section`
+//   box-sizing: border-box;
+//   position: relative;
+//   background-color: ${Colors.Erie_Black};
+//   width: 100%;
+//   height: 80px;
+//   z-index: 27;
+//   color: white;
+//   padding-left: 75px;
+// `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeBL() {

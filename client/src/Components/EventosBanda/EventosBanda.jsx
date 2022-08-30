@@ -396,8 +396,8 @@ function EventosBanda() {
 
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   useEffect(() => {

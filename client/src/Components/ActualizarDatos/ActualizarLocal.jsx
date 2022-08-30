@@ -6,7 +6,6 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
-import notImg from "../../Assets/img/mystery.webp";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
@@ -401,7 +400,7 @@ export default function ActualizarLocal() {
     capacity: place && place.capacity ? place.capacity : "",
     instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
   });
-  console.log(place);
+
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
       {
@@ -605,7 +604,7 @@ export default function ActualizarLocal() {
               {errors.instagram && <p>{errors.instagram}</p>}
               <p className="sonidoPropio">Sonido propio</p>
               <div className="SwitchCont">
-                <p>Si</p>
+                <p>No</p>
                 <input
                   value={input.hasSound}
                   id="switch"
@@ -613,7 +612,7 @@ export default function ActualizarLocal() {
                   onChange={(e) => handleCheckBox(e)}
                 />
                 <label htmlFor="switch" className="label" />
-                <p>No</p>
+                <p>Si</p>
               </div>
             </div>
             <div className="divsColumna2">
