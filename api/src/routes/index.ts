@@ -7,11 +7,7 @@ const googleRoutes = require("./google.routes.ts");
 const tokenRoutes = require("./token.routes.ts");
 
 const router = Router();
-const Def = Router();
 
-Def.get("/", (req: any, res: any) => {
-	res.status(200).send("Todo ok");
-});
 router.use(musicBandRoutes);
 router.use(placeRoutes);
 router.use(mercadoPago);
