@@ -333,14 +333,7 @@ function Registro() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  localStorage.setItem("role", "musicband");
-
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
-
-  const google = () => {
-    localStorage.setItem("loggedWithGoogle", "true");
-    window.open(`${BACK_URL}/auth/google`, "_self");
-  };
 
   const [input, setInput] = useState({
     PasswordR: "",
@@ -396,6 +389,18 @@ function Registro() {
       localStorage.setItem("role", "musicband");
     }
   }
+
+  const google = () => {
+    if (checked === "banda") {
+      localStorage.setItem("role", "musicband");
+      localStorage.setItem("loggedWithGoogle", "true");
+      window.open(`${BACK_URL}/auth/google`, "_self");
+    } else if (checked === "local") {
+      localStorage.setItem("role", "place");
+      localStorage.setItem("loggedWithGoogle", "true");
+      window.open(`${BACK_URL}/auth/google`, "_self");
+    }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
