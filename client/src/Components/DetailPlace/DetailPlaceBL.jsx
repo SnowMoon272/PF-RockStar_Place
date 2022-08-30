@@ -263,10 +263,12 @@ export default function DetailPlace() {
   const place = useSelector((state) => state.detail_place);
   const musicBand = useSelector((state) => state.detail_music_band);
   const user = getUserInfo();
+
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
   });
+
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
 
@@ -293,7 +295,9 @@ export default function DetailPlace() {
   }, [render2]);
 
   const checkAplied = (date) => {
-    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) {
+      return true;
+    }
     return false;
   };
 
@@ -388,7 +392,9 @@ export default function DetailPlace() {
         date: e.target.value,
       });
       setRender2(!render2);
-      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+      alert(
+        "Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos",
+      );
     } else {
       alert("Ya aplicaste a esta fecha, espera una respuesta del local");
     }

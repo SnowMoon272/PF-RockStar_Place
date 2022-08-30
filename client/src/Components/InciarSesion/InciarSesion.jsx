@@ -35,7 +35,9 @@ function InciarSesion() {
         const header = new Headers();
         header.append("authorization", token);
 
-        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        // const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        const homeURL = "https://pf-rock-star-place.vercel.app/";
+
         window.location.replace(homeURL);
       }
     } catch (error) {

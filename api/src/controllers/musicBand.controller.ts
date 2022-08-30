@@ -1,6 +1,5 @@
-// import { any, any } from 'express';
-// const { any, any } = require('express');
 const express = require("express");
+
 import {
 	addBandReview,
 	createMusicBand,
