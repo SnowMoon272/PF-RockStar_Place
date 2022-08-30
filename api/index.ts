@@ -12,21 +12,24 @@ const server = express();
 require("./src/auth/auth.js");
 
 const corsOptions = {
-	origin: "http://localhost:3000",
+	origin: "https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app/",
 	methods: "GET, POST, PUT, DELETE",
 	credentials: true,
 	optionSuccessStatus: 200,
 };
 
-if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
-console.log(`CORS OPTIONS Allow origin: ${corsOptions.origin}`);
-server.use(cors(corsOptions));
+// if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
+// console.log(`CORS OPTIONS Allow origin: ${corsOptions.origin}`);
 
+server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(morgan("dev"));
 server.get("/", (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
-	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader(
+		"Access-Control-Allow-Origin",
+		"https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app/",
+	);
 	res.setHeader("Access-Control-Allow-Credentials", "true");
 	res.setHeader("Access-Control-Max-Age", "1800");
 	res.setHeader("Access-Control-Allow-Headers", "content-type");
