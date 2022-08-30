@@ -12,7 +12,7 @@ const server = express();
 require("./src/auth/auth.js");
 
 const corsOptions = {
-	origin: "https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app/",
+	origin: "https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app",
 	methods: "GET, POST, PUT, DELETE",
 	credentials: true,
 	optionSuccessStatus: 200,
@@ -28,7 +28,7 @@ server.use(morgan("dev"));
 server.get("/", (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
 	res.setHeader(
 		"Access-Control-Allow-Origin",
-		"https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app/",
+		"https://pf-rock-star-place-llwmf9kg3-snowmoon272.vercel.app",
 	);
 	res.setHeader("Access-Control-Allow-Credentials", "true");
 	res.setHeader("Access-Control-Max-Age", "1800");
