@@ -10,7 +10,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
-import { getUserInfo, isAuthenticated, isPlace, isMusicband } from "../../Utils/auth.controller";
+import { getUserInfo, isAuthenticated, isMusicband } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
