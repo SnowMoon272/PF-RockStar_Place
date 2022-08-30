@@ -1,5 +1,3 @@
-// import { any, any } from "express";
-
 const express = require("express");
 
 export const f = {};
