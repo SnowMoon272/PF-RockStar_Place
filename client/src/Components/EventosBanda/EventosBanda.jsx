@@ -37,7 +37,12 @@ const ContainerGralStyled = styled.div`
 
     .ContenedorDeArriba {
       /* border: 3px green solid; */
-
+      text-align: center;
+      h2 {
+        color: ${Colors.Platinum};
+        font-size: 3rem;
+        font-family: "RocknRoll One";
+      }
       width: 100%;
       box-sizing: border-box;
       position: relative;
@@ -396,8 +401,8 @@ function EventosBanda() {
 
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
     : [];
 
   useEffect(() => {
