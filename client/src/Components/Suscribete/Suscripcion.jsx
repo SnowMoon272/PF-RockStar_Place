@@ -3,33 +3,34 @@ import styled from "styled-components";
 import BotonSuscribete from "./BotonSuscripcion";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import BGHome from "../../Assets/img/HomeConcert.jpg";
+import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 
 const SuscripcionStyleCont = styled.div`
-  background-color: ${Colors.Erie_Black};
+  background-image: url(${BGHome});
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: fit-content;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: absolute;
 `;
 
 const SuscripcionDetailCont = styled.div`
   box-sizing: border-box;
+  background-color: rgba(20, 33, 61, 0.75);
   width: 40%;
   height: 450px;
-  background-color: ${Colors.Oxford_Blue};
   display: flex;
   margin: 2.5% 10%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: ${BGHome};
   justify-content: space-around;
   text-align: center;
+  box-sizing: border-box;
 
   h2 {
     font-family: "RocknRoll One";
@@ -38,6 +39,8 @@ const SuscripcionDetailCont = styled.div`
     font-size: 20px;
     color: ${Colors.Platinum};
     margin-top: 3%;
+    height: fit-content;
+    width: fit-content;
   }
   h1 {
     font-family: "New Rocker";
@@ -46,12 +49,16 @@ const SuscripcionDetailCont = styled.div`
     font-size: 50px;
     color: ${Colors.Platinum};
     margin-top: 3%;
+    height: fit-content;
+    width: fit-content;
   }
   p {
     font-family: "RocknRoll One";
     width: 50%;
     color: ${Colors.Platinum};
-    font-size: 12px;
+    font-size: 20px;
+    height: fit-content;
+    width: fit-content;
   }
 `;
 
@@ -70,8 +77,8 @@ export default function suscripcion() {
           boton de abajo, realizá un único pago de $500 ARS y ya podrás empezar tu experiencia Rock
           Star place.
         </p>
-        <BotonSuscribete />
       </SuscripcionDetailCont>
+      <BotonSuscribete />
     </SuscripcionStyleCont>
   );
 }

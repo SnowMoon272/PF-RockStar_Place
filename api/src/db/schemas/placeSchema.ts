@@ -4,7 +4,7 @@ export const placeSchema = new Schema({
 	personInCharge: {
 		type: String,
 		trim: true,
-		default: undefined,
+		default: "",
 	},
 
 	email: { type: String, trim: true, require: true, unique: true },
@@ -13,13 +13,13 @@ export const placeSchema = new Schema({
 
 	hasSound: { type: Boolean, require: true, default: false },
 
-	capacity: { type: String, trim: true, require: true },
+	capacity: { type: String, trim: true, require: true, default: "" },
 
-	name: { type: String, trim: true, require: true },
+	name: { type: String, trim: true, require: true, default: "" },
 
-	city: { type: String, trim: true, require: true },
+	city: { type: String, trim: true, require: true, default: "" },
 
-	adress: { type: String, trim: true, require: true },
+	adress: { type: String, trim: true, require: true, default: "" },
 
 	rating: { type: Number, default: 0 },
 
@@ -41,7 +41,7 @@ export const placeSchema = new Schema({
 	dates: [
 		{
 			date: { type: Date },
-			musicBand: { type: String },
+			email: { type: String },
 		},
 	],
 	availableDates: [
@@ -53,15 +53,16 @@ export const placeSchema = new Schema({
 	pendingDates: [
 		{
 			musicBand: { type: String },
-			date: { type: Date, default: Date.now },
+			date: { type: Date },
+			email: { type: String },
 		},
 	],
 	socialMedia: {
-		instagram: { type: String, trim: true, default: undefined },
+		instagram: { type: String, trim: true, default: "" },
 	},
-	phoneNumber: { type: String, trim: true },
+	phoneNumber: { type: String, trim: true, default: "" },
 
-	profilePicture: { type: String, require: false },
+	profilePicture: { type: String, require: false, default: "" },
 
 	suscription: {
 		isSuscribed: { type: Boolean, default: false },

@@ -73,7 +73,7 @@ const StyledContenedor = styled.div`
 export default function Faqs() {
   return (
     <StyledContenedor>
-      <NavBar LogIn Home HomeLinkBanda />
+      <NavBar Home />
       <div className="Sections">
         <h1>Preguntas frecuentes</h1>
         <br />

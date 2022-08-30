@@ -1,6 +1,7 @@
+/* eslint-disable no-var */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 /* Modules */
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
+import { getUserInfo, isAuthenticated, isMusicband } from "../../Utils/auth.controller";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -207,8 +209,6 @@ function NavBar({
   Home,
   Buscar,
   FiltroA,
-  HomeLinkBanda,
-  HelpLog,
   UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
@@ -218,7 +218,14 @@ function NavBar({
     FilterCities: false,
     FilterSounds: false,
   });
+  const [infUser, setInfUser] = useState({});
 
+  useEffect(() => {
+    if (isAuthenticated()) {
+      const InfUser = getUserInfo();
+      setInfUser(InfUser);
+    }
+  }, []);
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
   const handlerClickSearch = (e) => {
     setNavState({
@@ -244,12 +251,11 @@ function NavBar({
     });
   };
 
-  /* * * * * * * * * * * React JSX * * * * * * * * * * */
-
   const handlerClickExit = (e) => {
-    e.preventDefault();
     localStorage.removeItem("user-token");
   };
+
+  /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
     <NavBarStyle FondoImg={FondoImg}>
@@ -279,7 +285,7 @@ function NavBar({
             </div>
           ) : (
             <div className="buttonLinkLogOut">
-              <a className="Ancord" href="/iniciarsesion">
+              <a className="Ancord" href="/">
                 <img onClick={(e) => handlerClickExit(e)} src={BTNLogOut} alt="ico-login" />
               </a>
               <h3 className="H3">Salir</h3>
@@ -288,8 +294,7 @@ function NavBar({
           <div className="ButonsEdits">
             {Home && (
               <>
-                {/*  */}
-                <Link to={HomeLinkBanda ? "/home/band" : "/"} className="Butons Link">
+                <Link to="/" className="Butons Link">
                   <img src={BTNHome} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Home</h3>
@@ -342,7 +347,7 @@ function NavBar({
             )}
             {Eventos && (
               <>
-                <Link to="/" className="Butons Link">
+                <Link to={`/musicband/events/${infUser._id}`} className="Butons Link">
                   <img src={BTNEvent} alt="ico-filtro" />
                 </Link>
                 <h3 className="H3">Eventos</h3>
@@ -351,7 +356,11 @@ function NavBar({
             {Perfil && (
               <>
                 <Link
-                  to="/musicbandprofile/62fe535e5096bb5315fc3e66"
+                  to={
+                    isMusicband()
+                      ? `/musicbandprofile/${infUser._id}`
+                      : `/placeprofile/${infUser._id}`
+                  }
                   className="Butons Link Perfil"
                 >
                   <img src={BTNUser} alt="ico-filtro" />

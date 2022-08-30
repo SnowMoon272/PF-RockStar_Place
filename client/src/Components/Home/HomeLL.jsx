@@ -1,20 +1,34 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
+import axios from "axios";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import {
+  getDetailMusicBandByEmail,
+  getDetailEvent,
+  getDetailPlace,
+  resetDetails,
+} from "../../Redux/actions";
+import { getUserInfo } from "../../Utils/auth.controller";
+import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGBand from "../../Assets/img/ROLLING STONES.jpg";
-import IMGLocal from "../../Assets/img/upload_7xCMVkX.png";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
@@ -24,6 +38,20 @@ const HomeStyleCont = styled.div`
   width: 100%;
   height: fit-content;
   position: absolute;
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
 `;
 
 const FirtVewStyleCont = styled.div`
@@ -94,6 +122,11 @@ const FirtVewStyleCont = styled.div`
     color: ${Colors.Platinum};
     font-weight: 400;
     padding: 40px;
+
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
 
     & .ImgBanda {
       width: auto;
@@ -254,22 +287,49 @@ const SecondStyleCont = styled.section`
         width: 100%;
       }
       & .Carusel {
-        /* border: solid yellow 3px; */
-
         width: 100%;
-        height: 170px;
+        height: 300px;
         font-weight: 400;
-        background-color: #cc303060;
         display: flex;
         justify-content: center;
         align-items: center;
-        & p {
-          color: black;
-          font-size: 2.5rem;
-          transform: rotate(-25deg);
-          border-bottom: 3px solid black;
-          border-top: 3px solid black;
-          background-color: #cc8e3054;
+        & .carousel {
+          /* border: solid yellow 1.5px; */
+          width: 100%;
+          height: 100%;
+          & .item {
+            width: 90%;
+            height: 250px;
+            background-color: ${Colors.Blue_life};
+            text-align: center;
+            margin: 0px 6px;
+            font-family: "RocknRoll One";
+            display: flex;
+            flex-direction: column;
+            & .BtnDelete {
+              position: absolute;
+              right: 7%;
+            }
+            & .day {
+              font-size: 50px;
+            }
+            & .month {
+              font-size: 25px;
+            }
+            & .year {
+              font-size: 25px;
+            }
+            & .dateStatus {
+              width: 100%;
+              background-color: ${Colors.Oxford_Blue};
+              font-size: 20px;
+            }
+            & .BtnVerMas {
+              position: absolute;
+              top: 88%;
+              right: 38%;
+            }
+          }
         }
       }
 
@@ -402,57 +462,271 @@ const SecondStyleCont = styled.section`
   }
 `;
 
-const FooterStyle = styled.section`
-  box-sizing: border-box;
-  position: relative;
-  background-color: ${Colors.Erie_Black};
-  width: 100%;
-  height: 80px;
-  z-index: 27;
-  color: white;
-  padding-left: 75px;
-`;
+// const FooterStyle = styled.section`
+//   box-sizing: border-box;
+//   position: relative;
+//   background-color: ${Colors.Erie_Black};
+//   width: 100%;
+//   height: 80px;
+//   z-index: 27;
+//   color: white;
+//   padding-left: 75px;
+// `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function HomeBL() {
+function HomeLL() {
+  const dispatch = useDispatch();
+  const place = useSelector((state) => state.detail_place);
+  const musicBandEvent = useSelector((state) => state.detail_event);
+  const musicBandDetail = useSelector((state) => state.detail_music_band);
+  const [date, setDate] = useState("");
+  const [errors, setErrors] = useState({});
+  const [render, setRender] = useState(false);
+  const [zIndex, setzIndex] = useState(true);
+  const navigate = useNavigate();
+
+  const confirmedDates = place.dates
+    ? place.dates.sort(
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
+    : [];
+
+  const availableDates = place.availableDates
+    ? place.availableDates.sort(
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
+    : [];
+
+  const allDates = [...confirmedDates, ...availableDates];
+
+  const getCurrentDate = () => {
+    const date = new Date();
+    let month = date.getMonth() + 1;
+    if (month.toString().length < 2) month = `0${month}`;
+    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
+    return currentDate;
+  };
+
+  function validate(input) {
+    const errors = {};
+    if (allDates.find((d) => d.date.substring(0, 10) === input) !== undefined) {
+      errors.repeated = "La fecha ya se encuentra cargada";
+    }
+    if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
+      if (getCurrentDate().split("-")[1] >= input.split("-")[1]) {
+        if (getCurrentDate().split("-")[2] > input.split("-")[2]) {
+          errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
+        }
+      }
+    }
+    return errors;
+  }
+
+  function validateData() {
+    if (place && place.name === "") {
+      alert("Debe cargar los datos del local");
+      dispatch(resetDetails([]));
+      navigate("/actualizarlocal");
+    } else if (place && place.suscription?.isSuscribed === false) {
+      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
+      dispatch(resetDetails([]));
+      navigate("/suscribete");
+    }
+  }
+
+  const checkConfirmed = (date) => {
+    if (place.dates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    return false;
+  };
+
+  const checkExists = (date) => {
+    if (allDates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    return false;
+  };
+
+  /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
+  useEffect(() => {
+    validateData();
+  }, [place]);
+
+  useEffect(async () => {
+    const User = await getUserInfo();
+    dispatch(getDetailPlace(User._id));
+  }, [dispatch, render]);
+
+  if (place._id && !musicBandEvent._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailEvent(confirmedDates[0].email));
+  }
+
+  /* * * * * * * * * * * Handle´s * * * * * * * * * * */
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+    setErrors(validate(e.target.value));
+  };
+
+  const handleSubmitDate = async (e) => {
+    e.preventDefault(e);
+    if (errors.repeated) alert("La fecha ya se encuentra cargada");
+    if (errors.menor) alert("La fecha a ingresar debe ser mayor a la fecha actual");
+    else if (date !== "") {
+      await axios.post("/placesdates", {
+        email: place.email,
+        date,
+      });
+      setDate("");
+      setRender(!render);
+    } else alert("Ingrese una fecha");
+  };
+
+  const handleDeleteAvailableDate = async (e) => {
+    e.preventDefault(e);
+    await axios.put("/placesdates", {
+      email: place.email,
+      date: e.target.value.split(",")[0],
+    });
+    setRender(!render);
+  };
+
+  const handleDeleteClosedDate = async (e) => {
+    e.preventDefault(e);
+    await axios.put("/dates", {
+      placeEmail: place.email,
+      musicEmail: e.target.value.split(",")[1],
+      date: e.target.value.split(",")[0],
+    });
+    setRender(!render);
+  };
+
+  const handleConfirmDate = async (e) => {
+    e.preventDefault(e);
+    if (checkExists(e.target.value.split(",")[0]) === true) {
+      if (checkConfirmed(e.target.value.split(",")[0]) === false) {
+        await axios.put("/matchdate", {
+          placeEmail: place.email,
+          musicEmail: e.target.value.split(",")[1],
+          date: e.target.value.split(",")[0],
+        });
+        setRender(!render);
+      } else alert("Ya hay un usuario confirmado en esa fecha");
+    } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+  };
+
+  const handleRejectDate = async (e) => {
+    e.preventDefault(e);
+    await axios.put("/pendingdates", {
+      placeEmail: place.email,
+      musicEmail: e.target.value.split(",")[1],
+      date: e.target.value.split(",")[0],
+    });
+    setRender(!render);
+  };
+
+  const handleShowDetail = async (e) => {
+    e.preventDefault();
+    await dispatch(getDetailMusicBandByEmail(e.target.value));
+    setzIndex(!zIndex);
+  };
+
+  /* * * * * * * * * * * Extra function´s * * * * * * * * * * */
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
+  const getMonth = (mes) => {
+    if (mes === "01") return "Enero";
+    if (mes === "02") return "Febrero";
+    if (mes === "03") return "Marzo";
+    if (mes === "04") return "Abril";
+    if (mes === "05") return "Mayo";
+    if (mes === "06") return "Junio";
+    if (mes === "07") return "Julio";
+    if (mes === "08") return "Agosto";
+    if (mes === "09") return "Septiembre";
+    if (mes === "10") return "Octubre";
+    if (mes === "11") return "Noviembre";
+    if (mes === "12") return "Diciembre";
+    return mes;
+  };
+
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
-    <HomeStyleCont>
-      <NavBar Eventos Perfil HelpLog UserLog />
-
+    <HomeStyleCont zIndex={zIndex}>
+      <NavBar Perfil HelpLog />
+      <div className="POPContainer">
+        {musicBandDetail._id ? (
+          <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} />
+        ) : null}
+      </div>
       <FirtVewStyleCont>
         <div className="ImgContainer">
           <img src={BGHome} alt="Background" />
         </div>
         <div className="Heder">
           <img className="Logo" src={IMGLogoA} alt="" />
-          <h1 className="Title">Nombre de el Local</h1>
+          <h1 className="Title">{place.name}</h1>
           <button type="button" className="Notificacion">
             <img src="" alt="" />
           </button>
         </div>
         <div className="CardUnicaCont">
           <div className="ImgBanda">
-            <img src={IMGLocal} alt="Banda" />
+            <img src={place.profilePicture} alt="Banda" />
           </div>
-          <div className="ProximoInfCont">
-            <div className="ProximoInf">
-              <h4>Proximo Evento</h4>
-              <p>
-                <span>Banda: </span>Los Autenticos Tlacuaches <br />
-                <span>Fecha: </span>Sabado 27 de Marzo. <br />
-                <span>Contacto: </span>Dimitri Gomez Plata <br />
-                <span>Telefono: </span> (+52) 55 6192 2596 <br />
-                <span>Direccion: </span> Av. Siempre Viva #54 interior 12 Colonia Las Americas
-              </p>
+          {confirmedDates.length > 0 ? (
+            <div className="ProximoInfCont">
+              <div className="ProximoInf">
+                <h4>Próximo Evento</h4>
+                <p>
+                  <span>Banda: </span>
+                  {musicBandEvent.name} <br />
+                  <span>Fecha: </span>
+                  {confirmedDates.length > 0
+                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
+                    : null}
+                  <br />
+                  <span>Contacto: </span>
+                  {musicBandEvent.personInCharge} <br />
+                  <span>Telefono: </span>
+                  {musicBandEvent.phoneNumber} <br />
+                  <span>Direccion: </span>
+                  {place.adress}
+                </p>
+              </div>
+              <div className="ProximoIMGyBtn">
+                <img src={musicBandEvent.profilePicture} alt="Band" />
+                <Link className="Lynk_Btn" to="/">
+                  <button
+                    type="button"
+                    onClick={(e) => handleShowDetail(e)}
+                    value={musicBandEvent.email}
+                  >
+                    Detalle
+                  </button>
+                </Link>
+              </div>
             </div>
-            <div className="ProximoIMGyBtn">
-              <img src={IMGBand} alt="Local" />
-              <Link className="Lynk_Btn" to="/home/band">
-                <button type="button">Detalle</button>
-              </Link>
+          ) : (
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
-          </div>
+          )}
         </div>
       </FirtVewStyleCont>
       <SecondVewStyleCont UserLog id="SecondVewStyleCont">
@@ -466,9 +740,50 @@ function HomeBL() {
             <div className="TusFechas">
               <h5>Tus Fechas</h5>
               <div className="Carusel">
-                <p>!Proximamente Carrusel¡</p>
-                <p>!Proximamente Carrusel¡</p>
-                <p>!Proximamente Carrusel¡</p>
+                <Carousel
+                  className="carousel"
+                  responsive={responsive}
+                  /* showDots={true} */
+                  /* centerMode={true} */
+                  minimumTouchDrag={80}
+                  slidesToSlide={1}
+                >
+                  {allDates &&
+                    allDates.map((date) => {
+                      return (
+                        <div className="item" key={date._id}>
+                          <button
+                            type="button"
+                            className="BtnDelete"
+                            onClick={
+                              date.isAvailable
+                                ? (e) => handleDeleteAvailableDate(e)
+                                : (e) => handleDeleteClosedDate(e)
+                            }
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            X
+                          </button>
+                          <span className="day">{date.date.substring(8, 10)}</span>
+                          <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                          <span className="year">{date.date.substring(0, 4)}</span>
+                          <div className="dateStatus">
+                            {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                          </div>
+                          {date.isAvailable ? null : (
+                            <button
+                              className="BtnVerMas"
+                              type="button"
+                              onClick={(e) => handleShowDetail(e)}
+                              value={date.email}
+                            >
+                              Ver más
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                </Carousel>
               </div>
               <div className="AddFecha">
                 <label htmlFor="start">
@@ -476,63 +791,69 @@ function HomeBL() {
                   <input
                     type="date"
                     id="start"
-                    // value="2022-08-25"
-                    // min="2022-08-25"
-                    // max="2024-12-31"
+                    value={date}
+                    min={getCurrentDate()}
+                    onChange={(e) => handleDateChange(e)}
                   />
+                  <button type="button" onClick={(e) => handleSubmitDate(e)}>
+                    Añadir
+                  </button>
                 </label>
               </div>
             </div>
-
             <div className="SolicitudesCont">
               <h5>Solicitudes</h5>
               <div className="SolicitudesContJr">
-                <div className="Solicitud">
-                  <div className="Left">
-                    <p>25/08/2022</p>
-                    <p>Los Angeles Azules</p>
-                    <button type="button">Detalle</button>
-                  </div>
-                  <div className="Rigth">
-                    <button type="button">Aceptar</button>
-                    <button type="button">Rechazar</button>
-                  </div>
-                </div>
-                <div className="Solicitud">
-                  <div className="Left">
-                    <p>25/08/2022</p>
-                    <p>Los Angeles Azules</p>
-                    <button type="button">Detalle</button>
-                  </div>
-                  <div className="Rigth">
-                    <button type="button">Aceptar</button>
-                    <button type="button">Rechazar</button>
-                  </div>
-                </div>
-                <div className="Solicitud">
-                  <div className="Left">
-                    <p>25/08/2022</p>
-                    <p>Los Angeles Azules</p>
-                    <button type="button">Detalle</button>
-                  </div>
-                  <div className="Rigth">
-                    <button type="button">Aceptar</button>
-                    <button type="button">Rechazar</button>
-                  </div>
-                </div>
+                {place.pendingDates &&
+                  place.pendingDates.map((date) => {
+                    const year = date.date.substring(0, 4);
+                    const month = date.date.substring(5, 7);
+                    const day = date.date.substring(8, 10);
+                    return (
+                      <div className="Solicitud" key={date._id}>
+                        <div className="Left">
+                          <p>{`${day}/${month}/${year}`}</p>
+                          <p>{date.musicBand}</p>
+                          <button
+                            type="button"
+                            onClick={(e) => handleShowDetail(e)}
+                            value={date.email}
+                          >
+                            Detalle
+                          </button>
+                        </div>
+                        <div className="Rigth">
+                          <button
+                            type="button"
+                            onClick={(e) => handleConfirmDate(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            Aceptar
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleRejectDate(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            Rechazar
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </section>
         </SecondStyleCont>
       </SecondVewStyleCont>
 
-      <FooterStyle>
+      {/* <FooterStyle>
         Fotter
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
         sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle>
+      </FooterStyle> */}
     </HomeStyleCont>
   );
 }
 
-export default HomeBL;
+export default HomeLL;

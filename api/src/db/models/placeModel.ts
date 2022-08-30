@@ -1,6 +1,5 @@
 import {
 	placeReviews,
-	placeDates,
 	placeAvailable,
 	placeInterface,
 	placeRoles,
@@ -9,7 +8,7 @@ import {
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const placeSchemaModel = require("../schemas/placeSchema");
+const placeSchemaModel = require("../schemas/placeSchema.ts");
 
 export const place = model("place", placeSchemaModel);
 
@@ -300,26 +299,23 @@ export const addDate = async (email: string, date: string) => {
 	}
 };
 
-export const deleteDate = async (email: string, date: string) => {
+export const deleteAvailableDate = async (email: string, date: string) => {
 	try {
-		const placeToDeleteDate = await place.findOne({ email });
-		if (placeToDeleteDate) {
-			const allDates = [...placeToDeleteDate.dates, ...placeToDeleteDate.availableDates];
-			const dates = allDates.filter((d) => d.date.toISOString().substring(0, 10) !== date);
+		const currentPlace = await place.findOne({ email });
+		if (currentPlace) {
 			if (
-				placeToDeleteDate.dates
-					.map((d: placeDates) => d.date.toISOString().substring(0, 10))
-					.includes(date)
-			) {
-				await place.updateOne({ email }, { dates: dates });
-				return { msg: "Fecha eliminada correctamente." };
-			}
-			if (
-				placeToDeleteDate.availableDates
+				currentPlace.availableDates
 					.map((d: placeAvailable) => d.date.toISOString().substring(0, 10))
 					.includes(date)
 			) {
-				await place.updateOne({ email }, { availableDates: dates });
+				await place.updateOne(
+					{ email },
+					{
+						availableDates: currentPlace.availableDates.filter(
+							(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date,
+						),
+					},
+				);
 				return { msg: "Fecha eliminada correctamente." };
 			}
 			return { error: "La fecha no existe." };

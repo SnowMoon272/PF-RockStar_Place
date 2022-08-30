@@ -1,14 +1,13 @@
-import { newMusicBand } from "../../tests/musicbandTests/create.musicBand.test";
+
 import {
 	musicReviews,
-	musicDates,
 	musicRoles,
 	musicBandInterface,
-} from "../interfaces/musicBand.interfaces";
-const { model } = require("mongoose");
-const bcrypt = require("bcrypt");
+} from '../interfaces/musicBand.interfaces';
+const { model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const musicBandSchema = require("../schemas/musicBandSchema");
+const musicBandSchema = require("../schemas/musicBandSchema.ts");
 
 export const musicBand = model("musicband", musicBandSchema);
 
@@ -197,15 +196,15 @@ export const banHandler = async (email: string) => {
 //Tests
 export const loginMusicBand = async (email: string, password: string) => {
 	try {
-		const user = musicBand.findOne({email});
-		if(!user) return {error: "Email not found"}
-		if(await comparePassword(password, user.password)){
+		const user = musicBand.findOne({ email });
+		if (!user) return { error: "Email not found" };
+		if (await comparePassword(password, user.password)) {
 			return user;
 		}
 	} catch (error) {
-		return {error: "Something went wrong"}
+		return { error: "Something went wrong" };
 	}
-}
+};
 
 export const updateMusicBand = async (email: string, data: musicBandInterface) => {
 	try {
@@ -234,4 +233,3 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 		return { error };
 	}
 };
-

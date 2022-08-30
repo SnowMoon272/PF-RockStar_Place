@@ -5,27 +5,29 @@ const {
 	getAllBandsController,
 	createMusicBandController,
 	addBandReviewController,
+	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
 	getMusicBandController,
-} = require('../controllers/musicBand.controller');
+} = require('../controllers/musicBand.controller.ts');
 require('dotenv').config();
 
 const jwtSecret = process.env.BACK_JWT_SECRET;
-const { musicBand } = require('../db/models/musicBandModel');
+const { musicBand } = require('../db/models/musicBandModel.ts');
 const { ROLES, checkRoleAuth } = require('./middlewares/authorization.js');
 
 const router = Router();
 
 export const f = {};
 
-router.get('/musicbands', getAllBandsController);
-router.post('/musicbands', createMusicBandController);
+router.get("/musicbands", getAllBandsController);
+router.post("/musicbands", createMusicBandController);
+router.post("/bandreviews", addBandReviewController);
+router.get("/musicbandemail/:email", getMusicBandByEmailController);
+router.get("/musicband/:id", getMusicBandByIDController);
+router.put("/musicband", updateMusicBandController);
 
 router.post('/bandreviews', checkRoleAuth([ROLES.admin, ROLES.place]), addBandReviewController);
-router.get('/musicband', getMusicBandController);
-router.get('/musicband/:id', getMusicBandByIDController);
-router.put('/musicband', updateMusicBandController);
 
 router.post(
 	'/signup',

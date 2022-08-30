@@ -333,7 +333,10 @@ const CarsStyleCont = styled.section`
 
 function HomeUNL() {
   const dispatch = useDispatch();
-  const allPlaces = useSelector((state) => state.places);
+  let allPlaces = useSelector((state) => state.places);
+  allPlaces = allPlaces.filter((place) => {
+    return place.name !== "";
+  });
   const filters = useSelector((state) => state.filters);
 
   useEffect(() => {

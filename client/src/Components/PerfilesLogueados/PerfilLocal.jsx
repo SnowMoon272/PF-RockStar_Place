@@ -1,7 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/jsx-props-no-multi-spaces */
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -21,7 +24,7 @@ const HomeStyleCont = styled.div`
 
 const DetailStyleCont = styled.div`
   box-sizing: border-box;
-  width: 1500px;
+  width: 80%;
   height: fit-content;
   background-color: rgba(20, 33, 61, 0.75);
   display: flex;
@@ -84,34 +87,72 @@ const DetailStyleCont = styled.div`
 
       .DatesCont {
         color: ${Colors.Platinum};
-        /* .DateCard {
-            .date {
-
+        width: 100%;
+        height: 300px;
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .carousel {
+          /* border: solid yellow 1.5px; */
+          width: 100%;
+          height: 100%;
+          & .item {
+            width: 90%;
+            height: 250px;
+            background-color: ${Colors.Blue_life};
+            text-align: center;
+            margin: 0px 6px;
+            font-family: "RocknRoll One";
+            display: flex;
+            flex-direction: column;
+            & .BtnDelete {
+              position: absolute;
+              right: 7%;
+            }
+            & .day {
+              font-size: 50px;
+            }
+            & .month {
+              font-size: 25px;
+            }
+            & .year {
+              font-size: 25px;
+            }
+            & .dateStatus {
+              width: 100%;
+              background-color: ${Colors.Oxford_Blue};
+              font-size: 20px;
+            }
+            & .BtnVerMas {
+              position: absolute;
+              top: 88%;
+              right: 38%;
             }
           }
-        } */
+        }
       }
+    }
 
-      .comentarios {
-        background: rgba(229, 229, 229, 0.5);
-        width: 100%;
-        margin-top: 3%;
-        height: 50vh;
-        overflow-y: scroll;
+    .comentarios {
+      background: rgba(229, 229, 229, 0.5);
+      width: 100%;
+      margin-top: 3%;
+      height: 50vh;
+      overflow-y: scroll;
 
-        .coment {
-          font-family: "RocknRoll One";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 15px;
-          color: ${Colors.Platinum};
-          margin: 4% 0%;
-          padding: 0% 3%;
-          .NameRating {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          }
+      .coment {
+        font-family: "RocknRoll One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        color: ${Colors.Platinum};
+        margin: 4% 0%;
+        padding: 0% 3%;
+        .NameRating {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }
@@ -122,6 +163,10 @@ const DetailStyleCont = styled.div`
     display: flex;
     flex-direction: column;
     padding: 2%;
+
+    .profile {
+      width: 100%;
+    }
 
     .stats {
       font-family: "RocknRoll One";
@@ -166,9 +211,12 @@ const DetailStyleCont = styled.div`
     background-color: white;
     cursor: pointer;
     margin: 25px 0px 0px 0px;
-  }
-  .ImglogosRedes:hover {
-    transform: scale(1.1);
+    transition: all 0.5s ease;
+
+    :hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
   }
 
   .divEditar {
@@ -176,68 +224,59 @@ const DetailStyleCont = styled.div`
     flex-direction: row;
     justify-content: flex-end;
   }
-  .imgEditar {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    padding: 4px;
-    border-radius: 10px;
-    background-color: white;
-  }
-  .imgEditar:hover {
-    transform: scale(1.1);
-  }
+
   .divEditaryTexto {
+    position: relative;
+    top: -70px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    & .imgEditar {
+      display: flex;
+      justify-content: center;
+      background-color: white;
+      align-items: center;
+      height: 45px;
+      padding: 4px;
+
+      width: 45px;
+      border-radius: 50%;
+      border: 4px solid black;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+
+      img {
+        height: 40px;
+        width: 40px;
+      }
+    }
     h4 {
       font-family: "RocknRoll One";
       font-style: normal;
       font-weight: 400;
-      font-size: 12px;
+      font-size: 1.5rem;
       line-height: 14px;
       margin: 10px 0px 10px 0px;
       color: white;
     }
   }
 `;
-const datesCerradas = [
-  {
-    date: "01-09-2022",
-    musicBand: "The Rolling Stones",
-  },
-  {
-    date: "07-10-2022",
-    musicBand: "Roger Waters",
-  },
-  {
-    date: "19-10-2022",
-    musicBand: "Damas Gratis",
-  },
-];
-
-//fechas disponibles
-const datesAvaible = [
-  {
-    date: "20-09-2022",
-    available: true,
-  },
-  {
-    date: "27-09-2022",
-    available: true,
-  },
-  {
-    date: "09-10-2022",
-    available: true,
-  },
-];
 
 export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
+
+  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
+
+  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+
+  const allDates = [...confirmedDates, ...availableDates];
 
   useEffect(() => {
     dispatch(getDetailPlace(params.id));
@@ -249,9 +288,44 @@ export default function DetailPlace() {
     };
   }, []);
 
+  const getMonth = (mes) => {
+    if (mes === "01") return "Enero";
+    if (mes === "02") return "Febrero";
+    if (mes === "03") return "Marzo";
+    if (mes === "04") return "Abril";
+    if (mes === "05") return "Mayo";
+    if (mes === "06") return "Junio";
+    if (mes === "07") return "Julio";
+    if (mes === "08") return "Agosto";
+    if (mes === "09") return "Septiembre";
+    if (mes === "10") return "Octubre";
+    if (mes === "11") return "Noviembre";
+    if (mes === "12") return "Diciembre";
+    return mes;
+  };
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 4,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
   return (
     <HomeStyleCont>
-      <NavBar Home Eventos Perfil />
+      <NavBar Home />
       <DetailStyleCont>
         <div className="FirstCont">
           <div className="NameAndRating">
@@ -265,36 +339,31 @@ export default function DetailPlace() {
           <hr className="hr" />
           <div className="DataCont">
             <span className="title">Próximos eventos</span>
-            {/* <OwlCarousel className="owl-theme" items="3" autoplay nav dots>
-              <div className="item">
-                <span>hola</span>
-              </div>
-            </OwlCarousel> */}
             <div className="DatesCont">
-              {datesCerradas &&
-                datesCerradas.map((date) => {
-                  return (
-                    <div key={date.date} className="DateCard">
-                      <span className="date">{date.date}</span>
-                      <span className="band">{date.musicBand}</span>
-                    </div>
-                  );
-                })}
-              {datesAvaible &&
-                datesAvaible.map((date) => {
-                  return (
-                    <div key={date.date} className="DateCard">
-                      <span className="date">{date.date}</span>
-                      <span className="available">{date.available ? "Disponible" : "Cerrada"}</span>
-                    </div>
-                  );
-                })}
+              <Carousel
+                className="carousel"
+                responsive={responsive}
+                showDots={true}
+                minimumTouchDrag={80}
+                slidesToSlide={1}
+              >
+                {allDates &&
+                  allDates.map((date) => {
+                    return (
+                      <div className="item" key={date._id}>
+                        <span className="day">{date.date.substring(8, 10)}</span>
+                        <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                        <span className="year">{date.date.substring(0, 4)}</span>
+                        <div className="dateStatus">
+                          {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </Carousel>
             </div>
             <hr className="hr" />
           </div>
-          {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
           <div className="DataCont">
             <span className="title">Reseñas</span>
 
@@ -316,7 +385,7 @@ export default function DetailPlace() {
           </div>
         </div>
         <div className="SecondCont">
-          <img src={place.profilePicture} alt="Img not found" />
+          <img src={place.profilePicture} className="profile" alt="Img not found" />
           <div className="divsUnderImage">
             <span className="statsUnderImage">Ciudad:</span>
             <span className="descriptionSmall"> {place.city}</span>
@@ -324,6 +393,14 @@ export default function DetailPlace() {
           <div className="divsUnderImage">
             <span className="statsUnderImage">Dirección:</span>
             <span className="descriptionSmall"> {place.adress}</span>
+          </div>
+          <div className="divsUnderImage">
+            <span className="statsUnderImage">Persona a cargo:</span>
+            <span className="descriptionSmall"> {place.personInCharge}</span>
+          </div>
+          <div className="divsUnderImage">
+            <span className="statsUnderImage">Teléfono:</span>
+            <span className="descriptionSmall"> {place.phoneNumber}</span>
           </div>
           <div className="divsUnderImage">
             <span className="statsUnderImage">Capacidad:</span>
@@ -335,25 +412,21 @@ export default function DetailPlace() {
           </div>
           <hr className="hr" />
           <div className="divsUnderImage">
-            <span className="statsUnderImage">Persona a cargo:</span>
-            <span className="descriptionSmall"> Nombre Apellido</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Telefono:</span>
-            <span className="descriptionSmall"> Telefono</span>
-          </div>
-          <div className="divsUnderImage">
             <span className="statsUnderImage">Email:</span>
             <span className="descriptionSmall"> {place.email}</span>
           </div>
           <div className="divsUnderImage">
-            <a href="http://www.intagram.com/hardrockcafe">
-              <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-            </a>
+            {place.socialMedia && place.socialMedia.instagram !== "" ? (
+              <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+                <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+              </a>
+            ) : null}
           </div>
           <div className="divEditar">
             <div className="divEditaryTexto">
-              <img className="imgEditar" src={Editar} alt="" />
+              <Link to="/actualizarlocal" className="imgEditar">
+                <img src={Editar} alt="Edit" />
+              </Link>
               <h4>Editar</h4>
             </div>
           </div>

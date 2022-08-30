@@ -1,24 +1,31 @@
+/* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
 import React, { useEffect, useState } from "react";
 
 /* Modules */
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
+import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
-import { getPlaces, updateFilters, popularitySort } from "../../Redux/actions";
+import {
+  getPlaces,
+  updateFilters,
+  popularitySort,
+  getDetailMusicBand,
+  resetDetails,
+  getDetailPlaceEvent,
+} from "../../Redux/actions";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
-import IMGBand from "../../Assets/img/ROLLING STONES.jpg";
-import IMGLocal from "../../Assets/img/upload_7xCMVkX.png";
 import Logo from "../../Assets/img/LogoCircular.png";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
@@ -97,6 +104,11 @@ const FirtVewStyleCont = styled.div`
     color: ${Colors.Platinum};
     padding: 40px;
 
+    & .SinEvento {
+      display: flex;
+      font-size: 2rem;
+    }
+
     & .ImgBanda {
       width: auto;
 
@@ -113,6 +125,11 @@ const FirtVewStyleCont = styled.div`
       border-left: solid white 3px;
       width: fit-content;
       height: 300px;
+
+      & .SinEvento {
+        font-family: "RocknRoll One", sans-serif;
+        text-align: center;
+      }
 
       & .ProximoInf {
         display: flex;
@@ -338,27 +355,59 @@ const CarsStyleCont = styled.section`
   }
 `;
 
-const FooterStyle = styled.section`
-  box-sizing: border-box;
-  position: relative;
-  background-color: ${Colors.Erie_Black};
-  width: 100%;
-  height: 80px;
-  z-index: 27;
-  color: white;
-  padding-left: 75px;
-`;
+// const FooterStyle = styled.section`
+//   box-sizing: border-box;
+//   position: relative;
+//   background-color: ${Colors.Erie_Black};
+//   width: 100%;
+//   height: 80px;
+//   z-index: 27;
+//   color: white;
+//   padding-left: 75px;
+// `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeBL() {
   const dispatch = useDispatch();
-  const allPlaces = useSelector((state) => state.places);
+  const navigate = useNavigate();
+  let allPlaces = useSelector((state) => state.places);
+  allPlaces = allPlaces.filter((place) => {
+    return place.name !== "";
+  });
   const filters = useSelector((state) => state.filters);
+  const musicBand = useSelector((state) => state.detail_music_band);
+  const placeEvent = useSelector((state) => state.detail_event);
+  const [user, setuser] = useState({});
 
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  useEffect(() => {
+  const confirmedDates = musicBand.dates
+    ? musicBand.dates.sort(
+        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+      )
+    : [];
+
+  if (musicBand._id && !placeEvent._id) {
+    if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
+  }
+
+  function validate() {
+    if (musicBand && musicBand.name === "") {
+      alert("Debe cargar los datos de la banda");
+      dispatch(resetDetails([]));
+      navigate("/actualizarbanda");
+    }
+  }
+
+  useEffect(async () => {
     dispatch(getPlaces());
-  }, [dispatch]);
+    const user = await getUserInfo();
+    setuser(user);
+    dispatch(getDetailMusicBand(user._id));
+  }, []);
+
+  useEffect(() => {
+    validate();
+  }, [musicBand]);
 
   const [reRender, setreRender] = useState(false);
 
@@ -393,10 +442,26 @@ function HomeBL() {
     paginado(1);
   };
 
-  const handleClickSort = () => {
-    dispatch(popularitySort(allPlaces));
+  const handleClickSort = async () => {
+    await dispatch(popularitySort(allPlaces));
     paginado(1);
     setreRender(!reRender);
+  };
+
+  const getMonth = (mes) => {
+    if (mes === "01") return "Enero";
+    if (mes === "02") return "Febrero";
+    if (mes === "03") return "Marzo";
+    if (mes === "04") return "Abril";
+    if (mes === "05") return "Mayo";
+    if (mes === "06") return "Junio";
+    if (mes === "07") return "Julio";
+    if (mes === "08") return "Agosto";
+    if (mes === "09") return "Septiembre";
+    if (mes === "10") return "Octubre";
+    if (mes === "11") return "Noviembre";
+    if (mes === "12") return "Diciembre";
+    return mes;
   };
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
@@ -408,7 +473,6 @@ function HomeBL() {
         FiltroB
         Eventos
         Perfil
-        HelpLog
         UserLog
         paginado={paginado}
         setFilter={setFilter}
@@ -421,33 +485,51 @@ function HomeBL() {
         </div>
         <div className="Heder">
           <img className="Logo" src={IMGLogoA} alt="" />
-          <h1 className="Title">Nombre de la banda</h1>
+          <h1 className="Title">{musicBand.name}</h1>
           <button type="button" className="Notificacion">
             <img src="" alt="" />
           </button>
         </div>
         <div className="CardUnicaCont">
           <div className="ImgBanda">
-            <img src={IMGBand} alt="Banda" />
+            <img src={musicBand.profilePicture} alt="Banda" />
           </div>
-          <div className="ProximoInfCont">
-            <div className="ProximoInf">
-              <h4>Proximo Evento</h4>
-              <p>
-                <span>Local: </span>Bar las Americas <br />
-                <span>Fecha: </span>Sabado 27 de Marzo. <br />
-                <span>Contacto: </span>Rafael Gomez Plata <br />
-                <span>Telefono: </span> (+52) 55 6192 2596 <br />
-                <span>Direccion: </span> Av. Siempre Viva #54 interior 12 Colonia Las Americas
-              </p>
+          {confirmedDates.length > 0 ? (
+            <div className="ProximoInfCont">
+              <div className="ProximoInf">
+                <h4>Proximo Evento</h4>
+                <p>
+                  <span>Local: </span>
+                  {placeEvent.name} <br />
+                  <span>Fecha: </span>
+                  {confirmedDates.length > 0
+                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                        confirmedDates[0].date.substring(5, 7),
+                      )} de ${confirmedDates[0].date.substring(0, 4)}`
+                    : null}
+                  <br />
+                  <span>Contacto: </span>
+                  {placeEvent.personInCharge}
+                  <br />
+                  <span>Telefono: </span>
+                  {placeEvent.phoneNumber}
+                  <br />
+                  <span>Direccion: </span>
+                  {placeEvent.adress}
+                </p>
+              </div>
+              <div className="ProximoIMGyBtn">
+                <img src={placeEvent.profilePicture} alt="Local" />
+                <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
+                  <button type="button">Detalle</button>
+                </Link>
+              </div>
             </div>
-            <div className="ProximoIMGyBtn">
-              <img src={IMGLocal} alt="Local" />
-              <Link className="Lynk_Btn" to="/home/band">
-                <button type="button">Detalle</button>
-              </Link>
+          ) : (
+            <div className="SinEvento">
+              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
             </div>
-          </div>
+          )}
         </div>
       </FirtVewStyleCont>
       <SecondVewStyleCont UserLog id="SecondVewStyleCont">
@@ -500,11 +582,11 @@ function HomeBL() {
           />
         </CarsStyleCont>
       </SecondVewStyleCont>
-      <FooterStyle>
+      {/* <FooterStyle>
         Fotter
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
         sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle>
+      </FooterStyle> */}
     </HomeStyleCont>
   );
 }

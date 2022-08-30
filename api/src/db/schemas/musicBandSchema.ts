@@ -6,11 +6,12 @@ export const musicBandSchema = new Schema({
 	personInCharge: {
 		type: String,
 		trim: true,
-		default: undefined,
+		default: "",
 	},
 	name: {
 		type: String,
 		trim: true,
+		default: "",
 	},
 	email: {
 		type: String,
@@ -27,8 +28,9 @@ export const musicBandSchema = new Schema({
 	],
 	dates: [
 		{
-			place: String,
-			date: { type: Date, default: Date.now },
+			place: { type: String },
+			date: { type: Date },
+			email: { type: String },
 		},
 	],
 	banned: { type: Boolean, default: false },
@@ -46,8 +48,9 @@ export const musicBandSchema = new Schema({
 	profilePicture: { type: String, trim: true, default: "" },
 	pendingDates: [
 		{
-			place: String,
-			date: { type: Date, default: Date.now },
+			place: { type: String },
+			date: { type: Date },
+			email: { type: String },
 		},
 	],
 });

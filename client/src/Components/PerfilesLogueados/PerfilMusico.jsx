@@ -1,15 +1,16 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
-import ReseñasOpinion from "./ReseñasOpinon";
+import Reseñas from "./Reseñas";
 import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -231,7 +232,7 @@ const EditStyledCont = styled.div`
         }
       }
 
-      .BotonOpinion {
+      /* .BotonOpinion {
         position: relative;
         left: 79%;
         top: 9%;
@@ -254,19 +255,12 @@ const EditStyledCont = styled.div`
         :hover {
           cursor: pointer;
           transform: scale(1.2);
-        }
+        } 
       }
+      */
     }
   }
 `;
-
-const musicBandMockeada = {
-  socialMedia: {
-    instagram: "notevagustaroficial",
-    spotify: "4ZDoy7AWNgQVmX7T0u0B1j",
-    youtube: "NoTeVaGustarOficial",
-  },
-};
 
 export default function PerfilMusico() {
   const dispatch = useDispatch();
@@ -277,16 +271,15 @@ export default function PerfilMusico() {
 
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
-  }, [dispatch]);
+  }, []);
 
-  const handlerSutch = (e) => {
+  const handlerSwitch = (e) => {
     e.preventDefault();
     setStateReseña(!stateReseña);
   };
-
   return (
     <EditStyledCont Foto={musicBand}>
-      <NavBar HomeLinkBanda Home Eventos Perfil UserLog />
+      <NavBar HomeLinkBanda Home Eventos UserLog />
       <div className="VewContainer">
         <div className="InfoBandaCont">
           <h1 className="TitleA">{musicBand.name}</h1>
@@ -319,22 +312,26 @@ export default function PerfilMusico() {
             <div>
               <div className="RedesyEditarCont">
                 <div className="RedesCont">
-                  <a href={`http://www.youtube.com/c/${musicBandMockeada.socialMedia.youtube}`}>
-                    <img className="ImglogosRedes" src={LogoYouTube} alt="" />
-                  </a>
-                  <a
-                    href={`http://open.spotify.com/artist/${musicBandMockeada.socialMedia.spotify}`}
-                  >
-                    <img className="ImglogosRedes" src={LogoSpotify} alt="" />
-                  </a>
-                  <a href={`http://instagram.com/${musicBandMockeada.socialMedia.instagram}`}>
-                    <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-                  </a>
+                  {musicBand.socialMedia && musicBand.socialMedia.youtube !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.youtube} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoYouTube} alt="" />
+                    </a>
+                  ) : null}
+                  {musicBand.socialMedia && musicBand.socialMedia.spotify !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.spotify} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoSpotify} alt="" />
+                    </a>
+                  ) : null}
+                  {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? (
+                    <a target="_blank" href={musicBand.socialMedia.instagram} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                    </a>
+                  ) : null}
                 </div>
                 <div className="divEditar">
-                  <div className="imgEditar">
+                  <Link to="/actualizarbanda" className="imgEditar">
                     <img src={Editar} alt="Edit" />
-                  </div>
+                  </Link>
                   <h4>Editar</h4>
                 </div>
               </div>
@@ -345,16 +342,7 @@ export default function PerfilMusico() {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <button
-            onClick={(e) => {
-              handlerSutch(e);
-            }}
-            className="BotonOpinion"
-            type="button"
-          >
-            {stateReseña ? "Reseñas" : "Opinion"}
-          </button>
-          <ReseñasOpinion Opinion={stateReseña} musicBand={musicBand} />
+          <Reseñas musicBand={musicBand} />
         </div>
       </div>
     </EditStyledCont>

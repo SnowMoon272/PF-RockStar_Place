@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
 import React from "react";
-
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 
@@ -11,7 +9,7 @@ const ReseñasStyleCont = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 68.5%;
+  height: 77%;
   background-color: ${Colors.Oxford_Blue_transparent};
 
   .TitleB {
@@ -28,7 +26,7 @@ const ReseñasStyleCont = styled.div`
 
     background: transparent;
     width: 90%;
-    height: 65%;
+    height: 73%;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 12px;
@@ -64,7 +62,7 @@ const ReseñasStyleCont = styled.div`
     }
   }
 
-  .Boton {
+  /* .Boton {
     font-family: "New Rocker";
     font-weight: 400;
     font-size: 2rem;
@@ -84,41 +82,36 @@ const ReseñasStyleCont = styled.div`
       cursor: pointer;
       transform: scale(1.2);
     }
-  }
+  } */
 `;
 
-function ReseñasOpinon({ Opinion, musicBand }) {
+/* ) : Object.keys(musicBand.reviews).length === 0 ? ( */
+function Reseñas({ Opinion, musicBand }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
       <div className="comentarios">
-        {Opinion
-          ? "Aqui va tu opinion"
-          : musicBand.reviews &&
-            musicBand.reviews.map((review) => {
-              return (
-                <div key={review._id} className="coment">
-                  <div className="NameRating">
-                    <span className="autor">{review.author}</span>
-                    <span className="ratingcoment">Rating: ⭐{review.rating}</span>
-                  </div>
-                  <p className="contenidocoment">{review.comment}</p>
-                  <hr />
+        {Opinion ? (
+          "Aqui va tu opinion"
+        ) : musicBand.reviews ? (
+          musicBand.reviews.map((review) => {
+            return (
+              <div key={review._id} className="coment">
+                <div className="NameRating">
+                  <span className="autor">{review.author}</span>
+                  <span className="ratingcoment">Rating: ⭐{review.rating}</span>
                 </div>
-              );
-            })}
+                <p className="contenidocoment">{review.comment}</p>
+                <hr />
+              </div>
+            );
+          })
+        ) : (
+          <h6>Aún no tienes reseñas.</h6>
+        )}
       </div>
-      {Opinion ? (
-        <Link className="Boton" to="/">
-          Detalles B
-        </Link>
-      ) : (
-        <Link className="Boton" to="/">
-          Detalles A
-        </Link>
-      )}
     </ReseñasStyleCont>
   );
 }
 
-export default ReseñasOpinon;
+export default Reseñas;
