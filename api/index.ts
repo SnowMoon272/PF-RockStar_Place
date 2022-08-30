@@ -18,8 +18,8 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
-if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
-console.log(`CORS OPTIONS Allow origin: ${corsOptions.origin}`);
+// if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
+// console.log(`CORS OPTIONS Allow origin: ${corsOptions.origin}`);
 
 server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
