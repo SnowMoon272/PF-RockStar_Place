@@ -14,6 +14,7 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
+import ReactivarCuenta from "../ReactivarCuenta/ReactivarCuenta";
 import {
   getPlaces,
   updateFilters,
@@ -390,6 +391,12 @@ function HomeBL() {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
 
+  function disabledValidate() {
+    if (musicBand.disabled === true) {
+      navigate("/reactivarCuenta");
+    }
+  }
+
   function validate() {
     if (musicBand && musicBand.name === "") {
       alert("Debe cargar los datos de la banda");
@@ -406,6 +413,7 @@ function HomeBL() {
   }, []);
 
   useEffect(() => {
+    disabledValidate();
     validate();
   }, [musicBand]);
 

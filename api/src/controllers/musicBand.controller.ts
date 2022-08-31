@@ -8,6 +8,7 @@ import {
 	getMusicBand,
 	getMusicBandByID,
 	updateMusicBand,
+	disabledMusicBand,
 } from "../db/models/musicBandModel";
 
 const getAllBandsController = async (req: any, res: any) => {
@@ -89,6 +90,21 @@ const getMusicBandByIDController = async (req: any, res: any) => {
 	if (!id) return res.status(404).send({ msg: "Invalid data" });
 };
 
+const disabledBandController = async (req: any, res: any) => {
+	const { email, disabled } = req.body;
+	if (disabled) {
+		try {
+			let userDisabled = await disabledMusicBand(email, disabled);
+			if (userDisabled) return res.status(201).send({ msg: "Se desactivo la banda correctamente" });
+			return res.status(400).send({ error: "Ha ocurrido un error" });
+		} catch (error) {
+			return res.status(500).send({ error: "No se pudo desactivar la banda" });
+		}
+	} else {
+		res.status(404).send({ msg: "Data faltante o incorrecta" });
+	}
+};
+
 module.exports = {
 	getAllBandsController,
 	createMusicBandController,
@@ -96,4 +112,5 @@ module.exports = {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
+	disabledBandController,
 };

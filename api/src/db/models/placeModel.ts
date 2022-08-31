@@ -333,3 +333,17 @@ export const suscribedSuccessful = async (email: string, suscription: suscriptio
 		return { error: "Is something wrong" };
 	}
 };
+
+export const disabledPlace = async (email: string, disabled: boolean) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne({ email }, { disabled });
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};

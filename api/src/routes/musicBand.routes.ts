@@ -8,6 +8,7 @@ const {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
+	disabledBandController,
 	getMusicBandController,
 } = require('../controllers/musicBand.controller.ts');
 require('dotenv').config();
@@ -26,6 +27,7 @@ router.post("/bandreviews", addBandReviewController);
 router.get("/musicbandemail/:email", getMusicBandByEmailController);
 router.get("/musicband/:id", getMusicBandByIDController);
 router.put("/musicband", updateMusicBandController);
+router.put("/bandDisabled", disabledBandController);
 
 router.post('/bandreviews', checkRoleAuth([ROLES.admin, ROLES.place]), addBandReviewController);
 

@@ -233,3 +233,17 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 		return { error };
 	}
 };
+
+export const disabledMusicBand = async (email: string, disabled: boolean) => {
+	try {
+		const userToChange = await musicBand.findOne({ email });
+		if (userToChange) {
+			await musicBand.updateOne({ email }, { disabled });
+			return musicBand.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};

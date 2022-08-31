@@ -14,6 +14,7 @@ import {
 	deleteAvailableDate,
 	suscribedSuccessful,
 	getPlace,
+	disabledPlace,
 } from '../db/models/placeModel';
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -155,6 +156,21 @@ const suscribedSuccessfulController = async (req: any, res: any) => {
 	return res.status(404).send({ error: "Data faltante o incorrecta" });
 };
 
+const disabledPlaceController = async (req: any, res: any) => {
+	const { email, disabled } = req.body;
+	if (disabled) {
+		try {
+			let userDisabled = await disabledPlace(email, disabled);
+			if (userDisabled) return res.status(201).send({ msg: "Se desactivo el lugar correctamente" });
+			return res.status(400).send({ error: "Ha ocurrido un error" });
+		} catch (error) {
+			return res.status(500).send({ error: "No se pudo desactivar el lugar" });
+		}
+	} else {
+		res.status(404).send({ msg: "Data faltante o incorrecta" });
+	}
+};
+
 module.exports = {
 	getAllPlacesController,
 	createPlaceController,
@@ -166,5 +182,6 @@ module.exports = {
 	AddDatePlaceController,
 	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
-	getPlaceByEmailController
+	getPlaceByEmailController,
+	disabledPlaceController
 };

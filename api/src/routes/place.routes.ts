@@ -10,6 +10,7 @@ const {
 	DeleteAvailableDatePlaceController,
 	AddDatePlaceController,
 	suscribedSuccessfulController,
+	disabledPlaceController,
 	getPlaceByEmailController
 } = require('../controllers/place.controller.ts');
 const { ROLES, checkRoleAuth } = require('./middlewares/authorization.js');
@@ -33,5 +34,6 @@ router.put('/place', updatePlaceController);
 router.post('/placesdates', AddDatePlaceController);
 router.put('/placesuscription', suscribedSuccessfulController);
 router.put("/placesdates", DeleteAvailableDatePlaceController);
+router.put("/placeDisabled", disabledPlaceController);
 
 module.exports = router;
