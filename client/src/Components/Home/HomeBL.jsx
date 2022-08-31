@@ -375,6 +375,7 @@ function HomeBL() {
     return place.name !== "";
   });
   const filters = useSelector((state) => state.filters);
+
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);
   const [user, setuser] = useState({});
@@ -561,6 +562,7 @@ function HomeBL() {
               <div className="FiltrosData">
                 <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
                 <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                <p>Filtro Evento: {filters.Evento ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
               </div>
             </div>
             <button type="button" onClick={(e) => handleClickSort(e)}>
