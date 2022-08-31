@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -402,8 +403,14 @@ function Registro() {
     }
   };
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    const emails = await axios.get("/emails");
+
+    if (emails.data.includes(input.email)) {
+      return alert("Este email ya se encuentra registrado, por favor, ingrese otro.");
+    }
+
     if (checked === "banda") {
       dispatch(
         registerBand({
@@ -429,7 +436,7 @@ function Registro() {
       email: "",
       password: "",
     });
-    navigate("/iniciarsesion");
+    return navigate("/iniciarsesion");
   }
 
   useEffect(() => {

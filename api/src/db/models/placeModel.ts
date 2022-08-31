@@ -409,3 +409,12 @@ export const suscribedSuccessful = async (email: string, suscription: suscriptio
 		return { error: "Is something wrong" };
 	}
 };
+
+export const getEmailsPlaces = async () => {
+	try {
+		const EmailsPlaces = await place.find({}, { email: 1 }).distinct("email");
+		return EmailsPlaces;
+	} catch (error) {
+		return { error };
+	}
+};
