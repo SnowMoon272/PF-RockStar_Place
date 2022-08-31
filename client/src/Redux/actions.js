@@ -129,7 +129,7 @@ export function filteredPlaces(city, sound, dates) {
         json = await axios.get(`/places?city=${city}`);
       }
       if (!city && sound && !dates) {
-        json = await axios.get(`/places?city=${sound}`);
+        json = await axios.get(`/places?sound=${sound}`);
       }
       if (city && sound && !dates) {
         json = await axios.get(`/places?city=${city}&sound=${sound}`);
