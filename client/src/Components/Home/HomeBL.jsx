@@ -471,6 +471,7 @@ function HomeBL() {
         Buscar
         FiltroA
         FiltroB
+        FiltroC
         Eventos
         Perfil
         UserLog

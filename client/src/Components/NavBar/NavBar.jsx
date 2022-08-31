@@ -1,3 +1,5 @@
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable indent */
 /* eslint-disable no-var */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
@@ -154,6 +156,37 @@ const NavBarStyle = styled.nav`
         justify-content: center;
         height: 70%;
 
+        .FiltrosCont {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .ButonSwitch {
+            margin-bottom: 15px;
+            width: 60px;
+            font-family: "RocknRoll One", sans-serif;
+            background-color: ${({ FondoImg }) =>
+              FondoImg ? Colors.Green_Light : Colors.Blue_life};
+            color: ${({ FondoImg }) => (FondoImg ? Colors.Erie_Black : Colors.Platinum)};
+            border-radius: 7px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: ${({ FondoImg }) => (FondoImg ? "solid white 1px" : "none")};
+            transition: all 0.5s ease;
+
+            :hover {
+              cursor: pointer;
+              transform: scale(1.2);
+            }
+          }
+
+          .FiltersVew {
+            display: ${({ filterSwitch }) => (filterSwitch ? "flex" : "none")};
+            flex-direction: column;
+            align-items: center;
+          }
+        }
+
         .H3 {
           margin: 4px;
           color: white;
@@ -201,14 +234,15 @@ function NavBar({
   Perfil,
   Eventos,
   FondoImg,
+  FiltroA,
   FiltroB,
+  FiltroC,
   paginado,
   setFilter,
   filter,
   LogIn,
   Home,
   Buscar,
-  FiltroA,
   UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
@@ -217,8 +251,10 @@ function NavBar({
     Search: false,
     FilterCities: false,
     FilterSounds: false,
+    FilterEvents: false,
   });
   const [infUser, setInfUser] = useState({});
+  const [filterSwitch, setfilterSwitch] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -251,20 +287,34 @@ function NavBar({
     });
   };
 
+  const handlerClickEvents = (e) => {
+    setNavState({
+      ...navState,
+      FilterEvents: !navState.FilterEvents,
+      Active: !navState.Active,
+    });
+  };
+
   const handlerClickExit = (e) => {
     localStorage.removeItem("user-token");
+  };
+
+  const handlerSwitchFilter = (e) => {
+    e.preventDefault();
+    setfilterSwitch(!filterSwitch);
   };
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
-    <NavBarStyle FondoImg={FondoImg}>
+    <NavBarStyle FondoImg={FondoImg} filterSwitch={filterSwitch}>
       <div className="Search_Filter">
         <SearchBarYFilters
           paginado={paginado}
           Search={navState.Search}
           FilterCities={navState.FilterCities}
           FilterSounds={navState.FilterSounds}
+          FilterEvents={navState.FilterEvents}
           Active={navState.Active}
           setNavState={setNavState}
           navState={navState}
@@ -300,51 +350,83 @@ function NavBar({
                 <h3 className="H3">Home</h3>
               </>
             )}
-            {Buscar && (
-              <>
+            <div className="FiltrosCont">
+              {Buscar && (
                 <button
+                  onClick={(e) => handlerSwitchFilter(e)}
+                  className="ButonSwitch"
                   type="button"
-                  disabled={navState.FilterCities || navState.FilterSounds}
-                  onClick={(e) => {
-                    handlerClickSearch(e);
-                  }}
-                  className="Butons"
                 >
-                  <img src={BTNSearch} alt="ico-search" />
+                  Filtros
                 </button>
-                <h3 className="H3">Buscar</h3>
-              </>
-            )}
-            {FiltroA && (
-              <>
-                <button
-                  disabled={navState.Search || navState.FilterSounds}
-                  onClick={(e) => {
-                    handlerClickCiudad(e);
-                  }}
-                  type="button"
-                  className="Butons"
-                >
-                  <img src={BTNFiltro} alt="ico-filtro" />
-                </button>
-                <h3 className="H3">Ciudad</h3>
-              </>
-            )}
-            {FiltroB && (
-              <>
-                <button
-                  disabled={navState.Search || navState.FilterCities}
-                  onClick={(e) => {
-                    handlerClickSound(e);
-                  }}
-                  type="button"
-                  className="Butons"
-                >
-                  <img src={BTNFiltro} alt="ico-filtro" />
-                </button>
-                <h3 className="H3">Sonido</h3>
-              </>
-            )}
+              )}
+              <div className="FiltersVew">
+                {Buscar && (
+                  <>
+                    <button
+                      type="button"
+                      disabled={
+                        navState.FilterCities || navState.FilterSounds || navState.FilterEvents
+                      }
+                      onClick={(e) => {
+                        handlerClickSearch(e);
+                      }}
+                      className="Butons"
+                    >
+                      <img src={BTNSearch} alt="ico-search" />
+                    </button>
+                    <h3 className="H3">Buscar</h3>
+                  </>
+                )}
+                {FiltroA && (
+                  <>
+                    <button
+                      disabled={navState.Search || navState.FilterSounds || navState.FilterEvents}
+                      onClick={(e) => {
+                        handlerClickCiudad(e);
+                      }}
+                      type="button"
+                      className="Butons"
+                    >
+                      <img src={BTNFiltro} alt="ico-filtro" />
+                    </button>
+                    <h3 className="H3">Ciudad</h3>
+                  </>
+                )}
+                {FiltroB && (
+                  <>
+                    <button
+                      disabled={navState.Search || navState.FilterCities || navState.FilterEvents}
+                      onClick={(e) => {
+                        handlerClickSound(e);
+                      }}
+                      type="button"
+                      className="Butons"
+                    >
+                      <img src={BTNFiltro} alt="ico-filtro" />
+                    </button>
+                    <h3 className="H3">Sonido</h3>
+                  </>
+                )}
+
+                {FiltroC && (
+                  <>
+                    <button
+                      disabled={navState.Search || navState.FilterCities || navState.FilterSounds}
+                      onClick={(e) => {
+                        handlerClickEvents(e);
+                      }}
+                      type="button"
+                      className="Butons"
+                    >
+                      <img src={BTNFiltro} alt="ico-filtro" />
+                    </button>
+                    <h3 className="H3">Eventos</h3>
+                  </>
+                )}
+              </div>
+            </div>
+
             {Eventos && (
               <>
                 <Link to={`/musicband/events/${infUser._id}`} className="Butons Link">

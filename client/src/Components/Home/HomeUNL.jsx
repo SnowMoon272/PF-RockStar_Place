@@ -334,9 +334,11 @@ const CarsStyleCont = styled.section`
 function HomeUNL() {
   const dispatch = useDispatch();
   let allPlaces = useSelector((state) => state.places);
+
   allPlaces = allPlaces.filter((place) => {
     return place.name !== "";
   });
+
   const filters = useSelector((state) => state.filters);
 
   useEffect(() => {
@@ -358,6 +360,7 @@ function HomeUNL() {
   const [filter, setFilter] = useState({
     FilterCities: "",
     FilterSounds: "",
+    FilterEvents: "",
   });
 
   const handlerClickReset = () => {
@@ -366,11 +369,13 @@ function HomeUNL() {
       updateFilters({
         Ciudad: false,
         Sonido: false,
+        Evento: false,
       }),
     );
     setFilter({
       FilterCities: "",
       FilterSounds: "",
+      FilterEvents: "",
     });
     paginado(1);
   };
@@ -389,6 +394,7 @@ function HomeUNL() {
         Buscar
         FiltroA
         FiltroB
+        FiltroC
         FondoImg
         paginado={paginado}
         setFilter={setFilter}
@@ -445,10 +451,11 @@ function HomeUNL() {
               <div className="FiltrosData">
                 <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
                 <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                <p>Filtro Evento: {filters.Evento ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
               </div>
             </div>
             <button type="button" onClick={(e) => handleClickSort(e)}>
-              ⭐ Populares ⭐
+              ⭐Populares⭐
             </button>
           </div>
           <div className="ContainerCards">

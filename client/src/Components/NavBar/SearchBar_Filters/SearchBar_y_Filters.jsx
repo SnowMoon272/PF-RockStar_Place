@@ -135,6 +135,7 @@ export default function SearchBarYFilters({
   Search,
   FilterCities,
   FilterSounds,
+  FilterEvents,
   UserLog,
 }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
@@ -181,6 +182,15 @@ export default function SearchBarYFilters({
     });
   };
 
+  const handlerSubmintCloseEvent = (e) => {
+    e.preventDefault();
+    setNavState({
+      ...navState,
+      Active: !navState.Active,
+      FilterEvents: !navState.FilterEvents,
+    });
+  };
+
   const handlerSubmintSearch = (e) => {
     e.preventDefault();
     dispatch(getPlacesByName(name));
@@ -195,17 +205,19 @@ export default function SearchBarYFilters({
       updateFilters({
         Ciudad: false,
         Sonido: false,
+        Evento: false,
       }),
     );
     setFilter({
       FilterCities: "",
       FilterSounds: "",
+      FilterEvents: "",
     });
   };
 
   const handlerSubmintFilterCity = (e) => {
     e.preventDefault();
-    dispatch(filteredPlaces(e.target.value, filter.FilterSounds));
+    dispatch(filteredPlaces(e.target.value, filter.FilterSounds, filter.FilterEvents));
     setFilter({ ...filter, FilterCities: e.target.value });
     dispatch(
       updateFilters({
@@ -223,7 +235,7 @@ export default function SearchBarYFilters({
 
   const handlerSubmintFilterSound = (e) => {
     e.preventDefault();
-    dispatch(filteredPlaces(filter.FilterCities, e.target.value));
+    dispatch(filteredPlaces(filter.FilterCities, e.target.value, filter.FilterEvents));
     setFilter({ ...filter, FilterSounds: e.target.value });
     dispatch(
       updateFilters({
@@ -236,6 +248,24 @@ export default function SearchBarYFilters({
       ...navState,
       Active: !navState.Active,
       FilterSounds: !navState.FilterSounds,
+    });
+  };
+
+  const handlerSubmintFilterEvent = (e) => {
+    e.preventDefault();
+    dispatch(filteredPlaces(filter.FilterCities, filter.FilterSounds, e.target.value));
+    setFilter({ ...filter, FilterEvents: e.target.value });
+    dispatch(
+      updateFilters({
+        ...filters,
+        Evento: true,
+      }),
+    );
+    paginado(1);
+    setNavState({
+      ...navState,
+      Active: !navState.Active,
+      FilterEvents: !navState.FilterEvents,
     });
   };
 
@@ -335,6 +365,39 @@ export default function SearchBarYFilters({
               />
               <option value="sonidoSi">Si</option>
               <option value="sonidoNo">No</option>
+            </select>
+          </div>
+        </>
+      )}
+      {FilterEvents && (
+        <>
+          <div className="ContainerTitle">
+            <h4>Locales con eventos abiertos</h4>
+            <button
+              name="FilterEvents"
+              onClick={(e) => handlerSubmintCloseEvent(e)}
+              type="button"
+              className="BTNCerrar"
+            >
+              <img src={SVGCerrar} alt="" />
+            </button>
+          </div>
+          <div className="ContainerSound Select">
+            <select
+              onChange={(e) => {
+                handlerSubmintFilterEvent(e);
+              }}
+              className="StyleSelect"
+              name="event"
+            >
+              <option
+                className="StyleOption"
+                defaultValue="opcion_blockeada"
+                hidden
+                label="Elige tu opcion."
+              />
+              <option value="hasDates">Abierto</option>
+              <option value="hasnotDates">Cerrado</option>
             </select>
           </div>
         </>

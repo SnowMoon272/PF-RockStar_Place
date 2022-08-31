@@ -337,7 +337,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				}
+				},
 			);
 			return place.findOne({ email });
 		} else {
@@ -366,7 +366,7 @@ export const addDate = async (email: string, date: string) => {
 							isAvailable: true,
 						},
 					],
-				}
+				},
 			);
 			return await place.findOne({ email });
 		} else return { error: "User does not exist." };
@@ -388,9 +388,9 @@ export const deleteAvailableDate = async (email: string, date: string) => {
 					{ email },
 					{
 						availableDates: currentPlace.availableDates.filter(
-							(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date
+							(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date,
 						),
-					}
+					},
 				);
 				return { msg: "Fecha eliminada correctamente." };
 			}
