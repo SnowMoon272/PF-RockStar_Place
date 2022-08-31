@@ -118,17 +118,30 @@ export function getDetailMusicBandByEmail(email) {
   };
 }
 
-export function filteredPlaces(city, sound) {
+export function filteredPlaces(city, sound, dates) {
   return async (dispatch) => {
     try {
       let json;
-      if (city && !sound) {
-        json = await axios.get(`/places?city=${city}`);
-      } else if (!city && sound) {
-        json = await axios.get(`/places?sound=${sound}`);
+      if (city && sound && dates) {
+        json = await axios.get(`/places?city=${city}&sound=${sound}&dates=${dates}`);
       }
-      if (city && sound) {
+      if (city && !sound && !dates) {
+        json = await axios.get(`/places?city=${city}`);
+      }
+      if (!city && sound && !dates) {
+        json = await axios.get(`/places?city=${sound}`);
+      }
+      if (city && sound && !dates) {
         json = await axios.get(`/places?city=${city}&sound=${sound}`);
+      }
+      if (city && !sound && dates) {
+        json = await axios.get(`/places?city=${city}&dates=${dates}`);
+      }
+      if (!city && sound && dates) {
+        json = await axios.get(`/places?sound=${sound}&dates=${dates}`);
+      }
+      if (!city && !sound && dates) {
+        json = await axios.get(`/places?dates=${dates}`);
       }
       return dispatch({
         type: FILTERED_PLACES,
