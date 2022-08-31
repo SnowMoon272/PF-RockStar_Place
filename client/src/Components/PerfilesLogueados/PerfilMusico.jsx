@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-confusing-arrow */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
@@ -267,16 +267,10 @@ export default function PerfilMusico() {
   const params = useParams();
   const musicBand = useSelector((state) => state.detail_music_band);
 
-  const [stateReseña, setStateReseña] = useState(false);
-
   useEffect(() => {
     dispatch(getDetailMusicBand(params.id));
   }, []);
 
-  const handlerSwitch = (e) => {
-    e.preventDefault();
-    setStateReseña(!stateReseña);
-  };
   return (
     <EditStyledCont Foto={musicBand}>
       <NavBar HomeLinkBanda Home Eventos UserLog />
