@@ -100,7 +100,7 @@ const getPlacesBySoundAndDates = async (sound: string, dates: string) => {
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}
@@ -118,7 +118,7 @@ const getPlacesByCityAndDates = async (city: string, dates: string) => {
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}
@@ -137,7 +137,7 @@ const getPlacesByAllFilters = async (city: string, sound: string, dates: string)
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}

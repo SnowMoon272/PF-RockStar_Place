@@ -372,7 +372,7 @@ export default function SearchBarYFilters({
       {FilterEvents && (
         <>
           <div className="ContainerTitle">
-            <h4>Locales con eventos abiertos</h4>
+            <h4>Locales con fechas disponibles</h4>
             <button
               name="FilterEvents"
               onClick={(e) => handlerSubmintCloseEvent(e)}
@@ -396,8 +396,8 @@ export default function SearchBarYFilters({
                 hidden
                 label="Elige tu opcion."
               />
-              <option value="hasDates">Abierto</option>
-              <option value="hasnotDates">Cerrado</option>
+              <option value="hasDates">Disponible</option>
+              <option value="noDates">No Disponible</option>
             </select>
           </div>
         </>

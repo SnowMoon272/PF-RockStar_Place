@@ -156,29 +156,32 @@ const NavBarStyle = styled.nav`
         justify-content: center;
         height: 70%;
 
+        .ButonSwitch {
+          margin-bottom: 15px;
+          width: 60px;
+          font-family: "RocknRoll One", sans-serif;
+          background-color: ${({ FondoImg }) => (FondoImg ? Colors.Green_Light : Colors.Blue_life)};
+          color: ${({ FondoImg }) => (FondoImg ? Colors.Erie_Black : Colors.Platinum)};
+          border-radius: 7px;
+          font-size: 1.4rem;
+          font-weight: bold;
+          border: ${({ FondoImg }) => (FondoImg ? "solid white 1px" : "none")};
+          transition: all 0.5s ease;
+
+          :hover {
+            cursor: pointer;
+            transform: scale(1.2);
+          }
+        }
+        .Pag {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
         .FiltrosCont {
           display: flex;
           flex-direction: column;
           align-items: center;
-
-          .ButonSwitch {
-            margin-bottom: 15px;
-            width: 60px;
-            font-family: "RocknRoll One", sans-serif;
-            background-color: ${({ FondoImg }) =>
-              FondoImg ? Colors.Green_Light : Colors.Blue_life};
-            color: ${({ FondoImg }) => (FondoImg ? Colors.Erie_Black : Colors.Platinum)};
-            border-radius: 7px;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border: ${({ FondoImg }) => (FondoImg ? "solid white 1px" : "none")};
-            transition: all 0.5s ease;
-
-            :hover {
-              cursor: pointer;
-              transform: scale(1.2);
-            }
-          }
 
           .FiltersVew {
             display: ${({ filterSwitch }) => (filterSwitch ? "flex" : "none")};
@@ -342,115 +345,115 @@ function NavBar({
             </div>
           )}
           <div className="ButonsEdits">
-            {Home && (
-              <>
-                <Link to="/" className="Butons Link">
-                  <img src={BTNHome} alt="ico-filtro" />
-                </Link>
-                <h3 className="H3">Home</h3>
-              </>
+            {Buscar && (
+              <button onClick={(e) => handlerSwitchFilter(e)} className="ButonSwitch" type="button">
+                {filterSwitch ? "Pag." : "Filtros"}
+              </button>
             )}
-            <div className="FiltrosCont">
-              {Buscar && (
-                <button
-                  onClick={(e) => handlerSwitchFilter(e)}
-                  className="ButonSwitch"
-                  type="button"
-                >
-                  Filtros
-                </button>
-              )}
-              <div className="FiltersVew">
-                {Buscar && (
+            {filterSwitch ? (
+              <div className="FiltrosCont">
+                <div className="FiltersVew">
+                  {Buscar && (
+                    <>
+                      <button
+                        type="button"
+                        disabled={
+                          navState.FilterCities || navState.FilterSounds || navState.FilterEvents
+                        }
+                        onClick={(e) => {
+                          handlerClickSearch(e);
+                        }}
+                        className="Butons"
+                      >
+                        <img src={BTNSearch} alt="ico-search" />
+                      </button>
+                      <h3 className="H3">Buscar</h3>
+                    </>
+                  )}
+                  {FiltroA && (
+                    <>
+                      <button
+                        disabled={navState.Search || navState.FilterSounds || navState.FilterEvents}
+                        onClick={(e) => {
+                          handlerClickCiudad(e);
+                        }}
+                        type="button"
+                        className="Butons"
+                      >
+                        <img src={BTNFiltro} alt="ico-filtro" />
+                      </button>
+                      <h3 className="H3">Ciudad</h3>
+                    </>
+                  )}
+                  {FiltroB && (
+                    <>
+                      <button
+                        disabled={navState.Search || navState.FilterCities || navState.FilterEvents}
+                        onClick={(e) => {
+                          handlerClickSound(e);
+                        }}
+                        type="button"
+                        className="Butons"
+                      >
+                        <img src={BTNFiltro} alt="ico-filtro" />
+                      </button>
+                      <h3 className="H3">Sonido</h3>
+                    </>
+                  )}
+                  {FiltroC && (
+                    <>
+                      <button
+                        disabled={navState.Search || navState.FilterCities || navState.FilterSounds}
+                        onClick={(e) => {
+                          handlerClickEvents(e);
+                        }}
+                        type="button"
+                        className="Butons"
+                      >
+                        <img src={BTNFiltro} alt="ico-filtro" />
+                      </button>
+                      <h3 className="H3">Fechas</h3>
+                    </>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="Pag">
+                {Home && (
                   <>
-                    <button
-                      type="button"
-                      disabled={
-                        navState.FilterCities || navState.FilterSounds || navState.FilterEvents
-                      }
-                      onClick={(e) => {
-                        handlerClickSearch(e);
-                      }}
-                      className="Butons"
-                    >
-                      <img src={BTNSearch} alt="ico-search" />
-                    </button>
-                    <h3 className="H3">Buscar</h3>
+                    <Link to="/" className="Butons Link">
+                      <img src={BTNHome} alt="ico-filtro" />
+                    </Link>
+                    <h3 className="H3">Home</h3>
                   </>
                 )}
-                {FiltroA && (
+                {Eventos && (
                   <>
-                    <button
-                      disabled={navState.Search || navState.FilterSounds || navState.FilterEvents}
-                      onClick={(e) => {
-                        handlerClickCiudad(e);
-                      }}
-                      type="button"
-                      className="Butons"
-                    >
-                      <img src={BTNFiltro} alt="ico-filtro" />
-                    </button>
-                    <h3 className="H3">Ciudad</h3>
-                  </>
-                )}
-                {FiltroB && (
-                  <>
-                    <button
-                      disabled={navState.Search || navState.FilterCities || navState.FilterEvents}
-                      onClick={(e) => {
-                        handlerClickSound(e);
-                      }}
-                      type="button"
-                      className="Butons"
-                    >
-                      <img src={BTNFiltro} alt="ico-filtro" />
-                    </button>
-                    <h3 className="H3">Sonido</h3>
-                  </>
-                )}
-
-                {FiltroC && (
-                  <>
-                    <button
-                      disabled={navState.Search || navState.FilterCities || navState.FilterSounds}
-                      onClick={(e) => {
-                        handlerClickEvents(e);
-                      }}
-                      type="button"
-                      className="Butons"
-                    >
-                      <img src={BTNFiltro} alt="ico-filtro" />
-                    </button>
+                    <Link to={`/musicband/events/${infUser._id}`} className="Butons Link">
+                      <img src={BTNEvent} alt="ico-filtro" />
+                    </Link>
                     <h3 className="H3">Eventos</h3>
                   </>
                 )}
+                {Perfil && (
+                  <>
+                    <Link
+                      to={
+                        isMusicband()
+                          ? `/musicbandprofile/${infUser._id}`
+                          : `/placeprofile/${infUser._id}`
+                      }
+                      className="Butons Link Perfil"
+                    >
+                      <img src={BTNUser} alt="ico-filtro" />
+                    </Link>
+                    <h3 className="H3">Perfil</h3>
+                  </>
+                )}
               </div>
-            </div>
-
-            {Eventos && (
-              <>
-                <Link to={`/musicband/events/${infUser._id}`} className="Butons Link">
-                  <img src={BTNEvent} alt="ico-filtro" />
-                </Link>
-                <h3 className="H3">Eventos</h3>
-              </>
-            )}
-            {Perfil && (
-              <>
-                <Link
-                  to={
-                    isMusicband()
-                      ? `/musicbandprofile/${infUser._id}`
-                      : `/placeprofile/${infUser._id}`
-                  }
-                  className="Butons Link Perfil"
-                >
-                  <img src={BTNUser} alt="ico-filtro" />
-                </Link>
-                <h3 className="H3">Perfil</h3>
-              </>
             )}
           </div>
+
           <div className="buttonLink">
             <a className="Ancord" href="/help">
               <img className="FoundIMG" src={BTNHelp} alt="Help" />
