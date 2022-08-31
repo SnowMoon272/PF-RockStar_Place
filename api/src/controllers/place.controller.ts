@@ -14,6 +14,7 @@ import {
 	deleteAvailableDate,
 	suscribedSuccessful,
 	getPlace,
+	banHandler,
 } from '../db/models/placeModel';
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -155,6 +156,23 @@ const suscribedSuccessfulController = async (req: any, res: any) => {
 	return res.status(404).send({ error: "Data faltante o incorrecta" });
 };
 
+const banPlaceController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (email) {
+		try {
+			const place = await getPlace(email)
+			if (place) {
+				await banHandler(email);
+				return res.status(201).send({ msg: "Se actualizó el ban del lugar correctamente" })
+			} return res.status(404).send({ msg: "Email no corresponde a un place" })
+		} catch (error) {
+			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
+		}
+	} else {
+		res.status(404).send({ msg: "Data incorrecta" });
+	}
+};
+
 module.exports = {
 	getAllPlacesController,
 	createPlaceController,
@@ -166,5 +184,6 @@ module.exports = {
 	AddDatePlaceController,
 	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
-	getPlaceByEmailController
+	getPlaceByEmailController,
+	banPlaceController
 };

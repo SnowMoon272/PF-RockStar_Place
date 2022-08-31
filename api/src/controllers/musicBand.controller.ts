@@ -8,6 +8,7 @@ import {
 	getMusicBand,
 	getMusicBandByID,
 	updateMusicBand,
+	banHandler
 } from "../db/models/musicBandModel";
 
 const getAllBandsController = async (req: any, res: any) => {
@@ -89,6 +90,23 @@ const getMusicBandByIDController = async (req: any, res: any) => {
 	if (!id) return res.status(404).send({ msg: "Invalid data" });
 };
 
+const banMusicBandController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (email) {
+		try {
+			const musicband = await getMusicBand(email)
+			if (musicband) {
+				await banHandler(email);
+				return res.status(201).send({ msg: "Se actualizó el ban de la musicband correctamente" })
+			} return res.status(404).send({ msg: "Email no corresponde a una musicband" })
+		} catch (error) {
+			return res.status(500).send({ error: "No se pudo actualizar la musicband" });
+		}
+	} else {
+		res.status(404).send({ msg: "Data incorrecta" });
+	}
+};
+
 module.exports = {
 	getAllBandsController,
 	createMusicBandController,
@@ -96,4 +114,5 @@ module.exports = {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
+	banMusicBandController
 };
