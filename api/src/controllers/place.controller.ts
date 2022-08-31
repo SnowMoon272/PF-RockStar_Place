@@ -1,4 +1,6 @@
-import { Request, Response } from "express";
+import { log } from "console";
+import { Request, response, Response } from "express";
+import { placeAvailable } from "../db/interfaces/place.interfaces";
 
 const express = require("express");
 
@@ -14,7 +16,7 @@ import {
 	deleteAvailableDate,
 	suscribedSuccessful,
 	getPlace,
-  banHandler,
+	banHandler,
 } from '../db/models/placeModel';
 
 const getAllPlacesController = async (req: any, res: any) => {
@@ -94,7 +96,7 @@ const getPlaceByNameController = async (req: any, res: any) => {
 	}
 };
 
-const getCitiesController = async (req: any, res: any) => {
+const getCitiesController = async (_req: any, res: any) => {
 	try {
 		let cities = await getCities();
 		if (cities) return res.status(200).send(cities);
@@ -156,7 +158,7 @@ const suscribedSuccessfulController = async (req: any, res: any) => {
 	return res.status(404).send({ error: "Data faltante o incorrecta" });
 };
 
-const banPlaceController = async (req: any, res: any) => {
+/* const banPlaceController = async (req: any, res: any) => {
 	const { email } = req.body;
 	if (email) {
 		try {
@@ -170,6 +172,25 @@ const banPlaceController = async (req: any, res: any) => {
 		}
 	} else {
 		res.status(404).send({ msg: "Data incorrecta" });
+	}
+}; */
+
+const banPlaceController = async (req: any, res: any) => {
+	let { email } = req.body;
+	if (email) {
+		let placeByEmail = await getPlace(email)
+		if (placeByEmail) {
+			//console.log(placeByEmail.availableDates);
+
+			placeByEmail.availableDates.map(async (date: placeAvailable) => {
+				console.log(date.date.toISOString().substring(0,10));
+				//deleteAvailableDate(email, date.date.toISOString().substring(0, 10))
+			}
+			)
+			return res.send("OK")
+		} else { return res.status(404).send("Email no corresponde a un place") }
+	} else {
+		return res.status(404).send({ msg: "Data incorrecta" });
 	}
 };
 
