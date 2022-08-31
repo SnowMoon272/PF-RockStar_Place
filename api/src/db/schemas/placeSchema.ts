@@ -69,6 +69,15 @@ export const placeSchema = new Schema({
 		startDate: { type: Date, default: Date.now },
 		payment_id: { type: String, default: "" },
 	},
+
+	notifications: [
+		{
+			isNew: {type: Boolean, default: true},
+			message: {type: String, require: true, default:""},
+			type: {type: String, default: "info"},
+		}
+	],
+
 });
 
 module.exports = placeSchema;

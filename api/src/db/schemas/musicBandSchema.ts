@@ -53,6 +53,13 @@ export const musicBandSchema = new Schema({
 			email: { type: String },
 		},
 	],
+	notifications: [
+		{
+			isNew: {type: Boolean, default: true},
+			message: {type: String, require: true, default:""},
+			type: {type: String, default: "info"},
+		}
+	],
 });
 
 musicBandSchema.methods.isValidPassword = async function(password : string){

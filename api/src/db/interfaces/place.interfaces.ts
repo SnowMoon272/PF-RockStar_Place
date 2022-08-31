@@ -51,3 +51,9 @@ export type suscription = {
 	startDate: Date;
 	payment_id: string;
 };
+
+export interface notification {
+	isNew: boolean,
+	message: string,
+	type: string,
+}

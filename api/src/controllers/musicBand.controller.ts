@@ -1,6 +1,3 @@
-// import { any, any } from 'express';
-// const { any, any } = require('express');
-const express = require("express");
 import {
 	addBandReview,
 	createMusicBand,
@@ -8,8 +5,15 @@ import {
 	getMusicBand,
 	getMusicBandByID,
 	updateMusicBand,
-	banHandler
+	banHandler,
 } from "../db/models/musicBandModel";
+
+import {
+	sendNotification,
+	deleteAllNotifications,
+} from "../db/models/inter.model";
+
+import { musicBand } from "../db/models/musicBandModel";
 
 const getAllBandsController = async (req: any, res: any) => {
 	try {
@@ -31,7 +35,10 @@ const updateMusicBandController = async (req: any, res: any) => {
 	if (data) {
 		try {
 			let updated = await updateMusicBand(email, data);
-			if (updated) return res.status(201).send({ msg: "Se actualizó la banda correctamente" });
+			if (updated)
+				return res
+					.status(201)
+					.send({ msg: "Se actualizó la banda correctamente" });
 			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo actualizar la banda" });
@@ -47,7 +54,9 @@ const createMusicBandController = async (req: any, res: any) => {
 		try {
 			let created = await createMusicBand(musicBand);
 			if (created.hasOwnProperty("error"))
-				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res
+					.status(400)
+					.send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó la banda correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
@@ -94,16 +103,47 @@ const banMusicBandController = async (req: any, res: any) => {
 	const { email } = req.body;
 	if (email) {
 		try {
-			const musicband = await getMusicBand(email)
+			const musicband = await getMusicBand(email);
 			if (musicband) {
 				await banHandler(email);
-				return res.status(201).send({ msg: "Se actualizó el ban de la musicband correctamente" })
-			} return res.status(404).send({ msg: "Email no corresponde a una musicband" })
+				return res
+					.status(201)
+					.send({ msg: "Se actualizó el ban de la musicband correctamente" });
+			}
+			return res
+				.status(404)
+				.send({ msg: "Email no corresponde a una musicband" });
 		} catch (error) {
-			return res.status(500).send({ error: "No se pudo actualizar la musicband" });
+			return res
+				.status(500)
+				.send({ error: "No se pudo actualizar la musicband" });
 		}
 	} else {
 		res.status(404).send({ msg: "Data incorrecta" });
+	}
+};
+
+const sendNotificationController = async (req: any, res: any) => {
+	const { email, notification } = req.body;
+	if (!email || !notification) return res.status(400).send("Invalid data");
+
+	try {
+		const response = await sendNotification(musicBand, email, notification);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteNotificationController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(404).send("Invalid data");
+
+	try {
+		const response = await deleteAllNotifications(musicBand, email);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
 	}
 };
 
@@ -114,5 +154,7 @@ module.exports = {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
-	banMusicBandController
+	banMusicBandController,
+	sendNotificationController,
+	deleteNotificationController,
 };
