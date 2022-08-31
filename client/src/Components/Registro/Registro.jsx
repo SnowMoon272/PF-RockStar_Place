@@ -331,6 +331,7 @@ const LoginStyleCont2 = styled.div`
 
 function Registro() {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
