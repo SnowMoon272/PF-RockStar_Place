@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BotonSuscribete from "./BotonSuscripcion";
 import NavBar from "../NavBar/NavBar";
