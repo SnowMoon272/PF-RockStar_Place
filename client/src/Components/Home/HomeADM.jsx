@@ -3,10 +3,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "./Elements/Card";
+import Graficass from "./Elements/Graficas";
+import UsersInf from "./Elements/UsersInf";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/blackAndWhite.jpg";
 import SVGNoti from "../../Assets/svg/Notificacion.svg";
 import SVGUser from "../../Assets/svg/Ingresar.svg";
+import IMGUp from "../../Assets/img/flecha-hacia-arriba.png";
 
 const HomeStyleCont = styled.div`
   /* border: solid #ff0000 3px; */
@@ -15,12 +18,66 @@ const HomeStyleCont = styled.div`
   background-color: ${Colors.Erie_Black};
   width: 100%;
   /* height: fit-content; */
-  height: 2000px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
   color: ${Colors.Platinum};
+
+  & .ImgContainer {
+    /* border: solid #002fff 3px; */
+
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 100vh;
+
+    & img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    .Up {
+      position: fixed;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      bottom: 20px;
+      right: 25px;
+      z-index: 25;
+      width: 40px;
+      height: 40px;
+
+      animation-name: Up;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      @keyframes Up {
+        0% {
+          bottom: 30px;
+        }
+        50% {
+          bottom: 10px;
+        }
+        100% {
+          bottom: 30px;
+        }
+      }
+      :hover {
+        cursor: pointer;
+      }
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
 
   & .Header {
     /* border: solid #00ffe5 3px; */
@@ -142,24 +199,8 @@ const HomeStyleCont = styled.div`
     }
   }
 
-  & .ImgContainer {
-    /* border: solid #002fff 3px; */
-
-    box-sizing: border-box;
-    position: fixed;
-    z-index: 10;
-    width: 100%;
-    height: 100vh;
-
-    & img {
-      width: 100%;
-      height: 100vh;
-      object-fit: cover;
-    }
-  }
-
   & .TrasparentStyledCont {
-    border: solid #11ff00 3px;
+    /* border: solid #11ff00 3px; */
 
     box-sizing: border-box;
     position: relative;
@@ -173,7 +214,7 @@ const HomeStyleCont = styled.div`
 `;
 
 const NotificacionesStyleCont = styled.section`
-  border: solid #ff00f7 3px;
+  /* border: solid #ff00f7 3px; */
 
   box-sizing: border-box;
   background-color: ${Colors.Oxford_Blue_transparent};
@@ -229,21 +270,25 @@ const NotificacionesStyleCont = styled.section`
 `;
 
 const GraficStyleCont = styled.div`
-  border: solid #7300ff 3px;
+  /* border: solid #7300ff 3px; */
 
   box-sizing: border-box;
+  margin-bottom: 100px;
   background-color: ${Colors.Oxford_Blue_transparent};
   width: 100%;
-  height: fit-content;
+  height: 680px;
+  object-fit: cover;
 `;
 
 const UsersStyleCont = styled.div`
-  border: solid #7300ff 3px;
+  /* border: solid #7300ff 3px; */
 
   box-sizing: border-box;
-  background-color: ${Colors.Oxford_Blue_transparent};
+  margin-bottom: 100px;
+  /* background-color: ${Colors.Oxford_Blue_transparent}; */
   width: 100%;
   height: fit-content;
+  object-fit: cover;
 `;
 
 function HomeADM() {
@@ -261,8 +306,11 @@ function HomeADM() {
     <HomeStyleCont>
       <div className="ImgContainer">
         <img src={BGHome} alt="Background" />
+        <a href="#Notification" className="Up">
+          <img src={IMGUp} alt="Up" />
+        </a>
       </div>
-      <header className="Header">
+      <header id="Notification" className="Header">
         <div className="NotioficationContLogo">
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
@@ -297,10 +345,10 @@ function HomeADM() {
           </NotificacionesStyleCont>
         )}
         <GraficStyleCont>
-          <h2>Graficas</h2>
+          <Graficass />
         </GraficStyleCont>
         <UsersStyleCont>
-          <h2>Usuarios</h2>
+          <UsersInf />
         </UsersStyleCont>
       </div>
     </HomeStyleCont>
