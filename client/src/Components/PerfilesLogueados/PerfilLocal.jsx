@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -271,6 +272,8 @@ const DetailStyleCont = styled.div`
 export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
+
   const place = useSelector((state) => state.detail_place);
 
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
@@ -290,6 +293,22 @@ export default function DetailPlace() {
       dispatch(resetDetails([]));
     };
   }, []);
+
+  async function handleClick(e) {
+    e.preventDefault();
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true) {
+      await axios.put("/placeDisabled", {
+        email: place.email,
+        disabled: true,
+      },
+      );
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", place);
+    }
+  };
+  //console.log("afuera", place);
 
   const getMonth = (mes) => {
     if (mes === "01") return "Enero";
@@ -434,6 +453,13 @@ export default function DetailPlace() {
                       <img src={Editar} alt="Edit" />
                     </Link>
                     <h4>Editar</h4>
+                  </div>
+                </div>
+                <div className="divDesactivar">
+                  <div className="divDesctivaryTexto">
+                    <button type="button" onClick={(e) => handleClick(e)}>
+                      <h4>Desactivar cuenta</h4>
+                    </button>
                   </div>
                 </div>
               </div>
