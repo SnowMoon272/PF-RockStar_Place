@@ -4,6 +4,7 @@ import BotonSuscribete from "./BotonSuscripcion";
 import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import hombrePerdido from "../../Assets/img/hombreperdido.png";
+import LoaderComponent from "../Loader/Loading";
 
 const SuscripcionStyleCont = styled.div`
   background-image: url(${BGHome});
@@ -42,16 +43,28 @@ const SuscripcionDetailCont = styled.div`
 `;
 
 export default function suscripcionError() {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+  }, []);
   return (
-    <SuscripcionStyleCont>
-      <NavBar Home />
+    <div>
+      {loading ? (
+        <div>
+          <SuscripcionStyleCont>
+            <NavBar Home />
 
-      <SuscripcionDetailCont>
-        <img src={hombrePerdido} alt="img not found" />
-      </SuscripcionDetailCont>
-      <div className="btnCont">
-        <BotonSuscribete />
-      </div>
-    </SuscripcionStyleCont>
+            <SuscripcionDetailCont>
+              <img src={hombrePerdido} alt="img not found" />
+            </SuscripcionDetailCont>
+            <div className="btnCont">
+              <BotonSuscribete />
+            </div>
+          </SuscripcionStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

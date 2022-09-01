@@ -7,6 +7,7 @@ import NavBar from "../NavBar/NavBar";
 import hombreFeliz from "../../Assets/img/hombrefeliz.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import LoaderComponent from "../Loader/Loading";
 
 const SuscripcionStyleCont = styled.div`
   background-image: url(${BGHome});
@@ -59,6 +60,7 @@ const SuscripcionDetailCont = styled.div`
 `;
 
 export default function suscripcionSuccess() {
+  const [loading, setLoading] = useState(false);
   const busqueda = useLocation().search;
   const createSuscription = async (userPlace) => {
     const respuesta = {
@@ -79,6 +81,7 @@ export default function suscripcionSuccess() {
     }
   };
   useEffect(async () => {
+    setLoading(true);
     if (isAuthenticated()) {
       const userInfo = await getUserInfo();
 
@@ -87,17 +90,25 @@ export default function suscripcionSuccess() {
   }, []);
 
   return (
-    <SuscripcionStyleCont>
-      <NavBar Home />
+    <div>
+      {loading ? (
+        <div>
+          <SuscripcionStyleCont>
+            <NavBar Home />
 
-      <SuscripcionDetailCont>
-        <img src={hombreFeliz} alt="img not found" />
-      </SuscripcionDetailCont>
-      <Link to="/">
-        <button className="btnSuscribete" type="submit">
-          Home
-        </button>
-      </Link>
-    </SuscripcionStyleCont>
+            <SuscripcionDetailCont>
+              <img src={hombreFeliz} alt="img not found" />
+            </SuscripcionDetailCont>
+            <Link to="/">
+              <button className="btnSuscribete" type="submit">
+                Home
+              </button>
+            </Link>
+          </SuscripcionStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

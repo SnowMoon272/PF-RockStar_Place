@@ -14,6 +14,7 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
+import LoaderComponent from "../Loader/Loading";
 import {
   getPlaces,
   updateFilters,
@@ -379,7 +380,7 @@ function HomeBL() {
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeEvent = useSelector((state) => state.detail_event);
   const [user, setuser] = useState({});
-
+  const [loading, setLoading] = useState(false);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates
     ? musicBand.dates.sort(
@@ -400,6 +401,7 @@ function HomeBL() {
   }
 
   useEffect(async () => {
+    setLoading(true);
     dispatch(getPlaces());
     const user = await getUserInfo();
     setuser(user);
@@ -467,6 +469,9 @@ function HomeBL() {
 
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
+      <div>
+      {loading ? (
+          <div>
     <HomeStyleCont>
       <NavBar
         Buscar
@@ -543,10 +548,9 @@ function HomeBL() {
           <div className="Paginado">
             <Pagination
               UserLog
-              cardsPerPage={cardsPerPage}
-              allPlaces={allPlaces.length}
               paginado={paginado}
-              pageNumber={pageNumber}
+              setFilter={setFilter}
+              filter={filter}
             />
           </div>
           <div className="BotonesExtra">
@@ -564,33 +568,116 @@ function HomeBL() {
                 <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
                 <p>Filtro Evento: {filters.Evento ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
               </div>
-            </div>
-            <button type="button" onClick={(e) => handleClickSort(e)}>
-              ⭐ Populares ⭐
-            </button>
-          </div>
-          <div className="ContainerCards">
-            {currentCards.length ? (
-              <CardsPlaces UserLog currentPlaces={currentCards} />
-            ) : (
-              <div className="NotFound"> ¡No se encontraron resultados! </div>
-            )}
-          </div>
-          <Pagination
-            UserLog
-            cardsPerPage={cardsPerPage}
-            allPlaces={allPlaces.length}
-            paginado={paginado}
-            pageNumber={pageNumber}
-          />
-        </CarsStyleCont>
-      </SecondVewStyleCont>
-      {/* <FooterStyle>
+              <div className="Heder">
+                <img className="Logo" src={IMGLogoA} alt="" />
+                <h1 className="Title">{musicBand.name}</h1>
+                <button type="button" className="Notificacion">
+                  <img src="" alt="" />
+                </button>
+              </div>
+              <div className="CardUnicaCont">
+                <div className="ImgBanda">
+                  <img src={musicBand.profilePicture} alt="Banda" />
+                </div>
+                {confirmedDates.length > 0 ? (
+                  <div className="ProximoInfCont">
+                    <div className="ProximoInf">
+                      <h4>Proximo Evento</h4>
+                      <p>
+                        <span>Local: </span>
+                        {placeEvent.name} <br />
+                        <span>Fecha: </span>
+                        {confirmedDates.length > 0
+                          ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                              confirmedDates[0].date.substring(5, 7),
+                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          : null}
+                        <br />
+                        <span>Contacto: </span>
+                        {placeEvent.personInCharge}
+                        <br />
+                        <span>Telefono: </span>
+                        {placeEvent.phoneNumber}
+                        <br />
+                        <span>Direccion: </span>
+                        {placeEvent.adress}
+                      </p>
+                    </div>
+                    <div className="ProximoIMGyBtn">
+                      <img src={placeEvent.profilePicture} alt="Local" />
+                      <Link className="Lynk_Btn" to={`/musicband/events/${user._id}`}>
+                        <button type="button">Detalle</button>
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="SinEvento">
+                    <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+                  </div>
+                )}
+              </div>
+            </FirtVewStyleCont>
+            <SecondVewStyleCont UserLog id="SecondVewStyleCont">
+              <div className="ContenidoPrevio">
+                <img src={Logo} alt="Logo" />
+              </div>
+              <CarsStyleCont>
+                <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
+                <div className="Paginado">
+                  <Pagination
+                    UserLog
+                    cardsPerPage={cardsPerPage}
+                    allPlaces={allPlaces.length}
+                    paginado={paginado}
+                    pageNumber={pageNumber}
+                  />
+                </div>
+                <div className="BotonesExtra">
+                  <button
+                    onClick={(e) => {
+                      handlerClickReset(e);
+                    }}
+                    type="button"
+                  >
+                    Resetear Filtros
+                  </button>
+                  <div className="Filtros">
+                    <div className="FiltrosData">
+                      <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                      <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={(e) => handleClickSort(e)}>
+                    ⭐ Populares ⭐
+                  </button>
+                </div>
+                <div className="ContainerCards">
+                  {currentCards.length ? (
+                    <CardsPlaces UserLog currentPlaces={currentCards} />
+                  ) : (
+                    <div className="NotFound"> ¡No se encontraron resultados! </div>
+                  )}
+                </div>
+                <Pagination
+                  UserLog
+                  cardsPerPage={cardsPerPage}
+                  allPlaces={allPlaces.length}
+                  paginado={paginado}
+                  pageNumber={pageNumber}
+                />
+              </CarsStyleCont>
+            </SecondVewStyleCont>
+            {/* <FooterStyle>
         Fotter
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
         sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
       </FooterStyle> */}
-    </HomeStyleCont>
+          </HomeStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
 
