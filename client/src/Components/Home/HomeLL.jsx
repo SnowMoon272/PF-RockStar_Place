@@ -489,24 +489,22 @@ function HomeLL() {
 
   const confirmedDates = place.dates
     ? place.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const availableDates = place.availableDates
     ? place.availableDates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
+    )
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
   const getCurrentDate = () => {
-    const date = new Date();
-    let month = date.getMonth() + 1;
-    if (month.toString().length < 2) month = `0${month}`;
-    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
-    return currentDate;
+    const currentDate = new Date();
+    const date = currentDate.toISOString();
+    return `${date.substring(0, 4)}-${date.substring(5, 7)}-${date.substring(8, 10)}`;
   };
 
   function validate(input) {
@@ -707,8 +705,8 @@ function HomeLL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>
