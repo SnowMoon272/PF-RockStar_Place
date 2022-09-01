@@ -502,11 +502,9 @@ function HomeLL() {
   const allDates = [...confirmedDates, ...availableDates];
 
   const getCurrentDate = () => {
-    const date = new Date();
-    let month = date.getMonth() + 1;
-    if (month.toString().length < 2) month = `0${month}`;
-    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
-    return currentDate;
+    const currentDate = new Date();
+    const date = currentDate.toISOString();
+    return `${date.substring(0, 4)}-${date.substring(5, 7)}-${date.substring(8, 10)}`;
   };
 
   function validate(input) {

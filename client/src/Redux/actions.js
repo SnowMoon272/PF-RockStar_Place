@@ -10,7 +10,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
-  POST_REGISTER = "POST_REGISTER";
+  POST_REGISTER = "POST_REGISTER",
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS";
 
 export function updateFilters(data) {
   return {
@@ -200,6 +201,20 @@ export function getDetailPlaceByEmail(email) {
       const json = await axios.get(`/place-email/${email}`);
       return dispatch({
         type: GET_DETAIL_PLACE,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getMusicBands() {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get("/musicbands");
+      return dispatch({
+        type: GET_MUSIC_BANDS,
         payload: json.data,
       });
     } catch (error) {

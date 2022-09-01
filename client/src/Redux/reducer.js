@@ -11,9 +11,11 @@ import {
   GET_DETAIL_MUSIC_BAND,
   GET_DETAIL_EVENT,
   POST_REGISTER,
+  GET_MUSIC_BANDS,
 } from "./actions";
 
 const initialState = {
+  musicBands: [],
   places: [],
   detail_place: [],
   cities: [],
@@ -29,6 +31,11 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_MUSIC_BANDS:
+      return {
+        ...state,
+        musicBands: action.payload,
+      };
     case GET_PLACES:
       return {
         ...state,

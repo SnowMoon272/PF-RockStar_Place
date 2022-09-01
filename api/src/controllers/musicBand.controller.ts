@@ -8,8 +8,10 @@ import {
 	getMusicBand,
 	getMusicBandByID,
 	updateMusicBand,
+	disabledMusicBand,
 	banHandler
 } from "../db/models/musicBandModel";
+import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
 
 const getAllBandsController = async (req: any, res: any) => {
 	try {
@@ -90,20 +92,43 @@ const getMusicBandByIDController = async (req: any, res: any) => {
 	if (!id) return res.status(404).send({ msg: "Invalid data" });
 };
 
-const banMusicBandController = async (req: any, res: any) => {
-	const { email } = req.body;
-	if (email) {
+const disabledBandController = async (req: any, res: any) => {
+	const { email, disabled } = req.body;
+	if (disabled) {
 		try {
-			const musicband = await getMusicBand(email)
-			if (musicband) {
-				await banHandler(email);
-				return res.status(201).send({ msg: "Se actualizó el ban de la musicband correctamente" })
-			} return res.status(404).send({ msg: "Email no corresponde a una musicband" })
+			let userDisabled = await disabledMusicBand(email, disabled);
+			if (userDisabled) return res.status(201).send({ msg: "Se desactivo la banda correctamente" });
+			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
-			return res.status(500).send({ error: "No se pudo actualizar la musicband" });
+			return res.status(500).send({ error: "No se pudo desactivar la banda" });
 		}
 	} else {
-		res.status(404).send({ msg: "Data incorrecta" });
+		res.status(404).send({ msg: "Data faltante o incorrecta" });
+	}
+};
+
+const banMusicBandController = async (req: any, res: any) => {
+	let { email } = req.body;
+	if (email) {
+		let musicBandByEmail = await getMusicBand(email)
+		if (musicBandByEmail) {
+			if (musicBandByEmail.banned === false) {
+				for (const date of musicBandByEmail.pendingDates) {
+					await removePendingDate(email, date.email, date.date.toISOString().substring(0, 10));
+				}
+				for (const date of musicBandByEmail.dates) {
+					await removeConfirmedDate(email, date.email, date.date.toISOString().substring(0, 10));
+				}
+				await banHandler(email)
+				res.send("MusicBand banned = true, todas sus fechas y relaciones con Places fueron eliminadas (si las tuviera)")
+			}
+			if (musicBandByEmail.banned === true) {
+				await banHandler(email)
+				res.send("MusicBabd banned = false, MusicBand fue desbaneada")
+			}
+		} else { return res.status(404).send("Email no corresponde a una musicBand") }
+	} else {
+		return res.status(404).send({ msg: "Data incorrecta" });
 	}
 };
 
@@ -114,5 +139,6 @@ module.exports = {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
+	disabledBandController,
 	banMusicBandController
 };

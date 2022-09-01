@@ -25,6 +25,7 @@ import BTNHelp from "../../Assets/svg/Ayuda.svg";
 import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
 import BTNUser from "../../Assets/svg/User.svg";
+import BTNRefresh from "../../Assets/svg/Retroceder.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 
@@ -167,10 +168,17 @@ const NavBarStyle = styled.nav`
           font-weight: bold;
           border: ${({ FondoImg }) => (FondoImg ? "solid white 1px" : "none")};
           transition: all 0.5s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
           :hover {
             cursor: pointer;
             transform: scale(1.2);
+          }
+
+          & img {
+            margin: 2px;
           }
         }
         .Pag {
@@ -347,7 +355,7 @@ function NavBar({
           <div className="ButonsEdits">
             {Buscar && (
               <button onClick={(e) => handlerSwitchFilter(e)} className="ButonSwitch" type="button">
-                {filterSwitch ? "Pag." : "Filtros"}
+                {filterSwitch ? <img src={BTNRefresh} alt="ico-login" /> : "Filtros"}
               </button>
             )}
             {filterSwitch ? (

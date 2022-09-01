@@ -392,6 +392,12 @@ function HomeBL() {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
 
+  function disabledValidate() {
+    if (musicBand.disabled === true) {
+      navigate("/reactivarCuenta");
+    }
+  }
+
   function validate() {
     if (musicBand && musicBand.name === "") {
       alert("Debe cargar los datos de la banda");
@@ -409,6 +415,7 @@ function HomeBL() {
   }, []);
 
   useEffect(() => {
+    disabledValidate();
     validate();
   }, [musicBand]);
 

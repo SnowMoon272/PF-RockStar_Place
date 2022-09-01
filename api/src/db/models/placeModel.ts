@@ -410,6 +410,20 @@ export const suscribedSuccessful = async (email: string, suscription: suscriptio
 	}
 };
 
+export const disabledPlace = async (email: string, disabled: boolean) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne({ email }, { disabled });
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
 export const getEmailsPlaces = async () => {
 	try {
 		const EmailsPlaces = await place.find({}, { email: 1 }).distinct("email");
