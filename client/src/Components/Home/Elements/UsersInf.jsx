@@ -202,6 +202,7 @@ const ContainerGralStyled = styled.div`
 function UsersInf() {
   const [loading, setLoading] = useState(false);
   const [Switch, setSwitch] = useState(false);
+  const [SwitchNotif, setSwitchNotif] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -209,6 +210,7 @@ function UsersInf() {
 
   function handleCheckBox(e) {
     setSwitch(!Switch);
+    setSwitchNotif(false);
   }
 
   function handleClickDetallesBanda(e) {
@@ -237,8 +239,14 @@ function UsersInf() {
               </div>
               <img src={IMGLogo} alt="" />
             </div>
-            <div className="ContenedorDeArriba">{Switch ? <ModoEditar /> : <ModoNotificar />}</div>
-            <Notificar />
+            <div className="ContenedorDeArriba">
+              {Switch ? (
+                <ModoEditar />
+              ) : (
+                <ModoNotificar setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />
+              )}
+            </div>
+            {SwitchNotif && <Notificar />}
             <div className="divContainerdeAbajo">
               <div className="ContLeftRigth">
                 <div className="ContainerLocBan">

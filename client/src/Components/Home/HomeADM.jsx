@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "./Elements/Card";
-import Graficass from "./Elements/Graficas";
+import Graficas from "./Elements/Graficas";
 import UsersInf from "./Elements/UsersInf";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/blackAndWhite.jpg";
@@ -344,7 +344,7 @@ function HomeADM() {
           </NotificacionesStyleCont>
         )}
         <GraficStyleCont>
-          <Graficass />
+          <Graficas />
         </GraficStyleCont>
         <UsersStyleCont>
           <UsersInf />

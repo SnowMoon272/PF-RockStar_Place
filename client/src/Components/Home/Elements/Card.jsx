@@ -210,7 +210,7 @@ function Card() {
       <div className="TextContent">
         <p>“El local ha sido muy irrespetuoso con mi banda el día del evento”</p>
       </div>
-      <button type="button"> Responder</button>
+      <button type="button">Responder</button>
     </CardStyleCont>
   );
 }
