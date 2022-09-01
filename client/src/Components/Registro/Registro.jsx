@@ -9,7 +9,7 @@ import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
 import { isAuthenticated } from "../../Utils/auth.controller";
 import { registerBand, registerPlace } from "../../Redux/actions";
-
+import LoaderComponent from "../Loader/Loading";
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
@@ -334,6 +334,7 @@ function Registro() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
 
@@ -441,94 +442,103 @@ function Registro() {
   }
 
   useEffect(() => {
+    setLoading(true);
     if (isAuthenticated()) navigate("/iniciarsesion");
   }, []);
 
   return (
-    <LoginStyleCont>
-      <NavBar LogIn Home FondoImg />
-      <LoginStyleCont2>
-        <h1>¡Registrate ahora!</h1>
-        <h2>Registrate como local o banda</h2>
-        <div className="SwitchCont">
-          <p>Banda</p>
-          <input id="switch" type="checkbox" onChange={(e) => handleCheck(e)} />
-          <label htmlFor="switch" className="label" />
-          <p>Local</p>
-        </div>
-        <div className="ContRL">
-          <div className="LoginRed">
-            <h3 className=" TitleLeft">Registrate con una red social</h3>
-            <button type="button" onClick={google}>
-              <img src={SVGGoogle} alt="" />
-              <p>Registrate con Google</p>
-            </button>
-          </div>
-          <div className="LoginEmail">
-            <form className="form" onSubmit={(e) => handleSubmit(e)}>
-              <h3 className=" TitleRigth">Registrate con tu e-mail</h3>
-              <div className="emailRegistro">
-                <input
-                  type="email"
-                  className="email"
-                  placeholder="Ingresa con tu e-mail"
-                  name="email"
-                  autoComplete="off"
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={handleChange}
-                  value={input.email}
-                />
-                {errors.email && <p className="error">{errors.email}</p>}
+    <div>
+      {loading ? (
+        <div>
+          <LoginStyleCont>
+            <NavBar LogIn Home FondoImg />
+            <LoginStyleCont2>
+              <h1>¡Registrate ahora!</h1>
+              <h2>Registrate como local o banda</h2>
+              <div className="SwitchCont">
+                <p>Banda</p>
+                <input id="switch" type="checkbox" onChange={(e) => handleCheck(e)} />
+                <label htmlFor="switch" className="label" />
+                <p>Local</p>
               </div>
-              <div className="PasswordRegistro">
-                <input
-                  type="password"
-                  className="password"
-                  placeholder="Ingresa una contraseña"
-                  name="password"
-                  autoComplete="off"
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={handleChange}
-                  value={input.password}
-                />
-                {errors.password && <p className="error">{errors.password}</p>}
-              </div>
-              <div className="PasswordRRegistro">
-                <input
-                  type="password"
-                  className="passwordRepeat"
-                  placeholder="Repite la contraseña"
-                  name="PasswordR"
-                  autoComplete="off"
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={handleChange}
-                  value={input.PasswordR}
-                />
-                {errors.PasswordR && <p className="error">{errors.PasswordR}</p>}
-              </div>
-              {/* <div className="Tyc">
+              <div className="ContRL">
+                <div className="LoginRed">
+                  <h3 className=" TitleLeft">Registrate con una red social</h3>
+                  <button type="button" onClick={google}>
+                    <img src={SVGGoogle} alt="" />
+                    <p>Registrate con Google</p>
+                  </button>
+                </div>
+                <div className="LoginEmail">
+                  <form className="form" onSubmit={(e) => handleSubmit(e)}>
+                    <h3 className=" TitleRigth">Registrate con tu e-mail</h3>
+                    <div className="emailRegistro">
+                      <input
+                        type="email"
+                        className="email"
+                        placeholder="Ingresa con tu e-mail"
+                        name="email"
+                        autoComplete="off"
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onChange={handleChange}
+                        value={input.email}
+                      />
+                      {errors.email && <p className="error">{errors.email}</p>}
+                    </div>
+                    <div className="PasswordRegistro">
+                      <input
+                        type="password"
+                        className="password"
+                        placeholder="Ingresa una contraseña"
+                        name="password"
+                        autoComplete="off"
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onChange={handleChange}
+                        value={input.password}
+                      />
+                      {errors.password && <p className="error">{errors.password}</p>}
+                    </div>
+                    <div className="PasswordRRegistro">
+                      <input
+                        type="password"
+                        className="passwordRepeat"
+                        placeholder="Repite la contraseña"
+                        name="PasswordR"
+                        autoComplete="off"
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onChange={handleChange}
+                        value={input.PasswordR}
+                      />
+                      {errors.PasswordR && <p className="error">{errors.PasswordR}</p>}
+                    </div>
+                    {/* <div className="Tyc">
                 <input type="checkbox" />
                 <h4>
                   Acpeto los <Link to="/TerminosyCondiciones"> Terminos & Condiciones</Link>
                 </h4>
               </div> */}
-              <button
-                type="submit"
-                className="registro"
-                disabled={
-                  !input.email ||
-                  !input.password ||
-                  !input.PasswordR ||
-                  input.password !== input.PasswordR
-                }
-              >
-                Registrarse
-              </button>
-            </form>
-          </div>
+                    <button
+                      type="submit"
+                      className="registro"
+                      disabled={
+                        !input.email ||
+                        !input.password ||
+                        !input.PasswordR ||
+                        input.password !== input.PasswordR
+                      }
+                    >
+                      Registrarse
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </LoginStyleCont2>
+          </LoginStyleCont>
         </div>
-      </LoginStyleCont2>
-    </LoginStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
 
