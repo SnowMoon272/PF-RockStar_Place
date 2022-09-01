@@ -9,8 +9,11 @@ import {
 } from "../db/models/musicBandModel";
 
 import {
-	sendNotification,
 	deleteAllNotifications,
+	sendNotification,
+	switchNew,
+	getNotifications,
+	deleteOne,
 } from "../db/models/inter.model";
 
 import { musicBand } from "../db/models/musicBandModel";
@@ -147,6 +150,42 @@ const deleteNotificationController = async (req: any, res: any) => {
 	}
 };
 
+//Testing required
+const switchController = async (req: any, res: any) => {
+	const { email, id } = req.body;
+	if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+
+	try {
+		const switchN = await switchNew(musicBand, email, id);
+		return res.status(200).send(switchN);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Working
+const getNotificationsController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(400).send({ error: "Invalid data" });
+	try {
+		const notifications = await getNotifications(musicBand, email);
+		return res.status(200).send(notifications);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteOneController = async (req: any, res: any) => {
+	try {
+		const { email, id } = req.body;
+		if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+		const operation = await deleteOne(musicBand, email, id);
+		return res.status(200).send(operation);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
 module.exports = {
 	getAllBandsController,
 	createMusicBandController,
@@ -157,4 +196,7 @@ module.exports = {
 	banMusicBandController,
 	sendNotificationController,
 	deleteNotificationController,
+	getNotificationsController,
+	switchController,
+	deleteOneController,
 };

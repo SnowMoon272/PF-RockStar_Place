@@ -11,6 +11,9 @@ const {
 	banMusicBandController,
 	sendNotificationController,
 	deleteNotificationController,
+	switchController,
+	getNotificationsController,
+	deleteOneController
 } = require("../controllers/musicBand.controller.ts");
 require("dotenv").config();
 
@@ -26,27 +29,24 @@ router.get("/musicbands", getAllBandsController);
 router.post("/musicbands", createMusicBandController);
 router.get("/musicbandemail/:email", getMusicBandByEmailController);
 router.get("/musicband/:id", getMusicBandByIDController);
-router.put(
-	"/musicband",
-	checkRoleAuth([ROLES.admin, ROLES.musicband]),
-	updateMusicBandController
-);
-router.put(
-	"/banmusicband",
-	checkRoleAuth([ROLES.admin]),
-	banMusicBandController
-);
+router.put("/musicband", updateMusicBandController);
+router.put("/banmusicband", banMusicBandController);
 router.post("/musicband/send/notification", sendNotificationController);
-router.post(
-	"/musicband/delete/notifications",
-	checkRoleAuth([ROLES.admin, ROLES.musicband, ROLES.place]),
-	deleteNotificationController
-);
-router.post(
-	"/bandreviews",
-	checkRoleAuth([ROLES.admin, ROLES.place]),
-	addBandReviewController
-);
+router.post("/musicband/delete/notifications", deleteNotificationController);
+router.post("/bandreviews", addBandReviewController);
+//Revisar restricción
+router.post("/musicbands/notification/send", sendNotificationController);
+//Revisar restricción
+router.post("/musicbands/notifications/deleteAll", deleteNotificationController);
+
+// Working
+router.put("/musicbands/notification/switchn", switchController);
+
+// Working
+router.get("/musicbands/notifications", getNotificationsController);
+
+router.delete("/musicbands/notifications/deleteOne", deleteOneController)
+
 
 router.post(
 	"/signup",

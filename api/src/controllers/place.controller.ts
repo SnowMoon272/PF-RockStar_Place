@@ -16,6 +16,9 @@ import {
 import {
 	deleteAllNotifications,
 	sendNotification,
+	switchNew,
+	getNotifications,
+	deleteOne
 } from "../db/models/inter.model";
 import { place } from "../db/models/placeModel";
 
@@ -186,6 +189,7 @@ const banPlaceController = async (req: any, res: any) => {
 	}
 };
 
+//Working good
 const sendNotificationController = async (req: any, res: any) => {
 	const { email, notification } = req.body;
 	if (!email || !notification) return res.status(400).send("Invalid data");
@@ -198,6 +202,7 @@ const sendNotificationController = async (req: any, res: any) => {
 	}
 };
 
+//Working good
 const deleteNotificationController = async (req: any, res: any) => {
 	const { email } = req.body;
 	if (!email) return res.status(404).send("Invalid data");
@@ -205,6 +210,42 @@ const deleteNotificationController = async (req: any, res: any) => {
 	try {
 		const response = await deleteAllNotifications(place, email);
 		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Testing required
+const switchController = async (req: any, res: any) => {
+	const { email, id } = req.body;
+	if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+
+	try {
+		const switchN = await switchNew(place, email, id);
+		return res.status(200).send(switchN);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Working
+const getNotificationsController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(400).send({ error: "Invalid data" });
+	try {
+		const notifications = await getNotifications(place, email);
+		return res.status(200).send(notifications);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteOneController = async (req: any, res: any) => {
+	try {
+		const { email, id } = req.body;
+		if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+		const operation = await deleteOne(place, email, id);
+		return res.status(200).send(operation);
 	} catch (error) {
 		return res.status(500).send({ error: "Internal error" });
 	}
@@ -225,4 +266,7 @@ module.exports = {
 	banPlaceController,
 	sendNotificationController,
 	deleteNotificationController,
+	switchController,
+	getNotificationsController,
+	deleteOneController,
 };

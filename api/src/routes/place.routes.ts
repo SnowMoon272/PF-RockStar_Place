@@ -14,6 +14,9 @@ const {
 	banPlaceController,
 	sendNotificationController,
 	deleteNotificationController,
+	switchController,
+	getNotificationsController,
+	deleteOneController,
 } = require("../controllers/place.controller.ts");
 const { ROLES, checkRoleAuth } = require("./middlewares/authorization.js");
 
@@ -41,15 +44,19 @@ router.post("/placesdates", AddDatePlaceController);
 router.put("/placesuscription", suscribedSuccessfulController);
 router.put("/placesdates", DeleteAvailableDatePlaceController);
 router.put("/banplace", checkRoleAuth([ROLES.admin]), banPlaceController);
-router.post(
-	"/place/send/notification",
-	checkRoleAuth([ROLES.admin, ROLES.musicband, ROLES.place]),
-	sendNotificationController
-);
-router.post(
-	"/place/delete/notifications",
-	checkRoleAuth([ROLES.admin, ROLES.musicband, ROLES.place]),
-	deleteNotificationController
-);
+
+//Revisar restricción
+router.post("/places/notification/send", sendNotificationController);
+//Revisar restricción
+router.post("/places/notifications/deleteAll", deleteNotificationController);
+
+// Working
+router.put("/places/notification/switchn", switchController);
+
+// Working
+router.get("/places/notifications", getNotificationsController);
+
+router.delete("/places/notifications/deleteOne", deleteOneController)
+
 
 module.exports = router;
