@@ -441,6 +441,7 @@ function HomeUNL() {
                     cardsPerPage={cardsPerPage}
                     allPlaces={allPlaces.length}
                     paginado={paginado}
+                    pageNumber={pageNumber}
                     setFilter={setFilter}
                     filter={filter}
                   />
