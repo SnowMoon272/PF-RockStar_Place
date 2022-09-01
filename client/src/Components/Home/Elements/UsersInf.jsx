@@ -1,17 +1,19 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import Colors from "../../../Utils/colors";
-import { getDetailMusicBand, getDetailPlaceByEmail } from "../../../Redux/actions";
-import ImgBanda from "../../../Assets/img/ROLLING STONES.jpg";
 import LoaderComponent from "../../Loader/Loading";
+import ModoNotificar from "./ModoNotificar";
+import ModoEditar from "./ModoEditar";
+import Notificar from "./Notificar";
+import IMGLogo from "../../../Assets/img/LogoCircular.png";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
 
+  /* padding-top: 150px; */
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
@@ -22,6 +24,79 @@ const ContainerGralStyled = styled.div`
     box-sizing: border-box;
     width: 100%;
     height: fit-content;
+
+    & .SwitchyLogo {
+      /* border: #001eff solid 3px; */
+
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+
+      .SwitchCont {
+        position: relative;
+        top: 45px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: fit-content;
+        align-self: center;
+        /* border: solid white 1px; */
+        border-radius: 10px;
+        padding: 0px 30px;
+        background-color: #010101e2;
+
+        p {
+          font-family: "New Rocker", cursive;
+          color: white;
+          font-size: 2rem;
+        }
+
+        label {
+          display: inline-block;
+          width: 65px;
+          height: 33px;
+          background-color: ${Colors.Oxford_Blue};
+          border-radius: 100px;
+          position: relative;
+          transition: 0.2s;
+          margin: 0px 20px 0px 20px;
+          cursor: pointer;
+          ::after {
+            content: "";
+            display: block;
+            width: 25px;
+            height: 25px;
+            background-color: ${Colors.Blue_Vivid};
+            border-radius: 100px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: 0.2s;
+          }
+        }
+
+        #switch:checked + label::after {
+          left: 36px;
+        }
+
+        #switch:checked + label {
+          background-color: ${Colors.Platinum};
+        }
+
+        #switch {
+          display: none;
+        }
+      }
+
+      img {
+        position: relative;
+        width: 170px;
+        height: 170px;
+        top: 100px;
+        left: 70px;
+        z-index: 25;
+      }
+    }
 
     .ContenedorDeArriba {
       /* border: #00ff08 solid 3px; */
@@ -126,57 +201,76 @@ const ContainerGralStyled = styled.div`
 
 function UsersInf() {
   const [loading, setLoading] = useState(false);
+  const [Switch, setSwitch] = useState(false);
 
   useEffect(() => {
     setLoading(true);
   }, []);
 
-  function handleClickDetalles(e) {
+  function handleCheckBox(e) {
+    setSwitch(!Switch);
+  }
+
+  function handleClickDetallesBanda(e) {
+    // Algo va pasar
+  }
+  function handleClickDetallesLocal(e) {
     // Algo va pasar
   }
 
   return (
     <div>
       {loading ? (
-        <div>
-          <ContainerGralStyled>
-            <div className="Container">
-              <div className="ContenedorDeArriba">
-                <h1>Contenedor de Arriba</h1>
+        <ContainerGralStyled>
+          <div className="Container">
+            <div className="SwitchyLogo">
+              <div className="SwitchCont">
+                <p>Notificar</p>
+                <input
+                  value={Switch}
+                  id="switch"
+                  type="checkbox"
+                  onChange={(e) => handleCheckBox(e)}
+                />
+                <label htmlFor="switch" className="label" />
+                <p>Editar</p>
               </div>
-              <div className="divContainerdeAbajo">
-                <div className="ContLeftRigth">
-                  <div className="ContainerLocBan">
-                    <h1>Bandas</h1>
-                    <div key="5" className="divsSmallConfirmados">
-                      <p>Los autenticos Asiaticos Locos</p>
-                      <button
-                        onClick={(e) => handleClickDetalles(e)}
-                        type="button"
-                        className="BTNDetalle"
-                      >
-                        Detalle
-                      </button>
-                    </div>
+              <img src={IMGLogo} alt="" />
+            </div>
+            <div className="ContenedorDeArriba">{Switch ? <ModoEditar /> : <ModoNotificar />}</div>
+            <Notificar />
+            <div className="divContainerdeAbajo">
+              <div className="ContLeftRigth">
+                <div className="ContainerLocBan">
+                  <h1>Bandas</h1>
+                  <div key="5" className="divsSmallConfirmados">
+                    <p>Los autenticos Asiaticos Locos</p>
+                    <button
+                      onClick={(e) => handleClickDetallesBanda(e)}
+                      type="button"
+                      className="BTNDetalle"
+                    >
+                      Detalle
+                    </button>
                   </div>
-                  <div className="ContainerLocBan">
-                    <h1>Locales</h1>
-                    <div key="5" className="divsSmallConfirmados">
-                      <p>Bar los pitufos locos.</p>
-                      <button
-                        onClick={(e) => handleClickDetalles(e)}
-                        type="button"
-                        className="BTNDetalle"
-                      >
-                        Detalle
-                      </button>
-                    </div>
+                </div>
+                <div className="ContainerLocBan">
+                  <h1>Locales</h1>
+                  <div key="5" className="divsSmallConfirmados">
+                    <p>Bar los pitufos locos.</p>
+                    <button
+                      onClick={(e) => handleClickDetallesLocal(e)}
+                      type="button"
+                      className="BTNDetalle"
+                    >
+                      Detalle
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          </ContainerGralStyled>
-        </div>
+          </div>
+        </ContainerGralStyled>
       ) : (
         <LoaderComponent />
       )}

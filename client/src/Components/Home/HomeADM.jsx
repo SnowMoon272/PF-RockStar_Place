@@ -273,7 +273,6 @@ const GraficStyleCont = styled.div`
   /* border: solid #7300ff 3px; */
 
   box-sizing: border-box;
-  margin-bottom: 100px;
   background-color: ${Colors.Oxford_Blue_transparent};
   width: 100%;
   height: 680px;
