@@ -247,3 +247,12 @@ export const disabledMusicBand = async (email: string, disabled: boolean) => {
 		return { error };
 	}
 };
+
+export const getEmailsMusicBand = async () => {
+	try {
+		const EmailsMusicBand = await musicBand.find({}, { email: 1 }).distinct("email");
+		return EmailsMusicBand;
+	} catch (error) {
+		return { error };
+	}
+};

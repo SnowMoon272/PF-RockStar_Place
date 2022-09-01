@@ -20,6 +20,7 @@ const initialState = {
   filters: {
     Ciudad: false,
     Sonido: false,
+    Evento: false,
   },
   sort_places: [],
   detail_music_band: {},

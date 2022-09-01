@@ -16,6 +16,7 @@ import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
+import LoaderComponent from "../Loader/Loading";
 
 const EditStyledCont = styled.div`
   /* border: solid 3px red; */
@@ -268,17 +269,12 @@ export default function PerfilMusico() {
   const params = useParams();
   const navigate = useNavigate();
   const musicBand = useSelector((state) => state.detail_music_band);
-
-  const [stateReseña, setStateReseña] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getDetailMusicBand(params.id));
   }, []);
-
-  const handlerSwitch = (e) => {
-    e.preventDefault();
-    setStateReseña(!stateReseña);
-  };
 
   async function handleClick(e) {
     e.preventDefault();
@@ -296,80 +292,92 @@ export default function PerfilMusico() {
   };
 
   return (
-    <EditStyledCont Foto={musicBand}>
-      <NavBar HomeLinkBanda Home Eventos UserLog />
-      <div className="VewContainer">
-        <div className="InfoBandaCont">
-          <h1 className="TitleA">{musicBand.name}</h1>
-          <img id="ImgPerfil" src={musicBand.profilePicture} alt="Foto Perfil" />
-          <div className="divContenedorDescripcion">
-            <div className="divsDescripcionCont">
-              <div className="divsDescripcion">
-                <span className="Azules">Persona a Cargo:</span>
-                <h3 className="Blancos">{musicBand.personInCharge}</h3>
-              </div>
-              <div className="divsDescripcion">
-                <span className="Azules">Email:</span>
-                <h3 className="Blancos">{musicBand.email}</h3>
-              </div>
-              <div className="divsDescripcion">
-                <span className="Azules">Telefono:</span>
-                <h3 className="Blancos">{musicBand.phoneNumber}</h3>
-              </div>
-              <div className="divsDescripcion">
-                <h3 className="Blancos">
-                  <span className="Azules">Descripción:</span>
-                  {musicBand.description}
-                </h3>
-              </div>
-              <div className="divsDescripcion">
-                <span className="Azules">Rating:</span>
-                <h3 className="Blancos">⭐{musicBand.rating}</h3>
-              </div>
-            </div>
-            <div>
-              <div className="RedesyEditarCont">
-                <div className="RedesCont">
-                  {musicBand.socialMedia && musicBand.socialMedia.youtube !== "" ? (
-                    <a target="_blank" href={musicBand.socialMedia.youtube} rel="noreferrer">
-                      <img className="ImglogosRedes" src={LogoYouTube} alt="" />
-                    </a>
-                  ) : null}
-                  {musicBand.socialMedia && musicBand.socialMedia.spotify !== "" ? (
-                    <a target="_blank" href={musicBand.socialMedia.spotify} rel="noreferrer">
-                      <img className="ImglogosRedes" src={LogoSpotify} alt="" />
-                    </a>
-                  ) : null}
-                  {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? (
-                    <a target="_blank" href={musicBand.socialMedia.instagram} rel="noreferrer">
-                      <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-                    </a>
-                  ) : null}
-                </div>
-                <div className="divEditar">
-                  <Link to="/actualizarbanda" className="imgEditar">
-                    <img src={Editar} alt="Edit" />
-                  </Link>
-                  <h4>Editar</h4>
-                </div>
-                <div className="divDesactivar">
-                  <div className="divDesctivaryTexto">
-                    <button type="button" onClick={(e) => handleClick(e)}>
-                      <h4>Desactivar cuenta</h4>
-                    </button>
+    <div>
+      {loading ? (
+        <div>
+          <EditStyledCont Foto={musicBand}>
+            <NavBar HomeLinkBanda Home Eventos UserLog />
+            <div className="VewContainer">
+              <div className="InfoBandaCont">
+                <h1 className="TitleA">{musicBand.name}</h1>
+                <img id="ImgPerfil" src={musicBand.profilePicture} alt="Foto Perfil" />
+                <div className="divContenedorDescripcion">
+                  <div className="divsDescripcionCont">
+                    <div className="divsDescripcion">
+                      <span className="Azules">Persona a Cargo:</span>
+                      <h3 className="Blancos">{musicBand.personInCharge}</h3>
+                    </div>
+                    <div className="divsDescripcion">
+                      <span className="Azules">Email:</span>
+                      <h3 className="Blancos">{musicBand.email}</h3>
+                    </div>
+                    <div className="divsDescripcion">
+                      <span className="Azules">Telefono:</span>
+                      <h3 className="Blancos">{musicBand.phoneNumber}</h3>
+                    </div>
+                    <div className="divsDescripcion">
+                      <h3 className="Blancos">
+                        <span className="Azules">Descripción:</span>
+                        {musicBand.description}
+                      </h3>
+                    </div>
+                    <div className="divsDescripcion">
+                      <span className="Azules">Rating:</span>
+                      <h3 className="Blancos">⭐{musicBand.rating}</h3>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="RedesyEditarCont">
+                      <div className="RedesCont">
+                        {musicBand.socialMedia && musicBand.socialMedia.youtube !== "" ? (
+                          <a target="_blank" href={musicBand.socialMedia.youtube} rel="noreferrer">
+                            <img className="ImglogosRedes" src={LogoYouTube} alt="" />
+                          </a>
+                        ) : null}
+                        {musicBand.socialMedia && musicBand.socialMedia.spotify !== "" ? (
+                          <a target="_blank" href={musicBand.socialMedia.spotify} rel="noreferrer">
+                            <img className="ImglogosRedes" src={LogoSpotify} alt="" />
+                          </a>
+                        ) : null}
+                        {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? (
+                          <a
+                            target="_blank"
+                            href={musicBand.socialMedia.instagram}
+                            rel="noreferrer"
+                          >
+                            <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                          </a>
+                        ) : null}
+                      </div>
+                      <div className="divEditar">
+                        <Link to="/actualizarbanda" className="imgEditar">
+                          <img src={Editar} alt="Edit" />
+                        </Link>
+                        <h4>Editar</h4>
+                      </div>
+                      <div className="divDesactivar">
+                        <div className="divDesctivaryTexto">
+                          <button type="button" onClick={(e) => handleClick(e)}>
+                            <h4>Desactivar cuenta</h4>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className="ReseñasLogoCont">
+                <div className="divImgLogo">
+                  <img id="imgLogo" src={ImgLogo} alt="" />
+                </div>
+                <Reseñas musicBand={musicBand} />
+              </div>
             </div>
-          </div>
+          </EditStyledCont>
         </div>
-        <div className="ReseñasLogoCont">
-          <div className="divImgLogo">
-            <img id="imgLogo" src={ImgLogo} alt="" />
-          </div>
-          <Reseñas musicBand={musicBand} />
-        </div>
-      </div>
-    </EditStyledCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

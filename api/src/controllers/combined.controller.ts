@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { getEmailsMusicBand } from "../db/models/musicBandModel";
+import { getEmailsPlaces } from "../db/models/placeModel";
 
 import {
 	addPendingDate,
@@ -69,9 +71,22 @@ const addConfirmedDateController = async (req: Request, res: Response) => {
 	}
 };
 
+const getEmailsController = async (req: Request, res: Response) => {
+	try {
+		let emailsPlaces = await getEmailsPlaces();
+		let emailsMusicBands = await getEmailsMusicBand()
+		let allEmails = emailsPlaces.concat(emailsMusicBands)
+		res.send(allEmails)
+
+	} catch (error) {
+		return res.status(500).send({ error: "Something went wrong" });
+	}
+}
+
 module.exports = {
 	addPendingDateController,
 	removePendingDateController,
 	removeConfirmedDateController,
 	addConfirmedDateController,
+	getEmailsController
 };

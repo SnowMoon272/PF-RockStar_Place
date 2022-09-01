@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-props-no-multi-spaces */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import NavBar from "../NavBar/NavBar";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
+import LoaderComponent from "../Loader/Loading";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -280,8 +281,10 @@ export default function DetailPlace() {
   const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
 
   const allDates = [...confirmedDates, ...availableDates];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getDetailPlace(params.id));
   }, [dispatch]);
 
@@ -343,121 +346,129 @@ export default function DetailPlace() {
   };
 
   return (
-    <HomeStyleCont>
-      <NavBar Home />
-      <DetailStyleCont>
-        <div className="FirstCont">
-          <div className="NameAndRating">
-            <span className="PlaceName">{place.name}</span>
-            <span className="rating">Rating: {place.rating}</span>
-          </div>
-          <div className="DataCont">
-            <span className="title">Descripción</span>
-            <span className="description">{place.description}</span>
-          </div>
-          <hr className="hr" />
-          <div className="DataCont">
-            <span className="title">Próximos eventos</span>
-            <div className="DatesCont">
-              <Carousel
-                className="carousel"
-                responsive={responsive}
-                showDots={true}
-                minimumTouchDrag={80}
-                slidesToSlide={1}
-              >
-                {allDates &&
-                  allDates.map((date) => {
-                    return (
-                      <div className="item" key={date._id}>
-                        <span className="day">{date.date.substring(8, 10)}</span>
-                        <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                        <span className="year">{date.date.substring(0, 4)}</span>
-                        <div className="dateStatus">
-                          {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                        </div>
-                      </div>
-                    );
-                  })}
-              </Carousel>
-            </div>
-            <hr className="hr" />
-          </div>
-          <div className="DataCont">
-            <span className="title">Reseñas</span>
+    <div>
+      {loading ? (
+        <div>
+          <HomeStyleCont>
+            <NavBar Home />
+            <DetailStyleCont>
+              <div className="FirstCont">
+                <div className="NameAndRating">
+                  <span className="PlaceName">{place.name}</span>
+                  <span className="rating">Rating: {place.rating}</span>
+                </div>
+                <div className="DataCont">
+                  <span className="title">Descripción</span>
+                  <span className="description">{place.description}</span>
+                </div>
+                <hr className="hr" />
+                <div className="DataCont">
+                  <span className="title">Próximos eventos</span>
+                  <div className="DatesCont">
+                    <Carousel
+                      className="carousel"
+                      responsive={responsive}
+                      showDots={true}
+                      minimumTouchDrag={80}
+                      slidesToSlide={1}
+                    >
+                      {allDates &&
+                        allDates.map((date) => {
+                          return (
+                            <div className="item" key={date._id}>
+                              <span className="day">{date.date.substring(8, 10)}</span>
+                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                              <span className="year">{date.date.substring(0, 4)}</span>
+                              <div className="dateStatus">
+                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </Carousel>
+                  </div>
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
+                  <span className="title">Reseñas</span>
 
-            <div className="comentarios">
-              {place.reviews &&
-                place.reviews.map((p) => {
-                  return (
-                    <div key={p._id} className="coment">
-                      <div className="NameRating">
-                        <span className="autor">{p.author}</span>
-                        <span className="ratingcoment">Rating: {p.rating}</span>
-                      </div>
-                      <p className="contenidocoment">{p.comment}</p>
-                      <hr />
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
+                  <div className="comentarios">
+                    {place.reviews &&
+                      place.reviews.map((p) => {
+                        return (
+                          <div key={p._id} className="coment">
+                            <div className="NameRating">
+                              <span className="autor">{p.author}</span>
+                              <span className="ratingcoment">Rating: {p.rating}</span>
+                            </div>
+                            <p className="contenidocoment">{p.comment}</p>
+                            <hr />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+              <div className="SecondCont">
+                <img src={place.profilePicture} className="profile" alt="Img not found" />
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Ciudad:</span>
+                  <span className="descriptionSmall"> {place.city}</span>
+                </div>
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Dirección:</span>
+                  <span className="descriptionSmall"> {place.adress}</span>
+                </div>
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Persona a cargo:</span>
+                  <span className="descriptionSmall"> {place.personInCharge}</span>
+                </div>
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Teléfono:</span>
+                  <span className="descriptionSmall"> {place.phoneNumber}</span>
+                </div>
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Capacidad:</span>
+                  <span className="descriptionSmall"> {place.capacity}</span>
+                </div>
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Sonido Propio:</span>
+                  <span className="descriptionSmall">{place.hasSound ? "Si" : "No"}</span>
+                </div>
+                <hr className="hr" />
+                <div className="divsUnderImage">
+                  <span className="statsUnderImage">Email:</span>
+                  <span className="descriptionSmall"> {place.email}</span>
+                </div>
+                <div className="divsUnderImage">
+                  {place.socialMedia && place.socialMedia.instagram !== "" ? (
+                    <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+                      <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                    </a>
+                  ) : null}
+                </div>
+                <div className="divEditar">
+                  <div className="divEditaryTexto">
+                    <Link to="/actualizarlocal" className="imgEditar">
+                      <img src={Editar} alt="Edit" />
+                    </Link>
+                    <h4>Editar</h4>
+                  </div>
+                </div>
+                <div className="divDesactivar">
+                  <div className="divDesctivaryTexto">
+                    <button type="button" onClick={(e) => handleClick(e)}>
+                      <h4>Desactivar cuenta</h4>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </DetailStyleCont>
+          </HomeStyleCont>
         </div>
-        <div className="SecondCont">
-          <img src={place.profilePicture} className="profile" alt="Img not found" />
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Ciudad:</span>
-            <span className="descriptionSmall"> {place.city}</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Dirección:</span>
-            <span className="descriptionSmall"> {place.adress}</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Persona a cargo:</span>
-            <span className="descriptionSmall"> {place.personInCharge}</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Teléfono:</span>
-            <span className="descriptionSmall"> {place.phoneNumber}</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Capacidad:</span>
-            <span className="descriptionSmall"> {place.capacity}</span>
-          </div>
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Sonido Propio:</span>
-            <span className="descriptionSmall">{place.hasSound ? "Si" : "No"}</span>
-          </div>
-          <hr className="hr" />
-          <div className="divsUnderImage">
-            <span className="statsUnderImage">Email:</span>
-            <span className="descriptionSmall"> {place.email}</span>
-          </div>
-          <div className="divsUnderImage">
-            {place.socialMedia && place.socialMedia.instagram !== "" ? (
-              <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
-                <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-              </a>
-            ) : null}
-          </div>
-          <div className="divEditar">
-            <div className="divEditaryTexto">
-              <Link to="/actualizarlocal" className="imgEditar">
-                <img src={Editar} alt="Edit" />
-              </Link>
-              <h4>Editar</h4>
-            </div>
-          </div>
-          <div className="divDesactivar">
-            <div className="divDesctivaryTexto">
-              <button type="button" onClick={(e) => handleClick(e)}>
-                <h4>Desactivar cuenta</h4>
-              </button>
-            </div>
-          </div>
-        </div>
-      </DetailStyleCont>
-    </HomeStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

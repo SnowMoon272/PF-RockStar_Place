@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BotonSuscribete from "./BotonSuscripcion";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import LoaderComponent from "../Loader/Loading";
 
 const SuscripcionStyleCont = styled.div`
   background-image: url(${BGHome});
@@ -63,22 +64,34 @@ const SuscripcionDetailCont = styled.div`
 `;
 
 export default function suscripcion() {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+  }, []);
   return (
-    <SuscripcionStyleCont>
-      <NavBar Home />
+    <div>
+      {loading ? (
+        <div>
+          <SuscripcionStyleCont>
+            <NavBar Home />
 
-      <SuscripcionDetailCont>
-        <h2>Registrate ahora en</h2>
-        <h1>Rock Star place</h1>
-        <p>
-          No esperes más para acceder a los beneficios de Rock Star place. Uniendote, podrás empezar
-          a ofrecer tu lugar para que los miles de músicos registrados en nuestra plataforma
-          apliquen para tocar en tus fechas disponibles. Registrarte es muy fácil. Hace click en el
-          boton de abajo, realizá un único pago de $500 ARS y ya podrás empezar tu experiencia Rock
-          Star place.
-        </p>
-      </SuscripcionDetailCont>
-      <BotonSuscribete />
-    </SuscripcionStyleCont>
+            <SuscripcionDetailCont>
+              <h2>Registrate ahora en</h2>
+              <h1>Rock Star place</h1>
+              <p>
+                No esperes más para acceder a los beneficios de Rock Star place. Uniendote, podrás
+                empezar a ofrecer tu lugar para que los miles de músicos registrados en nuestra
+                plataforma apliquen para tocar en tus fechas disponibles. Registrarte es muy fácil.
+                Hace click en el boton de abajo, realizá un único pago de $500 ARS y ya podrás
+                empezar tu experiencia Rock Star place.
+              </p>
+            </SuscripcionDetailCont>
+            <BotonSuscribete />
+          </SuscripcionStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

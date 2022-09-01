@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-
 const express = require("express");
 
 import {
@@ -15,12 +13,14 @@ import {
 	suscribedSuccessful,
 	getPlace,
 	disabledPlace,
+	banHandler,
 } from '../db/models/placeModel';
+import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
-	let { city, sound } = req.query;
+	let { city, sound, dates } = req.query;
 	try {
-		let response = await getAllPlaces(city, sound);
+		let response = await getAllPlaces(city, sound, dates);
 		if (response) {
 			return res.status(200).send(response);
 		} else {
@@ -79,7 +79,7 @@ const getPlaceByEmailController = async (req: any, res: any) => {
 		return res.status(200).send(place);
 	}
 
-	if (!email) return res.status(404).send({ message: 'Invalid data' });
+	if (!email) return res.status(404).send({ message: "Invalid data" });
 };
 
 const getPlaceByNameController = async (req: any, res: any) => {
@@ -94,7 +94,7 @@ const getPlaceByNameController = async (req: any, res: any) => {
 	}
 };
 
-const getCitiesController = async (req: any, res: any) => {
+const getCitiesController = async (_req: any, res: any) => {
 	try {
 		let cities = await getCities();
 		if (cities) return res.status(200).send(cities);
@@ -171,6 +171,34 @@ const disabledPlaceController = async (req: any, res: any) => {
 	}
 };
 
+const banPlaceController = async (req: any, res: any) => {
+	let { email } = req.body;
+	if (email) {
+		let placeByEmail = await getPlace(email)
+		if (placeByEmail) {
+			if (placeByEmail.banned === false) {
+				for (const date of placeByEmail.availableDates) {
+					await deleteAvailableDate(email, date.date.toISOString().substring(0, 10));
+				}
+				for (const date of placeByEmail.pendingDates) {
+					await removePendingDate(date.email, email, date.date.toISOString().substring(0, 10));
+				}
+				for (const date of placeByEmail.dates) {
+					await removeConfirmedDate(date.email, email, date.date.toISOString().substring(0, 10));
+				}
+				await banHandler(email)
+				res.send("Place banned = true, todas sus fechas y relaciones con musicbands fueron eliminadas (si las tuviera)")
+			}
+			if (placeByEmail.banned === true) {
+				await banHandler(email)
+				res.send("Place banned = false, place fue desbaneado")
+			}
+		} else { return res.status(404).send("Email no corresponde a un place") }
+	} else {
+		return res.status(404).send({ msg: "Data incorrecta" });
+	}
+};
+
 module.exports = {
 	getAllPlacesController,
 	createPlaceController,
@@ -183,5 +211,6 @@ module.exports = {
 	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
 	getPlaceByEmailController,
-	disabledPlaceController
+	disabledPlaceController,
+	banPlaceController
 };

@@ -10,6 +10,7 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
+import LoaderComponent from "../Loader/Loading";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -375,8 +376,10 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     if (isAuthenticated()) {
       dispatch(getDetailPlace(userPlace._id));
     } else {
@@ -506,146 +509,154 @@ export default function ActualizarLocal() {
   }
 
   return (
-    <ActualizarDatosStyleCont>
-      <div className="divLogo">
-        <img src={LogoCircular} alt="" height="150px" width="150px" />
-      </div>
-      <NavBar Perfil Home />
-      <ActualizarDatosStyleCont2>
-        <div className="divTitulo">
-          <h1>Completa / Edita tus datos</h1>
+    <div>
+      {loading ? (
+        <div>
+          <ActualizarDatosStyleCont>
+            <div className="divLogo">
+              <img src={LogoCircular} alt="" height="150px" width="150px" />
+            </div>
+            <NavBar Perfil Home />
+            <ActualizarDatosStyleCont2>
+              <div className="divTitulo">
+                <h1>Completa / Edita tus datos</h1>
+              </div>
+              <form className="form" onSubmit={(e) => handleSubmit(e)}>
+                <div className="div2Columnas">
+                  <div className="divInputsColumna1">
+                    <div className="ContainerInput">
+                      <span>Nombre local:</span>
+                      <input
+                        type="text"
+                        placeholder="Nombre del local"
+                        className="input"
+                        value={input.name}
+                        name="name"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.name && <p>{errors.name}</p>}
+                    <div className="ContainerInput">
+                      <span>Persona a cargo:</span>
+                      <input
+                        type="text"
+                        placeholder="Persona a cargo"
+                        className="input"
+                        value={input.personInCharge}
+                        name="personInCharge"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.personInCharge && <p>{errors.personInCharge}</p>}
+                    <div className="ContainerInput">
+                      <span>Ciudad:</span>
+                      <input
+                        type="text"
+                        placeholder="Ciudad"
+                        className="input"
+                        value={input.city}
+                        name="city"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.city && <p>{errors.city}</p>}
+                    <div className="ContainerInput">
+                      <span>Dirección:</span>
+                      <input
+                        type="text"
+                        placeholder="Direccion"
+                        className="input"
+                        value={input.adress}
+                        name="adress"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Teléfono:</span>
+                      <input
+                        type="text"
+                        placeholder="Telefono de contacto"
+                        className="input"
+                        value={input.phoneNumber}
+                        name="phoneNumber"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                    <div className="ContainerInput">
+                      <span>Capacidad del local:</span>
+                      <input
+                        type="text"
+                        placeholder="Capacidad de personas"
+                        className="input"
+                        value={input.capacity}
+                        name="capacity"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.capacity && <p>{errors.capacity}</p>}
+                    <div className="ContainerInput">
+                      <span>Instagram:</span>
+                      <input
+                        type="text"
+                        placeholder="Instagram"
+                        className="input"
+                        value={input.instagram}
+                        name="instagram"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.instagram && <p>{errors.instagram}</p>}
+                    <p className="sonidoPropio">Sonido propio</p>
+                    <div className="SwitchCont">
+                      <p>No</p>
+                      <input
+                        value={input.hasSound}
+                        id="switch"
+                        type="checkbox"
+                        onChange={(e) => handleCheckBox(e)}
+                      />
+                      <label htmlFor="switch" className="label" />
+                      <p>Si</p>
+                    </div>
+                  </div>
+                  <div className="divsColumna2">
+                    <h1>Foto de perfil</h1>
+                    <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+                      Subir foto
+                    </button>
+                    <div className="ImgACargar">
+                      <img
+                        src={image === "" ? place.profilePicture : image}
+                        alt="ingresa una imagen"
+                        width="350px"
+                        height="350px"
+                      />
+                    </div>
+                    <textarea
+                      type="text"
+                      placeholder="Descripcion"
+                      className="textarea"
+                      value={input.description}
+                      name="description"
+                      onChange={(e) => handleChange(e)}
+                    />
+                    {errors.description && <p>{errors.description}</p>}
+                  </div>
+                </div>
+                <div className="divButton">
+                  <button type="submit" className="BTNs" disabled={handleActivateButton()}>
+                    Actualizar
+                  </button>
+                </div>
+              </form>
+            </ActualizarDatosStyleCont2>
+          </ActualizarDatosStyleCont>
         </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e)}>
-          <div className="div2Columnas">
-            <div className="divInputsColumna1">
-              <div className="ContainerInput">
-                <span>Nombre local:</span>
-                <input
-                  type="text"
-                  placeholder="Nombre del local"
-                  className="input"
-                  value={input.name}
-                  name="name"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.name && <p>{errors.name}</p>}
-              <div className="ContainerInput">
-                <span>Persona a cargo:</span>
-                <input
-                  type="text"
-                  placeholder="Persona a cargo"
-                  className="input"
-                  value={input.personInCharge}
-                  name="personInCharge"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.personInCharge && <p>{errors.personInCharge}</p>}
-              <div className="ContainerInput">
-                <span>Ciudad:</span>
-                <input
-                  type="text"
-                  placeholder="Ciudad"
-                  className="input"
-                  value={input.city}
-                  name="city"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.city && <p>{errors.city}</p>}
-              <div className="ContainerInput">
-                <span>Dirección:</span>
-                <input
-                  type="text"
-                  placeholder="Direccion"
-                  className="input"
-                  value={input.adress}
-                  name="adress"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.adress && <p>{errors.adress}</p>}
-              <div className="ContainerInput">
-                <span>Teléfono:</span>
-                <input
-                  type="text"
-                  placeholder="Telefono de contacto"
-                  className="input"
-                  value={input.phoneNumber}
-                  name="phoneNumber"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
-              <div className="ContainerInput">
-                <span>Capacidad del local:</span>
-                <input
-                  type="text"
-                  placeholder="Capacidad de personas"
-                  className="input"
-                  value={input.capacity}
-                  name="capacity"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.capacity && <p>{errors.capacity}</p>}
-              <div className="ContainerInput">
-                <span>Instagram:</span>
-                <input
-                  type="text"
-                  placeholder="Instagram"
-                  className="input"
-                  value={input.instagram}
-                  name="instagram"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.instagram && <p>{errors.instagram}</p>}
-              <p className="sonidoPropio">Sonido propio</p>
-              <div className="SwitchCont">
-                <p>No</p>
-                <input
-                  value={input.hasSound}
-                  id="switch"
-                  type="checkbox"
-                  onChange={(e) => handleCheckBox(e)}
-                />
-                <label htmlFor="switch" className="label" />
-                <p>Si</p>
-              </div>
-            </div>
-            <div className="divsColumna2">
-              <h1>Foto de perfil</h1>
-              <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-                Subir foto
-              </button>
-              <div className="ImgACargar">
-                <img
-                  src={image === "" ? place.profilePicture : image}
-                  alt="ingresa una imagen"
-                  width="350px"
-                  height="350px"
-                />
-              </div>
-              <textarea
-                type="text"
-                placeholder="Descripcion"
-                className="textarea"
-                value={input.description}
-                name="description"
-                onChange={(e) => handleChange(e)}
-              />
-              {errors.description && <p>{errors.description}</p>}
-            </div>
-          </div>
-          <div className="divButton">
-            <button type="submit" className="BTNs" disabled={handleActivateButton()}>
-              Actualizar
-            </button>
-          </div>
-        </form>
-      </ActualizarDatosStyleCont2>
-    </ActualizarDatosStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

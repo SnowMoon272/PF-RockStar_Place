@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import HomeBL from "./HomeBL";
 import HomeLL from "./HomeLL";
 import HomeUNL from "./HomeUNL";
+import HomeADM from "./HomeADM";
 
 import { isMusicband, isAdmin, isPlace } from "../../Utils/auth.controller";
 import { decodeCookieInfo } from "../../Utils/google.auth.controller";
 
 function Home() {
-
   const [reloadState, setReloadState] = useState(1);
 
   const ifIsSocial = async () => {
@@ -37,7 +37,7 @@ function Home() {
 
   if (isMusicband()) return <HomeBL />;
   if (isPlace()) return <HomeLL />;
-  if (isAdmin()) return <p>This is admin component</p>;
+  if (isAdmin()) return <HomeADM />;
   return <HomeUNL />;
 }
 

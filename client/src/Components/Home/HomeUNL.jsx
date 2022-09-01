@@ -15,6 +15,7 @@ import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
+import LoaderComponent from "../Loader/Loading";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -334,12 +335,17 @@ const CarsStyleCont = styled.section`
 function HomeUNL() {
   const dispatch = useDispatch();
   let allPlaces = useSelector((state) => state.places);
+
   allPlaces = allPlaces.filter((place) => {
     return place.name !== "";
   });
+
   const filters = useSelector((state) => state.filters);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     dispatch(getPlaces());
   }, [dispatch]);
 
@@ -358,6 +364,7 @@ function HomeUNL() {
   const [filter, setFilter] = useState({
     FilterCities: "",
     FilterSounds: "",
+    FilterEvents: "",
   });
 
   const handlerClickReset = () => {
@@ -366,11 +373,13 @@ function HomeUNL() {
       updateFilters({
         Ciudad: false,
         Sonido: false,
+        Evento: false,
       }),
     );
     setFilter({
       FilterCities: "",
       FilterSounds: "",
+      FilterEvents: "",
     });
     paginado(1);
   };
@@ -382,91 +391,103 @@ function HomeUNL() {
   };
 
   return (
-    <HomeStyleCont>
-      {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
-      <NavBar
-        LogIn
-        Buscar
-        FiltroA
-        FiltroB
-        FondoImg
-        paginado={paginado}
-        setFilter={setFilter}
-        filter={filter}
-      />
-      <FirtVewStyleCont>
-        <div className="ImgTitleContainer">
-          <img src={BGHome} alt="Background" />
-          <h1 className="h1">Rock Star Place</h1>
-        </div>
-        <div className="ButonsContainer">
-          <a href="#SecondVewStyleCont" className="Link">
-            <div className="FondoVerde">+1500 Bandas y Solistas</div>
-          </a>
-          <a href="#SecondVewStyleCont" className="Link">
-            <div className="FondoVerde">+250 Locales</div>
-          </a>
-          <Link to="/registro" className="Link">
-            <div className="FondoVerde">¡Registrate ahora!</div>
-          </Link>
-        </div>
-        <a href="#SecondVewStyleCont" className="SVGDown">
-          <img src={SVGDown} alt="Down" />
-        </a>
-      </FirtVewStyleCont>
-      <SecondVewStyleCont id="SecondVewStyleCont">
-        <div className="ContenidoPrevio">
-          <button type="button" className="Link">
-            Proximo Evento
-          </button>
-          <img src={Logo} alt="Logo" />
-        </div>
-        <CarsStyleCont>
-          <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
-          <div className="Paginado">
-            <Pagination
-              cardsPerPage={cardsPerPage}
-              allPlaces={allPlaces.length}
+    <div>
+      {loading ? (
+        <div>
+          <HomeStyleCont>
+            {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
+            <NavBar
+              LogIn
+              Buscar
+              FiltroA
+              FiltroB
+              FiltroC
+              FondoImg
               paginado={paginado}
-              pageNumber={pageNumber}
+              setFilter={setFilter}
+              filter={filter}
             />
-          </div>
-          <div className="BotonesExtra">
-            <button
-              onClick={(e) => {
-                handlerClickReset(e);
-              }}
-              type="button"
-            >
-              Resetear Filtros
-            </button>
-            <div className="Filtros">
-              {/* <h6>Filtros</h6> */}
-              <div className="FiltrosData">
-                <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
-                <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+            <FirtVewStyleCont>
+              <div className="ImgTitleContainer">
+                <img src={BGHome} alt="Background" />
+                <h1 className="h1">Rock Star Place</h1>
               </div>
-            </div>
-            <button type="button" onClick={(e) => handleClickSort(e)}>
-              ⭐ Populares ⭐
-            </button>
-          </div>
-          <div className="ContainerCards">
-            {currentCards.length ? (
-              <CardsPlaces currentPlaces={currentCards} />
-            ) : (
-              <div className="NotFound"> ¡No se encontraron resultados! </div>
-            )}
-          </div>
-          <Pagination
-            cardsPerPage={cardsPerPage}
-            allPlaces={allPlaces.length}
-            paginado={paginado}
-            pageNumber={pageNumber}
-          />
-        </CarsStyleCont>
-      </SecondVewStyleCont>
-    </HomeStyleCont>
+              <div className="ButonsContainer">
+                <a href="#SecondVewStyleCont" className="Link">
+                  <div className="FondoVerde">+1500 Bandas y Solistas</div>
+                </a>
+                <a href="#SecondVewStyleCont" className="Link">
+                  <div className="FondoVerde">+250 Locales</div>
+                </a>
+                <Link to="/registro" className="Link">
+                  <div className="FondoVerde">¡Registrate ahora!</div>
+                </Link>
+              </div>
+              <a href="#SecondVewStyleCont" className="SVGDown">
+                <img src={SVGDown} alt="Down" />
+              </a>
+            </FirtVewStyleCont>
+            <SecondVewStyleCont id="SecondVewStyleCont">
+              <div className="ContenidoPrevio">
+                <button type="button" className="Link">
+                  Proximo Evento
+                </button>
+                <img src={Logo} alt="Logo" />
+              </div>
+              <CarsStyleCont>
+                <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
+                <div className="Paginado">
+                  <Pagination
+                    cardsPerPage={cardsPerPage}
+                    allPlaces={allPlaces.length}
+                    paginado={paginado}
+                    pageNumber={pageNumber}
+                    setFilter={setFilter}
+                    filter={filter}
+                  />
+                </div>
+                <div className="BotonesExtra">
+                  <button
+                    onClick={(e) => {
+                      handlerClickReset(e);
+                    }}
+                    type="button"
+                  >
+                    Resetear Filtros
+                  </button>
+                  <div className="Filtros">
+                    {/* <h6>Filtros</h6> */}
+                    <div className="FiltrosData">
+                      <p>Filtro Ciudad: {filters.Ciudad ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                      <p>Filtro Sonido: {filters.Sonido ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                      <p>Filtro Evento: {filters.Evento ? "Aplicado ✔️" : "No Aplicado ❌"} </p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={(e) => handleClickSort(e)}>
+                    ⭐Populares⭐
+                  </button>
+                </div>
+                <div className="ContainerCards">
+                  {currentCards.length ? (
+                    <CardsPlaces currentPlaces={currentCards} />
+                  ) : (
+                    <div className="NotFound"> ¡No se encontraron resultados! </div>
+                  )}
+                </div>
+                <Pagination
+                  cardsPerPage={cardsPerPage}
+                  allPlaces={allPlaces.length}
+                  paginado={paginado}
+                  pageNumber={pageNumber}
+                />
+              </CarsStyleCont>
+            </SecondVewStyleCont>
+          </HomeStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
 

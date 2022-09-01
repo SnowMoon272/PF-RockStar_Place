@@ -14,6 +14,7 @@ import validate from "./validationsComment";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
+import LoaderComponent from "../Loader/Loading";
 // import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
@@ -269,6 +270,7 @@ export default function DetailPlace() {
   });
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
@@ -279,6 +281,7 @@ export default function DetailPlace() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getDetailPlace(params.id));
   }, [dispatch, render]);
 
@@ -293,7 +296,9 @@ export default function DetailPlace() {
   }, [render2]);
 
   const checkAplied = (date) => {
-    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
+    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) {
+      return true;
+    }
     return false;
   };
 
@@ -388,133 +393,145 @@ export default function DetailPlace() {
         date: e.target.value,
       });
       setRender2(!render2);
-      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+      alert(
+        "Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos",
+      );
     } else {
       alert("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
   };
 
   return (
-    <HomeStyleCont>
-      <NavBar Home Eventos Perfil />
-      <DetailStyleCont>
-        <div className="FirstCont">
-          <div className="NameAndRating">
-            <span className="PlaceName">{place.name}</span>
-            <span className="rating">Rating: {place.rating}</span>
-          </div>
-          <div className="DataCont">
-            <span className="title">Descripción</span>
-            <span className="description">{place.description}</span>
-          </div>
-          <div className="DataCont">
-            <span className="title">Próximas fechas</span>
-            <div className="DatesCont">
-              <Carousel
-                className="carousel"
-                responsive={responsive}
-                showDots={true}
-                minimumTouchDrag={80}
-                slidesToSlide={1}
-              >
-                {allDates &&
-                  allDates.map((date) => {
-                    return (
-                      <div className="item" key={date._id}>
-                        <span className="day">{date.date.substring(8, 10)}</span>
-                        <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                        <span className="year">{date.date.substring(0, 4)}</span>
-                        <div className="dateStatus">
-                          {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                        </div>
-                        {!date.isAvailable ? null : (
-                          <button
-                            className="BtnVerMas"
-                            type="button"
-                            value={date.date.substring(0, 10)}
-                            onClick={(e) => handleAplica(e)}
-                          >
-                            Aplica
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
-              </Carousel>
-            </div>
-          </div>
-          {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
-          <div className="DataCont">
-            <span className="title">Comentarios</span>
-            <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-              <input
-                placeholder="Ingresa tu comentario"
-                className="input"
-                value={input.comment}
-                onChange={(e) => handleChange(e)}
-              />
-              <div className="RateComentCont">
-                <div className="RateCont">
-                  <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
-                  <div className="buttons">
-                    <button type="button" value={1} onClick={(e) => handleClick(e)}>
-                      1
-                    </button>
-                    <button type="button" value={2} onClick={(e) => handleClick(e)}>
-                      2
-                    </button>
-                    <button type="button" value={3} onClick={(e) => handleClick(e)}>
-                      3
-                    </button>
-                    <button type="button" value={4} onClick={(e) => handleClick(e)}>
-                      4
-                    </button>
-                    <button type="button" value={5} onClick={(e) => handleClick(e)}>
-                      5
-                    </button>
+    <div>
+      {loading ? (
+        <div>
+          <HomeStyleCont>
+            <NavBar Home Eventos Perfil />
+            <DetailStyleCont>
+              <div className="FirstCont">
+                <div className="NameAndRating">
+                  <span className="PlaceName">{place.name}</span>
+                  <span className="rating">Rating: {place.rating}</span>
+                </div>
+                <div className="DataCont">
+                  <span className="title">Descripción</span>
+                  <span className="description">{place.description}</span>
+                </div>
+                <div className="DataCont">
+                  <span className="title">Próximas fechas</span>
+                  <div className="DatesCont">
+                    <Carousel
+                      className="carousel"
+                      responsive={responsive}
+                      showDots={true}
+                      minimumTouchDrag={80}
+                      slidesToSlide={1}
+                    >
+                      {allDates &&
+                        allDates.map((date) => {
+                          return (
+                            <div className="item" key={date._id}>
+                              <span className="day">{date.date.substring(8, 10)}</span>
+                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                              <span className="year">{date.date.substring(0, 4)}</span>
+                              <div className="dateStatus">
+                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                              </div>
+                              {!date.isAvailable ? null : (
+                                <button
+                                  className="BtnVerMas"
+                                  type="button"
+                                  value={date.date.substring(0, 10)}
+                                  onClick={(e) => handleAplica(e)}
+                                >
+                                  Aplica
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
+                    </Carousel>
                   </div>
                 </div>
-                {errors.comment && <span>{errors.comment}</span>}
-                {errors.rating && <span>{errors.rating}</span>}
-                <button type="submit">Comentar</button>
-              </div>
-            </form>
-            <div className="comentarios">
-              {place.reviews &&
-                place.reviews.map((p) => {
-                  return (
-                    <div key={p._id} className="coment">
-                      <div className="NameRating">
-                        <span className="autor">{p.author}</span>
-                        <span className="ratingcoment">Rating: {p.rating}</span>
+                {/* <hr />
+          <span className="title">Ubicación</span>
+          <p>Mapa</p> */}
+                <div className="DataCont">
+                  <span className="title">Comentarios</span>
+                  <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
+                    <input
+                      placeholder="Ingresa tu comentario"
+                      className="input"
+                      value={input.comment}
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <div className="RateComentCont">
+                      <div className="RateCont">
+                        <span className="rate">
+                          Puntaje: {input.rating !== 0 ? input.rating : ""}
+                        </span>
+                        <div className="buttons">
+                          <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                            1
+                          </button>
+                          <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                            2
+                          </button>
+                          <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                            3
+                          </button>
+                          <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                            4
+                          </button>
+                          <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                            5
+                          </button>
+                        </div>
                       </div>
-                      <p className="contenidocoment">{p.comment}</p>
-                      <hr />
+                      {errors.comment && <span>{errors.comment}</span>}
+                      {errors.rating && <span>{errors.rating}</span>}
+                      <button type="submit">Comentar</button>
                     </div>
-                  );
-                })}
-            </div>
-          </div>
+                  </form>
+                  <div className="comentarios">
+                    {place.reviews &&
+                      place.reviews.map((p) => {
+                        return (
+                          <div key={p._id} className="coment">
+                            <div className="NameRating">
+                              <span className="autor">{p.author}</span>
+                              <span className="ratingcoment">Rating: {p.rating}</span>
+                            </div>
+                            <p className="contenidocoment">{p.comment}</p>
+                            <hr />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+              <div className="SecondCont">
+                <img src={place.profilePicture} className="profile" alt="Img not found" />
+                <span className="stats">Ciudad: {place.city}</span>
+                <span className="stats">Dirección: {place.adress}</span>
+                <span className="stats">Persona a cargo: {place.personInCharge}</span>
+                <span className="stats">Teléfono: {place.phoneNumber}</span>
+                <span className="stats">Capacidad: {place.capacity}</span>
+                <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
+                <hr className="hr" />
+                <p className="stats">Email: {place.email}</p>
+                {place.socialMedia && place.socialMedia.instagram !== "" ? (
+                  <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+                    <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                  </a>
+                ) : null}
+              </div>
+            </DetailStyleCont>
+          </HomeStyleCont>
         </div>
-        <div className="SecondCont">
-          <img src={place.profilePicture} className="profile" alt="Img not found" />
-          <span className="stats">Ciudad: {place.city}</span>
-          <span className="stats">Dirección: {place.adress}</span>
-          <span className="stats">Persona a cargo: {place.personInCharge}</span>
-          <span className="stats">Teléfono: {place.phoneNumber}</span>
-          <span className="stats">Capacidad: {place.capacity}</span>
-          <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
-          <hr className="hr" />
-          <p className="stats">Email: {place.email}</p>
-          {place.socialMedia && place.socialMedia.instagram !== "" ? (
-            <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
-              <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-            </a>
-          ) : null}
-        </div>
-      </DetailStyleCont>
-    </HomeStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
