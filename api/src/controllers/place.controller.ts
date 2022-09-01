@@ -1,7 +1,3 @@
-import { log } from "console";
-import { Request, response, Response } from "express";
-import { placeAvailable } from "../db/interfaces/place.interfaces";
-
 const express = require("express");
 
 import {
@@ -18,6 +14,7 @@ import {
 	getPlace,
 	banHandler,
 } from '../db/models/placeModel';
+import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
 	let { city, sound, dates } = req.query;
@@ -158,36 +155,28 @@ const suscribedSuccessfulController = async (req: any, res: any) => {
 	return res.status(404).send({ error: "Data faltante o incorrecta" });
 };
 
-/* const banPlaceController = async (req: any, res: any) => {
-	const { email } = req.body;
-	if (email) {
-		try {
-			const place = await getPlace(email)
-			if (place) {
-				await banHandler(email);
-				return res.status(201).send({ msg: "Se actualizó el ban del lugar correctamente" })
-			} return res.status(404).send({ msg: "Email no corresponde a un place" })
-		} catch (error) {
-			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
-		}
-	} else {
-		res.status(404).send({ msg: "Data incorrecta" });
-	}
-}; */
-
 const banPlaceController = async (req: any, res: any) => {
 	let { email } = req.body;
 	if (email) {
 		let placeByEmail = await getPlace(email)
 		if (placeByEmail) {
-			//console.log(placeByEmail.availableDates);
-
-			placeByEmail.availableDates.map(async (date: placeAvailable) => {
-				console.log(date.date.toISOString().substring(0,10));
-				//deleteAvailableDate(email, date.date.toISOString().substring(0, 10))
+			if (placeByEmail.banned === false) {
+				for (const date of placeByEmail.availableDates) {
+					await deleteAvailableDate(email, date.date.toISOString().substring(0, 10));
+				}
+				for (const date of placeByEmail.pendingDates) {
+					await removePendingDate(date.email, email, date.date.toISOString().substring(0, 10));
+				}
+				for (const date of placeByEmail.dates) {
+					await removeConfirmedDate(date.email, email, date.date.toISOString().substring(0, 10));
+				}
+				await banHandler(email)
+				res.send("Place banned = true, todas sus fechas y relaciones con musicbands fueron eliminadas (si las tuviera)")
 			}
-			)
-			return res.send("OK")
+			if (placeByEmail.banned === true) {
+				await banHandler(email)
+				res.send("Place banned = false, place fue desbaneado")
+			}
 		} else { return res.status(404).send("Email no corresponde a un place") }
 	} else {
 		return res.status(404).send({ msg: "Data incorrecta" });
