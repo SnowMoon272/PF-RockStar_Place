@@ -343,10 +343,25 @@ function HomeUNL() {
   const filters = useSelector((state) => state.filters);
 
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState({
+    FilterCities: "",
+    FilterSounds: "",
+    FilterEvents: "",
+  });
 
   useEffect(() => {
     setLoading(true);
     dispatch(getPlaces());
+
+    return () => {
+      dispatch(
+        updateFilters({
+          Ciudad: false,
+          Sonido: false,
+          Evento: false,
+        }),
+      );
+    };
   }, [dispatch]);
 
   const [reRender, setreRender] = useState(false);
@@ -360,12 +375,6 @@ function HomeUNL() {
   const paginado = (num) => {
     setPageNumber(num);
   };
-
-  const [filter, setFilter] = useState({
-    FilterCities: "",
-    FilterSounds: "",
-    FilterEvents: "",
-  });
 
   const handlerClickReset = () => {
     dispatch(getPlaces());
