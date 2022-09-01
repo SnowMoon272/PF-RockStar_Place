@@ -11,6 +11,7 @@ import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
+import LoaderComponent from "../Loader/Loading";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -297,7 +298,10 @@ export default function upLoadData() {
   const dispatch = useDispatch();
   const userBand = getUserInfo();
   const musicBand = useSelector((state) => state.detail_music_band);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     if (isAuthenticated()) {
       dispatch(getDetailMusicBand(userBand._id));
     } else {
@@ -411,132 +415,143 @@ export default function upLoadData() {
   }
 
   return (
-    <ActualizarDatosStyleCont>
-      <NavBar Home />
-      <h1>Completa/edita tus datos</h1>
-      <ActualizarDatosStyleCont2>
-        <form className="form">
-          <div className="inputs">
-            <div className="div">
-              <span>
-                Nombre:
-                <input
-                  id="input1"
-                  type="text"
-                  placeholder="Nombre de la banda o solista"
-                  className="input"
-                  value={input.name}
-                  name="name"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.name && <p className="errors">{errors.name}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Persona a cargo:
-                <input
-                  type="text"
-                  placeholder="Persona a cargo"
-                  className="input"
-                  value={input.personInCharge}
-                  name="personInCharge"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Teléfono:
-                <input
-                  type="tel"
-                  placeholder="Telefono de contacto"
-                  className="input"
-                  value={input.phoneNumber}
-                  name="phoneNumber"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Instagram:
-                <input
-                  type="text"
-                  placeholder="Instagram"
-                  className="input"
-                  value={input.instagram}
-                  name="instagram"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.instagram && <p className="errors">{errors.instagram}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Spotify:
-                <input
-                  type="text"
-                  placeholder="Spotify"
-                  className="input"
-                  value={input.spotify}
-                  name="spotify"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.spotify && <p className="errors">{errors.spotify}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Youtube:
-                <input
-                  type="text"
-                  placeholder="Youtube"
-                  className="input"
-                  value={input.youtube}
-                  name="youtube"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.youtube && <p className="errors">{errors.youtube}</p>}
-            </div>
-            <div className="div">
-              <span>
-                Descripción:
-                <textarea
-                  type="text"
-                  placeholder="Descripcion"
-                  className="textarea"
-                  value={input.description}
-                  name="description"
-                  onChange={(e) => handleChange(e)}
-                />
-              </span>
-              {errors.description && <p className="errors">{errors.description}</p>}
-            </div>
-          </div>
-        </form>
-        <div className="cargarImagen">
-          <h3>Foto de perfil</h3>
-          <div>
-            <img src={image === "" ? musicBand.profilePicture : image} alt="ingresa una imagen" />
-          </div>
-          <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-            Subir foto
-          </button>
+    <div>
+      {loading ? (
+        <div>
+          <ActualizarDatosStyleCont>
+            <NavBar Home />
+            <h1>Completa/edita tus datos</h1>
+            <ActualizarDatosStyleCont2>
+              <form className="form">
+                <div className="inputs">
+                  <div className="div">
+                    <span>
+                      Nombre:
+                      <input
+                        id="input1"
+                        type="text"
+                        placeholder="Nombre de la banda o solista"
+                        className="input"
+                        value={input.name}
+                        name="name"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.name && <p className="errors">{errors.name}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Persona a cargo:
+                      <input
+                        type="text"
+                        placeholder="Persona a cargo"
+                        className="input"
+                        value={input.personInCharge}
+                        name="personInCharge"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.personInCharge && <p className="errors">{errors.personInCharge}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Teléfono:
+                      <input
+                        type="tel"
+                        placeholder="Telefono de contacto"
+                        className="input"
+                        value={input.phoneNumber}
+                        name="phoneNumber"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.phoneNumber && <p className="errors">{errors.phoneNumber}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Instagram:
+                      <input
+                        type="text"
+                        placeholder="Instagram"
+                        className="input"
+                        value={input.instagram}
+                        name="instagram"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.instagram && <p className="errors">{errors.instagram}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Spotify:
+                      <input
+                        type="text"
+                        placeholder="Spotify"
+                        className="input"
+                        value={input.spotify}
+                        name="spotify"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.spotify && <p className="errors">{errors.spotify}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Youtube:
+                      <input
+                        type="text"
+                        placeholder="Youtube"
+                        className="input"
+                        value={input.youtube}
+                        name="youtube"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.youtube && <p className="errors">{errors.youtube}</p>}
+                  </div>
+                  <div className="div">
+                    <span>
+                      Descripción:
+                      <textarea
+                        type="text"
+                        placeholder="Descripcion"
+                        className="textarea"
+                        value={input.description}
+                        name="description"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </span>
+                    {errors.description && <p className="errors">{errors.description}</p>}
+                  </div>
+                </div>
+              </form>
+              <div className="cargarImagen">
+                <h3>Foto de perfil</h3>
+                <div>
+                  <img
+                    src={image === "" ? musicBand.profilePicture : image}
+                    alt="ingresa una imagen"
+                  />
+                </div>
+                <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+                  Subir foto
+                </button>
+              </div>
+            </ActualizarDatosStyleCont2>
+            <button type="button" className="BTNActualizar" onClick={(e) => handleSubmit(e)}>
+              Actualizar
+            </button>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </ActualizarDatosStyleCont>
         </div>
-      </ActualizarDatosStyleCont2>
-      <button type="button" className="BTNActualizar" onClick={(e) => handleSubmit(e)}>
-        Actualizar
-      </button>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-    </ActualizarDatosStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
