@@ -2,6 +2,7 @@
 
 const Colors = {
   Erie_Black: "#18191A",
+  Erie_Black_Transparent: "#18191abf",
   Green_Nigth: "#041318",
   Green_Light: "#A2C4C3",
   Oxford_Blue: "#14213D",
@@ -11,6 +12,7 @@ const Colors = {
   Dark_Cornflower_blue: "#264380",
   Orange_Web: "#FCA311",
   Platinum: "#E5E5E5",
+  Platinum_Transparent: "#e5e5e56f",
 };
 
 export default Colors;
