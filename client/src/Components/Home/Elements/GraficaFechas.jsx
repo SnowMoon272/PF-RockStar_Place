@@ -12,26 +12,13 @@ import styled from "styled-components";
 // `;
 
 const GraficoBarrasStyleCont = styled.div`
-  height: 45%;
+  height: 75%;
   width: 50%;
 `;
 
 function GraficaFechas() {
   const data = {
-    labels: [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
-    ],
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     datasets: [
       {
         label: "Fechas concretadas",
