@@ -278,18 +278,23 @@ export default function PerfilMusico() {
 
   async function handleClick(e) {
     e.preventDefault();
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm("Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran") === true) {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        "Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
+      ) === true
+    ) {
       await axios.put("/bandDisabled", {
         email: musicBand.email,
         disabled: true,
-      },
-      );
+      });
       localStorage.removeItem("user-token");
       navigate("/iniciarsesion");
       //console.log("fin del handle", musicBand);
     }
-  };
+  }
+
+  if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
   return (
     <div>

@@ -385,6 +385,8 @@ export default function DetailPlace() {
     navigate("/registro");
   };
 
+  if (place.banned === true || place.disabled === true) navigate("/");
+
   return (
     <div>
       {loading ? (
