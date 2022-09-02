@@ -373,8 +373,9 @@ function HomeBL() {
   const navigate = useNavigate();
   let allPlaces = useSelector((state) => state.places);
   allPlaces = allPlaces.filter((place) => {
-    return place.name !== "";
+    return place.name !== "" && place.banned !== true && place.disabled !== true;
   });
+
   const filters = useSelector((state) => state.filters);
 
   const musicBand = useSelector((state) => state.detail_music_band);

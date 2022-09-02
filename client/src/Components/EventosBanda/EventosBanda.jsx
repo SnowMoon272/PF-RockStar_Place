@@ -435,6 +435,8 @@ function EventosBanda() {
     setRender(!render);
   }
 
+  if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
+
   return (
     <div>
       {loading ? (

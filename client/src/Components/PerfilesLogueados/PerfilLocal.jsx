@@ -296,18 +296,21 @@ export default function DetailPlace() {
 
   async function handleClick(e) {
     e.preventDefault();
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true) {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        "Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
+      ) === true
+    ) {
       await axios.put("/placeDisabled", {
         email: place.email,
         disabled: true,
-      },
-      );
+      });
       localStorage.removeItem("user-token");
       navigate("/iniciarsesion");
       //console.log("fin del handle", place);
     }
-  };
+  }
   //console.log("afuera", place);
 
   const getMonth = (mes) => {
@@ -344,6 +347,8 @@ export default function DetailPlace() {
       items: 1,
     },
   };
+
+  if (place.banned === true || place.disabled === true) navigate("/");
 
   return (
     <div>
