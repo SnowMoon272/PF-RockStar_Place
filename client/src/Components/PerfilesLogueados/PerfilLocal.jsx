@@ -13,6 +13,7 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 import LoaderComponent from "../Loader/Loading";
+import MapLocalDetail from "../MapView/MapLocalDetail";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -85,6 +86,12 @@ const DetailStyleCont = styled.div`
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
+      }
+
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 3.5%;
       }
 
       .DatesCont {
@@ -390,8 +397,14 @@ export default function DetailPlace() {
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                  </div>
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
                   <span className="title">Reseñas</span>
-
                   <div className="comentarios">
                     {place.reviews &&
                       place.reviews.map((p) => {

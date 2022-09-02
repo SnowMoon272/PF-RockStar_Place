@@ -15,7 +15,7 @@ import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
-import MapPopUp from "./Components/MapView/MapPopUp";
+import MapLocalDetail from "./Components/MapView/MapLocalDetail";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -47,6 +47,7 @@ function App() {
         <Route exact path="/musicband/events/:id" element={<EventosBanda />} />
 
         <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} />
+        <Route exact path="/mapa" element={<MapLocalDetail />} />
       </Routes>
     </AppStyle>
   );

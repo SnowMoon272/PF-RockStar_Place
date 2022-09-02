@@ -14,7 +14,6 @@ import {
 	getPlace,
 	disabledPlace,
 	banHandler,
-	addLocation,
 } from "../db/models/placeModel";
 import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
 
@@ -172,21 +171,6 @@ const disabledPlaceController = async (req: any, res: any) => {
 	}
 };
 
-const addLocationController = async (req: any, res: any) => {
-	const { email, coords } = req.body;
-	if (email && coords) {
-		try {
-			const currentPlace = await addLocation(email, coords);
-			if (currentPlace.msg) return res.status(201).send(currentPlace.msg);
-			return res.status(400).send(currentPlace.error);
-		} catch (error) {
-			return res.status(500).send({ error: "No se pudo añadir la ubicacion" });
-		}
-	} else {
-		res.status(404).send({ msg: "Data faltante o incorrecta" });
-	}
-};
-
 const banPlaceController = async (req: any, res: any) => {
 	let { email } = req.body;
 	if (email) {
@@ -233,5 +217,4 @@ module.exports = {
 	getPlaceByEmailController,
 	disabledPlaceController,
 	banPlaceController,
-	addLocationController,
 };

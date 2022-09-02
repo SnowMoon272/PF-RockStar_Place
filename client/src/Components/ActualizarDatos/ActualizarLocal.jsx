@@ -35,14 +35,15 @@ const ActualizarDatosStyleCont = styled.div`
 `;
 
 const POPContainer = styled.div`
-  border: solid #fff 3px;
+  border: solid ${Colors.Blue_Vivid} 2px;
   display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")};
+  border-radius: 15px;
   justify-content: center;
   position: fixed;
   width: 40%;
   height: 60%;
   margin: auto;
-  top: 0px;
+  top: 5%;
   bottom: 0px;
   left: 0px;
   right: 0px;
@@ -395,6 +396,7 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const coords = useSelector((state) => state.place_coords);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -471,6 +473,7 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
+          coords,
         },
       });
       alert("Datos actualizados con exito");
@@ -598,11 +601,14 @@ export default function ActualizarLocal() {
                         name="adress"
                         onChange={(e) => handleChange(e)}
                       />
-                      <button onClick={(e) => handlerSwitch(e)} type="button">
-                        Mapa
-                      </button>
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Ubicación en el mapa:</span>
+                      <button onClick={(e) => handlerSwitch(e)} type="button">
+                        Desplegar mapa
+                      </button>
+                    </div>
                     <div className="ContainerInput">
                       <span>Teléfono:</span>
                       <input

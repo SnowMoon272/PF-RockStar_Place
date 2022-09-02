@@ -13,7 +13,6 @@ const {
 	getPlaceByEmailController,
 	disabledPlaceController,
 	banPlaceController,
-	addLocationController,
 } = require("../controllers/place.controller.ts");
 const { ROLES, checkRoleAuth } = require("./middlewares/authorization.js");
 
@@ -38,6 +37,5 @@ router.put("/placesuscription", suscribedSuccessfulController);
 router.put("/placesdates", DeleteAvailableDatePlaceController);
 router.put("/placeDisabled", disabledPlaceController);
 router.put("/banplace", banPlaceController);
-router.post("/location", addLocationController);
 
 module.exports = router;

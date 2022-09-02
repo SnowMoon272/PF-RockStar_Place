@@ -24,10 +24,10 @@ const MapStyleCont = styled.div`
 
   .bttListo {
     border: none;
-    font-family: "New Rocker";
-    margin-top: 2%;
+    font-family: "RocknRoll One";
+    margin: 2% 0% 2% 0%;
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 1.5rem;
     border-radius: 10px;
     background-color: ${Colors.Blue_life};
     width: 8%;
@@ -57,7 +57,7 @@ const IconLocation = L.icon({
   className: "leaflet-venue-icon",
 });
 
-export default function MapView() {
+export default function MapView({ setPOPSwitch, POPSwitch }) {
   const [currentPosition, setCurrentPosition] = useState({ lat: 0, lng: 0 });
   const [markerPosition, setMarkerPosition] = useState({ lat: 0, lng: 0 });
   const [viewPosition, setViewPosition] = useState({ lat: 0, lng: 0 });
@@ -100,11 +100,12 @@ export default function MapView() {
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(updatePlaceCoords(markerPosition));
+    setPOPSwitch(!POPSwitch);
   };
 
   return (
     <MapStyleCont>
-      <Map center={move ? viewPosition : currentPosition} zoom={15} scrollWheelZoom={false}>
+      <Map center={move ? viewPosition : currentPosition} zoom={15} scrollWheelZoom={true} attributionControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href=" https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -116,14 +117,14 @@ export default function MapView() {
           ref={markerRef}
           onDragend={updatePosition}
         /* onClick={handleClick} */
-        >
-          <Popup closePopupOnClick={false} minWidth={90}>
+        />
+        {/* <Popup closePopupOnClick={false} minWidth={90}>
             <span>{move
               ? "Esta es la posicion de su local"
               : "Esta es su posición actual"}
             </span>
           </Popup>
-        </Marker>
+        </Marker> */}
       </Map>
       <button className="bttListo" onClick={(e) => handleClick(e)} type="button">Listo</button>
     </MapStyleCont>

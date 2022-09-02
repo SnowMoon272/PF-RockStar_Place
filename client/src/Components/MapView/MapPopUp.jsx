@@ -18,7 +18,7 @@ const EditStyledCont = styled.div`
     align-items: center;
     justify-content: center;
     color: ${Colors.Platinum};
-    margin: 5px 0px 5px 0px;
+    margin: 13px 0px 5px 0px;
     width: 100%;
   }
 
@@ -32,6 +32,15 @@ const EditStyledCont = styled.div`
     color: ${Colors.Platinum};
     margin: 0px 0px 0px 0px;
     width: 100%;
+  }
+
+  .BTNCerrar{
+    background-color: red;
+    position: absolute;
+    cursor: pointer;
+    border-radius: 50px;
+    right: 1%;
+    top: 1%;
   }
 `;
 
@@ -48,7 +57,7 @@ export default function MapPopUp({ POPSwitch, setPOPSwitch }) {
       </button>
       <span className="title">Selecciona la ubicación de tu local</span>
       <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>
-      <MapView />
+      <MapView setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} />
     </EditStyledCont>
   );
 }
