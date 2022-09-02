@@ -11,15 +11,18 @@ import {
   GET_DETAIL_MUSIC_BAND,
   GET_DETAIL_EVENT,
   POST_REGISTER,
+  GET_MUSIC_BANDS,
 } from "./actions";
 
 const initialState = {
+  musicBands: [],
   places: [],
   detail_place: [],
   cities: [],
   filters: {
     Ciudad: false,
     Sonido: false,
+    Evento: false,
   },
   sort_places: [],
   detail_music_band: {},
@@ -28,6 +31,11 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_MUSIC_BANDS:
+      return {
+        ...state,
+        musicBands: action.payload,
+      };
     case GET_PLACES:
       return {
         ...state,
@@ -67,7 +75,9 @@ function rootReducer(state = initialState, action) {
     case GET_CITIES:
       return {
         ...state,
-        cities: action.payload,
+        cities: action.payload.filter((city) => {
+          return city !== "";
+        }),
       };
     case POPULARITY_SORT:
       return {

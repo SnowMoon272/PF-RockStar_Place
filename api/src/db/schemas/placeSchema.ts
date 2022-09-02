@@ -26,6 +26,7 @@ export const placeSchema = new Schema({
 	description: { type: String, trim: true, default: "" },
 
 	banned: { type: Boolean, default: false },
+	disabled : { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "place",

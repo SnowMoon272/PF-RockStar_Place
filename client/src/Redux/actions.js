@@ -10,7 +10,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
-  POST_REGISTER = "POST_REGISTER";
+  POST_REGISTER = "POST_REGISTER",
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS";
 
 export function updateFilters(data) {
   return {
@@ -79,7 +80,7 @@ export function getDetailMusicBand(id) {
 export function getDetailEvent(email) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
+      const json = await axios.get(`/musicbandemail/${email}`);
       return dispatch({
         type: GET_DETAIL_EVENT,
         payload: json.data,
@@ -93,7 +94,7 @@ export function getDetailEvent(email) {
 export function getDetailPlaceEvent(email) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/place-email/${email}`);
+      const json = await axios.get(`/place-email/${email}`);
       return dispatch({
         type: GET_DETAIL_EVENT,
         payload: json.data,
@@ -107,7 +108,7 @@ export function getDetailPlaceEvent(email) {
 export function getDetailMusicBandByEmail(email) {
   return async (dispatch) => {
     try {
-      const json = await axios.get(`http://localhost:3001/musicbandemail/${email}`);
+      const json = await axios.get(`/musicbandemail/${email}`);
       return dispatch({
         type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
@@ -182,14 +183,14 @@ export function resetDetails(payload) {
 
 export function registerBand(payload) {
   return async (dispatch) => {
-    const json = await axios.post("http://localhost:3001/musicbands", payload);
+    const json = await axios.post("/musicbands", payload);
     return json;
   };
 }
 
 export function registerPlace(payload) {
   return async (dispatch) => {
-    const json = await axios.post("http://localhost:3001/places", payload);
+    const json = await axios.post("/places", payload);
     return json;
   };
 }
@@ -200,6 +201,20 @@ export function getDetailPlaceByEmail(email) {
       const json = await axios.get(`/place-email/${email}`);
       return dispatch({
         type: GET_DETAIL_PLACE,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getMusicBands() {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get("/musicbands");
+      return dispatch({
+        type: GET_MUSIC_BANDS,
         payload: json.data,
       });
     } catch (error) {

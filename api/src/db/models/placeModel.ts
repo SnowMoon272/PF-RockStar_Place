@@ -20,6 +20,8 @@ const PLACES_REQUIRED_INFO = {
 	profilePicture: 1,
 	hasSound: 1,
 	availableDates: 1,
+	banned: 1,
+	disabled: 1,
 };
 
 /**
@@ -100,7 +102,7 @@ const getPlacesBySoundAndDates = async (sound: string, dates: string) => {
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}
@@ -118,7 +120,7 @@ const getPlacesByCityAndDates = async (city: string, dates: string) => {
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}
@@ -137,7 +139,7 @@ const getPlacesByAllFilters = async (city: string, sound: string, dates: string)
 				return e.availableDates.length < 1;
 			});
 		}
-		return filteredPlaces.length > 0 ? filteredPlaces : { error: "Places not found" };
+		return filteredPlaces;
 	} catch (error) {
 		return error;
 	}
@@ -337,7 +339,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
-				}
+				},
 			);
 			return place.findOne({ email });
 		} else {
@@ -366,7 +368,7 @@ export const addDate = async (email: string, date: string) => {
 							isAvailable: true,
 						},
 					],
-				}
+				},
 			);
 			return await place.findOne({ email });
 		} else return { error: "User does not exist." };
@@ -388,9 +390,9 @@ export const deleteAvailableDate = async (email: string, date: string) => {
 					{ email },
 					{
 						availableDates: currentPlace.availableDates.filter(
-							(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date
+							(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date,
 						),
-					}
+					},
 				);
 				return { msg: "Fecha eliminada correctamente." };
 			}
@@ -407,6 +409,20 @@ export const suscribedSuccessful = async (email: string, suscription: suscriptio
 		return { msg: "Suscription is done!" };
 	} catch (error) {
 		return { error: "Is something wrong" };
+	}
+};
+
+export const disabledPlace = async (email: string, disabled: boolean) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne({ email }, { disabled });
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
 	}
 };
 

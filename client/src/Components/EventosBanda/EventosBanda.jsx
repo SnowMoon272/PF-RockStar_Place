@@ -9,6 +9,7 @@ import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand, getDetailPlaceByEmail } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
+import LoaderComponent from "../Loader/Loading";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -37,6 +38,7 @@ const ContainerGralStyled = styled.div`
 
     .ContenedorDeArriba {
       /* border: 3px green solid; */
+
       text-align: center;
       h2 {
         color: ${Colors.Platinum};
@@ -321,6 +323,11 @@ const ContainerGralStyled = styled.div`
                 cursor: pointer;
                 transform: scale(1.2);
               }
+
+              a {
+                text-decoration: none;
+                color: ${Colors.Dark_Cornflower_blue};
+              }
             }
           }
         }
@@ -398,6 +405,7 @@ function EventosBanda() {
 
   const [dateToRender, setDateToRender] = useState("");
   const [render, setRender] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort(
@@ -406,6 +414,7 @@ function EventosBanda() {
     : [];
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getDetailMusicBand(params.id));
   }, [dispatch, render]);
 
@@ -432,129 +441,139 @@ function EventosBanda() {
     setRender(!render);
   }
 
+  if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
+
   return (
-    <ContainerGralStyled>
-      <NavBar Home Perfil />
-      <div className="IMG">
-        <img src={BGPerfil} alt="" />
-      </div>
-      <div className="Container">
-        <div className="ContenedorDeArriba">
-          <div className="divLogo">
-            <img src={ImgLogo} alt="" />
-          </div>
-          <div className="div1">
-            <div className="divTitle">
-              <h1>Proximo Evento / Detalle del Evento</h1>
+    <div>
+      {loading ? (
+        <div>
+          <ContainerGralStyled>
+            <NavBar Home Perfil />
+            <div className="IMG">
+              <img src={BGPerfil} alt="" />
             </div>
-            {musicBand._id && musicBand.dates.length === 0 ? (
-              <h2>Aquí aparecerá la información de tu próximo evento confirmado.</h2>
-            ) : (
-              <div className="div3Columnas">
-                <div className="divColumna1">
-                  <h3>{placeFirstDate.name}</h3>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Fecha:⠀</p>
-                    <p className="pDesc">
-                      {dateToRender === ""
-                        ? orderedConfirmedDates.length > 0
-                          ? orderedConfirmedDates[0].date.substring(0, 10)
-                          : "Cargando..."
-                        : dateToRender.substring(0, 10)}
-                    </p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Persona a cargo:⠀</p>
-                    <p className="pDesc">{placeFirstDate.personInCharge}</p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Telefono:⠀</p>
-                    <p className="pDesc">{placeFirstDate.phoneNumber}</p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Ciudad:⠀</p>
-                    <p className="pDesc">{placeFirstDate.city}</p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Direccion:⠀</p>
-                    <p className="pDesc">{placeFirstDate.adress}</p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Capacidad:⠀</p>
-                    <p className="pDesc">{placeFirstDate.capacity}</p>
-                  </div>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Sonido propio:⠀</p>
-                    <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
-                  </div>
+            <div className="Container">
+              <div id="Ancla_Titulo" className="ContenedorDeArriba">
+                <div className="divLogo">
+                  <img src={ImgLogo} alt="" />
                 </div>
-                <div className="divColumna2">
-                  <p className="pDesc">
-                    <p className="pTitulo">Descripción:</p>
-                    {placeFirstDate.description}
-                  </p>
-                  <div className="divsTituloyDesc">
-                    <p className="pTitulo">Rating:</p>
-                    <p className="pDesc">⭐{placeFirstDate.rating}</p>
+                <div className="div1">
+                  <div className="divTitle">
+                    <h1>Proximo Evento / Detalle del Evento</h1>
                   </div>
-                </div>
-                <div className="divColumna3">
-                  <img src={placeFirstDate.profilePicture} alt="Img not found" />
-                  <Link to={`/place/${placeFirstDate._id}`}>
-                    <button type="button" className="detailBtn">
-                      Detalle del Local
-                    </button>
-                  </Link>
+                  {musicBand._id && musicBand.dates.length === 0 ? (
+                    <h2>Aquí aparecerá la información de tu próximo evento confirmado.</h2>
+                  ) : (
+                    <div className="div3Columnas">
+                      <div className="divColumna1">
+                        <h3>{placeFirstDate.name}</h3>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Fecha:⠀</p>
+                          <p className="pDesc">
+                            {dateToRender === ""
+                              ? orderedConfirmedDates.length > 0
+                                ? orderedConfirmedDates[0].date.substring(0, 10)
+                                : "Cargando..."
+                              : dateToRender.substring(0, 10)}
+                          </p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Persona a cargo:⠀</p>
+                          <p className="pDesc">{placeFirstDate.personInCharge}</p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Telefono:⠀</p>
+                          <p className="pDesc">{placeFirstDate.phoneNumber}</p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Ciudad:⠀</p>
+                          <p className="pDesc">{placeFirstDate.city}</p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Direccion:⠀</p>
+                          <p className="pDesc">{placeFirstDate.adress}</p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Capacidad:⠀</p>
+                          <p className="pDesc">{placeFirstDate.capacity}</p>
+                        </div>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Sonido propio:⠀</p>
+                          <p className="pDesc">{placeFirstDate.hasSound === false ? "No" : "Si"}</p>
+                        </div>
+                      </div>
+                      <div className="divColumna2">
+                        <p className="pDesc">
+                          <p className="pTitulo">Descripción:</p>
+                          {placeFirstDate.description}
+                        </p>
+                        <div className="divsTituloyDesc">
+                          <p className="pTitulo">Rating:</p>
+                          <p className="pDesc">⭐{placeFirstDate.rating}</p>
+                        </div>
+                      </div>
+                      <div className="divColumna3">
+                        <img src={placeFirstDate.profilePicture} alt="Img not found" />
+                        <Link to={`/place/${placeFirstDate._id}`}>
+                          <button type="button" className="detailBtn">
+                            Detalle del Local
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-        <div className="divContainerdeAbajo">
-          <div className="divContainerdeAbajoContainer">
-            <div className="divEventosConfirmados">
-              <h1>Eventos Confirmados</h1>
-              {musicBand.dates?.map((date) => {
-                return (
-                  <div key={date._id} className="divsSmallConfirmados">
-                    <p>{date.date.substring(0, 10)}</p>
-                    <p>{date.place}</p>
-                    <button
-                      value={date.email}
-                      name={date.date}
-                      onClick={(e) => handleClickDetalles(e)}
-                      type="button"
-                      className="dateBtn"
-                    >
-                      Detalle
-                    </button>
+              <div className="divContainerdeAbajo">
+                <div className="divContainerdeAbajoContainer">
+                  <div className="divEventosConfirmados">
+                    <h1>Eventos Confirmados</h1>
+                    {musicBand.dates?.map((date) => {
+                      return (
+                        <div key={date._id} className="divsSmallConfirmados">
+                          <p>{date.date.substring(0, 10)}</p>
+                          <p>{date.place}</p>
+                          <button
+                            value={date.email}
+                            name={date.date}
+                            onClick={(e) => handleClickDetalles(e)}
+                            type="button"
+                            className="dateBtn"
+                          >
+                            Detalle
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-            <div className="divSolicitudesPendientes">
-              <h1>Solicitudes Pendientes</h1>
-              {musicBand.pendingDates?.map((date) => {
-                return (
-                  <div key={date._id} className="divsSmallConfirmados">
-                    <p>{date.date.substring(0, 10)}</p>
-                    <p>{date.place}</p>
-                    <button
-                      onClick={(e) => handleClickCancelar(e)}
-                      value={[date.date.substring(0, 10), date.email]}
-                      type="button"
-                      className="pendingBtn"
-                    >
-                      Cancelar
-                    </button>
+                  <div className="divSolicitudesPendientes">
+                    <h1>Solicitudes Pendientes</h1>
+                    {musicBand.pendingDates?.map((date) => {
+                      return (
+                        <div key={date._id} className="divsSmallConfirmados">
+                          <p>{date.date.substring(0, 10)}</p>
+                          <p>{date.place}</p>
+                          <button
+                            onClick={(e) => handleClickCancelar(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                            type="button"
+                            className="pendingBtn"
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              </div>
             </div>
-          </div>
+          </ContainerGralStyled>
         </div>
-      </div>
-    </ContainerGralStyled>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
 
