@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Colors from "../../../Utils/colors";
-import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
+// import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
