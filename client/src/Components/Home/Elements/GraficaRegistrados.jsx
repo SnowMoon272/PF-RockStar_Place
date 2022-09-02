@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPlaces, getMusicBands } from "../../../Redux/actions";
 
 const GraficoBarrasStyleCont = styled.div`
-  height: 30%;
+  height: 70%;
   width: 27%;
-  margin-top: -10%;
+  /* margin-top: -10%; */
 `;
 
 function GraficaRegistrados() {
@@ -23,8 +23,6 @@ function GraficaRegistrados() {
 
   const totalPlaces = allPlaces.length;
   const totalBands = allBands.length;
-  console.log(totalBands);
-  console.log(totalPlaces);
 
   const data = {
     labels: ["Músicos o bandas", "Locales"],
