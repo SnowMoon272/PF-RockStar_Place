@@ -26,7 +26,7 @@ export const placeSchema = new Schema({
 	description: { type: String, trim: true, default: "" },
 
 	banned: { type: Boolean, default: false },
-	disabled : { type: Boolean, default: false },
+	disabled: { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "place",
@@ -69,6 +69,11 @@ export const placeSchema = new Schema({
 		isSuscribed: { type: Boolean, default: false },
 		startDate: { type: Date, default: Date.now },
 		payment_id: { type: String, default: "" },
+	},
+
+	coords: {
+		lat: { type: String, default: "" },
+		lng: { type: String, default: "" },
 	},
 });
 

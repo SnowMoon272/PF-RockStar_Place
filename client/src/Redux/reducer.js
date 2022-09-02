@@ -12,6 +12,7 @@ import {
   GET_DETAIL_EVENT,
   POST_REGISTER,
   GET_MUSIC_BANDS,
+  PLACE_COORDS,
 } from "./actions";
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   sort_places: [],
   detail_music_band: {},
   detail_event: [],
+  place_coords: {},
 };
 
 function rootReducer(state = initialState, action) {
@@ -91,6 +93,11 @@ function rootReducer(state = initialState, action) {
     case POST_REGISTER:
       return {
         ...state,
+      };
+    case PLACE_COORDS:
+      return {
+        ...state,
+        place_coords: action.payload,
       };
     default:
       return state;

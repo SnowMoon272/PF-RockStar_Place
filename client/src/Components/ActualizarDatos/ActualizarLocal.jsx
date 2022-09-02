@@ -301,8 +301,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
-/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-
 function validate(input) {
   const errors = {};
   if (!input.name) {
@@ -570,6 +568,7 @@ export default function ActualizarLocal() {
                         name="adress"
                         onChange={(e) => handleChange(e)}
                       />
+                      <button type="button">Mapa</button>
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
                     <div className="ContainerInput">

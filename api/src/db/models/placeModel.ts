@@ -4,6 +4,7 @@ import {
 	placeInterface,
 	placeRoles,
 	suscription,
+	coords,
 } from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -428,6 +429,18 @@ export const getEmailsPlaces = async () => {
 	try {
 		const EmailsPlaces = await place.find({}, { email: 1 }).distinct("email");
 		return EmailsPlaces;
+	} catch (error) {
+		return { error };
+	}
+};
+
+export const addLocation = async (email: string, coords: coords) => {
+	try {
+		const currentPlace = await place.findOne({ email });
+		if (currentPlace) {
+			await place.updateOne({ email }, { coords });
+			return { msg: "Ubicacion añadida correctamente." };
+		} else return { error: "El usuario no fue encontrado " };
 	} catch (error) {
 		return { error };
 	}

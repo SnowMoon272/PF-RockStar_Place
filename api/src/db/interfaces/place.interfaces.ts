@@ -40,6 +40,7 @@ export type placeInterface = {
 	banned: boolean;
 	role: placeRoles;
 	phoneNumber: string;
+	coords: coords;
 };
 
 export type placeSocialMedia = {
@@ -50,4 +51,9 @@ export type suscription = {
 	isSuscribed: boolean;
 	startDate: Date;
 	payment_id: string;
+};
+
+export type coords = {
+	lat: string;
+	lng: string;
 };
