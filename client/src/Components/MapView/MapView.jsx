@@ -17,7 +17,6 @@ const MapStyleCont = styled.div`
 `;
 
 export default function MapView() {
-
   const IconLocation = L.icon({
     iconUrl: IconMarker,
     iconRetinaUrl: IconMarker,
