@@ -283,6 +283,28 @@ const DetailStyleCont = styled.div`
       width: 100%;
       margin-top: 3%;
     }
+
+    .ButtonReport {
+      font-family: "RocknRoll One";
+
+      position: absolute;
+      width: 150px;
+      height: 35px;
+      bottom: 210px;
+      right: 220px;
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+      background-color: black;
+      border-radius: 8px;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
   }
 `;
 
@@ -542,6 +564,9 @@ export default function DetailPlace() {
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 ) : null}
+                <button className="ButtonReport" type="button">
+                  Reportar
+                </button>
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
