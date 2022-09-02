@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -404,6 +405,10 @@ function Registro() {
       window.open(`${BACK_URL}/auth/google`, "_self");
     }
   };
+  async function sendMail() {
+    const email = input.email;
+    await axios.get(`http://localhost:3001/register/mail/${email}`);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -432,6 +437,7 @@ function Registro() {
         }),
       );
     }
+    sendMail();
     alert("Usuario creado con exito");
     setInput({
       PasswordR: "",

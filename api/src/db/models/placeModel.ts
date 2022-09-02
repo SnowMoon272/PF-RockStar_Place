@@ -21,6 +21,8 @@ const PLACES_REQUIRED_INFO = {
 	profilePicture: 1,
 	hasSound: 1,
 	availableDates: 1,
+	banned: 1,
+	disabled: 1,
 };
 
 /**
@@ -417,6 +419,7 @@ export const disabledPlace = async (email: string, disabled: boolean) => {
 		const placeToChange = await place.find({ email });
 		if (placeToChange) {
 			await place.updateOne({ email }, { disabled });
+			//console.log(placeToChange)
 			return place.findOne({ email });
 		} else {
 			return { error: "User does not exist." };

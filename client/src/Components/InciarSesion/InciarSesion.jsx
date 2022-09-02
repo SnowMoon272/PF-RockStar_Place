@@ -42,19 +42,27 @@ function InciarSesion() {
         const user = await getUserInfo();
         const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
         if (user.role === "musicband") {
-          const userLogMusic = await axios.get(`http://localhost:3001/musicbandemail/${user.email}`);
+          const userLogMusic = await axios.get(
+            `http://localhost:3001/musicbandemail/${user.email}`,
+          );
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
+          } else if (userLogMusic.data.banned === true) {
+            return alert("Usuario baneado temporalmente");
+          } else {
+            window.location.replace(homeURL);
+          }
+        } else if (user.role === "place") {
+          const userLogPlace = await axios.get(`http://localhost:3001/place-email/${user.email}`);
+          if (userLogPlace.data.disabled === true) {
+            navigate("/reactivarcuenta");
+          } else if (userLogPlace.data.banned === true) {
+            return alert("Usuario baneado temporalmente");
           } else {
             window.location.replace(homeURL);
           }
         } else {
-          const userLogPlace = await axios.get(`http://localhost:3001/place-email/${user.email}`);
-          if (userLogPlace.data.disabled === true) {
-            navigate("/reactivarcuenta");
-          } else {
-            window.location.replace(homeURL);
-          }
+          window.location.replace(homeURL);
         }
       }
     } catch (error) {

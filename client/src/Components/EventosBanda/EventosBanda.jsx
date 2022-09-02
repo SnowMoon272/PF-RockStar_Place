@@ -38,6 +38,7 @@ const ContainerGralStyled = styled.div`
 
     .ContenedorDeArriba {
       /* border: 3px green solid; */
+
       text-align: center;
       h2 {
         color: ${Colors.Platinum};
@@ -322,6 +323,11 @@ const ContainerGralStyled = styled.div`
                 cursor: pointer;
                 transform: scale(1.2);
               }
+
+              a {
+                text-decoration: none;
+                color: ${Colors.Dark_Cornflower_blue};
+              }
             }
           }
         }
@@ -435,6 +441,8 @@ function EventosBanda() {
     setRender(!render);
   }
 
+  if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
+
   return (
     <div>
       {loading ? (
@@ -445,7 +453,7 @@ function EventosBanda() {
               <img src={BGPerfil} alt="" />
             </div>
             <div className="Container">
-              <div className="ContenedorDeArriba">
+              <div id="Ancla_Titulo" className="ContenedorDeArriba">
                 <div className="divLogo">
                   <img src={ImgLogo} alt="" />
                 </div>

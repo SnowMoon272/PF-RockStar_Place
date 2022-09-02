@@ -77,7 +77,9 @@ function rootReducer(state = initialState, action) {
     case GET_CITIES:
       return {
         ...state,
-        cities: action.payload,
+        cities: action.payload.filter((city) => {
+          return city !== "";
+        }),
       };
     case POPULARITY_SORT:
       return {
