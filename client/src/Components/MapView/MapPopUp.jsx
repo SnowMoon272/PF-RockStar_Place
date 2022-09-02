@@ -4,13 +4,13 @@ import Colors from "../../Utils/colors";
 import MapView from "./MapView";
 
 const EditStyledCont = styled.div`
+  border: 3px solid #ff0000;
   box-sizing: border-box;
-  border: 3px solid red;
   border-radius: 15px;
   background-color: ${Colors.Oxford_Blue};
-  position: relative;
   width: 100%;
   height: 100%;
+  /* position: ; */
 
   .title {
     font-family: "New Rocker";
@@ -37,21 +37,16 @@ const EditStyledCont = styled.div`
   }
 `;
 
-export default function MapPopUp({ setzIndex, zIndex }) {
-
+export default function MapPopUp({ POPSwitch, setPOPSwitch }) {
   const handlerClose = (e) => {
     e.preventDefault();
-    setzIndex(!zIndex);
+    setPOPSwitch(!POPSwitch);
   };
 
   return (
     <EditStyledCont>
-      <button
-        onClick={(e) => handlerClose(e)}
-        type="button"
-        className="BTNCerrar"
-      >
-        X
+      <button onClick={(e) => handlerClose(e)} type="button" className="BTNCerrar">
+        ❌
       </button>
       <span className="title">Selecciona la ubicación de tu local</span>
       <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>

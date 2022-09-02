@@ -14,6 +14,8 @@ import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
+  /* border: solid #fff 3px; */
+
   width: 100%;
   height: 100vh;
   padding-left: 80px;
@@ -24,22 +26,6 @@ const ActualizarDatosStyleCont = styled.div`
   flex-direction: row-reverse;
   box-sizing: border-box;
   position: absolute;
-  z-index: 50;
-
-  .POPContainer {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 40%;
-    height: 60%;
-    margin: auto;
-    top: 0px;
-    bottom: 0px;
-    left: -300px;
-    right: 0px;
-    z-index: 20;
-    /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
-  }
 
   .divLogo {
     img {
@@ -50,12 +36,32 @@ const ActualizarDatosStyleCont = styled.div`
   }
 `;
 
+const POPContainer = styled.div`
+  border: solid #fff 3px;
+  display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")};
+  justify-content: center;
+  position: fixed;
+  width: 40%;
+  height: 60%;
+  margin: auto;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+  /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
+  border: solid #fff 3px;
+
   box-sizing: border-box;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
   height: 80%;
+  position: absolute;
+  z-index: 90;
 
   .divTitulo {
     display: flex;
@@ -393,7 +399,6 @@ export default function ActualizarLocal() {
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
   const [loading, setLoading] = useState(false);
-  const [zIndex, setzIndex] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -525,6 +530,12 @@ export default function ActualizarLocal() {
     return true;
   }
 
+  const [POPSwitch, setPOPSwitch] = useState(false);
+
+  const handlerSwitch = (e) => {
+    setPOPSwitch(!POPSwitch);
+  };
+
   return (
     <div>
       {loading ? (
@@ -534,9 +545,9 @@ export default function ActualizarLocal() {
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
             <NavBar Perfil Home />
-            <div className="POPContainer">
-              <MapPopUp />
-            </div>
+            <POPContainer POPSwitch={POPSwitch}>
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} />
+            </POPContainer>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
                 <h1>Completa / Edita tus datos</h1>
@@ -590,7 +601,9 @@ export default function ActualizarLocal() {
                         name="adress"
                         onChange={(e) => handleChange(e)}
                       />
-                      <button type="button">Mapa</button>
+                      <button onClick={(e) => handlerSwitch(e)} type="button">
+                        Mapa
+                      </button>
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
                     <div className="ContainerInput">
