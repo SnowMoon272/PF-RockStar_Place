@@ -18,12 +18,7 @@ import "react-multi-carousel/lib/styles.css";
 import LoaderComponent from "../Loader/Loading";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import {
-  getDetailMusicBandByEmail,
-  getDetailEvent,
-  getDetailPlace,
-  resetDetails,
-} from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace, resetDetails } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
 
@@ -298,7 +293,11 @@ const SecondStyleCont = styled.section`
           /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
+
           & .item {
+            /* border: solid yellow 1.5px; */
+
+            position: relative;
             width: 90%;
             height: 250px;
             background-color: ${Colors.Blue_life};
@@ -307,28 +306,65 @@ const SecondStyleCont = styled.section`
             font-family: "RocknRoll One";
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
             & .BtnDelete {
               position: absolute;
-              right: 7%;
+              top: 5px;
+              right: 5px;
             }
+
+            & .BTNCerrar {
+              /* background-color: ${Colors.Erie_Black}; */
+              background-color: transparent;
+              border: none;
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+              border: solid red 2px;
+              transition: all 0.5s ease;
+
+              :hover {
+                background-color: ${Colors.Erie_Black};
+                transform: scale(1.2);
+                cursor: pointer;
+              }
+            }
+
             & .day {
               font-size: 50px;
             }
             & .month {
               font-size: 25px;
+              margin-bottom: 6px;
             }
             & .year {
               font-size: 25px;
-            }
-            & .dateStatus {
-              width: 100%;
-              background-color: ${Colors.Oxford_Blue};
-              font-size: 20px;
+              margin-bottom: 10px;
             }
             & .BtnVerMas {
-              position: absolute;
-              top: 88%;
-              right: 38%;
+              position: relative;
+              top: 15px;
+              width: 130px;
+              height: 30px;
+              border: none;
+              background-color: ${Colors.Oxford_Blue};
+              border-radius: 4px;
+              font-size: 1.8rem;
+              color: ${Colors.Platinum};
+              font-family: "RocknRoll One", sans-serif;
+
+              transition: all 0.5s ease;
+
+              :hover {
+                transform: scale(1.2);
+                cursor: pointer;
+              }
             }
           }
         }
@@ -357,6 +393,24 @@ const SecondStyleCont = styled.section`
             padding: 4px 8px;
             cursor: pointer;
             border-radius: 5px;
+          }
+        }
+
+        .BTNAddFecha {
+          font-family: "RocknRoll One", sans-serif;
+          width: 140px;
+          height: 35px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.8rem;
+          background-color: ${Colors.Blue_life};
+          color: white;
+          margin-left: 20px;
+          transition: all 0.5s ease;
+
+          :hover {
+            transform: scale(1.2);
+            cursor: pointer;
           }
         }
       }
@@ -463,16 +517,12 @@ const SecondStyleCont = styled.section`
   }
 `;
 
-// const FooterStyle = styled.section`
-//   box-sizing: border-box;
-//   position: relative;
-//   background-color: ${Colors.Erie_Black};
-//   width: 100%;
-//   height: 80px;
-//   z-index: 27;
-//   color: white;
-//   padding-left: 75px;
-// `;
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  font-size: 20px;
+`;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeLL() {
@@ -487,16 +537,10 @@ function HomeLL() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const confirmedDates = place.dates
-    ? place.dates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
-    : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
   const availableDates = place.availableDates
-    ? place.availableDates.sort(
-      (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-    )
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
@@ -663,7 +707,6 @@ function HomeLL() {
     if (mes === "12") return "Diciembre";
     return mes;
   };
-
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
     <div>
@@ -672,13 +715,7 @@ function HomeLL() {
           <HomeStyleCont zIndex={zIndex}>
             <NavBar Perfil HelpLog />
             <div className="POPContainer">
-              {musicBandDetail._id ? (
-                <DetalleMusicoPOP
-                  setzIndex={setzIndex}
-                  zIndex={zIndex}
-                  musicBand={musicBandDetail}
-                />
-              ) : null}
+              {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
             </div>
             <FirtVewStyleCont>
               <div className="ImgContainer">
@@ -705,8 +742,8 @@ function HomeLL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                              confirmedDates[0].date.substring(5, 7),
+                            )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>
@@ -720,11 +757,7 @@ function HomeLL() {
                     <div className="ProximoIMGyBtn">
                       <img src={musicBandEvent.profilePicture} alt="Band" />
                       <Link className="Lynk_Btn" to="/">
-                        <button
-                          type="button"
-                          onClick={(e) => handleShowDetail(e)}
-                          value={musicBandEvent.email}
-                        >
+                        <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
                           Detalle
                         </button>
                       </Link>
@@ -762,29 +795,20 @@ function HomeLL() {
                               <div className="item" key={date._id}>
                                 <button
                                   type="button"
-                                  className="BtnDelete"
-                                  onClick={
-                                    date.isAvailable
-                                      ? (e) => handleDeleteAvailableDate(e)
-                                      : (e) => handleDeleteClosedDate(e)
-                                  }
+                                  className="BtnDelete BTNCerrar"
+                                  onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
                                   value={[date.date.substring(0, 10), date.email]}
                                 >
-                                  X
+                                  ❌
                                 </button>
                                 <span className="day">{date.date.substring(8, 10)}</span>
                                 <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                                 <span className="year">{date.date.substring(0, 4)}</span>
-                                <div className="dateStatus">
+                                <DateStatusStyled dateStatus={date.isAvailable}>
                                   {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                                </div>
+                                </DateStatusStyled>
                                 {date.isAvailable ? null : (
-                                  <button
-                                    className="BtnVerMas"
-                                    type="button"
-                                    onClick={(e) => handleShowDetail(e)}
-                                    value={date.email}
-                                  >
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
                                     Ver más
                                   </button>
                                 )}
@@ -796,14 +820,8 @@ function HomeLL() {
                     <div className="AddFecha">
                       <label htmlFor="start">
                         Añadir Fecha:
-                        <input
-                          type="date"
-                          id="start"
-                          value={date}
-                          min={getCurrentDate()}
-                          onChange={(e) => handleDateChange(e)}
-                        />
-                        <button type="button" onClick={(e) => handleSubmitDate(e)}>
+                        <input type="date" id="start" value={date} min={getCurrentDate()} onChange={(e) => handleDateChange(e)} />
+                        <button className="BTNAddFecha" type="button" onClick={(e) => handleSubmitDate(e)}>
                           Añadir
                         </button>
                       </label>
@@ -822,27 +840,15 @@ function HomeLL() {
                               <div className="Left">
                                 <p>{`${day}/${month}/${year}`}</p>
                                 <p>{date.musicBand}</p>
-                                <button
-                                  type="button"
-                                  onClick={(e) => handleShowDetail(e)}
-                                  value={date.email}
-                                >
+                                <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
                                   Detalle
                                 </button>
                               </div>
                               <div className="Rigth">
-                                <button
-                                  type="button"
-                                  onClick={(e) => handleConfirmDate(e)}
-                                  value={[date.date.substring(0, 10), date.email]}
-                                >
+                                <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
                                   Aceptar
                                 </button>
-                                <button
-                                  type="button"
-                                  onClick={(e) => handleRejectDate(e)}
-                                  value={[date.date.substring(0, 10), date.email]}
-                                >
+                                <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
                                   Rechazar
                                 </button>
                               </div>

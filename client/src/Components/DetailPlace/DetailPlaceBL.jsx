@@ -105,6 +105,10 @@ const DetailStyleCont = styled.div`
           width: 100%;
           height: 100%;
           & .item {
+            border: solid yellow 1.5px;
+
+            position: relative;
+
             width: 90%;
             height: 250px;
             background-color: ${Colors.Blue_life};
@@ -115,6 +119,7 @@ const DetailStyleCont = styled.div`
             flex-direction: column;
             & .BtnDelete {
               position: absolute;
+
               right: 7%;
             }
             & .day {
@@ -393,9 +398,7 @@ export default function DetailPlace() {
         date: e.target.value,
       });
       setRender2(!render2);
-      alert(
-        "Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos",
-      );
+      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
     } else {
       alert("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
@@ -420,13 +423,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
                   <div className="DatesCont">
-                    <Carousel
-                      className="carousel"
-                      responsive={responsive}
-                      showDots={true}
-                      minimumTouchDrag={80}
-                      slidesToSlide={1}
-                    >
+                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
                       {allDates &&
                         allDates.map((date) => {
                           return (
@@ -434,16 +431,9 @@ export default function DetailPlace() {
                               <span className="day">{date.date.substring(8, 10)}</span>
                               <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                               <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </div>
+                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
                               {!date.isAvailable ? null : (
-                                <button
-                                  className="BtnVerMas"
-                                  type="button"
-                                  value={date.date.substring(0, 10)}
-                                  onClick={(e) => handleAplica(e)}
-                                >
+                                <button className="BtnVerMas" type="button" value={date.date.substring(0, 10)} onClick={(e) => handleAplica(e)}>
                                   Aplica
                                 </button>
                               )}
@@ -459,17 +449,10 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Comentarios</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-                    <input
-                      placeholder="Ingresa tu comentario"
-                      className="input"
-                      value={input.comment}
-                      onChange={(e) => handleChange(e)}
-                    />
+                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
                     <div className="RateComentCont">
                       <div className="RateCont">
-                        <span className="rate">
-                          Puntaje: {input.rating !== 0 ? input.rating : ""}
-                        </span>
+                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
                         <div className="buttons">
                           <button type="button" value={1} onClick={(e) => handleClick(e)}>
                             1
