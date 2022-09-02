@@ -4,7 +4,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
@@ -266,6 +267,7 @@ const EditStyledCont = styled.div`
 export default function PerfilMusico() {
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
   const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
 
@@ -273,6 +275,21 @@ export default function PerfilMusico() {
     setLoading(true);
     dispatch(getDetailMusicBand(params.id));
   }, []);
+
+  async function handleClick(e) {
+    e.preventDefault();
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran") === true) {
+      await axios.put("/bandDisabled", {
+        email: musicBand.email,
+        disabled: true,
+      },
+      );
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", musicBand);
+    }
+  };
 
   return (
     <div>
@@ -337,6 +354,13 @@ export default function PerfilMusico() {
                           <img src={Editar} alt="Edit" />
                         </Link>
                         <h4>Editar</h4>
+                      </div>
+                      <div className="divDesactivar">
+                        <div className="divDesctivaryTexto">
+                          <button type="button" onClick={(e) => handleClick(e)}>
+                            <h4>Desactivar cuenta</h4>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

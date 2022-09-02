@@ -275,7 +275,7 @@ const GraficStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Oxford_Blue_transparent};
   width: 100%;
-  height: 680px;
+  height: 600px;
   object-fit: cover;
 `;
 

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 /* Modules */
 
 /* Components & Actions */
+import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
 
 /* Form Img & SVG */
@@ -13,11 +14,14 @@ import LoaderComponent from "../Loader/Loading";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 function InciarSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   //Login tradicional
   const login = async () => {
     try {
@@ -35,9 +39,23 @@ function InciarSesion() {
         localStorage.setItem("user-token", token);
         const header = new Headers();
         header.append("authorization", token);
-
+        const user = await getUserInfo();
         const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
-        window.location.replace(homeURL);
+        if (user.role === "musicband") {
+          const userLogMusic = await axios.get(`http://localhost:3001/musicbandemail/${user.email}`);
+          if (userLogMusic.data.disabled === true) {
+            navigate("/reactivarcuenta");
+          } else {
+            window.location.replace(homeURL);
+          }
+        } else {
+          const userLogPlace = await axios.get(`http://localhost:3001/place-email/${user.email}`);
+          if (userLogPlace.data.disabled === true) {
+            navigate("/reactivarcuenta");
+          } else {
+            window.location.replace(homeURL);
+          }
+        }
       }
     } catch (error) {
       alert("Verifica tu email o clave");

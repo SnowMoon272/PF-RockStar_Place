@@ -8,6 +8,7 @@ const {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
+	disabledBandController,
 	getMusicBandController,
 	banMusicBandController
 } = require('../controllers/musicBand.controller.ts');
@@ -27,6 +28,7 @@ router.post("/bandreviews", addBandReviewController);
 router.get("/musicbandemail/:email", getMusicBandByEmailController);
 router.get("/musicband/:id", getMusicBandByIDController);
 router.put("/musicband", updateMusicBandController);
+router.put("/bandDisabled", disabledBandController);
 router.put("/banmusicband", banMusicBandController);
 
 router.post('/bandreviews', checkRoleAuth([ROLES.admin, ROLES.place]), addBandReviewController);

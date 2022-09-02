@@ -34,6 +34,7 @@ export const musicBandSchema = new Schema({
 		},
 	],
 	banned: { type: Boolean, default: false },
+	disabled : { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "musicband",
