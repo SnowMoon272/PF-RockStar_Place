@@ -397,7 +397,7 @@ export default function DetailPlace() {
               <div className="FirstCont">
                 <div className="NameAndRating">
                   <span className="PlaceName">{place.name}</span>
-                  <span className="rating">Rating: {place.rating}</span>
+                  <span className="rating">Rating: ⭐{place.rating}</span>
                 </div>
                 <div className="DataCont">
                   <span className="title">Descripción</span>
@@ -468,7 +468,7 @@ export default function DetailPlace() {
                           <div key={p._id} className="coment">
                             <div className="NameRating">
                               <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: {p.rating}</span>
+                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
                             </div>
                             <p className="contenidocoment">{p.comment}</p>
                             <hr />
