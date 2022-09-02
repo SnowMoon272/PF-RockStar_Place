@@ -97,6 +97,12 @@ const ActualizarDatosStyleCont2 = styled.div`
     justify-content: center;
   }
 
+  .divButtonDesc {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+  }
+
   .divsColumna2 {
     display: flex;
     flex-direction: column;
@@ -197,6 +203,24 @@ const ActualizarDatosStyleCont2 = styled.div`
     color: ${Colors.Platinum};
   }
   .BTNs:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
+
+  .BTNsDesc {
+    font-family: "New Rocker";
+    font-style: normal;
+    font-weight: 200;
+    font-size: 20px;
+    width: 200px;
+    line-height: 45px;
+    background-color: black;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    color: white;
+  }
+  .BTNsDesc:hover {
     transform: scale(1.2);
     transition: 0.5s;
   }
@@ -501,6 +525,22 @@ export default function ActualizarLocal() {
     }
   }
 
+  async function handleClick(e) {
+    e.preventDefault();
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
+    ) {
+      await axios.put("/placeDisabled", {
+        email: place.email,
+        disabled: true,
+      });
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", place);
+    }
+  }
+
   function handleActivateButton() {
     if (input.name && Object.entries(errors).length === 0) {
       return false;
@@ -651,6 +691,11 @@ export default function ActualizarLocal() {
                   </button>
                 </div>
               </form>
+              <div className="divButtonDesc">
+                <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                  Desactivar cuenta
+                </button>
+              </div>
             </ActualizarDatosStyleCont2>
           </ActualizarDatosStyleCont>
         </div>
