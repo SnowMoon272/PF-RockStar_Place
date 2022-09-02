@@ -6,7 +6,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDetailMusicBandByEmail, getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -259,6 +259,7 @@ const DetailStyleCont = styled.div`
 `;
 
 export default function DetailPlace() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
   const place = useSelector((state) => state.detail_place);
@@ -400,6 +401,8 @@ export default function DetailPlace() {
       alert("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
   };
+
+  if (place.banned === true || place.disabled === true) navigate("/");
 
   return (
     <div>

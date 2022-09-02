@@ -337,7 +337,7 @@ function HomeUNL() {
   let allPlaces = useSelector((state) => state.places);
 
   allPlaces = allPlaces.filter((place) => {
-    return place.name !== "";
+    return place.name !== "" && place.banned !== true && place.disabled !== true;
   });
 
   const filters = useSelector((state) => state.filters);
