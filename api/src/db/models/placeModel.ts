@@ -417,6 +417,7 @@ export const disabledPlace = async (email: string, disabled: boolean) => {
 		const placeToChange = await place.find({ email });
 		if (placeToChange) {
 			await place.updateOne({ email }, { disabled });
+			//console.log(placeToChange)
 			return place.findOne({ email });
 		} else {
 			return { error: "User does not exist." };

@@ -96,9 +96,22 @@ const disabledBandController = async (req: any, res: any) => {
 	const { email, disabled } = req.body;
 	if (disabled) {
 		try {
-			let userDisabled = await disabledMusicBand(email, disabled);
-			if (userDisabled) return res.status(201).send({ msg: "Se desactivo la banda correctamente" });
-			return res.status(400).send({ error: "Ha ocurrido un error" });
+			await disabledMusicBand(email, disabled);
+			let musicBandByEmail = await getMusicBand(email)
+			if (musicBandByEmail) {
+				if (musicBandByEmail.disabled === true) {
+					for (const date of musicBandByEmail.pendingDates) {
+						await removePendingDate(email, date.email, date.date.toISOString().substring(0, 10));
+					}
+					for (const date of musicBandByEmail.dates) {
+						await removeConfirmedDate(email, date.email, date.date.toISOString().substring(0, 10));
+					}
+					res.status(201).send({ msg: "Se desactivo la banda correctamente" });
+				}
+				if (musicBandByEmail.disabled === false) {
+					res.send("MusicBand disabled = false, MusicBand fue activada nuevamente")
+				}
+			} else { return res.status(400).send({ error: "Ha ocurrido un error" }) } 
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo desactivar la banda" });
 		}
