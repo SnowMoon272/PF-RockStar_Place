@@ -102,15 +102,11 @@ const ContainerGralStyled = styled.div`
       /* border: #00ff08 solid 3px; */
 
       background-color: ${Colors.Oxford_Blue_transparent};
-      text-align: center;
       width: 100%;
-      height: 450px;
+      height: ${({ Switch }) => (Switch ? "fit-content" : "450px")};
       box-sizing: border-box;
       position: relative;
       z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     .divContainerdeAbajo {
@@ -223,41 +219,28 @@ function UsersInf() {
   return (
     <div>
       {loading ? (
-        <ContainerGralStyled>
+        <ContainerGralStyled Switch={Switch}>
           <div className="Container">
             <div className="SwitchyLogo">
               <div className="SwitchCont">
                 <p>Notificar</p>
-                <input
-                  value={Switch}
-                  id="switch"
-                  type="checkbox"
-                  onChange={(e) => handleCheckBox(e)}
-                />
+                <input value={Switch} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
                 <label htmlFor="switch" className="label" />
                 <p>Editar</p>
               </div>
               <img src={IMGLogo} alt="" />
             </div>
             <div className="ContenedorDeArriba">
-              {Switch ? (
-                <ModoEditar />
-              ) : (
-                <ModoNotificar setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />
-              )}
+              {Switch ? <ModoEditar /> : <ModoNotificar setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />}
             </div>
-            {SwitchNotif && <Notificar />}
+            {SwitchNotif && <Notificar Fondo />}
             <div className="divContainerdeAbajo">
               <div className="ContLeftRigth">
                 <div className="ContainerLocBan">
                   <h1>Bandas</h1>
                   <div key="5" className="divsSmallConfirmados">
                     <p>Los autenticos Asiaticos Locos</p>
-                    <button
-                      onClick={(e) => handleClickDetallesBanda(e)}
-                      type="button"
-                      className="BTNDetalle"
-                    >
+                    <button onClick={(e) => handleClickDetallesBanda(e)} type="button" className="BTNDetalle">
                       Detalle
                     </button>
                   </div>
@@ -266,11 +249,7 @@ function UsersInf() {
                   <h1>Locales</h1>
                   <div key="5" className="divsSmallConfirmados">
                     <p>Bar los pitufos locos.</p>
-                    <button
-                      onClick={(e) => handleClickDetallesLocal(e)}
-                      type="button"
-                      className="BTNDetalle"
-                    >
+                    <button onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
                       Detalle
                     </button>
                   </div>

@@ -170,9 +170,8 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
         </div>
         <div className="SectionB">
           <p>
-            <span>Descripción: </span>Manuel Serrano Nacido en 1995 es un musico, compositor,
-            productor y pianista britanico de soul clasico. Serrano fue el pianista mas vendido de
-            2020 en el Reino Unido y encabezo el Royal Albert Hall de Londres.
+            <span>Descripción: </span>Manuel Serrano Nacido en 1995 es un musico, compositor, productor y pianista britanico de soul clasico. Serrano
+            fue el pianista mas vendido de 2020 en el Reino Unido y encabezo el Royal Albert Hall de Londres.
           </p>
           <p>
             <span>Rating: </span>⭐4.68

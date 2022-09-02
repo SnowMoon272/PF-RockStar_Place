@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React from "react";
 import styled from "styled-components";
 import Colors from "../../../Utils/colors";
@@ -7,45 +8,12 @@ const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
 
   box-sizing: border-box;
-  background-color: ${Colors.Oxford_Blue_transparent};
+  background-color: ${({ Fondo }) => (Fondo ? Colors.Oxford_Blue_transparent : "transparent")};
   width: 100%;
   height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-
-  & .SectionA {
-    border: #09ff00 solid 3px;
-
-    display: flex;
-    & h1 {
-    }
-    & .BTNCerrar {
-      position: relative;
-      top: 5px;
-      right: -5px;
-      background-color: ${Colors.Erie_Black};
-      border: none;
-      width: 29px;
-      height: 29px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.5s ease;
-
-      :hover {
-        transform: scale(1.2);
-        cursor: pointer;
-      }
-
-      img {
-        width: 34px;
-        height: 34px;
-      }
-    }
-  }
 
   & .SectionB {
     /* border: #09ff00 solid 3px; */
@@ -68,49 +36,51 @@ const ContainerGralStyled = styled.div`
       border-bottom-color: ${Colors.Blue_Vivid};
       padding: 0.2rem 0;
       outline: none;
-      background-color: ${Colors.Erie_Black_Transparent};
-      color: ${Colors.Platinum};
-      transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      margin-bottom: 15px;
-      font-size: 1.5rem;
+      background-color: ${({ Fondo }) => (Fondo ? Colors.Erie_Black_Transparent : Colors.Oxford_Blue_transparent)};
     }
+    color: ${Colors.Platinum};
+    transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
 
-    .textareaTitle:focus,
-    textareaTitle:hover {
-      outline: none;
-      padding: 0.2rem 1rem;
-      border-radius: 1rem;
-      border-color: ${Colors.Platinum};
-    }
+  .textareaTitle:focus,
+  textareaTitle:hover {
+    outline: none;
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    border-color: ${Colors.Platinum};
+  }
 
-    .textareaTitle::placeholder {
-      color: ${Colors.Platinum};
-      opacity: 50%;
-    }
+  .textareaTitle::placeholder {
+    font-size: 2rem;
+    padding: 5px 0px 0px 8px;
+    color: ${Colors.Platinum};
+    opacity: 50%;
+  }
 
-    .textareaTitle:focus::placeholder {
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+  .textareaTitle:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
 
-    & button {
-      font-family: "New Rocker", cursive;
-      background-color: ${Colors.Blue_life};
-      width: 250px;
-      font-size: 2rem;
-      font-weight: 400;
+  & button {
+    font-family: "New Rocker", cursive;
+    background-color: ${Colors.Blue_life};
+    width: 250px;
+    font-size: 2rem;
+    font-weight: 400;
+    border: none;
+    border-radius: 8px;
+    color: ${Colors.Platinum};
+    transition: all 0.5s ease;
+    padding: 6px;
+    margin: 5px 20px;
+
+    :hover {
+      transform: scale(1.1);
+      cursor: pointer;
       border: none;
-      border-radius: 8px;
-      color: ${Colors.Platinum};
-      transition: all 0.5s ease;
-      padding: 6px;
-      margin: 5px 20px;
-
-      :hover {
-        transform: scale(1.1);
-        cursor: pointer;
-        border: none;
-      }
     }
   }
 
@@ -145,6 +115,8 @@ const ContainerGralStyled = styled.div`
     }
 
     .textarea::placeholder {
+      font-size: 2rem;
+      padding: 5px 0px 0px 8px;
       color: ${Colors.Platinum};
       opacity: 50%;
     }
@@ -156,16 +128,11 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar() {
+function Notificar({ Fondo }) {
   return (
-    <ContainerGralStyled>
+    <ContainerGralStyled Fondo={Fondo}>
       <div className="SectionB">
-        <textarea
-          type="text"
-          placeholder="Titulo"
-          className="textarea textareaTitle"
-          name="description"
-        />
+        <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" />
         <button type="button">Enviar</button>
       </div>
       <div className="SectionC">
