@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import MapView from "./MapView";
 
 const EditStyledCont = styled.div`
-  border: 3px solid #ff0000;
   box-sizing: border-box;
   border-radius: 15px;
   background-color: ${Colors.Oxford_Blue};
   width: 100%;
   height: 100%;
-  /* position: ; */
 
   .title {
     font-family: "New Rocker";

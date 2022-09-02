@@ -18,7 +18,7 @@ const MapStyleCont = styled.div`
   align-items: center;
 
   .leaflet-container {
-    width: 100%;
+    width: 90%;
     height: 100%;
   }
 

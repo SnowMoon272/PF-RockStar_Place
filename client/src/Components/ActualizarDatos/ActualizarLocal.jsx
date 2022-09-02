@@ -14,8 +14,6 @@ import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
-  /* border: solid #fff 3px; */
-
   width: 100%;
   height: 100vh;
   padding-left: 80px;
@@ -61,7 +59,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   width: 80%;
   height: 80%;
   position: absolute;
-  z-index: 90;
 
   .divTitulo {
     display: flex;
