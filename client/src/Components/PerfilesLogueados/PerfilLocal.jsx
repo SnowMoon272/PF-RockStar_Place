@@ -307,23 +307,6 @@ export default function DetailPlace() {
     };
   }, []);
 
-  async function handleClick(e) {
-    e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
-    ) {
-      await axios.put("/placeDisabled", {
-        email: place.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-      //console.log("fin del handle", place);
-    }
-  }
-  //console.log("afuera", place);
-
   const getMonth = (mes) => {
     if (mes === "01") return "Enero";
     if (mes === "02") return "Febrero";
@@ -461,13 +444,6 @@ export default function DetailPlace() {
                       <img src={Editar} alt="Edit" />
                     </Link>
                     <h4>Editar</h4>
-                  </div>
-                </div>
-                <div className="divDesactivar">
-                  <div className="divDesctivaryTexto">
-                    <button type="button" onClick={(e) => handleClick(e)}>
-                      <h4>Desactivar cuenta</h4>
-                    </button>
                   </div>
                 </div>
               </div>

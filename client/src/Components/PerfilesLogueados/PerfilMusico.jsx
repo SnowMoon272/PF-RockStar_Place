@@ -276,24 +276,6 @@ export default function PerfilMusico() {
     dispatch(getDetailMusicBand(params.id));
   }, []);
 
-  async function handleClick(e) {
-    e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm(
-        "Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
-      ) === true
-    ) {
-      await axios.put("/bandDisabled", {
-        email: musicBand.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-      //console.log("fin del handle", musicBand);
-    }
-  }
-
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
   return (
@@ -359,13 +341,6 @@ export default function PerfilMusico() {
                           <img src={Editar} alt="Edit" />
                         </Link>
                         <h4>Editar</h4>
-                      </div>
-                      <div className="divDesactivar">
-                        <div className="divDesctivaryTexto">
-                          <button type="button" onClick={(e) => handleClick(e)}>
-                            <h4>Desactivar cuenta</h4>
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
