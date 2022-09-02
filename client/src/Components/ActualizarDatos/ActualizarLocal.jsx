@@ -11,6 +11,7 @@ import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -22,6 +23,7 @@ const ActualizarDatosStyleCont = styled.div`
   background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
+  position: absolute;
 
   .divLogo {
     img {
@@ -32,12 +34,32 @@ const ActualizarDatosStyleCont = styled.div`
   }
 `;
 
+const POPContainer = styled.div`
+  border: solid ${Colors.Blue_Vivid} 2px;
+  display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")};
+  border-radius: 15px;
+  justify-content: center;
+  position: fixed;
+  width: 40%;
+  height: 60%;
+  margin: auto;
+  top: 5%;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+  /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
+  border: solid #fff 3px;
+
   box-sizing: border-box;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
   height: 80%;
+  position: absolute;
 
   .divTitulo {
     display: flex;
@@ -325,8 +347,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
-/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-
 function validate(input) {
   const errors = {};
   if (!input.name) {
@@ -400,6 +420,7 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const coords = useSelector((state) => state.place_coords);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -476,6 +497,7 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
+          coords,
         },
       });
       alert("Datos actualizados con exito");
@@ -548,6 +570,12 @@ export default function ActualizarLocal() {
     return true;
   }
 
+  const [POPSwitch, setPOPSwitch] = useState(false);
+
+  const handlerSwitch = (e) => {
+    setPOPSwitch(!POPSwitch);
+  };
+
   return (
     <div>
       {loading ? (
@@ -557,6 +585,9 @@ export default function ActualizarLocal() {
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
             <NavBar Perfil Home />
+            <POPContainer POPSwitch={POPSwitch}>
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} />
+            </POPContainer>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
                 <h1>Completa / Edita tus datos</h1>
@@ -612,6 +643,12 @@ export default function ActualizarLocal() {
                       />
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Ubicación en el mapa:</span>
+                      <button onClick={(e) => handlerSwitch(e)} type="button">
+                        Desplegar mapa
+                      </button>
+                    </div>
                     <div className="ContainerInput">
                       <span>Teléfono:</span>
                       <input
