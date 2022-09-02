@@ -12,6 +12,8 @@ const CardStyleCont = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 20px 2px;
+  border-radius: 70px 0px;
+  padding-left: 8px;
 
   .CardInfo {
     width: 100%;
@@ -26,6 +28,7 @@ const CardStyleCont = styled.div`
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+    border-radius: 70px 0px;
     object-fit: cover;
     overflow: hidden;
   }
