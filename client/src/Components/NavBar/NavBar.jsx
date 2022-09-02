@@ -241,21 +241,7 @@ const NavBarStyle = styled.nav`
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function NavBar({
-  Perfil,
-  Eventos,
-  FondoImg,
-  FiltroA,
-  FiltroB,
-  FiltroC,
-  paginado,
-  setFilter,
-  filter,
-  LogIn,
-  Home,
-  Buscar,
-  UserLog,
-}) {
+function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
@@ -365,9 +351,7 @@ function NavBar({
                     <>
                       <button
                         type="button"
-                        disabled={
-                          navState.FilterCities || navState.FilterSounds || navState.FilterEvents
-                        }
+                        disabled={navState.FilterCities || navState.FilterSounds || navState.FilterEvents}
                         onClick={(e) => {
                           handlerClickSearch(e);
                         }}
@@ -445,14 +429,7 @@ function NavBar({
                 )}
                 {Perfil && (
                   <>
-                    <Link
-                      to={
-                        isMusicband()
-                          ? `/musicbandprofile/${infUser._id}`
-                          : `/placeprofile/${infUser._id}`
-                      }
-                      className="Butons Link Perfil"
-                    >
+                    <Link to={isMusicband() ? `/musicbandprofile/${infUser._id}` : `/placeprofile/${infUser._id}`} className="Butons Link Perfil">
                       <img src={BTNUser} alt="ico-filtro" />
                     </Link>
                     <h3 className="H3">Perfil</h3>
