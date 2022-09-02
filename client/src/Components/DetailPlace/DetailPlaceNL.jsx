@@ -129,9 +129,23 @@ const DetailStyleCont = styled.div`
               color: ${Colors.Platinum};
             }
             & .BtnVerMas {
+              font-family: "RocknRoll One";
               position: absolute;
-              top: 88%;
-              right: 38%;
+              top: 80%;
+              right: 30%;
+              width: 110px;
+              height: 35px;
+              background-color: ${Colors.Green_Nigth};
+              border-radius: 10px;
+              border: none;
+              color: white;
+              transition: all 0.5s ease;
+
+              :hover {
+                background-color: ${Colors.Erie_Black};
+                transform: scale(1.2);
+                cursor: pointer;
+              }
             }
           }
         }
@@ -383,7 +397,7 @@ export default function DetailPlace() {
               <div className="FirstCont">
                 <div className="NameAndRating">
                   <span className="PlaceName">{place.name}</span>
-                  <span className="rating">Rating: {place.rating}</span>
+                  <span className="rating">Rating: ⭐{place.rating}</span>
                 </div>
                 <div className="DataCont">
                   <span className="title">Descripción</span>
@@ -392,13 +406,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
                   <div className="DatesCont">
-                    <Carousel
-                      className="carousel"
-                      responsive={responsive}
-                      showDots={true}
-                      minimumTouchDrag={80}
-                      slidesToSlide={1}
-                    >
+                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
                       {allDates &&
                         allDates.map((date) => {
                           return (
@@ -406,15 +414,9 @@ export default function DetailPlace() {
                               <span className="day">{date.date.substring(8, 10)}</span>
                               <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                               <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </div>
+                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
                               {!date.isAvailable ? null : (
-                                <button
-                                  className="BtnVerMas"
-                                  type="button"
-                                  onClick={(e) => handleAplica(e)}
-                                >
+                                <button className="BtnVerMas" type="button" onClick={(e) => handleAplica(e)}>
                                   Aplica
                                 </button>
                               )}
@@ -430,17 +432,10 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Comentarios</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-                    <input
-                      placeholder="Ingresa tu comentario"
-                      className="input"
-                      value={input.comment}
-                      onChange={(e) => handleChange(e)}
-                    />
+                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
                     <div className="RateComentCont">
                       <div className="RateCont">
-                        <span className="rate">
-                          Puntaje: {input.rating !== 0 ? input.rating : ""}
-                        </span>
+                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
                         <div className="buttons">
                           <button type="button" value={1} onClick={(e) => handleClick(e)}>
                             1
@@ -473,7 +468,7 @@ export default function DetailPlace() {
                           <div key={p._id} className="coment">
                             <div className="NameRating">
                               <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: {p.rating}</span>
+                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
                             </div>
                             <p className="contenidocoment">{p.comment}</p>
                             <hr />

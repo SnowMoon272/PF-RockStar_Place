@@ -137,11 +137,23 @@ const DetailStyleCont = styled.div`
     }
 
     .comentarios {
-      background: rgba(229, 229, 229, 0.5);
+      background: ${Colors.Erie_Black_Transparent};
+      border-radius: 15px;
       width: 100%;
       margin-top: 3%;
       height: 50vh;
       overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: ${Colors.Oxford_Blue_transparent};
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #14213d;
+        border-radius: 25px;
+        border: 1px solid white;
+      }
 
       .coment {
         font-family: "RocknRoll One";
@@ -239,10 +251,10 @@ const DetailStyleCont = styled.div`
       justify-content: center;
       background-color: white;
       align-items: center;
-      height: 45px;
+      height: 35px;
       padding: 4px;
 
-      width: 45px;
+      width: 35px;
       border-radius: 50%;
       border: 4px solid black;
       transition: all 0.5s ease;
@@ -253,10 +265,11 @@ const DetailStyleCont = styled.div`
       }
 
       img {
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
       }
     }
+
     h4 {
       font-family: "RocknRoll One";
       font-style: normal;
@@ -298,9 +311,7 @@ export default function DetailPlace() {
     e.preventDefault();
     if (
       // eslint-disable-next-line no-restricted-globals
-      confirm(
-        "Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
-      ) === true
+      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
     ) {
       await axios.put("/placeDisabled", {
         email: place.email,
@@ -360,7 +371,7 @@ export default function DetailPlace() {
               <div className="FirstCont">
                 <div className="NameAndRating">
                   <span className="PlaceName">{place.name}</span>
-                  <span className="rating">Rating: {place.rating}</span>
+                  <span className="rating">Rating: ⭐{place.rating}</span>
                 </div>
                 <div className="DataCont">
                   <span className="title">Descripción</span>
@@ -370,13 +381,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Próximos eventos</span>
                   <div className="DatesCont">
-                    <Carousel
-                      className="carousel"
-                      responsive={responsive}
-                      showDots={true}
-                      minimumTouchDrag={80}
-                      slidesToSlide={1}
-                    >
+                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
                       {allDates &&
                         allDates.map((date) => {
                           return (
@@ -384,9 +389,7 @@ export default function DetailPlace() {
                               <span className="day">{date.date.substring(8, 10)}</span>
                               <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                               <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </div>
+                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
                             </div>
                           );
                         })}
@@ -404,7 +407,7 @@ export default function DetailPlace() {
                           <div key={p._id} className="coment">
                             <div className="NameRating">
                               <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: {p.rating}</span>
+                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
                             </div>
                             <p className="contenidocoment">{p.comment}</p>
                             <hr />
