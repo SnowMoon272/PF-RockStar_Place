@@ -16,7 +16,6 @@ import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
 import MapPopUp from "./Components/MapView/MapPopUp";
-import MapPrueba from "./Components/MapView/MapPrueba";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -50,7 +49,6 @@ function App() {
         <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} />
 
         <Route exact path="/mapa" element={<MapPopUp />} />
-        <Route exact path="/testmapa" element={<MapPrueba />} />
       </Routes>
     </AppStyle>
   );

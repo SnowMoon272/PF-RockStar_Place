@@ -11,6 +11,7 @@ import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -22,6 +23,23 @@ const ActualizarDatosStyleCont = styled.div`
   background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
+  position: absolute;
+  z-index: 50;
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 40%;
+    height: 60%;
+    margin: auto;
+    top: 0px;
+    bottom: 0px;
+    left: -300px;
+    right: 0px;
+    z-index: 20;
+    /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
+  }
 
   .divLogo {
     img {
@@ -375,6 +393,7 @@ export default function ActualizarLocal() {
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
   const [loading, setLoading] = useState(false);
+  const [zIndex, setzIndex] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -515,6 +534,9 @@ export default function ActualizarLocal() {
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
             <NavBar Perfil Home />
+            <div className="POPContainer">
+              <MapPopUp />
+            </div>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
                 <h1>Completa / Edita tus datos</h1>

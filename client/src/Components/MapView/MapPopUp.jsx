@@ -3,21 +3,6 @@ import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import MapView from "./MapView";
 
-const PopContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    width: 40%;
-    height: 60%;
-    margin: auto;
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
-`;
-
 const EditStyledCont = styled.div`
   box-sizing: border-box;
   border: 3px solid red;
@@ -60,19 +45,17 @@ export default function MapPopUp({ setzIndex, zIndex }) {
   };
 
   return (
-    <PopContainer zIndex={zIndex}>
-      <EditStyledCont>
-        <button
-          onClick={(e) => handlerClose(e)}
-          type="button"
-          className="BTNCerrar"
-        >
-          X
-        </button>
-        <span className="title">Selecciona la ubicación de tu local</span>
-        <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>
-        <MapView />
-      </EditStyledCont>
-    </PopContainer>
+    <EditStyledCont>
+      <button
+        onClick={(e) => handlerClose(e)}
+        type="button"
+        className="BTNCerrar"
+      >
+        X
+      </button>
+      <span className="title">Selecciona la ubicación de tu local</span>
+      <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>
+      <MapView />
+    </EditStyledCont>
   );
 }
