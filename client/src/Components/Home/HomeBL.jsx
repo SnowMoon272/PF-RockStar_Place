@@ -373,8 +373,9 @@ function HomeBL() {
   const navigate = useNavigate();
   let allPlaces = useSelector((state) => state.places);
   allPlaces = allPlaces.filter((place) => {
-    return place.name !== "";
+    return place.name !== "" && place.banned !== true && place.disabled !== true;
   });
+
   const filters = useSelector((state) => state.filters);
 
   const musicBand = useSelector((state) => state.detail_music_band);
@@ -412,11 +413,30 @@ function HomeBL() {
     const user = await getUserInfo();
     setuser(user);
     dispatch(getDetailMusicBand(user._id));
+
+    return () => {
+      dispatch(
+        updateFilters({
+          Ciudad: false,
+          Sonido: false,
+          Evento: false,
+        }),
+      );
+    };
   }, []);
 
   useEffect(() => {
     disabledValidate();
     validate();
+    return () => {
+      dispatch(
+        updateFilters({
+          Ciudad: false,
+          Sonido: false,
+          Evento: false,
+        }),
+      );
+    };
   }, [musicBand]);
 
   const [reRender, setreRender] = useState(false);
@@ -434,6 +454,7 @@ function HomeBL() {
   const [filter, setFilter] = useState({
     FilterCities: "",
     FilterSounds: "",
+    FilterEvents: "",
   });
 
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
@@ -443,11 +464,13 @@ function HomeBL() {
       updateFilters({
         Ciudad: false,
         Sonido: false,
+        Evento: false,
       }),
     );
     setFilter({
       FilterCities: "",
       FilterSounds: "",
+      FilterEvents: "",
     });
     paginado(1);
   };
