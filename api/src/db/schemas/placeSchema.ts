@@ -71,6 +71,16 @@ export const placeSchema = new Schema({
 		payment_id: { type: String, default: "" },
 	},
 
+	notifications: [
+		{
+			new: {type: Boolean, default: true},
+			message: {type: String, require: true, default:""},
+			type: {type: String, default: "info"},
+			before: {type: Object, default:undefined},
+			from: {type: String, default: "System"}
+		}
+	],
+
 	coords: {
 		lat: { type: String, default: "" },
 		lng: { type: String, default: "" },

@@ -1,6 +1,3 @@
-// import { any, any } from 'express';
-// const { any, any } = require('express');
-const express = require("express");
 import {
 	addBandReview,
 	createMusicBand,
@@ -12,6 +9,16 @@ import {
 	banHandler
 } from "../db/models/musicBandModel";
 import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
+
+import {
+	deleteAllNotifications,
+	sendNotification,
+	switchNew,
+	getNotifications,
+	deleteOne,
+} from "../db/models/inter.model";
+
+import { musicBand } from "../db/models/musicBandModel";
 
 const getAllBandsController = async (req: any, res: any) => {
 	try {
@@ -33,7 +40,10 @@ const updateMusicBandController = async (req: any, res: any) => {
 	if (data) {
 		try {
 			let updated = await updateMusicBand(email, data);
-			if (updated) return res.status(201).send({ msg: "Se actualizó la banda correctamente" });
+			if (updated)
+				return res
+					.status(201)
+					.send({ msg: "Se actualizó la banda correctamente" });
 			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo actualizar la banda" });
@@ -49,7 +59,9 @@ const createMusicBandController = async (req: any, res: any) => {
 		try {
 			let created = await createMusicBand(musicBand);
 			if (created.hasOwnProperty("error"))
-				return res.status(400).send({ error: "Ya existe un usuario registrado con ese correo" });
+				return res
+					.status(400)
+					.send({ error: "Ya existe un usuario registrado con ese correo" });
 			return res.status(201).send({ msg: "se creó la banda correctamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
@@ -120,6 +132,66 @@ const disabledBandController = async (req: any, res: any) => {
 	}
 };
 
+const sendNotificationController = async (req: any, res: any) => {
+	const { email, notification } = req.body;
+	if (!email || !notification) return res.status(400).send("Invalid data");
+
+	try {
+		const response = await sendNotification(musicBand, email, notification);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteNotificationController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(404).send("Invalid data");
+
+	try {
+		const response = await deleteAllNotifications(musicBand, email);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Testing required
+const switchController = async (req: any, res: any) => {
+	const { email, id } = req.body;
+	if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+
+	try {
+		const switchN = await switchNew(musicBand, email, id);
+		return res.status(200).send(switchN);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Working
+const getNotificationsController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(400).send({ error: "Invalid data" });
+	try {
+		const notifications = await getNotifications(musicBand, email);
+		return res.status(200).send(notifications);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteOneController = async (req: any, res: any) => {
+	try {
+		const { email, id } = req.body;
+		if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+		const operation = await deleteOne(musicBand, email, id);
+		return res.status(200).send(operation);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
 const banMusicBandController = async (req: any, res: any) => {
 	let { email } = req.body;
 	if (email) {
@@ -153,5 +225,10 @@ module.exports = {
 	getMusicBandByIDController,
 	updateMusicBandController,
 	disabledBandController,
+	sendNotificationController,
+	deleteNotificationController,
+	getNotificationsController,
+	switchController,
+	deleteOneController,
 	banMusicBandController
 };
