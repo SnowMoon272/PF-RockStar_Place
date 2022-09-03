@@ -318,9 +318,9 @@ function validate(input) {
   }
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu banda";
-  } else if (input.description && !/^[a-zA-Z0-9 .!,]+$/.test(input.description)) {
+  } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
-  } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
+  } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
     errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
   }
   if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.spotify)) {

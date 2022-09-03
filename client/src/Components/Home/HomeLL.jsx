@@ -557,7 +557,9 @@ function HomeLL() {
 
   const allDates = [...confirmedDates, ...availableDates];
 
-  const orderedPendingDates = place.pendingDates ? place.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+  const orderedPendingDates = place.pendingDates
+    ? place.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const getCurrentDate = () => {
     const currentDate = new Date();
@@ -653,6 +655,7 @@ function HomeLL() {
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
+    axios.get(`/cancelmatch/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
     setRender(!render);
   };
 
@@ -756,8 +759,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                          confirmedDates[0].date.substring(5, 7),
-                        )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
