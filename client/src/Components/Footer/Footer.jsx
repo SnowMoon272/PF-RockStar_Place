@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import LogoGithub from "../../Assets/img/logoGitHub.png";
 import Colors from "../../Utils/colors";
 import LogosTecnologias from "../../Assets/img/LOGOSTECNOLOGIAS.png";
 import Envelope from "../../Assets/img/envelope.png";
 import LogoHenry from "../../Assets/img/logoHenry.png";
 import Notificar from "../Home/Elements/Notificar";
+import { isAuthenticated } from "../../Utils/auth.controller";
 
 const HomeStyleCont = styled.div`
   display: flex;
@@ -127,11 +129,13 @@ const HomeStyleCont = styled.div`
 `;
 
 function Footer() {
+  const navegate = useNavigate();
   const [SwitchNotif, setSwitchNotif] = useState(false);
 
   const handlerSwitchNotif = (e) => {
     e.preventDefault();
-    setSwitchNotif(!SwitchNotif);
+    alert("!Debes iniciar sesión para hacer esto!");
+    isAuthenticated() ? setSwitchNotif(!SwitchNotif) : navegate("/iniciarsesion");
   };
 
   return (
