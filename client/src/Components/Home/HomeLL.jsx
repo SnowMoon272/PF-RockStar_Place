@@ -363,7 +363,7 @@ const SecondStyleCont = styled.section`
               transition: all 0.5s ease;
 
               :hover {
-                transform: scale(1.2);
+                transform: scale(1.1);
                 cursor: pointer;
               }
             }
@@ -521,7 +521,7 @@ const SecondStyleCont = styled.section`
 const DateStatusStyled = styled.div`
   width: 100%;
   background-color: ${Colors.Oxford_Blue};
-  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
   font-size: 20px;
 `;
 
@@ -823,7 +823,7 @@ function HomeLL() {
                               </DateStatusStyled>
                               {date.isAvailable ? null : (
                                 <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                  Ver más
+                                  Ver artista
                                 </button>
                               )}
                             </div>

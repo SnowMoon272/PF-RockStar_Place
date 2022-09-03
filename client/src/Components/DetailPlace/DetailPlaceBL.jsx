@@ -367,7 +367,7 @@ const DetailStyleCont = styled.div`
 const DateStatusStyled = styled.div`
   width: 100%;
   background-color: ${Colors.Oxford_Blue};
-  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
   font-size: 20px;
 `;
 
