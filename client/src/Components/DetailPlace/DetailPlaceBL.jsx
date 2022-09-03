@@ -420,8 +420,8 @@ export default function DetailPlace() {
     dispatch(getDetailMusicBandByEmail(user.email));
   }, [render2]);
 
-  const checkAplied = (date) => {
-    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) {
+  const checkAplied = (date, email) => {
+    if (musicBand.pendingDates.find((d) => (d.date.substring(0, 10) === date) && (d.email === email)) !== undefined) {
       return true;
     }
     return false;
@@ -511,7 +511,7 @@ export default function DetailPlace() {
   };
 
   const handleAplica = async (e) => {
-    if (checkAplied(e.target.value) === false) {
+    if (checkAplied(e.target.value, place.email) === false) {
       await axios.post("/pendingdates", {
         musicEmail: user.email,
         placeEmail: place.email,
