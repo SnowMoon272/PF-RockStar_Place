@@ -557,6 +557,8 @@ function HomeLL() {
 
   const allDates = [...confirmedDates, ...availableDates];
 
+  const orderedPendingDates = place.pendingDates ? place.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+
   const getCurrentDate = () => {
     const currentDate = new Date();
     const date = currentDate.toISOString();
@@ -754,8 +756,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
@@ -842,31 +844,30 @@ function HomeLL() {
                 <div className="SolicitudesCont">
                   <h5>Solicitudes</h5>
                   <div className="SolicitudesContJr">
-                    {place.pendingDates &&
-                      place.pendingDates.map((date) => {
-                        const year = date.date.substring(0, 4);
-                        const month = date.date.substring(5, 7);
-                        const day = date.date.substring(8, 10);
-                        return (
-                          <div className="Solicitud" key={date._id}>
-                            <div className="Left">
-                              <p>{`${day}/${month}/${year}`}</p>
-                              <p>{date.musicBand}</p>
-                              <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                Detalle
-                              </button>
-                            </div>
-                            <div className="Rigth">
-                              <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                                Aceptar
-                              </button>
-                              <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                                Rechazar
-                              </button>
-                            </div>
+                    {orderedPendingDates.map((date) => {
+                      const year = date.date.substring(0, 4);
+                      const month = date.date.substring(5, 7);
+                      const day = date.date.substring(8, 10);
+                      return (
+                        <div className="Solicitud" key={date._id}>
+                          <div className="Left">
+                            <p>{`${day}/${month}/${year}`}</p>
+                            <p>{date.musicBand}</p>
+                            <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                              Detalle
+                            </button>
                           </div>
-                        );
-                      })}
+                          <div className="Rigth">
+                            <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                              Aceptar
+                            </button>
+                            <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                              Rechazar
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </section>

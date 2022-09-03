@@ -397,9 +397,11 @@ export default function DetailPlace() {
   const [loading, setLoading] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(true);
 
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
@@ -420,8 +422,8 @@ export default function DetailPlace() {
     dispatch(getDetailMusicBandByEmail(user.email));
   }, [render2]);
 
-  const checkAplied = (date) => {
-    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) {
+  const checkAplied = (date, email) => {
+    if (musicBand.pendingDates.find((d) => (d.date.substring(0, 10) === date) && (d.email === email)) !== undefined) {
       return true;
     }
     return false;
@@ -511,7 +513,7 @@ export default function DetailPlace() {
   };
 
   const handleAplica = async (e) => {
-    if (checkAplied(e.target.value) === false) {
+    if (checkAplied(e.target.value, place.email) === false) {
       await axios.post("/pendingdates", {
         musicEmail: user.email,
         placeEmail: place.email,
