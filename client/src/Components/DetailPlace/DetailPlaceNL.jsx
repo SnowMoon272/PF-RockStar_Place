@@ -17,7 +17,6 @@ import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
 import Footer from "../Footer/Footer";
 
-
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-color: ${Colors.Erie_Black};

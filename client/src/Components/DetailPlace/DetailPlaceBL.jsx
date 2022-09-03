@@ -20,7 +20,6 @@ import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
 import Notificar from "../Home/Elements/Notificar";
 
-
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-image: url(${BGPerfil});
