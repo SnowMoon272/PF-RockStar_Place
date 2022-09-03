@@ -11,7 +11,39 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
   POST_REGISTER = "POST_REGISTER",
-  GET_MUSIC_BANDS = "GET_MUSIC_BANDS";
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS",
+  GET_NOTIFICATIONS = "GET_NOTIFICATIONS",
+  REMOVE_NOTIFICATIONS = "REMOVE_NOTIFICATIONS";
+
+export function getNotifications(role, email) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `/${role}s/notifications`,
+        data: {
+          // eslint-disable-next-line object-shorthand
+          email,
+        },
+      });
+      return dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function removeNotifications() {
+  return async (dispatch) => {
+    return dispatch({
+      type: REMOVE_NOTIFICATIONS,
+      payload: [],
+    });
+  };
+}
 
 export function updateFilters(data) {
   return {
