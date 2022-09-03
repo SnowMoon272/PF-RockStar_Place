@@ -7,11 +7,11 @@ const registerTemplate = (email: any) => {
 	return htmlContent;
 };
 
-const bandMatchTemplate = (bandName: any, date: any, placeDates: any) => {
+const bandMatchTemplate = (bandName: any, date: any, placeName: any) => {
 	const htmlContent = `
         <h1>Fecha confirmada!</h1>
         <h2>Hola ${bandName} te enviamos este correo electrónico para avisarte que tienes una nueva fecha 
-        el ${date} en ${placeDates}!</h2>
+        el ${date} en ${placeName}!</h2>
         <h3>Te deseamos suerte en tus futuros eventos
         saludos,
         Rockstar Place</h3>
@@ -27,36 +27,6 @@ const placeMatchTemplate = (placeName: any, bandName: any, date: any) => {
         <h3>Te deseamos suerte en tus futuros eventos
         saludos,
         Rockstar Place</h3>
-    `;
-	return htmlContent;
-};
-
-//le llega el mail al musico
-const cancelPendingDate = (name: any, place: any, date: any) => {
-	const htmlContent = `
-        <h1>Fecha pendiente rechazada :(</h1>
-            <h2>Hola ${name} queremos avisarte que tu solicitud para tocar en ${place}
-            el ${date} ha sido rechazada. No te desamines! puedes seguir aplicando para tocar en otros lugares,
-            exitos!
-            </h2>
-            <h3>Te deseamos lo mejor en tus futuros eventos
-            saludos,
-            Rockstar Place <3</h3>
-    `;
-	return htmlContent;
-};
-//le llega el mail al lugar
-const newPendingDateTemplate = (placeName: any, bandName: any, date: any) => {
-	const htmlContent = `
-    <h1>Tienes una nueva solicitud!</h1>
-    <h2>Hola ${placeName} te contactamos porque has recibido una nueva solicitud de parte de la banda
-    ${bandName} para tocar en tu local el ${date}, podes gestionar tus fechas pendientes en tu perfil de nuestro
-    website!
-    </h2>
-    <h3>Te deseamos lo mejor en tus futuros eventos
-    saludos,
-    Rockstar Place <3
-    </h3>
     `;
 	return htmlContent;
 };
@@ -110,6 +80,4 @@ module.exports = {
 	bannedTemplate,
 	cancelMusicMatchTemplate,
 	cancelPlaceMatchTemplate,
-	newPendingDateTemplate,
-	cancelPendingDate,
 };
