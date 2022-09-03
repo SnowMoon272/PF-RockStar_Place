@@ -99,9 +99,6 @@ export const removeConfirmedDate = async (musicEmail: string, placeEmail: string
 			const dateToDeleteMusic = currentMusicBand.dates.find(
 				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail,
 			);
-			console.log(dateToDeletePlace);
-			console.log(dateToDeleteMusic);
-
 			if (dateToDeletePlace && dateToDeleteMusic) {
 				await place.updateOne(
 					{ email: placeEmail },

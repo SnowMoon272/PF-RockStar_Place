@@ -325,9 +325,12 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
