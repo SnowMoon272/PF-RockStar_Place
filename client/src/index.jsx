@@ -27,7 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* overflow-y: scroll; */
       &::-webkit-scrollbar {
-        width: 12px;
+        width: 16px;
       }
       &::-webkit-scrollbar-track {
         background: ${Colors.Oxford_Blue};

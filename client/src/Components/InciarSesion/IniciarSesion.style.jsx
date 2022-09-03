@@ -98,6 +98,15 @@ export const RegisterStyleContJr = styled.div`
             color: ${Colors.Platinum};
           }
         }
+
+        & a {
+          color: transparent;
+          cursor: context-menu;
+          text-decoration: none;
+          font-size: 1rem;
+          position: relative;
+          bottom: -300px;
+        }
       }
     }
 

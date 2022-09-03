@@ -15,6 +15,8 @@ import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
+import Footer from "../Footer/Footer";
+
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -299,6 +301,17 @@ const DetailStyleCont = styled.div`
   }
 `;
 
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Green_Nigth};
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 76px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
+
 export default function DetailPlace() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -516,6 +529,9 @@ export default function DetailPlace() {
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />
