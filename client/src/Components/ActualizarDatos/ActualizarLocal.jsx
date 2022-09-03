@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -12,6 +14,7 @@ import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -523,7 +526,7 @@ export default function ActualizarLocal() {
         },
       });
       dispatch(resetCoords());
-      alert("Datos actualizados con exito");
+      toast.success("Datos actualizados con exito");
 
       const { data } = await axios({
         method: "post",
@@ -549,7 +552,7 @@ export default function ActualizarLocal() {
       dispatch(resetDetails([]));
       navigate("/");
     } else {
-      alert("Por favor complete todos los campos correctamente");
+      toast.error("Ups! Hay algún problema, revisa la información");
     }
   }
 
@@ -572,18 +575,27 @@ export default function ActualizarLocal() {
 
   async function handleClick(e) {
     e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
-    ) {
-      await axios.put("/placeDisabled", {
-        email: place.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-      //console.log("fin del handle", place);
-    }
+    confirmAlert({
+      title: "Desactivar cuenta",
+      message: "¿Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
+      buttons: [
+        {
+          label: "SI",
+          onClick: async () => {
+            await axios.put("/placeDisabled", {
+              email: place.email,
+              disabled: true,
+            });
+            localStorage.removeItem("user-token");
+            navigate("/iniciarsesion");
+          },
+        },
+        {
+          label: "NO",
+          onClick: () => {},
+        },
+      ],
+    });
   }
 
   function handleActivateButton() {
@@ -741,6 +753,10 @@ export default function ActualizarLocal() {
                 Desactivar cuenta
               </button>
             </div>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+            />
           </ActualizarDatosStyleCont>
         </div>
       ) : (
