@@ -44,7 +44,7 @@ const IconLocation = L.icon({
 export default function MapLocalDetail({ placePosition, placeName }) {
   return (
     <MapStyleCont>
-      <Map center={placePosition} zoom={15} scrollWheelZoom={false} attributionControl={false}>
+      <Map center={placePosition} zoom={15} scrollWheelZoom={false} attributionControl={false} dragging={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href=" https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

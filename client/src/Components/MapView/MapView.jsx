@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import styled from "styled-components";
+import { updatePlaceCoords } from "../../Redux/actions";
 import IconMarker from "../../Assets/svg/Marker.svg";
 import Colors from "../../Utils/colors";
-import { updatePlaceCoords } from "../../Redux/actions";
 
 const MapStyleCont = styled.div`
   box-sizing: border-box;
@@ -22,16 +22,42 @@ const MapStyleCont = styled.div`
     height: 100%;
   }
 
-  .bttListo {
+  .bttDone {
     border: none;
     font-family: "RocknRoll One";
-    margin: 2% 0% 2% 0%;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 2.2rem;
+    position: relative;
+    bottom: 2%;
     border-radius: 10px;
     background-color: ${Colors.Blue_life};
-    width: 8%;
-    height: 35px;
+    width: 14%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${Colors.Platinum};
+    text-decoration: none;
+    transition: all 0.5s ease;
+
+    :hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+
+  .bttCurrPos {
+    border: none;
+    font-family: "RocknRoll One";
+    font-weight: 400;
+    font-size: 2.5rem;
+    position: relative;
+    right: 42%;
+    top: 1%;
+    border-radius: 10px;
+    background-color: ${Colors.Blue_life};
+    width: 6%;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,76 +83,73 @@ const IconLocation = L.icon({
   className: "leaflet-venue-icon",
 });
 
-export default function MapView({ setPOPSwitch, POPSwitch }) {
+export default function MapView({ setPOPSwitch, POPSwitch, coords }) {
   const [currentPosition, setCurrentPosition] = useState({ lat: 0, lng: 0 });
-  const [markerPosition, setMarkerPosition] = useState({ lat: 0, lng: 0 });
-  const [viewPosition, setViewPosition] = useState({ lat: 0, lng: 0 });
-  const [move, setMove] = useState(false);
+  const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const markerRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCurrentPosition({
-          lng: position.coords.longitude,
-          lat: position.coords.latitude,
-        });
-        setViewPosition({
-          lng: position.coords.longitude,
-          lat: position.coords.latitude,
-        });
-        setMarkerPosition({
-          lng: position.coords.longitude,
-          lat: position.coords.latitude,
-        });
-      },
-      (error) => error,
-      {
-        enableHighAccuracy: true,
-      },
-    );
-  });
+    if (coords) {
+      if (coords.lat === "" && coords.lng === "") {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setCurrentPosition({
+              lng: position.coords.longitude,
+              lat: position.coords.latitude,
+            });
+            setPosition({
+              lng: position.coords.longitude,
+              lat: position.coords.latitude,
+            });
+          },
+          (error) => error,
+          {
+            enableHighAccuracy: true,
+          },
+        );
+      } else {
+        setCurrentPosition(coords);
+        setPosition(coords);
+      }
+    }
+  }, [coords]);
 
   const updatePosition = () => {
     const marker = markerRef.current;
     if (marker != null) {
-      setMarkerPosition(marker.leafletElement.getLatLng());
-      setViewPosition(marker.leafletElement.getLatLng());
-      setMove(true);
+      setPosition(marker.leafletElement.getLatLng());
     }
   };
 
-  const handleClick = (e) => {
+  const handleDone = (e) => {
     e.preventDefault();
-    dispatch(updatePlaceCoords(markerPosition));
+    dispatch(updatePlaceCoords(position));
     setPOPSwitch(!POPSwitch);
+  };
+
+  const handleCurrentPos = (e) => {
+    e.preventDefault();
+    setPosition(currentPosition);
   };
 
   return (
     <MapStyleCont>
-      <Map center={move ? viewPosition : currentPosition} zoom={15} scrollWheelZoom={true} attributionControl={false}>
+      <Map center={position} zoom={15} scrollWheelZoom={true} attributionControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href=" https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker
-          position={move ? markerPosition : currentPosition}
+          position={position}
           icon={IconLocation}
           draggable={true}
           ref={markerRef}
           onDragend={updatePosition}
-        /* onClick={handleClick} */
         />
-        {/* <Popup closePopupOnClick={false} minWidth={90}>
-            <span>{move
-              ? "Esta es la posicion de su local"
-              : "Esta es su posición actual"}
-            </span>
-          </Popup>
-        </Marker> */}
       </Map>
-      <button className="bttListo" onClick={(e) => handleClick(e)} type="button">Listo</button>
+      <button className="bttCurrPos" onClick={(e) => handleCurrentPos(e)} type="button">↺</button>
+      <button className="bttDone" onClick={(e) => handleDone(e)} type="button">Listo</button>
     </MapStyleCont>
   );
 }

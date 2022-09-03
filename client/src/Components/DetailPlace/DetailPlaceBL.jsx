@@ -15,7 +15,8 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
-// import Editar from "../../Assets/svg/Editar.svg";
+import MapLocalDetail from "../MapView/MapLocalDetail";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -89,6 +90,16 @@ const DetailStyleCont = styled.div`
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
+      }
+
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 3.5%;
+
+        & img {
+          margin-top: 2.5%;
+        }
       }
 
       .DatesCont {
@@ -474,10 +485,18 @@ export default function DetailPlace() {
                         })}
                     </Carousel>
                   </div>
+                  <hr className="hr" />
                 </div>
-                {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
+                <div className="DataCont">
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    {place.coords ? place.coords.lat !== "" ?
+                      <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      : <img src={MapaVacio} alt="not found" />
+                      : null}
+                  </div>
+                  <hr className="hr" />
+                </div>
                 <div className="DataCont">
                   <span className="title">Comentarios</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>

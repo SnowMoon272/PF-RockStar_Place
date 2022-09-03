@@ -9,7 +9,7 @@ import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { getDetailPlace, resetDetails } from "../../Redux/actions";
+import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
 
@@ -500,6 +500,7 @@ export default function ActualizarLocal() {
           coords,
         },
       });
+      dispatch(resetCoords());
       alert("Datos actualizados con exito");
 
       const { data } = await axios({
@@ -586,7 +587,7 @@ export default function ActualizarLocal() {
             </div>
             <NavBar Perfil Home />
             <POPContainer POPSwitch={POPSwitch}>
-              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} />
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
             </POPContainer>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
