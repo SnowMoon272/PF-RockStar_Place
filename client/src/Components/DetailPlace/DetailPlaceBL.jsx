@@ -82,6 +82,7 @@ const DetailStyleCont = styled.div`
         font-size: 45px;
         text-align: center;
         color: ${Colors.Blue_Vivid};
+        margin: 15px 0px 0px 15px;
       }
 
       .description {
@@ -166,7 +167,7 @@ const DetailStyleCont = styled.div`
         flex-direction: column;
         padding: 2%;
         box-sizing: border-box;
-        border-radius: 10px;
+        border-radius: 15px;
 
         input {
           width: 95%;
@@ -244,6 +245,10 @@ const DetailStyleCont = styled.div`
           }
         }
       }
+    }
+    .Report {
+      border-radius: 25px;
+      background-color: ${Colors.Erie_Black_Transparent};
     }
   }
 
@@ -558,9 +563,9 @@ export default function DetailPlace() {
                     </div>
                   </div>
                 ) : (
-                  <div className="DataCont">
+                  <div className="DataCont Report">
                     <span className="title">Reporte</span>
-                    <Notificar Fondo />
+                    <Notificar Title="Title" />
                   </div>
                 )}
               </div>
