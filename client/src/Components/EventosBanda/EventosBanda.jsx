@@ -370,6 +370,10 @@ function EventosBanda() {
     ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
     : [];
 
+  const orderedPendingDates = musicBand.pendingDates
+    ? musicBand.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
+
   useEffect(() => {
     setLoading(true);
     dispatch(getDetailMusicBand(params.id));
@@ -485,10 +489,13 @@ function EventosBanda() {
                 <div className="divContainerdeAbajoContainer">
                   <div className="divEventosConfirmados">
                     <h1>Eventos Confirmados</h1>
-                    {musicBand.dates?.map((date) => {
+                    {orderedConfirmedDates.map((date) => {
+                      const year = date.date.substring(0, 4);
+                      const month = date.date.substring(5, 7);
+                      const day = date.date.substring(8, 10);
                       return (
                         <div key={date._id} className="divsSmallConfirmados">
-                          <p>{date.date.substring(0, 10)}</p>
+                          <p>{`${day}/${month}/${year}`}</p>
                           <p>{date.place}</p>
                           <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
                             Detalle
@@ -499,10 +506,13 @@ function EventosBanda() {
                   </div>
                   <div className="divSolicitudesPendientes">
                     <h1>Solicitudes Pendientes</h1>
-                    {musicBand.pendingDates?.map((date) => {
+                    {orderedPendingDates.map((date) => {
+                      const year = date.date.substring(0, 4);
+                      const month = date.date.substring(5, 7);
+                      const day = date.date.substring(8, 10);
                       return (
                         <div key={date._id} className="divsSmallConfirmados">
-                          <p>{date.date.substring(0, 10)}</p>
+                          <p>{`${day}/${month}/${year}`}</p>
                           <p>{date.place}</p>
                           <button
                             onClick={(e) => handleClickCancelar(e)}
