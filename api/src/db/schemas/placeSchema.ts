@@ -26,7 +26,7 @@ export const placeSchema = new Schema({
 	description: { type: String, trim: true, default: "" },
 
 	banned: { type: Boolean, default: false },
-	disabled : { type: Boolean, default: false },
+	disabled: { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "place",
@@ -81,6 +81,10 @@ export const placeSchema = new Schema({
 		}
 	],
 
+	coords: {
+		lat: { type: String, default: "" },
+		lng: { type: String, default: "" },
+	},
 });
 
 module.exports = placeSchema;

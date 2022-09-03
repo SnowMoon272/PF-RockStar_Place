@@ -11,11 +11,24 @@ const ContainerGralStyled = styled.div`
 
   box-sizing: border-box;
   background-color: ${({ Fondo }) => (Fondo ? Colors.Oxford_Blue_transparent : "transparent")};
+
   width: 100%;
-  height: 100%;
+  height: ${({ Down }) => (Down ? "65%" : "100%")};
   padding: 20px;
   display: flex;
   flex-direction: column;
+  margin-top: ${({ Down }) => (Down ? "11%" : "0px")};
+
+  .TitleB {
+    font-family: "New Rocker";
+    position: absolute;
+    font-size: 7rem;
+    font-weight: 400;
+    top: 10px;
+    left: 36%;
+    color: white;
+    margin: 0px;
+  }
 
   & .SectionB {
     /* border: #09ff00 solid 3px; */
@@ -47,7 +60,7 @@ const ContainerGralStyled = styled.div`
   }
 
   .textareaTitle:focus,
-  textareaTitle:hover {
+  .textareaTitle:hover {
     outline: none;
     padding: 0.2rem 1rem;
     border-radius: 1rem;
@@ -101,7 +114,8 @@ const ContainerGralStyled = styled.div`
       border-bottom-color: ${Colors.Blue_Vivid};
       padding: 0.2rem 0;
       outline: none;
-      background-color: transparent;
+      border-radius: 10px;
+      background-color: ${({ FondoN }) => (FondoN ? Colors.Erie_Black_Transparent : Colors.Oxford_Blue_transparent)};
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       margin: 5px 0px 5px 0px;
@@ -130,7 +144,7 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar(props, { Fondo }) {
+function Notificar(props, { Fondo, FondoN, Down }) {
   const user = getUserInfo();
 
   const { info } = props;
@@ -177,9 +191,9 @@ function Notificar(props, { Fondo }) {
     e.preventDefault();
     setMesagge(e.target.value);
   };
-
   return (
-    <ContainerGralStyled Fondo={Fondo}>
+    <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea
           type="text"

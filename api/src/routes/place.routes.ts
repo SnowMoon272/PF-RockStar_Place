@@ -17,7 +17,7 @@ const {
 	switchController,
 	getNotificationsController,
 	deleteOneController,
-    disabledPlaceController,
+  disabledPlaceController,
 } = require("../controllers/place.controller.ts");
 const { ROLES, checkRoleAuth } = require("./middlewares/authorization.js");
 
@@ -37,11 +37,7 @@ router.get("/place-email/:email", getPlaceByEmailController);
 router.get("/place/:id", getPlaceByIDController);
 router.get("/places/names", getPlaceByNameController);
 router.get("/cities", getCitiesController);
-router.put(
-	"/place",
-	checkRoleAuth([ROLES.admin, ROLES.place]),
-	updatePlaceController
-);
+router.put("/place", updatePlaceController);
 router.post("/placesdates", AddDatePlaceController);
 router.put("/placesuscription", suscribedSuccessfulController);
 router.put("/placesdates", DeleteAvailableDatePlaceController);

@@ -93,24 +93,23 @@ export const removeConfirmedDate = async (musicEmail: string, placeEmail: string
 		const currentMusicBand = await getMusicBand(musicEmail);
 		const currentPlace = await getPlace(placeEmail);
 		if (currentMusicBand && currentPlace && date) {
-			const dateToDelete = currentPlace.dates.find(
-				(d: placeDates) => d.date.toISOString().substring(0, 10) === date,
+			const dateToDeletePlace = currentPlace.dates.find(
+				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail,
 			);
-			if (dateToDelete) {
+			const dateToDeleteMusic = currentMusicBand.dates.find(
+				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail,
+			);
+			if (dateToDeletePlace && dateToDeleteMusic) {
 				await place.updateOne(
 					{ email: placeEmail },
 					{
-						dates: currentPlace.dates.filter(
-							(e: placeDates) => e.date.toISOString().substring(0, 10) !== date,
-						),
+						dates: currentPlace.dates.filter((e: placeDates) => e !== dateToDeletePlace),
 					},
 				);
 				await musicBand.updateOne(
 					{ email: musicEmail },
 					{
-						dates: currentMusicBand.dates.filter(
-							(e: musicDates) => e.date.toISOString().substring(0, 10) !== date,
-						),
+						dates: currentMusicBand.dates.filter((e: musicDates) => e !== dateToDeleteMusic),
 					},
 				);
 				return { msg: "Se eliminó la fecha correctamente" };

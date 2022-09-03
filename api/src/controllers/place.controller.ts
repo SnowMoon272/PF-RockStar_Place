@@ -178,12 +178,25 @@ const disabledPlaceController = async (req: any, res: any) => {
 	const { email, disabled } = req.body;
 	if (disabled) {
 		try {
-			let userDisabled = await disabledPlace(email, disabled);
-			if (userDisabled)
-				return res
-					.status(201)
-					.send({ msg: "Se desactivo el lugar correctamente" });
-			return res.status(400).send({ error: "Ha ocurrido un error" });
+			await disabledPlace(email, disabled);
+			let placeByEmail = await getPlace(email)
+			if (placeByEmail && disabled) {
+				if (disabled === true) {
+					for (const date of placeByEmail.availableDates) {
+						await deleteAvailableDate(email, date.date.toISOString().substring(0, 10));
+					}
+					for (const date of placeByEmail.pendingDates) {
+						await removePendingDate(date.email, email, date.date.toISOString().substring(0, 10));
+					}
+					for (const date of placeByEmail.dates) {
+						await removeConfirmedDate(date.email, email, date.date.toISOString().substring(0, 10));
+					}
+					res.status(201).send({ msg: "Se desactivo el lugar correctamente" });
+				}
+				if (placeByEmail.disabled === false) {
+					res.send("Place disabled = false, place fue activado nuevamente")
+				}
+			} else {return res.status(400).send({ error: "Ha ocurrido un error" })} 
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo desactivar el lugar" });
 		}

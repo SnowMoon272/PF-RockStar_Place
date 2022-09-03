@@ -9,8 +9,9 @@ import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { getDetailPlace, resetDetails } from "../../Redux/actions";
+import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -19,25 +20,81 @@ const ActualizarDatosStyleCont = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
+  position: absolute;
+
+  .IMGFondo {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    object-fit: cover;
+    z-index: 50;
+  }
 
   .divLogo {
     img {
       position: absolute;
       top: 45px;
-      right: 140px;
+      right: 90px;
+      z-index: 120;
+    }
+  }
+
+  .divButtonDesc {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    z-index: 55;
+
+    .BTNsDesc {
+      border: solid white 1px;
+      font-family: "New Rocker";
+      font-weight: 200;
+      font-size: 2rem;
+      background-color: black;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      padding: 10px 10px;
+
+      :hover {
+        transform: scale(1.1);
+        transition: 0.5s;
+      }
     }
   }
 `;
 
+const POPContainer = styled.div`
+  border: solid ${Colors.Blue_Vivid} 2px;
+  /* display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")}; */
+  display: flex;
+  border-radius: 15px;
+  justify-content: center;
+  position: fixed;
+  width: 52%;
+  height: 75%;
+  margin: auto;
+  top: 0%;
+  bottom: 0px;
+  left: 70px;
+  right: 0px;
+  /* z-index: 25; */
+  z-index: ${({ POPSwitch }) => (!POPSwitch ? 25 : 100)};
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
+  /* border: solid #fff 3px; */
+
   box-sizing: border-box;
+  border-radius: 15px;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
   height: 80%;
+  position: absolute;
+  z-index: 75;
 
   .divTitulo {
     display: flex;
@@ -63,6 +120,25 @@ const ActualizarDatosStyleCont2 = styled.div`
       color: ${Colors.Platinum};
       font-family: "New Rocker";
       font-weight: 400;
+    }
+
+    .BTNDesplegar {
+      /* font-family: "New Rocker"; */
+      font-family: "RocknRoll One", sans-serif;
+      padding: 5px;
+      margin: 6px 15px;
+      background-color: ${Colors.Blue_life};
+      /* background-color: transparent; */
+      color: ${Colors.Platinum};
+      font-size: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+
+      :hover {
+        transition: all 1s ease;
+        transform: scale(1.1);
+      }
     }
   }
 
@@ -301,8 +377,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
-/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-
 function validate(input) {
   const errors = {};
   if (!input.name) {
@@ -312,16 +386,10 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (
-    !/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
-      input.personInCharge,
-    )
-  ) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
+  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(input.personInCharge)) {
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
   }
 
   if (!input.phoneNumber) {
@@ -332,9 +400,7 @@ function validate(input) {
 
   if (
     input.instagram &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
-      input.instagram,
-    )
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
@@ -376,6 +442,7 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const coords = useSelector((state) => state.place_coords);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -452,8 +519,10 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
+          coords,
         },
       });
+      dispatch(resetCoords());
       alert("Datos actualizados con exito");
 
       const { data } = await axios({
@@ -501,6 +570,22 @@ export default function ActualizarLocal() {
     }
   }
 
+  async function handleClick(e) {
+    e.preventDefault();
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
+    ) {
+      await axios.put("/placeDisabled", {
+        email: place.email,
+        disabled: true,
+      });
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", place);
+    }
+  }
+
   function handleActivateButton() {
     if (input.name && Object.entries(errors).length === 0) {
       return false;
@@ -508,15 +593,25 @@ export default function ActualizarLocal() {
     return true;
   }
 
+  const [POPSwitch, setPOPSwitch] = useState(false);
+
+  const handlerSwitch = (e) => {
+    setPOPSwitch(!POPSwitch);
+  };
+
   return (
     <div>
       {loading ? (
         <div>
           <ActualizarDatosStyleCont>
+            <img className="IMGFondo" src={BGPerfil} alt="BG" />
             <div className="divLogo">
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
             <NavBar Perfil Home />
+            <POPContainer POPSwitch={POPSwitch}>
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
+            </POPContainer>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
                 <h1>Completa / Edita tus datos</h1>
@@ -550,14 +645,7 @@ export default function ActualizarLocal() {
                     {errors.personInCharge && <p>{errors.personInCharge}</p>}
                     <div className="ContainerInput">
                       <span>Ciudad:</span>
-                      <input
-                        type="text"
-                        placeholder="Ciudad"
-                        className="input"
-                        value={input.city}
-                        name="city"
-                        onChange={(e) => handleChange(e)}
-                      />
+                      <input type="text" placeholder="Ciudad" className="input" value={input.city} name="city" onChange={(e) => handleChange(e)} />
                     </div>
                     {errors.city && <p>{errors.city}</p>}
                     <div className="ContainerInput">
@@ -572,6 +660,12 @@ export default function ActualizarLocal() {
                       />
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Ubicación en el mapa:</span>
+                      <button className="BTNDesplegar" onClick={(e) => handlerSwitch(e)} type="button">
+                        Desplegar mapa
+                      </button>
+                    </div>
                     <div className="ContainerInput">
                       <span>Teléfono:</span>
                       <input
@@ -611,12 +705,7 @@ export default function ActualizarLocal() {
                     <p className="sonidoPropio">Sonido propio</p>
                     <div className="SwitchCont">
                       <p>No</p>
-                      <input
-                        value={input.hasSound}
-                        id="switch"
-                        type="checkbox"
-                        onChange={(e) => handleCheckBox(e)}
-                      />
+                      <input value={input.hasSound} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
                       <label htmlFor="switch" className="label" />
                       <p>Si</p>
                     </div>
@@ -627,12 +716,7 @@ export default function ActualizarLocal() {
                       Subir foto
                     </button>
                     <div className="ImgACargar">
-                      <img
-                        src={image === "" ? place.profilePicture : image}
-                        alt="ingresa una imagen"
-                        width="350px"
-                        height="350px"
-                      />
+                      <img src={image === "" ? place.profilePicture : image} alt="ingresa una imagen" width="350px" height="350px" />
                     </div>
                     <textarea
                       type="text"
@@ -652,6 +736,11 @@ export default function ActualizarLocal() {
                 </div>
               </form>
             </ActualizarDatosStyleCont2>
+            <div className="divButtonDesc">
+              <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                Desactivar cuenta
+              </button>
+            </div>
           </ActualizarDatosStyleCont>
         </div>
       ) : (

@@ -138,6 +138,7 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
   const handlerNotif = (e) => {
     setSwitchNotif(!SwitchNotif);
   };
+
   return (
     <ContainerGralStyled>
       <h1>Banda / Local</h1>

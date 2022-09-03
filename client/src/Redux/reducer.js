@@ -14,6 +14,9 @@ import {
   GET_MUSIC_BANDS,
   GET_NOTIFICATIONS,
   REMOVE_NOTIFICATIONS,
+  PLACE_COORDS,
+  ADMIN_CLICK_BANDA,
+  ADMIN_CLICK_LOCAL,
 } from "./actions";
 
 const initialState = {
@@ -30,6 +33,8 @@ const initialState = {
   detail_music_band: {},
   detail_event: [],
   notifications: [],
+  place_coords: {},
+  admin_click: "default",
 };
 
 function rootReducer(state = initialState, action) {
@@ -93,6 +98,16 @@ function rootReducer(state = initialState, action) {
         detail_place: action.payload,
         detail_music_band: action.payload,
       };
+    case ADMIN_CLICK_LOCAL:
+      return {
+        ...state,
+        admin_click: action.payload,
+      };
+    case ADMIN_CLICK_BANDA:
+      return {
+        ...state,
+        admin_click: action.payload,
+      };
     case POST_REGISTER:
       return {
         ...state,
@@ -106,6 +121,10 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notifications: action.payload,
+    case PLACE_COORDS:
+      return {
+        ...state,
+        place_coords: action.payload,
       };
     default:
       return state;

@@ -15,6 +15,7 @@ import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 /* Components & Actions */
 import Colors from "../../Utils/colors";
 import { getUserInfo, isAuthenticated, isMusicband } from "../../Utils/auth.controller";
+import Card from "../Home/Elements/Card";
 
 /* Form Img & SVG */
 import Logo from "../../Assets/img/guitar-logo-icon.png";
@@ -28,12 +29,13 @@ import BTNEvent from "../../Assets/svg/Eventos.svg";
 import BTNLogOut from "../../Assets/svg/Salir.svg";
 import BTNUser from "../../Assets/svg/User.svg";
 import BTNRefresh from "../../Assets/svg/Retroceder.svg";
+import SVGNoti from "../../Assets/svg/Notificacion.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 
 const NavBarStyle = styled.nav`
   position: relative;
-  z-index: 90;
+  z-index: 2000;
   background-image: url(${({ FondoImg }) => FondoImg && BGImg});
   background-color: ${({ FondoImg }) => !FondoImg && Colors.Oxford_Blue};
   background-size: cover;
@@ -47,6 +49,62 @@ const NavBarStyle = styled.nav`
   height: 100vh;
   box-shadow: 0px -4px 20px rgb(217, 217, 217);
   letter-spacing: 1px;
+
+  & .NotioficationContLogo {
+    /* border: solid #ff00fb 3px; */
+
+    width: 100px;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left: 94vw;
+
+    & button {
+      border-radius: 100%;
+      background-color: ${Colors.Blue_life};
+
+      border: none;
+      cursor: pointer;
+      position: relative;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+
+      & .ImgCapana {
+        width: 30px;
+      }
+
+      & .FondoNumero {
+        position: absolute;
+        border-radius: 100%;
+        background-color: #ff0000;
+        top: 5px;
+        right: 7px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & p {
+          color: ${Colors.Platinum};
+          font-size: 1.5rem;
+          /* color: black; */
+        }
+      }
+    }
+  }
 
   .Search_Filter {
     position: absolute;
@@ -242,6 +300,68 @@ const NavBarStyle = styled.nav`
   }
 `;
 
+const NotificacionesStyleCont = styled.section`
+  border: solid #ffffff 1px;
+
+  position: fixed;
+  box-sizing: border-box;
+  left: 70px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: auto;
+  background-color: ${Colors.Oxford_Blue};
+  width: 80%;
+  height: fit-content;
+  padding: 35px;
+  border-radius: 10px;
+  z-index: 1000;
+
+  & h2 {
+    /* border: solid #ff1100 3px; */
+
+    font-family: "New Rocker";
+    text-align: center;
+    margin: 0px;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 6rem;
+    font-weight: 400;
+    color: ${Colors.Platinum};
+  }
+
+  & .CardsContainer {
+    /* border: solid #2fff00 3px; */
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: ${Colors.Platinum};
+
+    & .CardsContainerScroll {
+      width: 100%;
+      box-sizing: border-box;
+
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: ${Colors.Oxford_Blue_transparent};
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #14213d;
+        border-radius: 25px;
+        border: 1px solid white;
+      }
+    }
+  }
+`;
+
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
@@ -255,6 +375,7 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
   const dispatch = useDispatch();
   const [infUser, setInfUser] = useState({});
   const [filterSwitch, setfilterSwitch] = useState(false);
+  const [notificacion, setnotificacion] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -306,10 +427,38 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
     setfilterSwitch(!filterSwitch);
   };
 
+  const handlerClickNot = (e) => {
+    setnotificacion(!notificacion);
+  };
+
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
 
   return (
     <NavBarStyle FondoImg={FondoImg} filterSwitch={filterSwitch}>
+      {!FondoImg && (
+        <div className="NotioficationContLogo">
+          <button type="button" onClick={(e) => handlerClickNot(e)}>
+            <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
+            <div className="FondoNumero">
+              <p>2</p>
+            </div>
+          </button>
+        </div>
+      )}
+      {notificacion && (
+        <NotificacionesStyleCont>
+          <h2>Notificaciones</h2>
+          <div className="CardsContainer">
+            <div className="CardsContainerScroll">
+              <Card />
+              <Card />
+              <Card />
+              <Card />
+              <Card />
+            </div>
+          </div>
+        </NotificacionesStyleCont>
+      )}
       <div className="Search_Filter">
         <SearchBarYFilters
           paginado={paginado}
