@@ -250,8 +250,7 @@ function validate(input) {
   } else if (!/^[a-zA-Z Ññ ]+$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo  puede contener letras y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
+    errors.personInCharge = "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
   }
   if (!input.phoneNumber) {
     errors.phoneNumber = "Ingresa un numero de telefono";
@@ -261,9 +260,7 @@ function validate(input) {
 
   if (
     input.instagram &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
-      input.instagram,
-    )
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
@@ -274,20 +271,10 @@ function validate(input) {
   } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
     errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
   }
-  if (
-    input.spotify &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
-      input.spotify,
-    )
-  ) {
+  if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.spotify)) {
     errors.spotify = "Ingresa una URL válida. 'example: http://example.com'";
   }
-  if (
-    input.youtube &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
-      input.youtube,
-    )
-  ) {
+  if (input.youtube && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.youtube)) {
     errors.youtube = "Ingresa una URL válida. 'example: http://example.com'";
   }
   return errors;
@@ -528,10 +515,7 @@ export default function upLoadData() {
               <div className="cargarImagen">
                 <h3>Foto de perfil</h3>
                 <div>
-                  <img
-                    src={image === "" ? musicBand.profilePicture : image}
-                    alt="ingresa una imagen"
-                  />
+                  <img src={image === "" ? musicBand.profilePicture : image} alt="ingresa una imagen" />
                 </div>
                 <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
                   Subir foto
@@ -541,12 +525,12 @@ export default function upLoadData() {
             <button type="button" className="BTNActualizar" onClick={(e) => handleSubmit(e)}>
               Actualizar
             </button>
+            {/* <br />
             <br />
             <br />
             <br />
             <br />
-            <br />
-            <br />
+            <br /> */}
           </ActualizarDatosStyleCont>
         </div>
       ) : (

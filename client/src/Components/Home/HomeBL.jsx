@@ -15,15 +15,8 @@ import Colors from "../../Utils/colors";
 import { getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import LoaderComponent from "../Loader/Loading";
-import {
-  getPlaces,
-  updateFilters,
-  popularitySort,
-  getDetailMusicBand,
-  resetDetails,
-  getDetailPlaceEvent,
-} from "../../Redux/actions";
-
+import { getPlaces, updateFilters, popularitySort, getDetailMusicBand, resetDetails, getDetailPlaceEvent } from "../../Redux/actions";
+import Footer from "../Footer/Footer";
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
@@ -356,17 +349,17 @@ const CarsStyleCont = styled.section`
   }
 `;
 
-// const FooterStyle = styled.section`
-//   box-sizing: border-box;
-//   position: relative;
-//   background-color: ${Colors.Erie_Black};
-//   width: 100%;
-//   height: 80px;
-//   z-index: 27;
-//   color: white;
-//   padding-left: 75px;
-// `;
-
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Oxford_Blue};
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+  z-index: 25;
+`;
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeBL() {
   const dispatch = useDispatch();
@@ -383,11 +376,7 @@ function HomeBL() {
   const [user, setuser] = useState({});
   const [loading, setLoading] = useState(false);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
-  const confirmedDates = musicBand.dates
-    ? musicBand.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
-    : [];
+  const confirmedDates = musicBand.dates ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
   if (musicBand._id && !placeEvent._id) {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
@@ -503,18 +492,7 @@ function HomeBL() {
       {loading ? (
         <div>
           <HomeStyleCont>
-            <NavBar
-              Buscar
-              FiltroA
-              FiltroB
-              FiltroC
-              Eventos
-              Perfil
-              UserLog
-              paginado={paginado}
-              setFilter={setFilter}
-              filter={filter}
-            />
+            <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
 
             <FirtVewStyleCont>
               <div className="ImgContainer">
@@ -576,13 +554,7 @@ function HomeBL() {
               <CarsStyleCont>
                 <h4 id="Ancla_Titulo">Conoce Nuestros Locales</h4>
                 <div className="Paginado">
-                  <Pagination
-                    UserLog
-                    cardsPerPage={cardsPerPage}
-                    allPlaces={allPlaces.length}
-                    paginado={paginado}
-                    pageNumber={pageNumber}
-                  />
+                  <Pagination UserLog cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
                 </div>
                 <div className="BotonesExtra">
                   <button
@@ -611,13 +583,7 @@ function HomeBL() {
                     <div className="NotFound"> ¡No se encontraron resultados! </div>
                   )}
                 </div>
-                <Pagination
-                  UserLog
-                  cardsPerPage={cardsPerPage}
-                  allPlaces={allPlaces.length}
-                  paginado={paginado}
-                  pageNumber={pageNumber}
-                />
+                <Pagination UserLog cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
               </CarsStyleCont>
             </SecondVewStyleCont>
             {/* <FooterStyle>
@@ -625,6 +591,9 @@ function HomeBL() {
         asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
         sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
       </FooterStyle> */}
+            <FooterStyledCont>
+              <Footer />
+            </FooterStyledCont>
           </HomeStyleCont>
         </div>
       ) : (
