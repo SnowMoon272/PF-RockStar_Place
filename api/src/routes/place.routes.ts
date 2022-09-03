@@ -49,7 +49,7 @@ router.put("/placeDisabled", disabledPlaceController);
 router.put("/banplace", banPlaceController);
 
 //Revisar restricción
-router.post("/places/notification/send", sendNotificationController);
+router.post("/places/notification/add", sendNotificationController);
 //Revisar restricción
 router.post("/places/notifications/deleteAll", deleteNotificationController);
 
@@ -57,7 +57,7 @@ router.post("/places/notifications/deleteAll", deleteNotificationController);
 router.put("/places/notification/switchn", switchController);
 
 // Working
-router.get("/places/notifications", getNotificationsController);
+router.post("/places/notifications", getNotificationsController);
 
 router.delete("/places/notifications/deleteOne", deleteOneController)
 
