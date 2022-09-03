@@ -663,6 +663,7 @@ function HomeLL() {
           musicEmail: e.target.value.split(",")[1],
           date: e.target.value.split(",")[0],
         });
+        axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
         setRender(!render);
       } else alert("Ya hay un usuario confirmado en esa fecha");
     } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
