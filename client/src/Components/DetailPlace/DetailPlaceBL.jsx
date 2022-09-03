@@ -128,11 +128,10 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
           box-sizing: border-box;
-          border-radius: 8px;
           width: 100%;
           margin-top: 2.5%;
         }
