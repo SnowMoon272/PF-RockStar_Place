@@ -230,3 +230,10 @@ export function updatePlaceCoords(coords) {
     payload: coords,
   };
 }
+
+export function resetCoords() {
+  return {
+    type: PLACE_COORDS,
+    payload: {},
+  };
+}

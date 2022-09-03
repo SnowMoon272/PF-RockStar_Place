@@ -44,7 +44,7 @@ const EditStyledCont = styled.div`
   }
 `;
 
-export default function MapPopUp({ POPSwitch, setPOPSwitch }) {
+export default function MapPopUp({ POPSwitch, setPOPSwitch, coords }) {
   const handlerClose = (e) => {
     e.preventDefault();
     setPOPSwitch(!POPSwitch);
@@ -57,7 +57,7 @@ export default function MapPopUp({ POPSwitch, setPOPSwitch }) {
       </button>
       <span className="title">Selecciona la ubicación de tu local</span>
       <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>
-      <MapView setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} />
+      <MapView setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={coords} />
     </EditStyledCont>
   );
 }
