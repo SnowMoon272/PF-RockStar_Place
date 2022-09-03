@@ -9,8 +9,9 @@ import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { getDetailPlace, resetDetails } from "../../Redux/actions";
+import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -22,6 +23,7 @@ const ActualizarDatosStyleCont = styled.div`
   background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
+  position: absolute;
 
   .divLogo {
     img {
@@ -32,12 +34,32 @@ const ActualizarDatosStyleCont = styled.div`
   }
 `;
 
+const POPContainer = styled.div`
+  border: solid ${Colors.Blue_Vivid} 2px;
+  display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")};
+  border-radius: 15px;
+  justify-content: center;
+  position: fixed;
+  width: 40%;
+  height: 60%;
+  margin: auto;
+  top: 5%;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+  /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
+  border: solid #fff 3px;
+
   box-sizing: border-box;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
   height: 80%;
+  position: absolute;
 
   .divTitulo {
     display: flex;
@@ -95,6 +117,12 @@ const ActualizarDatosStyleCont2 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .divButtonDesc {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
   }
 
   .divsColumna2 {
@@ -201,6 +229,24 @@ const ActualizarDatosStyleCont2 = styled.div`
     transition: 0.5s;
   }
 
+  .BTNsDesc {
+    font-family: "New Rocker";
+    font-style: normal;
+    font-weight: 200;
+    font-size: 20px;
+    width: 200px;
+    line-height: 45px;
+    background-color: black;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    color: white;
+  }
+  .BTNsDesc:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
+
   p {
     display: flex;
     flex-direction: row;
@@ -301,8 +347,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
-/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-
 function validate(input) {
   const errors = {};
   if (!input.name) {
@@ -368,6 +412,7 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const coords = useSelector((state) => state.place_coords);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -444,8 +489,10 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
+          coords,
         },
       });
+      dispatch(resetCoords());
       alert("Datos actualizados con exito");
 
       const { data } = await axios({
@@ -493,12 +540,34 @@ export default function ActualizarLocal() {
     }
   }
 
+  async function handleClick(e) {
+    e.preventDefault();
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
+    ) {
+      await axios.put("/placeDisabled", {
+        email: place.email,
+        disabled: true,
+      });
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", place);
+    }
+  }
+
   function handleActivateButton() {
     if (input.name && Object.entries(errors).length === 0) {
       return false;
     }
     return true;
   }
+
+  const [POPSwitch, setPOPSwitch] = useState(false);
+
+  const handlerSwitch = (e) => {
+    setPOPSwitch(!POPSwitch);
+  };
 
   return (
     <div>
@@ -509,6 +578,9 @@ export default function ActualizarLocal() {
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
             <NavBar Perfil Home />
+            <POPContainer POPSwitch={POPSwitch}>
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
+            </POPContainer>
             <ActualizarDatosStyleCont2>
               <div className="divTitulo">
                 <h1>Completa / Edita tus datos</h1>
@@ -557,6 +629,12 @@ export default function ActualizarLocal() {
                       />
                     </div>
                     {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Ubicación en el mapa:</span>
+                      <button onClick={(e) => handlerSwitch(e)} type="button">
+                        Desplegar mapa
+                      </button>
+                    </div>
                     <div className="ContainerInput">
                       <span>Teléfono:</span>
                       <input
@@ -626,6 +704,11 @@ export default function ActualizarLocal() {
                   </button>
                 </div>
               </form>
+              <div className="divButtonDesc">
+                <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                  Desactivar cuenta
+                </button>
+              </div>
             </ActualizarDatosStyleCont2>
           </ActualizarDatosStyleCont>
         </div>

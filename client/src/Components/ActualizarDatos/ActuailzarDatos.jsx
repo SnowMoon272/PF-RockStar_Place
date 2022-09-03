@@ -40,6 +40,7 @@ const ActualizarDatosStyleCont = styled.div`
     font-weight: 400;
     font-size: 2rem;
     border-radius: 10px;
+    line-height: 49px;
     background-color: ${Colors.Blue_life};
     width: 15%;
     display: flex;
@@ -58,6 +59,30 @@ const ActualizarDatosStyleCont = styled.div`
 
   .form {
     width: 40vw;
+  }
+
+  .divButtonDesc {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+  }
+
+  .BTNsDesc {
+    font-family: "New Rocker";
+    font-style: normal;
+    font-weight: 200;
+    font-size: 20px;
+    width: 200px;
+    line-height: 45px;
+    background-color: black;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    color: white;
+  }
+  .BTNsDesc:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
   }
 `;
 
@@ -401,6 +426,23 @@ export default function upLoadData() {
     }
   }
 
+  async function handleClick(e) {
+    e.preventDefault();
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        "Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
+      ) === true
+    ) {
+      await axios.put("/bandDisabled", {
+        email: musicBand.email,
+        disabled: true,
+      });
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+    }
+  }
+
   return (
     <div>
       {loading ? (
@@ -525,12 +567,11 @@ export default function upLoadData() {
             <button type="button" className="BTNActualizar" onClick={(e) => handleSubmit(e)}>
               Actualizar
             </button>
-            {/* <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br /> */}
+            <div className="divButtonDesc">
+              <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                Desactivar cuenta
+              </button>
+            </div>
           </ActualizarDatosStyleCont>
         </div>
       ) : (

@@ -11,7 +11,8 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
   POST_REGISTER = "POST_REGISTER",
-  GET_MUSIC_BANDS = "GET_MUSIC_BANDS";
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS",
+  PLACE_COORDS = "PLACE_COORDS";
 
 export function updateFilters(data) {
   return {
@@ -220,5 +221,19 @@ export function getMusicBands() {
     } catch (error) {
       return error;
     }
+  };
+}
+
+export function updatePlaceCoords(coords) {
+  return {
+    type: PLACE_COORDS,
+    payload: coords,
+  };
+}
+
+export function resetCoords() {
+  return {
+    type: PLACE_COORDS,
+    payload: {},
   };
 }

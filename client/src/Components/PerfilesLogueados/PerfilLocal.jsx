@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -14,6 +13,8 @@ import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 import LoaderComponent from "../Loader/Loading";
 import Footer from "../Footer/Footer";
+import MapLocalDetail from "../MapView/MapLocalDetail";
+import MapaVacio from "../../Assets/img/MapaPerfilSinUbicacion.png";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -86,6 +87,16 @@ const DetailStyleCont = styled.div`
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
+      }
+
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 3.5%;
+
+        & img {
+          margin-top: 2.5%;
+        }
       }
 
       .DatesCont {
@@ -318,23 +329,6 @@ export default function DetailPlace() {
     };
   }, []);
 
-  async function handleClick(e) {
-    e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
-    ) {
-      await axios.put("/placeDisabled", {
-        email: place.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-      //console.log("fin del handle", place);
-    }
-  }
-  //console.log("afuera", place);
-
   const getMonth = (mes) => {
     if (mes === "01") return "Enero";
     if (mes === "02") return "Febrero";
@@ -409,8 +403,17 @@ export default function DetailPlace() {
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    {place.coords ? place.coords.lat !== "" ?
+                      <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      : <img src={MapaVacio} alt="not found" />
+                      : null}
+                  </div>
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
                   <span className="title">Reseñas</span>
-
                   <div className="comentarios">
                     {place.reviews &&
                       place.reviews.map((p) => {
@@ -472,13 +475,6 @@ export default function DetailPlace() {
                       <img src={Editar} alt="Edit" />
                     </Link>
                     <h4>Editar</h4>
-                  </div>
-                </div>
-                <div className="divDesactivar">
-                  <div className="divDesctivaryTexto">
-                    <button type="button" onClick={(e) => handleClick(e)}>
-                      <h4>Desactivar cuenta</h4>
-                    </button>
                   </div>
                 </div>
               </div>

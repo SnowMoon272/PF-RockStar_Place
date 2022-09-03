@@ -303,7 +303,6 @@ export default function PerfilMusico() {
       //console.log("fin del handle", musicBand);
     }
   }
-
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
   return (
@@ -365,13 +364,6 @@ export default function PerfilMusico() {
                           <img src={Editar} alt="Edit" />
                         </Link>
                         <h4>Editar</h4>
-                      </div>
-                      <div className="divDesactivar">
-                        <div className="divDesctivaryTexto">
-                          <button type="button" onClick={(e) => handleClick(e)}>
-                            <h4>Desactivar cuenta</h4>
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>

@@ -42,7 +42,7 @@ const HomeStyleCont = styled.div`
     position: fixed;
     top: 0px;
     bottom: 0px;
-    left: 0px;
+    left: 70px;
     right: 0px;
     width: 80%;
     height: 80%;
