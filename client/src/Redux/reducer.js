@@ -12,6 +12,8 @@ import {
   GET_DETAIL_EVENT,
   POST_REGISTER,
   GET_MUSIC_BANDS,
+  GET_NOTIFICATIONS,
+  REMOVE_NOTIFICATIONS,
 } from "./actions";
 
 const initialState = {
@@ -27,6 +29,7 @@ const initialState = {
   sort_places: [],
   detail_music_band: {},
   detail_event: [],
+  notifications: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -93,6 +96,16 @@ function rootReducer(state = initialState, action) {
     case POST_REGISTER:
       return {
         ...state,
+      };
+    case GET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
+      };
+    case REMOVE_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
       };
     default:
       return state;
