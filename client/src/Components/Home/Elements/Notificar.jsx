@@ -1,6 +1,8 @@
 /* eslint-disable indent */
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
 // import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
@@ -128,15 +130,71 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar({ Fondo }) {
+function Notificar(props, { Fondo }) {
+  const user = getUserInfo();
+
+  const { info } = props;
+
+  const [title, setTitle] = useState("");
+  const [message, setMesagge] = useState("");
+
+  const handleSubmit = async (e) => {
+    const { email } = info;
+    const notification = {
+      type: "response",
+      title,
+      message,
+      before: info,
+      from: user.email,
+    };
+
+    const notificate1 = await axios({
+      method: "post",
+      url: "/musicband/notification/add",
+      data: {
+        email,
+        notification,
+      },
+    });
+
+    if (notificate1.acknowledged) return;
+
+    await axios({
+      method: "post",
+      url: "/places/notification/add",
+      data: {
+        email,
+        notification,
+      },
+    });
+  };
+
+  const handleChangeT = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+  };
+  const handleChangeM = (e) => {
+    e.preventDefault();
+    setMesagge(e.target.value);
+  };
+
   return (
     <ContainerGralStyled Fondo={Fondo}>
       <div className="SectionB">
-        <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" />
-        <button type="button">Enviar</button>
+        <textarea
+          type="text"
+          placeholder="Titulo"
+          className="textarea textareaTitle"
+          name="description"
+          value={title}
+          onChange={(e) => handleChangeT(e)}
+        />
+        <button type="button" onClick={handleSubmit}>
+          Enviar
+        </button>
       </div>
       <div className="SectionC">
-        <textarea type="text" placeholder="Notificación" className="textarea" name="description" />
+        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
       </div>
     </ContainerGralStyled>
   );

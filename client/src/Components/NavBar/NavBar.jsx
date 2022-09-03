@@ -4,10 +4,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 /* Modules */
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getNotifications, removeNotifications } from "../../Redux/actions";
 import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
@@ -241,21 +243,7 @@ const NavBarStyle = styled.nav`
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function NavBar({
-  Perfil,
-  Eventos,
-  FondoImg,
-  FiltroA,
-  FiltroB,
-  FiltroC,
-  paginado,
-  setFilter,
-  filter,
-  LogIn,
-  Home,
-  Buscar,
-  UserLog,
-}) {
+function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
@@ -264,6 +252,7 @@ function NavBar({
     FilterSounds: false,
     FilterEvents: false,
   });
+  const dispatch = useDispatch();
   const [infUser, setInfUser] = useState({});
   const [filterSwitch, setfilterSwitch] = useState(false);
 
@@ -271,6 +260,7 @@ function NavBar({
     if (isAuthenticated()) {
       const InfUser = getUserInfo();
       setInfUser(InfUser);
+      dispatch(getNotifications(InfUser.role, InfUser.email));
     }
   }, []);
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
@@ -307,6 +297,7 @@ function NavBar({
   };
 
   const handlerClickExit = (e) => {
+    dispatch(removeNotifications());
     localStorage.removeItem("user-token");
   };
 
@@ -365,9 +356,7 @@ function NavBar({
                     <>
                       <button
                         type="button"
-                        disabled={
-                          navState.FilterCities || navState.FilterSounds || navState.FilterEvents
-                        }
+                        disabled={navState.FilterCities || navState.FilterSounds || navState.FilterEvents}
                         onClick={(e) => {
                           handlerClickSearch(e);
                         }}
@@ -445,14 +434,7 @@ function NavBar({
                 )}
                 {Perfil && (
                   <>
-                    <Link
-                      to={
-                        isMusicband()
-                          ? `/musicbandprofile/${infUser._id}`
-                          : `/placeprofile/${infUser._id}`
-                      }
-                      className="Butons Link Perfil"
-                    >
+                    <Link to={isMusicband() ? `/musicbandprofile/${infUser._id}` : `/placeprofile/${infUser._id}`} className="Butons Link Perfil">
                       <img src={BTNUser} alt="ico-filtro" />
                     </Link>
                     <h3 className="H3">Perfil</h3>
