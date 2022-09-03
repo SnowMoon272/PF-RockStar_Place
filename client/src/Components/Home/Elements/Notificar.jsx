@@ -9,11 +9,24 @@ const ContainerGralStyled = styled.div`
 
   box-sizing: border-box;
   background-color: ${({ Fondo }) => (Fondo ? Colors.Oxford_Blue_transparent : "transparent")};
+
   width: 100%;
-  height: 100%;
+  height: ${({ Down }) => (Down ? "65%" : "100%")};
   padding: 20px;
   display: flex;
   flex-direction: column;
+  margin-top: ${({ Down }) => (Down ? "11%" : "0px")};
+
+  .TitleB {
+    font-family: "New Rocker";
+    position: absolute;
+    font-size: 7rem;
+    font-weight: 400;
+    top: 10px;
+    left: 36%;
+    color: white;
+    margin: 0px;
+  }
 
   & .SectionB {
     /* border: #09ff00 solid 3px; */
@@ -129,9 +142,10 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar({ Fondo, FondoN }) {
+function Notificar({ Fondo, FondoN, Down }) {
   return (
-    <ContainerGralStyled Fondo={Fondo} FondoN={FondoN}>
+    <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" />
         <button type="button">Enviar</button>
