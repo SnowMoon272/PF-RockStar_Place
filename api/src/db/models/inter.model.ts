@@ -49,7 +49,7 @@ export const switchNew = async (modelo: any, email: string, id: string) => {
 		const { notifications } = user;
 
 		const switched = notifications.map((notification: any) => {
-			const {_id} = notification;
+			const { _id } = notification;
 			const idString = _id.toString();
 
 			if (idString === id) {
@@ -117,17 +117,19 @@ export const markAllAsRead = async (model: any, email: string) => {
 export const deleteOne = async (model: any, email: string, id: string) => {
 	try {
 		const { notifications } = await model.findOne({ email });
-		const actualNotifications = notifications.filter((notification:any) => {
-			const {_id} = notification;
+		const actualNotifications = notifications.filter((notification: any) => {
+			const { _id } = notification;
 			const idString = _id.toString();
-			if(idString !== id) return notification;
+			if (idString !== id) return notification;
 		});
 
-		const update = await model.updateOne({email}, {notifications: actualNotifications});
+		const update = await model.updateOne(
+			{ email },
+			{ notifications: actualNotifications }
+		);
 
 		return update;
-
 	} catch (error) {
-		return { error: `Error in delete one: (${error})`}
+		return { error: `Error in delete one: (${error})` };
 	}
-}
+};
