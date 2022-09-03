@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
 import MapView from "./MapView";
+import SVGCerrar from "../../Assets/svg/Cerrar.svg";
 
 const EditStyledCont = styled.div`
   box-sizing: border-box;
@@ -9,6 +10,33 @@ const EditStyledCont = styled.div`
   background-color: ${Colors.Oxford_Blue};
   width: 100%;
   height: 100%;
+
+  & .BTNCerrar {
+    background-color: ${Colors.Erie_Black};
+    border: none;
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    position: absolute;
+    cursor: pointer;
+    right: 1%;
+    top: 1%;
+
+    :hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    img {
+      width: 34px;
+      height: 34px;
+    }
+  }
 
   .title {
     font-family: "New Rocker";
@@ -33,15 +61,6 @@ const EditStyledCont = styled.div`
     margin: 0px 0px 0px 0px;
     width: 100%;
   }
-
-  .BTNCerrar {
-    background-color: red;
-    position: absolute;
-    cursor: pointer;
-    border-radius: 50px;
-    right: 1%;
-    top: 1%;
-  }
 `;
 
 export default function MapPopUp({ POPSwitch, setPOPSwitch, coords }) {
@@ -53,7 +72,7 @@ export default function MapPopUp({ POPSwitch, setPOPSwitch, coords }) {
   return (
     <EditStyledCont>
       <button onClick={(e) => handlerClose(e)} type="button" className="BTNCerrar">
-        ❌
+        <img src={SVGCerrar} alt="cerrar" />
       </button>
       <span className="title">Selecciona la ubicación de tu local</span>
       <span className="desc">Arrastra el marcador hasta la ubicación de tu local</span>
