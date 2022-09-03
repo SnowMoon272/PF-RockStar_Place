@@ -15,6 +15,7 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
+import Notificar from "../Home/Elements/Notificar";
 // import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
@@ -68,6 +69,7 @@ const DetailStyleCont = styled.div`
     }
 
     .DataCont {
+      /* border: solid #ff0000 3px; */
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -328,6 +330,7 @@ export default function DetailPlace() {
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [SwitchNotif, setSwitchNotif] = useState(true);
 
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
@@ -456,6 +459,11 @@ export default function DetailPlace() {
     }
   };
 
+  const handlerSwitchNotif = (e) => {
+    e.preventDefault();
+    setSwitchNotif(!SwitchNotif);
+  };
+
   return (
     <div>
       {loading ? (
@@ -500,54 +508,61 @@ export default function DetailPlace() {
                 {/* <hr />
           <span className="title">Ubicación</span>
           <p>Mapa</p> */}
-                <div className="DataCont">
-                  <span className="title">Comentarios</span>
-                  <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
-                    <div className="RateComentCont">
-                      <div className="RateCont">
-                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
-                        <div className="buttons">
-                          <button type="button" value={1} onClick={(e) => handleClick(e)}>
-                            1
-                          </button>
-                          <button type="button" value={2} onClick={(e) => handleClick(e)}>
-                            2
-                          </button>
-                          <button type="button" value={3} onClick={(e) => handleClick(e)}>
-                            3
-                          </button>
-                          <button type="button" value={4} onClick={(e) => handleClick(e)}>
-                            4
-                          </button>
-                          <button type="button" value={5} onClick={(e) => handleClick(e)}>
-                            5
-                          </button>
-                        </div>
-                      </div>
-                      {errors.comment && <span>{errors.comment}</span>}
-                      {errors.rating && <span>{errors.rating}</span>}
-                      <button className="ButtonsComentar" type="submit">
-                        Comentar
-                      </button>
-                    </div>
-                  </form>
-                  <div className="comentarios">
-                    {place.reviews &&
-                      place.reviews.map((p) => {
-                        return (
-                          <div key={p._id} className="coment">
-                            <div className="NameRating">
-                              <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
-                            </div>
-                            <p className="contenidocoment">{p.comment}</p>
-                            <hr />
+                {SwitchNotif ? (
+                  <div className="DataCont">
+                    <span className="title">Comentarios</span>
+                    <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
+                      <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
+                      <div className="RateComentCont">
+                        <div className="RateCont">
+                          <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
+                          <div className="buttons">
+                            <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                              1
+                            </button>
+                            <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                              2
+                            </button>
+                            <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                              3
+                            </button>
+                            <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                              4
+                            </button>
+                            <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                              5
+                            </button>
                           </div>
-                        );
-                      })}
+                        </div>
+                        {errors.comment && <span>{errors.comment}</span>}
+                        {errors.rating && <span>{errors.rating}</span>}
+                        <button className="ButtonsComentar" type="submit">
+                          Comentar
+                        </button>
+                      </div>
+                    </form>
+                    <div className="comentarios">
+                      {place.reviews &&
+                        place.reviews.map((p) => {
+                          return (
+                            <div key={p._id} className="coment">
+                              <div className="NameRating">
+                                <span className="autor">{p.author}</span>
+                                <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                              </div>
+                              <p className="contenidocoment">{p.comment}</p>
+                              <hr />
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="DataCont">
+                    <span className="title">Reporte</span>
+                    <Notificar Fondo />
+                  </div>
+                )}
               </div>
               <div className="SecondCont">
                 <img src={place.profilePicture} className="profile" alt="Img not found" />
@@ -564,8 +579,14 @@ export default function DetailPlace() {
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 ) : null}
-                <button className="ButtonReport" type="button">
-                  Reportar
+                <button
+                  onClick={(e) => {
+                    handlerSwitchNotif(e);
+                  }}
+                  className="ButtonReport"
+                  type="button"
+                >
+                  {SwitchNotif ? "Reporte" : "Cerrar"}
                 </button>
               </div>
             </DetailStyleCont>
