@@ -250,12 +250,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
 
   return (
     <EditStyledCont>
-      <button
-        name="Search"
-        onClick={(e) => handlerSubmintCloseSearch(e)}
-        type="button"
-        className="BTNCerrar"
-      >
+      <button name="Search" onClick={(e) => handlerSubmintCloseSearch(e)} type="button" className="BTNCerrar">
         <img src={SVGCerrar} alt="" />
       </button>
 

@@ -16,6 +16,7 @@ import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import LoaderComponent from "../Loader/Loading";
+import Footer from "../Footer/Footer";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/HomeConcert.jpg";
@@ -172,7 +173,16 @@ const SecondVewStyleCont = styled.section`
     align-items: center;
     justify-content: space-between;
 
-    .Link {
+    & a {
+      cursor: context-menu;
+      text-decoration: none;
+      color: transparent;
+      :hover {
+        /* color: white; */
+      }
+    }
+
+    & .Link {
       font-family: "New Rocker", cursive;
       border-radius: 10px;
       background-color: ${Colors.Green_Light};
@@ -332,6 +342,17 @@ const CarsStyleCont = styled.section`
   }
 `;
 
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Green_Nigth};
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 76px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
+
 function HomeUNL() {
   const dispatch = useDispatch();
   let allPlaces = useSelector((state) => state.places);
@@ -405,17 +426,7 @@ function HomeUNL() {
         <div>
           <HomeStyleCont>
             {/* <NavBar LogIn Buscar FiltroA FiltroB Home Eventos Perfil FondoImg />  */}
-            <NavBar
-              LogIn
-              Buscar
-              FiltroA
-              FiltroB
-              FiltroC
-              FondoImg
-              paginado={paginado}
-              setFilter={setFilter}
-              filter={filter}
-            />
+            <NavBar LogIn Buscar FiltroA FiltroB FiltroC FondoImg paginado={paginado} setFilter={setFilter} filter={filter} />
             <FirtVewStyleCont>
               <div className="ImgTitleContainer">
                 <img src={BGHome} alt="Background" />
@@ -438,9 +449,10 @@ function HomeUNL() {
             </FirtVewStyleCont>
             <SecondVewStyleCont id="SecondVewStyleCont">
               <div className="ContenidoPrevio">
-                <button type="button" className="Link">
+                {/* <button type="button" className="Link">
                   Proximo Evento
-                </button>
+                </button> */}
+                <a href="https://www.linkedin.com/in/manuel-roberto-serrano-torres-436033214/">SnowMoon272</a>
                 <img src={Logo} alt="Logo" />
               </div>
               <CarsStyleCont>
@@ -483,14 +495,12 @@ function HomeUNL() {
                     <div className="NotFound"> ¡No se encontraron resultados! </div>
                   )}
                 </div>
-                <Pagination
-                  cardsPerPage={cardsPerPage}
-                  allPlaces={allPlaces.length}
-                  paginado={paginado}
-                  pageNumber={pageNumber}
-                />
+                <Pagination cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
               </CarsStyleCont>
             </SecondVewStyleCont>
+            <FooterStyledCont>
+              <Footer />
+            </FooterStyledCont>
           </HomeStyleCont>
         </div>
       ) : (

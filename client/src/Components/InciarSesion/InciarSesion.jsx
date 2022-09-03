@@ -42,9 +42,7 @@ function InciarSesion() {
         const user = await getUserInfo();
         const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
         if (user.role === "musicband") {
-          const userLogMusic = await axios.get(
-            `http://localhost:3001/musicbandemail/${user.email}`,
-          );
+          const userLogMusic = await axios.get(`http://localhost:3001/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogMusic.data.banned === true) {
@@ -107,6 +105,7 @@ function InciarSesion() {
                 <img src={IMGFace} alt="" />
                 <p>Ingresar con FAcebook</p>
               </button> */}
+                    <a href="https://www.linkedin.com/in/matías-straface-369a66238/">MatiasStraface</a>
                   </div>
                 </div>
                 <div className="Rigth">

@@ -15,6 +15,7 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
+import Notificar from "../Home/Elements/Notificar";
 // import Editar from "../../Assets/svg/Editar.svg";
 
 const HomeStyleCont = styled.div`
@@ -68,6 +69,7 @@ const DetailStyleCont = styled.div`
     }
 
     .DataCont {
+      /* border: solid #ff0000 3px; */
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -80,6 +82,7 @@ const DetailStyleCont = styled.div`
         font-size: 45px;
         text-align: center;
         color: ${Colors.Blue_Vivid};
+        margin: 15px 0px 0px 15px;
       }
 
       .description {
@@ -164,7 +167,7 @@ const DetailStyleCont = styled.div`
         flex-direction: column;
         padding: 2%;
         box-sizing: border-box;
-        border-radius: 10px;
+        border-radius: 15px;
 
         input {
           width: 95%;
@@ -243,6 +246,10 @@ const DetailStyleCont = styled.div`
         }
       }
     }
+    .Report {
+      border-radius: 25px;
+      background-color: ${Colors.Erie_Black_Transparent};
+    }
   }
 
   .SecondCont {
@@ -283,6 +290,28 @@ const DetailStyleCont = styled.div`
       width: 100%;
       margin-top: 3%;
     }
+
+    .ButtonReport {
+      font-family: "RocknRoll One";
+
+      position: absolute;
+      width: 150px;
+      height: 35px;
+      bottom: 210px;
+      right: 220px;
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+      background-color: black;
+      border-radius: 8px;
+      transition: all 0.5s ease;
+
+      :hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
   }
 `;
 
@@ -306,6 +335,7 @@ export default function DetailPlace() {
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [SwitchNotif, setSwitchNotif] = useState(true);
 
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
@@ -434,6 +464,11 @@ export default function DetailPlace() {
     }
   };
 
+  const handlerSwitchNotif = (e) => {
+    e.preventDefault();
+    setSwitchNotif(!SwitchNotif);
+  };
+
   return (
     <div>
       {loading ? (
@@ -478,54 +513,61 @@ export default function DetailPlace() {
                 {/* <hr />
           <span className="title">Ubicación</span>
           <p>Mapa</p> */}
-                <div className="DataCont">
-                  <span className="title">Comentarios</span>
-                  <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
-                    <div className="RateComentCont">
-                      <div className="RateCont">
-                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
-                        <div className="buttons">
-                          <button type="button" value={1} onClick={(e) => handleClick(e)}>
-                            1
-                          </button>
-                          <button type="button" value={2} onClick={(e) => handleClick(e)}>
-                            2
-                          </button>
-                          <button type="button" value={3} onClick={(e) => handleClick(e)}>
-                            3
-                          </button>
-                          <button type="button" value={4} onClick={(e) => handleClick(e)}>
-                            4
-                          </button>
-                          <button type="button" value={5} onClick={(e) => handleClick(e)}>
-                            5
-                          </button>
-                        </div>
-                      </div>
-                      {errors.comment && <span>{errors.comment}</span>}
-                      {errors.rating && <span>{errors.rating}</span>}
-                      <button className="ButtonsComentar" type="submit">
-                        Comentar
-                      </button>
-                    </div>
-                  </form>
-                  <div className="comentarios">
-                    {place.reviews &&
-                      place.reviews.map((p) => {
-                        return (
-                          <div key={p._id} className="coment">
-                            <div className="NameRating">
-                              <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
-                            </div>
-                            <p className="contenidocoment">{p.comment}</p>
-                            <hr />
+                {SwitchNotif ? (
+                  <div className="DataCont">
+                    <span className="title">Comentarios</span>
+                    <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
+                      <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
+                      <div className="RateComentCont">
+                        <div className="RateCont">
+                          <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
+                          <div className="buttons">
+                            <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                              1
+                            </button>
+                            <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                              2
+                            </button>
+                            <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                              3
+                            </button>
+                            <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                              4
+                            </button>
+                            <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                              5
+                            </button>
                           </div>
-                        );
-                      })}
+                        </div>
+                        {errors.comment && <span>{errors.comment}</span>}
+                        {errors.rating && <span>{errors.rating}</span>}
+                        <button className="ButtonsComentar" type="submit">
+                          Comentar
+                        </button>
+                      </div>
+                    </form>
+                    <div className="comentarios">
+                      {place.reviews &&
+                        place.reviews.map((p) => {
+                          return (
+                            <div key={p._id} className="coment">
+                              <div className="NameRating">
+                                <span className="autor">{p.author}</span>
+                                <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                              </div>
+                              <p className="contenidocoment">{p.comment}</p>
+                              <hr />
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="DataCont Report">
+                    <span className="title">Reporte</span>
+                    <Notificar Title="Title" />
+                  </div>
+                )}
               </div>
               <div className="SecondCont">
                 <img src={place.profilePicture} className="profile" alt="Img not found" />
@@ -542,6 +584,15 @@ export default function DetailPlace() {
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 ) : null}
+                <button
+                  onClick={(e) => {
+                    handlerSwitchNotif(e);
+                  }}
+                  className="ButtonReport"
+                  type="button"
+                >
+                  {SwitchNotif ? "Reporte" : "Cerrar"}
+                </button>
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
