@@ -12,8 +12,6 @@ import ImgLogo from "../../Assets/img/logo3.png";
 import LoaderComponent from "../Loader/Loading";
 
 const ContainerGralStyled = styled.div`
-  /* border: red solid 3px; */
-
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
@@ -30,15 +28,11 @@ const ContainerGralStyled = styled.div`
   }
 
   .Container {
-    /* border: red solid 3px; */
-
     box-sizing: border-box;
     width: 100%;
     height: 100vh;
 
     .ContenedorDeArriba {
-      /* border: 3px green solid; */
-
       text-align: center;
       h2 {
         color: ${Colors.Platinum};
@@ -55,8 +49,6 @@ const ContainerGralStyled = styled.div`
       align-items: center;
 
       .divLogo {
-        /* border: 3px purple solid; */
-
         display: flex;
         justify-content: center;
         width: 100%;
@@ -68,15 +60,11 @@ const ContainerGralStyled = styled.div`
       }
 
       .div1 {
-        /* border: 3px purple solid; */
-
         background-color: ${Colors.Oxford_Blue_transparent};
         padding: 15px 25px;
         width: 70%;
 
         .divTitle {
-          /* border: yellow solid; */
-
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -102,21 +90,16 @@ const ContainerGralStyled = styled.div`
         }
 
         .div3Columnas {
-          /* border: blue solid 3px; */
           display: flex;
           justify-content: space-between;
 
           .divColumna1 {
-            /* border: red solid; */
-
             max-width: 35%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
 
             h3 {
-              /* border: greenyellow solid 3px; */
-
               text-align: center;
               font-family: "New Rocker";
               font-weight: 400;
@@ -126,16 +109,12 @@ const ContainerGralStyled = styled.div`
             }
 
             .divsTituloyDesc {
-              /* border: white solid 3px; */
-
               display: flex;
               flex-direction: row;
               align-items: center;
               margin: 0px;
 
               .pTitulo {
-                /* border: black solid 3px; */
-
                 font-family: "RocknRoll One";
                 letter-spacing: -1px;
                 font-weight: 400;
@@ -145,8 +124,6 @@ const ContainerGralStyled = styled.div`
               }
 
               .pDesc {
-                /* border: black solid 3px; */
-
                 font-family: "RocknRoll One";
                 margin: 0px;
                 font-weight: 400;
@@ -158,7 +135,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divColumna2 {
-            /* border: red solid; */
             max-width: 35%;
             display: flex;
             flex-direction: column;
@@ -212,7 +188,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divColumna3 {
-            /* border: red solid; */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -249,8 +224,6 @@ const ContainerGralStyled = styled.div`
     }
 
     .divContainerdeAbajo {
-      /* border: 3px red solid; */
-
       position: relative;
       z-index: 20;
       margin-top: 130px;
@@ -258,17 +231,14 @@ const ContainerGralStyled = styled.div`
       width: 100%;
       display: flex;
       justify-content: center;
-      /* height: auto; */
 
       .divContainerdeAbajoContainer {
-        /* border: 3px green solid; */
         display: flex;
         width: 73%;
         justify-content: space-between;
         margin-bottom: 150px;
 
         .divEventosConfirmados {
-          /* border: blue solid; */
           width: 45%;
 
           display: flex;
@@ -279,8 +249,6 @@ const ContainerGralStyled = styled.div`
           padding-bottom: 50px;
 
           h1 {
-            /* border: red solid; */
-
             font-family: "New Rocker";
             font-weight: 400;
             font-size: 4rem;
@@ -289,8 +257,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divsSmallConfirmados {
-            /* border: red solid; */
-
             display: flex;
             background-color: #264380;
             justify-content: space-between;
@@ -333,8 +299,6 @@ const ContainerGralStyled = styled.div`
         }
 
         .divSolicitudesPendientes {
-          /* border: red solid; */
-
           width: 45%;
           display: flex;
           flex-direction: column;
@@ -344,8 +308,6 @@ const ContainerGralStyled = styled.div`
           padding-bottom: 50px;
 
           h1 {
-            /* border: red solid; */
-
             font-family: "New Rocker";
             font-weight: 400;
             font-size: 4rem;
@@ -354,8 +316,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divsSmallConfirmados {
-            /* border: red solid; */
-
             display: flex;
             background-color: #264380;
             justify-content: space-between;
@@ -369,7 +329,6 @@ const ContainerGralStyled = styled.div`
               font-weight: 400;
               font-size: 1.5rem;
               color: ${Colors.Platinum};
-              /* padding: 5px 15px; */
             }
 
             .pendingBtn {
