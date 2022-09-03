@@ -20,7 +20,6 @@ import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
 import Notificar from "../Home/Elements/Notificar";
 
-
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
   background-image: url(${BGPerfil});
@@ -538,10 +537,13 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Ubicación</span>
                   <div className="mapa">
-                    {place.coords ? place.coords.lat !== "" ?
-                      <MapLocalDetail placePosition={place.coords} placeName={place.name} />
-                      : <img src={MapaVacio} alt="not found" />
-                      : null}
+                    {place.coords ? (
+                      place.coords.lat !== "" ? (
+                        <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      ) : (
+                        <img src={MapaVacio} alt="not found" />
+                      )
+                    ) : null}
                   </div>
                   <hr className="hr" />
                 </div>
