@@ -702,6 +702,7 @@ function ModoEditar() {
         await axios.put("/banplace", {
           email: place.email,
         });
+        await axios.get(`/banned/${place.email}`);
         dispatch(getDetailPlaceByEmail(place.email));
       }
     }
@@ -711,6 +712,7 @@ function ModoEditar() {
         await axios.put("/banmusicband", {
           email: musicBand.email,
         });
+        await axios.get(`/banned/${musicBand.email}`);
         dispatch(getDetailMusicBandByEmail(musicBand.email));
       }
     }
