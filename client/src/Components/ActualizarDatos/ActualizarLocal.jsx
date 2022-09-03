@@ -20,10 +20,17 @@ const ActualizarDatosStyleCont = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
   position: absolute;
+
+  .IMGFondo {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    object-fit: cover;
+    z-index: 50;
+  }
 
   .divLogo {
     img {
@@ -38,6 +45,7 @@ const ActualizarDatosStyleCont = styled.div`
     position: absolute;
     bottom: 15px;
     right: 15px;
+    z-index: 55;
 
     .BTNsDesc {
       border: solid white 1px;
@@ -60,19 +68,20 @@ const ActualizarDatosStyleCont = styled.div`
 
 const POPContainer = styled.div`
   border: solid ${Colors.Blue_Vivid} 2px;
-  display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")};
+  /* display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")}; */
+  display: flex;
   border-radius: 15px;
   justify-content: center;
   position: fixed;
-  width: 40%;
-  height: 60%;
+  width: 52%;
+  height: 75%;
   margin: auto;
-  top: 5%;
+  top: 0%;
   bottom: 0px;
-  left: 0px;
+  left: 70px;
   right: 0px;
-  z-index: 100;
-  /* z-index: ${({ zIndex }) => (zIndex ? 0 : 100)}; */
+  /* z-index: 25; */
+  z-index: ${({ POPSwitch }) => (!POPSwitch ? 25 : 100)};
 `;
 
 const ActualizarDatosStyleCont2 = styled.div`
@@ -85,6 +94,7 @@ const ActualizarDatosStyleCont2 = styled.div`
   width: 80%;
   height: 80%;
   position: absolute;
+  z-index: 75;
 
   .divTitulo {
     display: flex;
@@ -110,6 +120,25 @@ const ActualizarDatosStyleCont2 = styled.div`
       color: ${Colors.Platinum};
       font-family: "New Rocker";
       font-weight: 400;
+    }
+
+    .BTNDesplegar {
+      /* font-family: "New Rocker"; */
+      font-family: "RocknRoll One", sans-serif;
+      padding: 5px;
+      margin: 6px 15px;
+      background-color: ${Colors.Blue_life};
+      /* background-color: transparent; */
+      color: ${Colors.Platinum};
+      font-size: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+
+      :hover {
+        transition: all 1s ease;
+        transform: scale(1.1);
+      }
     }
   }
 
@@ -575,6 +604,7 @@ export default function ActualizarLocal() {
       {loading ? (
         <div>
           <ActualizarDatosStyleCont>
+            <img className="IMGFondo" src={BGPerfil} alt="BG" />
             <div className="divLogo">
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
@@ -632,7 +662,7 @@ export default function ActualizarLocal() {
                     {errors.adress && <p>{errors.adress}</p>}
                     <div className="ContainerInput">
                       <span>Ubicación en el mapa:</span>
-                      <button onClick={(e) => handlerSwitch(e)} type="button">
+                      <button className="BTNDesplegar" onClick={(e) => handlerSwitch(e)} type="button">
                         Desplegar mapa
                       </button>
                     </div>
