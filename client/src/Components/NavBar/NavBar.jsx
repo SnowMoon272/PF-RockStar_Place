@@ -33,7 +33,7 @@ import SVGNoti from "../../Assets/svg/Notificacion.svg";
 
 const NavBarStyle = styled.nav`
   position: relative;
-  z-index: 90;
+  z-index: 2000;
   background-image: url(${({ FondoImg }) => FondoImg && BGImg});
   background-color: ${({ FondoImg }) => !FondoImg && Colors.Oxford_Blue};
   background-size: cover;
@@ -312,7 +312,8 @@ const NotificacionesStyleCont = styled.section`
   width: 80%;
   height: fit-content;
   padding: 35px;
-  border-radius: 30px;
+  border-radius: 10px;
+  z-index: 1000;
 
   & h2 {
     /* border: solid #ff1100 3px; */

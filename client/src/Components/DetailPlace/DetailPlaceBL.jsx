@@ -29,6 +29,7 @@ const HomeStyleCont = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 70px;
 `;
 
 const DetailStyleCont = styled.div`
@@ -77,6 +78,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      .TitleyButoon {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
       .title {
         font-family: "New Rocker";
         font-style: normal;
@@ -84,7 +92,28 @@ const DetailStyleCont = styled.div`
         font-size: 45px;
         text-align: center;
         color: ${Colors.Blue_Vivid};
-        margin: 15px 0px 0px 15px;
+        margin: 0px;
+      }
+
+      .ButtonReport {
+        font-family: "RocknRoll One";
+
+        width: 150px;
+        height: 35px;
+        bottom: 0px;
+        right: 220px;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        background-color: black;
+        border-radius: 8px;
+        transition: all 0.5s ease;
+
+        :hover {
+          transform: scale(1.2);
+          cursor: pointer;
+        }
       }
 
       .description {
@@ -102,6 +131,9 @@ const DetailStyleCont = styled.div`
         margin-bottom: 3.5%;
 
         & img {
+          box-sizing: border-box;
+          border-radius: 8px;
+          width: 100%;
           margin-top: 2.5%;
         }
       }
@@ -171,6 +203,8 @@ const DetailStyleCont = styled.div`
       }
 
       .comentar {
+        /* border: solid yellow 1.5px; */
+
         background: ${Colors.Erie_Black_Transparent};
         width: 100%;
         height: 150px;
@@ -182,10 +216,14 @@ const DetailStyleCont = styled.div`
         border-radius: 15px;
 
         input {
-          width: 95%;
+          box-sizing: border-box;
+          border: solid white 1px;
+          border-radius: 10px;
+          padding-left: 15px;
+          width: 100%;
           height: 80%;
           background-color: transparent;
-          border: none;
+          /* border: none; */
           color: ${Colors.Platinum};
           font-family: "RocknRoll One";
           font-size: 16px;
@@ -216,6 +254,12 @@ const DetailStyleCont = styled.div`
 
               button {
                 margin-right: 4%;
+                transition: all 0.5s ease;
+
+                :hover {
+                  transform: scale(1.2);
+                  cursor: pointer;
+                }
               }
             }
           }
@@ -223,12 +267,20 @@ const DetailStyleCont = styled.div`
           .ButtonsComentar {
             font-family: "RocknRoll One", sans-serif;
 
-            background-color: ${Colors.Oxford_Blue};
+            background-color: ${Colors.Blue_life};
             color: white;
             font-size: 2rem;
             border: none;
             border-radius: 10px;
             width: 170px;
+            transition: all 0.5s ease;
+            margin-top: 10px;
+            height: 45px;
+
+            :hover {
+              transform: scale(1.1);
+              cursor: pointer;
+            }
           }
 
           button {
@@ -238,7 +290,8 @@ const DetailStyleCont = styled.div`
       }
 
       .comentarios {
-        background: rgba(229, 229, 229, 0.5);
+        background: ${Colors.Erie_Black_Transparent};
+        border-radius: 15px;
         width: 100%;
         margin-top: 3%;
 
@@ -259,6 +312,7 @@ const DetailStyleCont = styled.div`
       }
     }
     .Report {
+      padding: 15px;
       border-radius: 25px;
       background-color: ${Colors.Erie_Black_Transparent};
     }
@@ -302,28 +356,6 @@ const DetailStyleCont = styled.div`
       width: 100%;
       margin-top: 3%;
     }
-
-    .ButtonReport {
-      font-family: "RocknRoll One";
-
-      position: absolute;
-      width: 150px;
-      height: 35px;
-      bottom: 210px;
-      right: 220px;
-      font-size: 1.5rem;
-      color: white;
-      font-weight: bold;
-      letter-spacing: 1px;
-      background-color: black;
-      border-radius: 8px;
-      transition: all 0.5s ease;
-
-      :hover {
-        transform: scale(1.2);
-        cursor: pointer;
-      }
-    }
   }
 `;
 
@@ -338,7 +370,7 @@ const FooterStyledCont = styled.footer`
   position: relative;
   background-color: ${Colors.Oxford_Blue};
   box-sizing: border-box;
-  height: 200px;
+  height: fit-content;
   margin-left: 70px;
   padding-left: 25px;
   color: wheat;
@@ -549,7 +581,18 @@ export default function DetailPlace() {
                 </div>
                 {SwitchNotif ? (
                   <div className="DataCont">
-                    <span className="title">Comentarios</span>
+                    <div className="TitleyButoon">
+                      <p className="title">Comentarios</p>
+                      <button
+                        onClick={(e) => {
+                          handlerSwitchNotif(e);
+                        }}
+                        className="ButtonReport"
+                        type="button"
+                      >
+                        {SwitchNotif ? "Reportar" : "Cancelar"}
+                      </button>
+                    </div>
                     <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
                       <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
                       <div className="RateComentCont">
@@ -598,7 +641,18 @@ export default function DetailPlace() {
                   </div>
                 ) : (
                   <div className="DataCont Report">
-                    <span className="title">Reporte</span>
+                    <div className="TitleyButoon">
+                      <p className="title">{SwitchNotif ? "Comentarios" : "Reportar"}</p>
+                      <button
+                        onClick={(e) => {
+                          handlerSwitchNotif(e);
+                        }}
+                        className="ButtonReport"
+                        type="button"
+                      >
+                        {SwitchNotif ? "Reportar" : "Cancelar"}
+                      </button>
+                    </div>
                     <Notificar Title="Title" />
                   </div>
                 )}
@@ -618,15 +672,6 @@ export default function DetailPlace() {
                     <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                   </a>
                 ) : null}
-                <button
-                  onClick={(e) => {
-                    handlerSwitchNotif(e);
-                  }}
-                  className="ButtonReport"
-                  type="button"
-                >
-                  {SwitchNotif ? "Reporte" : "Cerrar"}
-                </button>
               </div>
             </DetailStyleCont>
           </HomeStyleCont>

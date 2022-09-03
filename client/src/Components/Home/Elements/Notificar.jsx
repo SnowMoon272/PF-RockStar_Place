@@ -45,7 +45,7 @@ const ContainerGralStyled = styled.div`
   }
 
   .textareaTitle:focus,
-  textareaTitle:hover {
+  .textareaTitle:hover {
     outline: none;
     padding: 0.2rem 1rem;
     border-radius: 1rem;
@@ -99,7 +99,8 @@ const ContainerGralStyled = styled.div`
       border-bottom-color: ${Colors.Blue_Vivid};
       padding: 0.2rem 0;
       outline: none;
-      background-color: transparent;
+      border-radius: 10px;
+      background-color: ${({ FondoN }) => (FondoN ? Colors.Erie_Black_Transparent : Colors.Oxford_Blue_transparent)};
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       margin: 5px 0px 5px 0px;
@@ -128,9 +129,9 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar({ Fondo }) {
+function Notificar({ Fondo, FondoN }) {
   return (
-    <ContainerGralStyled Fondo={Fondo}>
+    <ContainerGralStyled Fondo={Fondo} FondoN={FondoN}>
       <div className="SectionB">
         <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" />
         <button type="button">Enviar</button>
