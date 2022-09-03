@@ -44,8 +44,8 @@ const HomeStyleCont = styled.div`
     bottom: 0px;
     left: 70px;
     right: 0px;
-    width: 80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
     margin: auto;
     z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
   }
@@ -529,13 +529,11 @@ const FooterStyledCont = styled.footer`
   position: relative;
   background-color: ${Colors.Oxford_Blue};
   box-sizing: border-box;
-  height: 200px;
+  height: fit-content;
   margin-left: 70px;
   padding-left: 25px;
-  color: wheat;
   font-size: 3rem;
   z-index: 50;
-  bottom: -220vh;
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
@@ -725,160 +723,158 @@ function HomeLL() {
   return (
     <div>
       {loading ? (
-        <div>
-          <HomeStyleCont zIndex={zIndex}>
-            <NavBar Perfil HelpLog />
-            <div className="POPContainer">
-              {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
+        <HomeStyleCont zIndex={zIndex}>
+          <NavBar Perfil HelpLog />
+          <div className="POPContainer">
+            {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
+          </div>
+          <FirtVewStyleCont>
+            <div className="ImgContainer">
+              <img src={BGHome} alt="Background" />
             </div>
-            <FirtVewStyleCont>
-              <div className="ImgContainer">
-                <img src={BGHome} alt="Background" />
+            <div className="Heder">
+              <img className="Logo" src={IMGLogoA} alt="" />
+              <h1 className="Title">{place.name}</h1>
+              <button type="button" className="Notificacion">
+                <img src="" alt="" />
+              </button>
+            </div>
+            <div className="CardUnicaCont">
+              <div className="ImgBanda">
+                <img src={place.profilePicture} alt="Banda" />
               </div>
-              <div className="Heder">
-                <img className="Logo" src={IMGLogoA} alt="" />
-                <h1 className="Title">{place.name}</h1>
-                <button type="button" className="Notificacion">
-                  <img src="" alt="" />
-                </button>
-              </div>
-              <div className="CardUnicaCont">
-                <div className="ImgBanda">
-                  <img src={place.profilePicture} alt="Banda" />
+              {confirmedDates.length > 0 ? (
+                <div className="ProximoInfCont">
+                  <div className="ProximoInf">
+                    <h4>Próximo Evento</h4>
+                    <p>
+                      <span>Banda: </span>
+                      {musicBandEvent.name} <br />
+                      <span>Fecha: </span>
+                      {confirmedDates.length > 0
+                        ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                        : null}
+                      <br />
+                      <span>Contacto: </span>
+                      {musicBandEvent.personInCharge} <br />
+                      <span>Telefono: </span>
+                      {musicBandEvent.phoneNumber} <br />
+                      <span>Direccion: </span>
+                      {place.adress}
+                    </p>
+                  </div>
+                  <div className="ProximoIMGyBtn">
+                    <img src={musicBandEvent.profilePicture} alt="Band" />
+                    <Link className="Lynk_Btn" to="/">
+                      <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
+                        Detalle
+                      </button>
+                    </Link>
+                  </div>
                 </div>
-                {confirmedDates.length > 0 ? (
-                  <div className="ProximoInfCont">
-                    <div className="ProximoInf">
-                      <h4>Próximo Evento</h4>
-                      <p>
-                        <span>Banda: </span>
-                        {musicBandEvent.name} <br />
-                        <span>Fecha: </span>
-                        {confirmedDates.length > 0
-                          ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
-                          : null}
-                        <br />
-                        <span>Contacto: </span>
-                        {musicBandEvent.personInCharge} <br />
-                        <span>Telefono: </span>
-                        {musicBandEvent.phoneNumber} <br />
-                        <span>Direccion: </span>
-                        {place.adress}
-                      </p>
-                    </div>
-                    <div className="ProximoIMGyBtn">
-                      <img src={musicBandEvent.profilePicture} alt="Band" />
-                      <Link className="Lynk_Btn" to="/">
-                        <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
-                          Detalle
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="SinEvento">
-                    <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
-                  </div>
-                )}
-              </div>
-            </FirtVewStyleCont>
-            <SecondVewStyleCont UserLog id="SecondVewStyleCont">
-              <div className="ContenidoPrevio">
-                <img src={Logo} alt="Logo" />
-              </div>
+              ) : (
+                <div className="SinEvento">
+                  <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+                </div>
+              )}
+            </div>
+          </FirtVewStyleCont>
+          <SecondVewStyleCont UserLog id="SecondVewStyleCont">
+            <div className="ContenidoPrevio">
+              <img src={Logo} alt="Logo" />
+            </div>
 
-              <SecondStyleCont>
-                <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
-                <section className="FechasCont">
-                  <div className="TusFechas">
-                    <h5>Tus Fechas</h5>
-                    <div className="Carusel">
-                      <Carousel
-                        className="carousel"
-                        responsive={responsive}
-                        /* showDots={true} */
-                        /* centerMode={true} */
-                        minimumTouchDrag={80}
-                        slidesToSlide={1}
-                      >
-                        {allDates &&
-                          allDates.map((date) => {
-                            return (
-                              <div className="item" key={date._id}>
-                                <button
-                                  type="button"
-                                  className="BtnDelete BTNCerrar"
-                                  onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
-                                  value={[date.date.substring(0, 10), date.email]}
-                                >
-                                  ❌
-                                </button>
-                                <span className="day">{date.date.substring(8, 10)}</span>
-                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                                <span className="year">{date.date.substring(0, 4)}</span>
-                                <DateStatusStyled dateStatus={date.isAvailable}>
-                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                                </DateStatusStyled>
-                                {date.isAvailable ? null : (
-                                  <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                    Ver más
-                                  </button>
-                                )}
-                              </div>
-                            );
-                          })}
-                      </Carousel>
-                    </div>
-                    <div className="AddFecha">
-                      <label htmlFor="start">
-                        Añadir Fecha:
-                        <input type="date" id="start" value={date} min={getCurrentDate()} onChange={(e) => handleDateChange(e)} />
-                        <button className="BTNAddFecha" type="button" onClick={(e) => handleSubmitDate(e)}>
-                          Añadir
-                        </button>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="SolicitudesCont">
-                    <h5>Solicitudes</h5>
-                    <div className="SolicitudesContJr">
-                      {place.pendingDates &&
-                        place.pendingDates.map((date) => {
-                          const year = date.date.substring(0, 4);
-                          const month = date.date.substring(5, 7);
-                          const day = date.date.substring(8, 10);
+            <SecondStyleCont>
+              <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
+              <section className="FechasCont">
+                <div className="TusFechas">
+                  <h5>Tus Fechas</h5>
+                  <div className="Carusel">
+                    <Carousel
+                      className="carousel"
+                      responsive={responsive}
+                      /* showDots={true} */
+                      /* centerMode={true} */
+                      minimumTouchDrag={80}
+                      slidesToSlide={1}
+                    >
+                      {allDates &&
+                        allDates.map((date) => {
                           return (
-                            <div className="Solicitud" key={date._id}>
-                              <div className="Left">
-                                <p>{`${day}/${month}/${year}`}</p>
-                                <p>{date.musicBand}</p>
-                                <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                  Detalle
+                            <div className="item" key={date._id}>
+                              <button
+                                type="button"
+                                className="BtnDelete BTNCerrar"
+                                onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
+                                value={[date.date.substring(0, 10), date.email]}
+                              >
+                                ❌
+                              </button>
+                              <span className="day">{date.date.substring(8, 10)}</span>
+                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                              <span className="year">{date.date.substring(0, 4)}</span>
+                              <DateStatusStyled dateStatus={date.isAvailable}>
+                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                              </DateStatusStyled>
+                              {date.isAvailable ? null : (
+                                <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                  Ver más
                                 </button>
-                              </div>
-                              <div className="Rigth">
-                                <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                                  Aceptar
-                                </button>
-                                <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                                  Rechazar
-                                </button>
-                              </div>
+                              )}
                             </div>
                           );
                         })}
-                    </div>
+                    </Carousel>
                   </div>
-                </section>
-              </SecondStyleCont>
-            </SecondVewStyleCont>
-          </HomeStyleCont>
+                  <div className="AddFecha">
+                    <label htmlFor="start">
+                      Añadir Fecha:
+                      <input type="date" id="start" value={date} min={getCurrentDate()} onChange={(e) => handleDateChange(e)} />
+                      <button className="BTNAddFecha" type="button" onClick={(e) => handleSubmitDate(e)}>
+                        Añadir
+                      </button>
+                    </label>
+                  </div>
+                </div>
+                <div className="SolicitudesCont">
+                  <h5>Solicitudes</h5>
+                  <div className="SolicitudesContJr">
+                    {place.pendingDates &&
+                      place.pendingDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div className="Solicitud" key={date._id}>
+                            <div className="Left">
+                              <p>{`${day}/${month}/${year}`}</p>
+                              <p>{date.musicBand}</p>
+                              <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                Detalle
+                              </button>
+                            </div>
+                            <div className="Rigth">
+                              <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Aceptar
+                              </button>
+                              <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Rechazar
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </section>
+            </SecondStyleCont>
+          </SecondVewStyleCont>
           <FooterStyledCont>
             <Footer />
           </FooterStyledCont>
-        </div>
+        </HomeStyleCont>
       ) : (
         <LoaderComponent />
       )}

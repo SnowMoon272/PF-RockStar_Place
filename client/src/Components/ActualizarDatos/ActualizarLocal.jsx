@@ -29,7 +29,31 @@ const ActualizarDatosStyleCont = styled.div`
     img {
       position: absolute;
       top: 45px;
-      right: 140px;
+      right: 90px;
+      z-index: 120;
+    }
+  }
+
+  .divButtonDesc {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+
+    .BTNsDesc {
+      border: solid white 1px;
+      font-family: "New Rocker";
+      font-weight: 200;
+      font-size: 2rem;
+      background-color: black;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      padding: 10px 10px;
+
+      :hover {
+        transform: scale(1.1);
+        transition: 0.5s;
+      }
     }
   }
 `;
@@ -52,9 +76,10 @@ const POPContainer = styled.div`
 `;
 
 const ActualizarDatosStyleCont2 = styled.div`
-  border: solid #fff 3px;
+  /* border: solid #fff 3px; */
 
   box-sizing: border-box;
+  border-radius: 15px;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
@@ -117,12 +142,6 @@ const ActualizarDatosStyleCont2 = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
-
-  .divButtonDesc {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
   }
 
   .divsColumna2 {
@@ -225,24 +244,6 @@ const ActualizarDatosStyleCont2 = styled.div`
     color: ${Colors.Platinum};
   }
   .BTNs:hover {
-    transform: scale(1.2);
-    transition: 0.5s;
-  }
-
-  .BTNsDesc {
-    font-family: "New Rocker";
-    font-style: normal;
-    font-weight: 200;
-    font-size: 20px;
-    width: 200px;
-    line-height: 45px;
-    background-color: black;
-    border-radius: 10px;
-    margin-top: 20px;
-    cursor: pointer;
-    color: white;
-  }
-  .BTNsDesc:hover {
     transform: scale(1.2);
     transition: 0.5s;
   }
@@ -704,12 +705,12 @@ export default function ActualizarLocal() {
                   </button>
                 </div>
               </form>
-              <div className="divButtonDesc">
-                <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
-                  Desactivar cuenta
-                </button>
-              </div>
             </ActualizarDatosStyleCont2>
+            <div className="divButtonDesc">
+              <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                Desactivar cuenta
+              </button>
+            </div>
           </ActualizarDatosStyleCont>
         </div>
       ) : (

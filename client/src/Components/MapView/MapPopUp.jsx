@@ -34,7 +34,7 @@ const EditStyledCont = styled.div`
     width: 100%;
   }
 
-  .BTNCerrar{
+  .BTNCerrar {
     background-color: red;
     position: absolute;
     cursor: pointer;
