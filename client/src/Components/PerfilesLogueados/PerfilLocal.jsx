@@ -12,6 +12,7 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 import LoaderComponent from "../Loader/Loading";
+import Footer from "../Footer/Footer";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaPerfilSinUbicacion.png";
 
@@ -292,6 +293,16 @@ const DetailStyleCont = styled.div`
     }
   }
 `;
+const FooterStyledCont = styled.footer`
+  background-color: ${Colors.Oxford_Blue};
+  position: relative;
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
 
 export default function DetailPlace() {
   const dispatch = useDispatch();
@@ -469,6 +480,9 @@ export default function DetailPlace() {
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

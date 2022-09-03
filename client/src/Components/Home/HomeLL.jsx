@@ -21,6 +21,7 @@ import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace, resetDetails } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
+import Footer from "../Footer/Footer";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -524,6 +525,19 @@ const DateStatusStyled = styled.div`
   font-size: 20px;
 `;
 
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Oxford_Blue};
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+  z-index: 50;
+  bottom: -220vh;
+`;
+
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeLL() {
   const dispatch = useDispatch();
@@ -860,13 +874,10 @@ function HomeLL() {
                 </section>
               </SecondStyleCont>
             </SecondVewStyleCont>
-
-            {/* <FooterStyle>
-        Fotter
-        asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
-        sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle> */}
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

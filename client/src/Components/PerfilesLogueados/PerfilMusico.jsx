@@ -17,10 +17,11 @@ import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 import LoaderComponent from "../Loader/Loading";
+import Footer from "../Footer/Footer";
 
 const EditStyledCont = styled.div`
   /* border: solid 3px red; */
-  position: fixed;
+  position: absolute;
   box-sizing: border-box;
   padding-left: 70px;
   width: 100%;
@@ -263,6 +264,17 @@ const EditStyledCont = styled.div`
     }
   }
 `;
+const FooterStyledCont = styled.footer`
+  background-color: ${Colors.Oxford_Blue};
+  position: relative;
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+  bottom: -100vh;
+`;
 
 export default function PerfilMusico() {
   const dispatch = useDispatch();
@@ -276,6 +288,21 @@ export default function PerfilMusico() {
     dispatch(getDetailMusicBand(params.id));
   }, []);
 
+  async function handleClick(e) {
+    e.preventDefault();
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm("Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran") === true
+    ) {
+      await axios.put("/bandDisabled", {
+        email: musicBand.email,
+        disabled: true,
+      });
+      localStorage.removeItem("user-token");
+      navigate("/iniciarsesion");
+      //console.log("fin del handle", musicBand);
+    }
+  }
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
   return (
@@ -327,11 +354,7 @@ export default function PerfilMusico() {
                           </a>
                         ) : null}
                         {musicBand.socialMedia && musicBand.socialMedia.instagram !== "" ? (
-                          <a
-                            target="_blank"
-                            href={musicBand.socialMedia.instagram}
-                            rel="noreferrer"
-                          >
+                          <a target="_blank" href={musicBand.socialMedia.instagram} rel="noreferrer">
                             <img className="ImglogosRedes" src={LogoInstagram} alt="" />
                           </a>
                         ) : null}
@@ -354,6 +377,9 @@ export default function PerfilMusico() {
               </div>
             </div>
           </EditStyledCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

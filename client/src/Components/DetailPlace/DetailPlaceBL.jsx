@@ -15,9 +15,11 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
+import Footer from "../Footer/Footer";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
 import Notificar from "../Home/Elements/Notificar";
+
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -333,6 +335,17 @@ const DateStatusStyled = styled.div`
   font-size: 20px;
 `;
 
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Oxford_Blue};
+  box-sizing: border-box;
+  height: 200px;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
+
 export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -615,6 +628,9 @@ export default function DetailPlace() {
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

@@ -306,7 +306,7 @@ const FooterStyledCont = styled.footer`
   background-color: ${Colors.Green_Nigth};
   box-sizing: border-box;
   height: 200px;
-  margin-left: 76px;
+  margin-left: 70px;
   padding-left: 25px;
   color: wheat;
   font-size: 3rem;

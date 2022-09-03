@@ -356,16 +356,10 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (
-    !/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
-      input.personInCharge,
-    )
-  ) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
+  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(input.personInCharge)) {
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
   }
 
   if (!input.phoneNumber) {
@@ -376,9 +370,7 @@ function validate(input) {
 
   if (
     input.instagram &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
-      input.instagram,
-    )
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
@@ -622,14 +614,7 @@ export default function ActualizarLocal() {
                     {errors.personInCharge && <p>{errors.personInCharge}</p>}
                     <div className="ContainerInput">
                       <span>Ciudad:</span>
-                      <input
-                        type="text"
-                        placeholder="Ciudad"
-                        className="input"
-                        value={input.city}
-                        name="city"
-                        onChange={(e) => handleChange(e)}
-                      />
+                      <input type="text" placeholder="Ciudad" className="input" value={input.city} name="city" onChange={(e) => handleChange(e)} />
                     </div>
                     {errors.city && <p>{errors.city}</p>}
                     <div className="ContainerInput">
@@ -689,12 +674,7 @@ export default function ActualizarLocal() {
                     <p className="sonidoPropio">Sonido propio</p>
                     <div className="SwitchCont">
                       <p>No</p>
-                      <input
-                        value={input.hasSound}
-                        id="switch"
-                        type="checkbox"
-                        onChange={(e) => handleCheckBox(e)}
-                      />
+                      <input value={input.hasSound} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
                       <label htmlFor="switch" className="label" />
                       <p>Si</p>
                     </div>
@@ -705,12 +685,7 @@ export default function ActualizarLocal() {
                       Subir foto
                     </button>
                     <div className="ImgACargar">
-                      <img
-                        src={image === "" ? place.profilePicture : image}
-                        alt="ingresa una imagen"
-                        width="350px"
-                        height="350px"
-                      />
+                      <img src={image === "" ? place.profilePicture : image} alt="ingresa una imagen" width="350px" height="350px" />
                     </div>
                     <textarea
                       type="text"
