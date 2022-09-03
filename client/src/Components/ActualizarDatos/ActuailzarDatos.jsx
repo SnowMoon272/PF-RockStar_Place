@@ -6,12 +6,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -424,7 +427,7 @@ export default function upLoadData() {
           },
         },
       });
-      alert("Datos actualizados con exito");
+      toast.success("Datos actualizados con exito");
 
       const { data } = await axios({
         method: "post",
@@ -449,23 +452,33 @@ export default function upLoadData() {
       dispatch(resetDetails([]));
       navigate(`/musicbandprofile/${userBand._id}`);
     } else {
-      alert("Ups! Hay algún problema, revisa la información");
+      toast.error("Ups! Hay algún problema, revisa la información");
     }
   }
 
   async function handleClick(e) {
     e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran") === true
-    ) {
-      await axios.put("/bandDisabled", {
-        email: musicBand.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-    }
+    confirmAlert({
+      title: "Desactivar cuenta",
+      message: "¿Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
+      buttons: [
+        {
+          label: "SI",
+          onClick: async () => {
+            await axios.put("/bandDisabled", {
+              email: musicBand.email,
+              disabled: true,
+            });
+            localStorage.removeItem("user-token");
+            navigate("/iniciarsesion");
+          },
+        },
+        {
+          label: "NO",
+          onClick: () => {},
+        },
+      ],
+    });
   }
 
   return (
@@ -598,6 +611,10 @@ export default function upLoadData() {
               Desactivar cuenta
             </button>
           </div>
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+          />
         </ActualizarDatosStyleCont>
       ) : (
         <LoaderComponent />
