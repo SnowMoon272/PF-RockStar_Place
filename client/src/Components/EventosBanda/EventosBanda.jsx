@@ -408,9 +408,7 @@ function EventosBanda() {
   const [loading, setLoading] = useState(false);
 
   const orderedConfirmedDates = musicBand.dates
-    ? musicBand.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+    ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
     : [];
 
   useEffect(() => {
@@ -533,13 +531,7 @@ function EventosBanda() {
                         <div key={date._id} className="divsSmallConfirmados">
                           <p>{date.date.substring(0, 10)}</p>
                           <p>{date.place}</p>
-                          <button
-                            value={date.email}
-                            name={date.date}
-                            onClick={(e) => handleClickDetalles(e)}
-                            type="button"
-                            className="dateBtn"
-                          >
+                          <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
                             Detalle
                           </button>
                         </div>

@@ -12,6 +12,7 @@ import {
   GET_DETAIL_EVENT,
   POST_REGISTER,
   GET_MUSIC_BANDS,
+  PLACE_COORDS,
   ADMIN_CLICK_BANDA,
   ADMIN_CLICK_LOCAL,
 } from "./actions";
@@ -29,6 +30,7 @@ const initialState = {
   sort_places: [],
   detail_music_band: {},
   detail_event: [],
+  place_coords: {},
   admin_click: "default",
 };
 
@@ -106,6 +108,11 @@ function rootReducer(state = initialState, action) {
     case POST_REGISTER:
       return {
         ...state,
+      };
+    case PLACE_COORDS:
+      return {
+        ...state,
+        place_coords: action.payload,
       };
     default:
       return state;

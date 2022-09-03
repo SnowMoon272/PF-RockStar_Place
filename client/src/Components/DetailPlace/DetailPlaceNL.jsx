@@ -13,6 +13,9 @@ import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
+import MapLocalDetail from "../MapView/MapLocalDetail";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacionNL.png";
+import Footer from "../Footer/Footer";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -85,6 +88,16 @@ const DetailStyleCont = styled.div`
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
+      }
+
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 3.5%;
+
+        & img {
+          margin-top: 2.5%;
+        }
       }
 
       .DatesCont {
@@ -243,6 +256,11 @@ const DetailStyleCont = styled.div`
         }
       }
     }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
+    }
   }
 
   .SecondCont {
@@ -285,6 +303,17 @@ const DetailStyleCont = styled.div`
       margin-top: 3%;
     }
   }
+`;
+
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Green_Nigth};
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
 `;
 
 export default function DetailPlace() {
@@ -402,6 +431,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
@@ -425,10 +455,21 @@ export default function DetailPlace() {
                         })}
                     </Carousel>
                   </div>
+                  <hr className="hr" />
                 </div>
-                {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
+                <div className="DataCont">
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    {place.coords ? (
+                      place.coords.lat !== "" ? (
+                        <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      ) : (
+                        <img src={MapaVacio} alt="not found" />
+                      )
+                    ) : null}
+                  </div>
+                  <hr className="hr" />
+                </div>
                 <div className="DataCont">
                   <span className="title">Comentarios</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
@@ -496,6 +537,9 @@ export default function DetailPlace() {
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

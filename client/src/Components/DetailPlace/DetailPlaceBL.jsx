@@ -15,7 +15,10 @@ import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
-// import Editar from "../../Assets/svg/Editar.svg";
+import Footer from "../Footer/Footer";
+import MapLocalDetail from "../MapView/MapLocalDetail";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
+import Notificar from "../Home/Elements/Notificar";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -26,6 +29,7 @@ const HomeStyleCont = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 70px;
 `;
 
 const DetailStyleCont = styled.div`
@@ -68,10 +72,18 @@ const DetailStyleCont = styled.div`
     }
 
     .DataCont {
+      /* border: solid #ff0000 3px; */
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-top: 1.5%;
+
+      .TitleyButoon {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
 
       .title {
         font-family: "New Rocker";
@@ -80,6 +92,28 @@ const DetailStyleCont = styled.div`
         font-size: 45px;
         text-align: center;
         color: ${Colors.Blue_Vivid};
+        margin: 0px;
+      }
+
+      .ButtonReport {
+        font-family: "RocknRoll One";
+
+        width: 150px;
+        height: 35px;
+        bottom: 0px;
+        right: 220px;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        background-color: black;
+        border-radius: 8px;
+        transition: all 0.5s ease;
+
+        :hover {
+          transform: scale(1.2);
+          cursor: pointer;
+        }
       }
 
       .description {
@@ -89,6 +123,19 @@ const DetailStyleCont = styled.div`
         font-size: 18px;
         text-align: justify;
         color: ${Colors.Platinum};
+      }
+
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 3.5%;
+
+        & img {
+          box-sizing: border-box;
+          border-radius: 8px;
+          width: 100%;
+          margin-top: 2.5%;
+        }
       }
 
       .DatesCont {
@@ -156,6 +203,8 @@ const DetailStyleCont = styled.div`
       }
 
       .comentar {
+        /* border: solid yellow 1.5px; */
+
         background: ${Colors.Erie_Black_Transparent};
         width: 100%;
         height: 150px;
@@ -164,13 +213,17 @@ const DetailStyleCont = styled.div`
         flex-direction: column;
         padding: 2%;
         box-sizing: border-box;
-        border-radius: 10px;
+        border-radius: 15px;
 
         input {
-          width: 95%;
+          box-sizing: border-box;
+          border: solid white 1px;
+          border-radius: 10px;
+          padding-left: 15px;
+          width: 100%;
           height: 80%;
           background-color: transparent;
-          border: none;
+          /* border: none; */
           color: ${Colors.Platinum};
           font-family: "RocknRoll One";
           font-size: 16px;
@@ -201,6 +254,12 @@ const DetailStyleCont = styled.div`
 
               button {
                 margin-right: 4%;
+                transition: all 0.5s ease;
+
+                :hover {
+                  transform: scale(1.2);
+                  cursor: pointer;
+                }
               }
             }
           }
@@ -208,12 +267,20 @@ const DetailStyleCont = styled.div`
           .ButtonsComentar {
             font-family: "RocknRoll One", sans-serif;
 
-            background-color: ${Colors.Oxford_Blue};
+            background-color: ${Colors.Blue_life};
             color: white;
             font-size: 2rem;
             border: none;
             border-radius: 10px;
             width: 170px;
+            transition: all 0.5s ease;
+            margin-top: 10px;
+            height: 45px;
+
+            :hover {
+              transform: scale(1.1);
+              cursor: pointer;
+            }
           }
 
           button {
@@ -223,7 +290,8 @@ const DetailStyleCont = styled.div`
       }
 
       .comentarios {
-        background: rgba(229, 229, 229, 0.5);
+        background: ${Colors.Erie_Black_Transparent};
+        border-radius: 15px;
         width: 100%;
         margin-top: 3%;
 
@@ -242,6 +310,16 @@ const DetailStyleCont = styled.div`
           }
         }
       }
+    }
+    .Report {
+      padding: 15px;
+      border-radius: 25px;
+      background-color: ${Colors.Erie_Black_Transparent};
+    }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
     }
   }
 
@@ -293,6 +371,17 @@ const DateStatusStyled = styled.div`
   font-size: 20px;
 `;
 
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Oxford_Blue};
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
+
 export default function DetailPlace() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -306,6 +395,7 @@ export default function DetailPlace() {
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [SwitchNotif, setSwitchNotif] = useState(true);
 
   const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
@@ -434,6 +524,11 @@ export default function DetailPlace() {
     }
   };
 
+  const handlerSwitchNotif = (e) => {
+    e.preventDefault();
+    setSwitchNotif(!SwitchNotif);
+  };
+
   return (
     <div>
       {loading ? (
@@ -449,6 +544,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
@@ -474,58 +570,98 @@ export default function DetailPlace() {
                         })}
                     </Carousel>
                   </div>
+                  <hr className="hr" />
                 </div>
-                {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
                 <div className="DataCont">
-                  <span className="title">Comentarios</span>
-                  <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
-                    <div className="RateComentCont">
-                      <div className="RateCont">
-                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
-                        <div className="buttons">
-                          <button type="button" value={1} onClick={(e) => handleClick(e)}>
-                            1
-                          </button>
-                          <button type="button" value={2} onClick={(e) => handleClick(e)}>
-                            2
-                          </button>
-                          <button type="button" value={3} onClick={(e) => handleClick(e)}>
-                            3
-                          </button>
-                          <button type="button" value={4} onClick={(e) => handleClick(e)}>
-                            4
-                          </button>
-                          <button type="button" value={5} onClick={(e) => handleClick(e)}>
-                            5
-                          </button>
-                        </div>
-                      </div>
-                      {errors.comment && <span>{errors.comment}</span>}
-                      {errors.rating && <span>{errors.rating}</span>}
-                      <button className="ButtonsComentar" type="submit">
-                        Comentar
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    {place.coords ? (
+                      place.coords.lat !== "" ? (
+                        <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      ) : (
+                        <img src={MapaVacio} alt="not found" />
+                      )
+                    ) : null}
+                  </div>
+                  <hr className="hr" />
+                </div>
+                {SwitchNotif ? (
+                  <div className="DataCont">
+                    <div className="TitleyButoon">
+                      <p className="title">Comentarios</p>
+                      <button
+                        onClick={(e) => {
+                          handlerSwitchNotif(e);
+                        }}
+                        className="ButtonReport"
+                        type="button"
+                      >
+                        {SwitchNotif ? "Reportar" : "Cancelar"}
                       </button>
                     </div>
-                  </form>
-                  <div className="comentarios">
-                    {place.reviews &&
-                      place.reviews.map((p) => {
-                        return (
-                          <div key={p._id} className="coment">
-                            <div className="NameRating">
-                              <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
-                            </div>
-                            <p className="contenidocoment">{p.comment}</p>
-                            <hr />
+                    <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
+                      <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
+                      <div className="RateComentCont">
+                        <div className="RateCont">
+                          <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
+                          <div className="buttons">
+                            <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                              1
+                            </button>
+                            <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                              2
+                            </button>
+                            <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                              3
+                            </button>
+                            <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                              4
+                            </button>
+                            <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                              5
+                            </button>
                           </div>
-                        );
-                      })}
+                        </div>
+                        {errors.comment && <span>{errors.comment}</span>}
+                        {errors.rating && <span>{errors.rating}</span>}
+                        <button className="ButtonsComentar" type="submit">
+                          Comentar
+                        </button>
+                      </div>
+                    </form>
+                    <div className="comentarios">
+                      {place.reviews &&
+                        place.reviews.map((p) => {
+                          return (
+                            <div key={p._id} className="coment">
+                              <div className="NameRating">
+                                <span className="autor">{p.author}</span>
+                                <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                              </div>
+                              <p className="contenidocoment">{p.comment}</p>
+                              <hr />
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="DataCont Report">
+                    <div className="TitleyButoon">
+                      <p className="title">{SwitchNotif ? "Comentarios" : "Reportar"}</p>
+                      <button
+                        onClick={(e) => {
+                          handlerSwitchNotif(e);
+                        }}
+                        className="ButtonReport"
+                        type="button"
+                      >
+                        {SwitchNotif ? "Reportar" : "Cancelar"}
+                      </button>
+                    </div>
+                    <Notificar Title="Title" />
+                  </div>
+                )}
               </div>
               <div className="SecondCont">
                 <img src={place.profilePicture} className="profile" alt="Img not found" />
@@ -545,6 +681,9 @@ export default function DetailPlace() {
               </div>
             </DetailStyleCont>
           </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
       ) : (
         <LoaderComponent />

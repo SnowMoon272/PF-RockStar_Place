@@ -10,10 +10,11 @@ import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import SVGCerrar from "../../Assets/svg/Cerrar.svg";
+import Notificar from "../Home/Elements/Notificar";
 
 const EditStyledCont = styled.div`
   box-sizing: border-box;
-  border: solid 3px white;
+  border: solid 1px white;
   border-radius: 15px;
   background-color: ${Colors.Erie_Black};
   position: relative;
@@ -31,9 +32,16 @@ const EditStyledCont = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
     img {
       width: 32px;
       height: 32px;
+      transition: all 0.5s ease;
+
+      :hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
     }
   }
 
@@ -46,8 +54,9 @@ const EditStyledCont = styled.div`
     padding: 50px;
 
     .InfoBandaCont {
-      /* border: solid 3px yellow; */
+      /* border: solid 3px #fff700; */
       display: flex;
+      border-radius: 10px;
       flex-direction: column;
       align-items: center;
       background-color: ${Colors.Oxford_Blue_transparent};
@@ -57,10 +66,11 @@ const EditStyledCont = styled.div`
       margin-right: 50px;
 
       .TitleA {
-        /* border: solid 3px yellow; */
+        /* border: solid 3px #fff700; */
+
         font-family: "New Rocker";
         font-weight: 400;
-        font-size: 5rem;
+        font-size: 4.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -74,10 +84,11 @@ const EditStyledCont = styled.div`
         object-fit: cover;
         width: 100%;
         height: 30%;
+        margin-bottom: 15px;
       }
 
       .divContenedorDescripcion {
-        /* border: solid 3px red; */
+        /* border: solid 3px #fff700; */
 
         box-sizing: border-box;
         display: flex;
@@ -121,7 +132,7 @@ const EditStyledCont = styled.div`
               font-family: "RocknRoll One";
               letter-spacing: -1px;
               font-weight: 400;
-              font-size: 2.3rem;
+              font-size: 2rem;
               color: ${Colors.Blue_Vivid};
               margin: 0px 5px 0px 0px;
               height: fit-content;
@@ -131,7 +142,7 @@ const EditStyledCont = styled.div`
 
               font-family: "RocknRoll One";
               font-weight: 400;
-              font-size: 1.8rem;
+              font-size: 1.5rem;
               margin: 6px 0px 0px 0px;
               color: ${Colors.Platinum};
               height: fit-content;
@@ -184,7 +195,7 @@ const EditStyledCont = styled.div`
     }
 
     .ReseñasLogoCont {
-      /* border: solid 3px gray; */
+      /* border: solid 3px #fff700; */
 
       box-sizing: border-box;
       display: flex;
@@ -206,16 +217,47 @@ const EditStyledCont = styled.div`
           margin: 0px;
         }
       }
+
       .BotonOpinion {
+        /* border: solid 3px #00ff1e; */
+
         position: relative;
         left: 79%;
-        top: 9%;
+        top: ${({ stateReseña }) => (!stateReseña ? "9%" : "18%")};
         border: none;
         font-family: "New Rocker";
         font-weight: 400;
         font-size: 2rem;
-        border-radius: 10px;
+        border-radius: 8px;
         background-color: ${Colors.Blue_life};
+        width: 15%;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${Colors.Platinum};
+        text-decoration: none;
+        z-index: 100;
+        margin-top: 20px;
+        transition: all 0.5s ease;
+
+        :hover {
+          cursor: pointer;
+          transform: scale(1.2);
+        }
+      }
+
+      .BotonReporte {
+        border: solid 1px #ffffff;
+
+        position: relative;
+        left: 45px;
+        top: 18%;
+        font-family: "New Rocker";
+        font-weight: 400;
+        font-size: 2rem;
+        border-radius: 8px;
+        background-color: ${Colors.Erie_Black};
         width: 15%;
         height: 45px;
         display: flex;
@@ -224,12 +266,26 @@ const EditStyledCont = styled.div`
         color: ${Colors.Platinum};
         text-decoration: none;
         margin-top: 20px;
+        z-index: 100;
         transition: all 0.5s ease;
 
         :hover {
           cursor: pointer;
           transform: scale(1.2);
         }
+      }
+
+      .ReseñasOpinionCont {
+        /* border: solid 3px #00ff1e; */
+
+        background-color: ${Colors.Oxford_Blue_transparent};
+        border-radius: 15px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 53%;
+        position: relative;
+        margin-top: ${({ stateReseña }) => (stateReseña ? "7%" : "0px")};
+        top: ${({ stateReporte }) => (!stateReporte ? "9%" : "0px")};
       }
     }
   }
@@ -242,20 +298,21 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
   };
 
   const [stateReseña, setStateReseña] = useState(false);
+  const [stateReporte, setSstateReporte] = useState(true);
 
   const handlerSwitch = (e) => {
     e.preventDefault();
     setStateReseña(!stateReseña);
   };
 
+  const handlerSwitchB = (e) => {
+    e.preventDefault();
+    setSstateReporte(!stateReporte);
+  };
+
   return (
-    <EditStyledCont>
-      <button
-        name="Search"
-        onClick={(e) => handlerSubmintCloseSearch(e)}
-        type="button"
-        className="BTNCerrar"
-      >
+    <EditStyledCont stateReporte={stateReporte} stateReseña={stateReseña}>
+      <button name="Search" onClick={(e) => handlerSubmintCloseSearch(e)} type="button" className="BTNCerrar">
         <img src={SVGCerrar} alt="" />
       </button>
 
@@ -315,16 +372,31 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
           <div className="divImgLogo">
             <img id="imgLogo" src={ImgLogo} alt="" />
           </div>
-          <button
-            onClick={(e) => {
-              handlerSwitch(e);
-            }}
-            className="BotonOpinion"
-            type="button"
-          >
-            {stateReseña ? "Reseñas" : "Opinion"}
-          </button>
-          <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} />
+          {!stateReseña && (
+            <button
+              onClick={(e) => {
+                handlerSwitchB(e);
+              }}
+              className="BotonReporte"
+              type="button"
+            >
+              {stateReporte ? "Reporte" : "Cancelar"}
+            </button>
+          )}
+          {stateReporte && (
+            <button
+              onClick={(e) => {
+                handlerSwitch(e);
+              }}
+              className="BotonOpinion"
+              type="button"
+            >
+              {stateReseña ? "Reseñas" : "Opinion"}
+            </button>
+          )}
+          <div className="ReseñasOpinionCont">
+            {stateReporte ? <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} /> : <Notificar Down />}
+          </div>
         </div>
       </div>
     </EditStyledCont>

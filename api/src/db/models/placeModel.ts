@@ -4,6 +4,7 @@ import {
 	placeInterface,
 	placeRoles,
 	suscription,
+	coords,
 } from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -339,6 +340,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
+					coords: data.coords,
 				},
 			);
 			return place.findOne({ email });
@@ -417,6 +419,7 @@ export const disabledPlace = async (email: string, disabled: boolean) => {
 		const placeToChange = await place.find({ email });
 		if (placeToChange) {
 			await place.updateOne({ email }, { disabled });
+			//console.log(placeToChange)
 			return place.findOne({ email });
 		} else {
 			return { error: "User does not exist." };
