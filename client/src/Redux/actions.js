@@ -11,8 +11,10 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
   POST_REGISTER = "POST_REGISTER",
-  GET_MUSIC_BANDS = "GET_MUSIC_BANDS",
   PLACE_COORDS = "PLACE_COORDS";
+  ADMIN_CLICK_BANDA = "ADMIN_CLICK_BANDA",
+  ADMIN_CLICK_LOCAL = "ADMIN_CLICK_LOCAL";
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS",
 
 export function updateFilters(data) {
   return {
@@ -235,5 +237,19 @@ export function resetCoords() {
   return {
     type: PLACE_COORDS,
     payload: {},
+  };
+}
+
+export function adminClickLocal(payload) {
+  return {
+    type: ADMIN_CLICK_LOCAL,
+    payload,
+  };
+}
+
+export function adminClickBanda(payload) {
+  return {
+    type: ADMIN_CLICK_BANDA,
+    payload,
   };
 }
