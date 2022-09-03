@@ -53,6 +53,11 @@ export type suscription = {
 	payment_id: string;
 };
 
+export interface notification {
+	isNew: boolean,
+	message: string,
+	type: string,
+}
 export type coords = {
 	lat: string;
 	lng: string;

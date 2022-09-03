@@ -1,6 +1,6 @@
-const { Router } = require('express');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
+const { Router } = require("express");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
 const {
 	getAllBandsController,
 	createMusicBandController,
@@ -8,15 +8,20 @@ const {
 	getMusicBandByEmailController,
 	getMusicBandByIDController,
 	updateMusicBandController,
-	disabledBandController,
+	banMusicBandController,
+	sendNotificationController,
+	deleteNotificationController,
+	switchController,
+	getNotificationsController,
+	deleteOneController,
+  disabledBandController,
 	getMusicBandController,
-	banMusicBandController
-} = require('../controllers/musicBand.controller.ts');
-require('dotenv').config();
+} = require("../controllers/musicBand.controller.ts");
+require("dotenv").config();
 
 const jwtSecret = process.env.BACK_JWT_SECRET;
-const { musicBand } = require('../db/models/musicBandModel.ts');
-const { ROLES, checkRoleAuth } = require('./middlewares/authorization.js');
+const { musicBand } = require("../db/models/musicBandModel.ts");
+const { ROLES, checkRoleAuth } = require("./middlewares/authorization.js");
 
 const router = Router();
 
@@ -24,33 +29,49 @@ export const f = {};
 
 router.get("/musicbands", getAllBandsController);
 router.post("/musicbands", createMusicBandController);
-router.post("/bandreviews", addBandReviewController);
 router.get("/musicbandemail/:email", getMusicBandByEmailController);
 router.get("/musicband/:id", getMusicBandByIDController);
 router.put("/musicband", updateMusicBandController);
 router.put("/bandDisabled", disabledBandController);
 router.put("/banmusicband", banMusicBandController);
+router.post("/musicband/send/notification", sendNotificationController);
+router.post("/musicband/delete/notifications", deleteNotificationController);
+router.post("/bandreviews", addBandReviewController);
+//Revisar restricción
+router.post("/musicbands/notification/add", sendNotificationController);
+//Revisar restricción
+router.post("/musicbands/notifications/deleteAll", deleteNotificationController);
 
-router.post('/bandreviews', checkRoleAuth([ROLES.admin, ROLES.place]), addBandReviewController);
+// Working
+router.put("/musicbands/notification/switchn", switchController);
+
+// Working
+router.post("/musicbands/notifications", getNotificationsController);
+
+router.delete("/musicbands/notifications/deleteOne", deleteOneController)
+
 
 router.post(
-	'/signup',
-	passport.authenticate('signup', { session: false }),
+	"/signup",
+	passport.authenticate("signup", { session: false }),
 	async (req: any, res: any, next: any) => {
 		const { name, personInCharge, description } = req.body;
 		let user = await req.user;
-		await musicBand.findOneAndUpdate({ email: user.email }, { name, personInCharge, description });
+		await musicBand.findOneAndUpdate(
+			{ email: user.email },
+			{ name, personInCharge, description }
+		);
 
 		// const update = musicBand.updateOne({email : })
 		res.json({
-			message: 'Signup successfully',
+			message: "Signup successfully",
 			user: user,
 		});
 	}
 );
 
-router.post('/login', async (req: any, res: any, next: any) => {
-	passport.authenticate('login', async (err: any, user: any, info: any) => {
+router.post("/login", async (req: any, res: any, next: any) => {
+	passport.authenticate("login", async (err: any, user: any, info: any) => {
 		try {
 			if (err || !user) {
 				const error = new Error(err);
