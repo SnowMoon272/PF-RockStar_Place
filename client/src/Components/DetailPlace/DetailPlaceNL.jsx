@@ -14,7 +14,7 @@ import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
 import MapLocalDetail from "../MapView/MapLocalDetail";
-import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacionNL.png";
 import Footer from "../Footer/Footer";
 
 const HomeStyleCont = styled.div`
@@ -256,6 +256,11 @@ const DetailStyleCont = styled.div`
         }
       }
     }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
+    }
   }
 
   .SecondCont {
@@ -426,6 +431,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>

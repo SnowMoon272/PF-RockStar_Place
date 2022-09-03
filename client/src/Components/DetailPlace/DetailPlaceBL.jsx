@@ -262,6 +262,11 @@ const DetailStyleCont = styled.div`
       border-radius: 25px;
       background-color: ${Colors.Erie_Black_Transparent};
     }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
+    }
   }
 
   .SecondCont {
@@ -507,6 +512,7 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
