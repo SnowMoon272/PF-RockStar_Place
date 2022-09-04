@@ -275,10 +275,10 @@ const ContainerGralStyled = styled.div`
             .dateBtn {
               width: 70px;
               height: 3rem;
-              margin-right: 15px;
               background: ${Colors.Platinum};
               color: ${Colors.Dark_Cornflower_blue};
               border: none;
+              margin-right: -5%;
               border-radius: 8px;
               font-size: 1.5rem;
               font-weight: bold;
@@ -294,6 +294,19 @@ const ContainerGralStyled = styled.div`
                 text-decoration: none;
                 color: ${Colors.Dark_Cornflower_blue};
               }
+            }
+
+            .BtnDelete {
+              align-self: start;
+              margin: 0.8% 0%;
+              /* border: solid 0.2rem red; */
+              border: none;
+              cursor: pointer;
+              /* border-radius: 20px; */
+              /* width: 6%;
+              height: 40%; */
+              font-size: 1.3rem;
+              background: none;
             }
           }
         }
@@ -393,7 +406,6 @@ function EventosBanda() {
 
   async function handleClickCancelar(e) {
     e.preventDefault();
-    //console.log(e.target.value);
     await axios.put("/pendingdates", {
       musicEmail: musicBand.email,
       placeEmail: e.target.value.split(",")[1],
@@ -401,6 +413,16 @@ function EventosBanda() {
     });
     setRender(!render);
   }
+
+  const handleDeleteClosedDate = async (e) => {
+    e.preventDefault(e);
+    await axios.put("/dates", {
+      placeEmail: e.target.value.split(",")[1],
+      musicEmail: musicBand.email,
+      date: e.target.value.split(",")[0],
+    });
+    setRender(!render);
+  };
 
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
@@ -499,6 +521,14 @@ function EventosBanda() {
                           <p>{date.place}</p>
                           <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
                             Detalle
+                          </button>
+                          <button
+                            type="button"
+                            className="BtnDelete"
+                            onClick={(e) => handleDeleteClosedDate(e)}
+                            value={[date.date.substring(0, 10), date.email]}
+                          >
+                            ❌
                           </button>
                         </div>
                       );

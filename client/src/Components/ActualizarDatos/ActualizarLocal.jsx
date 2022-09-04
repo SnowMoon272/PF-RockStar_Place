@@ -469,6 +469,7 @@ export default function ActualizarLocal() {
     description: place && place.description ? place.description : "",
     capacity: place && place.capacity ? place.capacity : "",
     instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+    coords: place && place.coords ? place.coords : { lat: "", lng: "" },
   });
 
   function handleOpenWidget() {
@@ -519,7 +520,7 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
-          coords,
+          coords: coords.lat ? coords : input.coords,
         },
       });
       dispatch(resetCoords());
@@ -547,7 +548,7 @@ export default function ActualizarLocal() {
         instagram: "",
       });
       dispatch(resetDetails([]));
-      navigate("/");
+      navigate(`/placeprofile/${userPlace._id}`);
     } else {
       alert("Por favor complete todos los campos correctamente");
     }
