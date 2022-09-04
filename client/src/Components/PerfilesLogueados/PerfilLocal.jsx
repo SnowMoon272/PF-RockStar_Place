@@ -102,24 +102,27 @@ const DetailStyleCont = styled.div`
         }
       }
 
-      .bttGestionar {
-            align-self: self-end;
-            font-family: "RocknRoll One", sans-serif;
-            width: 115px;
-            height: 32px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.6rem;
-            background-color: ${Colors.Blue_life};
-            color: ${Colors.Platinum};
-            margin: -1% 2%;
-            transition: all 0.5s ease;
+      .bttLink {
+        align-self: self-end;
+        margin: -1% 2%;
+      }
 
-            :hover {
-              transform: scale(1.1);
-              cursor: pointer;
-            }
+      .bttGestionar {
+          font-family: "RocknRoll One", sans-serif;
+          width: 115px;
+          height: 32px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.6rem;
+          background-color: ${Colors.Blue_life};
+          color: ${Colors.Platinum};
+          transition: all 0.5s ease;
+
+          :hover {
+            transform: scale(1.1);
+            cursor: pointer;
           }
+        }
 
       .DatesCont {
         color: ${Colors.Platinum};
@@ -434,7 +437,9 @@ export default function DetailPlace() {
                       })}
                     </Carousel>
                   </div>
-                  <button type="button" className="bttGestionar">Gestionar</button>
+                  <a href="/#Eventos" className="bttLink">
+                    <button type="button" className="bttGestionar">Gestionar</button>
+                  </a>
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">

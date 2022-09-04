@@ -790,7 +790,7 @@ function HomeLL() {
             </div>
 
             <SecondStyleCont>
-              <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
+              <h4 id="Eventos">Gestiona tus Eventos</h4>
               <section className="FechasCont">
                 <div className="TusFechas">
                   <h5>Tus Fechas</h5>
@@ -798,8 +798,6 @@ function HomeLL() {
                     <Carousel
                       className="carousel"
                       responsive={responsive}
-                      /* showDots={true} */
-                      /* centerMode={true} */
                       minimumTouchDrag={80}
                       slidesToSlide={1}
                     >
