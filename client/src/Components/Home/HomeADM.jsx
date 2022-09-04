@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from "react";
@@ -335,7 +336,7 @@ function HomeADM() {
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
             <div className="FondoNumero">
-              <p>{notifications ? newNotifications(notifications) : 0}</p>
+              <p>{notifications.length ? newNotifications(notifications) : 0}</p>
             </div>
           </button>
         </div>
@@ -355,9 +356,11 @@ function HomeADM() {
             <h2>Notificaciones</h2>
             <div className="CardsContainer">
               <div className="CardsContainerScroll">
-                {notifications.map((notification) => {
-                  return <Card info={notification} />;
-                })}
+                {notifications.length
+                  ? notifications.map((notification) => {
+                      return <Card info={notification} />;
+                    })
+                  : null}
               </div>
             </div>
           </NotificacionesStyleCont>

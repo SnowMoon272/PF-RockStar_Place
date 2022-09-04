@@ -439,18 +439,10 @@ export default function upLoadData() {
 
       if (data) localStorage.setItem("user-token", data);
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        description: "",
-        phoneNumber: "",
-        profilePicture: image,
-        instagram: "",
-        spotify: "",
-        youtube: "",
-      });
       dispatch(resetDetails([]));
-      navigate(`/musicbandprofile/${userBand._id}`);
+      setTimeout(() => {
+        navigate(`/musicbandprofile/${userBand._id}`);
+      }, 1000);
     } else {
       toast.error("¡Ups! Hay algún problema, revisa la información");
     }
@@ -611,10 +603,7 @@ export default function upLoadData() {
               Desactivar cuenta
             </button>
           </div>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-          />
+          <Toaster position="top-center" reverseOrder={false} />
         </ActualizarDatosStyleCont>
       ) : (
         <LoaderComponent />

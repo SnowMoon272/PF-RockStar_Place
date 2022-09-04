@@ -538,20 +538,10 @@ export default function ActualizarLocal() {
       });
       if (data) localStorage.setItem("user-token", data);
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        city: "",
-        hasSound: false,
-        adress: "",
-        phoneNumber: "",
-        profilePicture: "",
-        description: "",
-        capacity: "",
-        instagram: "",
-      });
       dispatch(resetDetails([]));
-      navigate(`/placeprofile/${userPlace._id}`);
+      setTimeout(() => {
+        navigate(`/placeprofile/${userPlace._id}`);
+      }, 1000);
     } else {
       toast.error("¡Ups! Hay algún problema, revisa la información");
     }
@@ -754,10 +744,7 @@ export default function ActualizarLocal() {
                 Desactivar cuenta
               </button>
             </div>
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-            />
+            <Toaster position="top-center" reverseOrder={false} />
           </ActualizarDatosStyleCont>
         </div>
       ) : (
