@@ -55,7 +55,7 @@ router.put("/places/notification/switchn", switchController);
 // Working
 router.post("/places/notifications", getNotificationsController);
 
-router.delete("/places/notifications/deleteOne", deleteOneController)
+router.post("/places/notifications/deleteOne", deleteOneController)
 
 
 module.exports = router;

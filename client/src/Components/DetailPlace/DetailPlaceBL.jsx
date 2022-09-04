@@ -18,7 +18,7 @@ import LoaderComponent from "../Loader/Loading";
 import Footer from "../Footer/Footer";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
-import Notificar from "../Home/Elements/Notificar";
+import Reportar from "../Home/Elements/Reportar";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -423,7 +423,7 @@ export default function DetailPlace() {
   }, [render2]);
 
   const checkAplied = (date, email) => {
-    if (musicBand.pendingDates.find((d) => (d.date.substring(0, 10) === date) && (d.email === email)) !== undefined) {
+    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date && d.email === email) !== undefined) {
       return true;
     }
     return false;
@@ -651,17 +651,19 @@ export default function DetailPlace() {
                   <div className="DataCont Report">
                     <div className="TitleyButoon">
                       <p className="title">{SwitchNotif ? "Comentarios" : "Reportar"}</p>
-                      <button
-                        onClick={(e) => {
-                          handlerSwitchNotif(e);
-                        }}
-                        className="ButtonReport"
-                        type="button"
-                      >
-                        {SwitchNotif ? "Reportar" : "Cancelar"}
-                      </button>
+                      {place && place.email && (
+                        <button
+                          onClick={(e) => {
+                            handlerSwitchNotif(e);
+                          }}
+                          className="ButtonReport"
+                          type="button"
+                        >
+                          {SwitchNotif ? "Reportar" : "Cancelar"}
+                        </button>
+                      )}
                     </div>
-                    <Notificar Title="Title" />
+                    <Reportar info={place.email} />
                   </div>
                 )}
               </div>
