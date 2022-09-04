@@ -427,7 +427,7 @@ export default function upLoadData() {
           },
         },
       });
-      toast.success("Datos actualizados con exito");
+      toast.success("Datos actualizados con éxito");
 
       const { data } = await axios({
         method: "post",
@@ -452,7 +452,7 @@ export default function upLoadData() {
       dispatch(resetDetails([]));
       navigate(`/musicbandprofile/${userBand._id}`);
     } else {
-      toast.error("Ups! Hay algún problema, revisa la información");
+      toast.error("¡Ups! Hay algún problema, revisa la información");
     }
   }
 
@@ -463,7 +463,7 @@ export default function upLoadData() {
       message: "¿Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
       buttons: [
         {
-          label: "SI",
+          label: "Sí",
           onClick: async () => {
             await axios.put("/bandDisabled", {
               email: musicBand.email,
@@ -474,7 +474,7 @@ export default function upLoadData() {
           },
         },
         {
-          label: "NO",
+          label: "No",
           onClick: () => {},
         },
       ],
@@ -525,7 +525,7 @@ export default function upLoadData() {
                       Teléfono:
                       <input
                         type="tel"
-                        placeholder="Telefono de contacto"
+                        placeholder="Teléfono de contacto"
                         className="input"
                         value={input.phoneNumber}
                         name="phoneNumber"
@@ -581,7 +581,7 @@ export default function upLoadData() {
                       Descripción:
                       <textarea
                         type="text"
-                        placeholder="Descripcion"
+                        placeholder="Descripción"
                         className="textarea"
                         value={input.description}
                         name="description"
@@ -595,7 +595,7 @@ export default function upLoadData() {
               <div className="cargarImagen">
                 <h3>Foto de perfil</h3>
                 <div>
-                  <img src={image === "" ? musicBand.profilePicture : image} alt="ingresa una imagen" />
+                  <img src={image === "" ? musicBand.profilePicture : image} alt="Ingresa una imagen" />
                 </div>
                 <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
                   Subir foto
