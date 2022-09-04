@@ -396,9 +396,9 @@ function validate(input) {
   }
 
   if (!input.phoneNumber) {
-    errors.phoneNumber = "Ingresa un numero de telefono";
+    errors.phoneNumber = "Ingresa un numero de teléfono";
   } else if (!/^[0-9]+$/.test(input.phoneNumber)) {
-    errors.phoneNumber = "El telefono solo puede contener numeros";
+    errors.phoneNumber = "El teléfono solo puede contener números";
   }
 
   if (
@@ -417,14 +417,14 @@ function validate(input) {
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";
   } else if (!/^[a-zA-Z0-9 Ññ ]+$/.test(input.city)) {
-    errors.city = "El nombre solo puede contener letras, numeros y espacios";
+    errors.city = "El nombre solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.city)) {
     errors.city = "El nombre solo puede contener entre 3 y 25 caracteres";
   }
   if (!input.adress) {
     errors.adress = "Ingresa la dirección de tu lugar";
   } else if (!/^[a-zA-Z0-9 Ññ,.]+$/.test(input.adress)) {
-    errors.adress = "La dirección solo puede contener letras, numeros y espacios";
+    errors.adress = "La dirección solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.adress)) {
     errors.adress = "La dirección solo puede contener entre 3 y 25 caracteres";
   }
@@ -526,7 +526,7 @@ export default function ActualizarLocal() {
         },
       });
       dispatch(resetCoords());
-      toast.success("Datos actualizados con exito");
+      toast.success("Datos actualizados con éxito");
 
       const { data } = await axios({
         method: "post",
@@ -552,7 +552,7 @@ export default function ActualizarLocal() {
       dispatch(resetDetails([]));
       navigate("/");
     } else {
-      toast.error("Ups! Hay algún problema, revisa la información");
+      toast.error("¡Ups! Hay algún problema, revisa la información");
     }
   }
 
@@ -580,7 +580,7 @@ export default function ActualizarLocal() {
       message: "¿Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
       buttons: [
         {
-          label: "SI",
+          label: "Sí",
           onClick: async () => {
             await axios.put("/placeDisabled", {
               email: place.email,
@@ -591,7 +591,7 @@ export default function ActualizarLocal() {
           },
         },
         {
-          label: "NO",
+          label: "No",
           onClick: () => {},
         },
       ],
@@ -682,7 +682,7 @@ export default function ActualizarLocal() {
                       <span>Teléfono:</span>
                       <input
                         type="text"
-                        placeholder="Telefono de contacto"
+                        placeholder="Teléfono de contacto"
                         className="input"
                         value={input.phoneNumber}
                         name="phoneNumber"
@@ -728,11 +728,11 @@ export default function ActualizarLocal() {
                       Subir foto
                     </button>
                     <div className="ImgACargar">
-                      <img src={image === "" ? place.profilePicture : image} alt="ingresa una imagen" width="350px" height="350px" />
+                      <img src={image === "" ? place.profilePicture : image} alt="Ingresa una imagen" width="350px" height="350px" />
                     </div>
                     <textarea
                       type="text"
-                      placeholder="Descripcion"
+                      placeholder="Descripción"
                       className="textarea"
                       value={input.description}
                       name="description"
