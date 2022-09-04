@@ -144,49 +144,32 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar(props, { Fondo, FondoN, Down }) {
+function Reportar(props, { Fondo, FondoN, Down }) {
   const user = getUserInfo();
 
   const { info } = props;
 
-  const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
 
   const handleSubmit = async (e) => {
-    const { email } = info;
     const notification = {
-      type: "response",
-      title,
+      type: "report",
+      title: `${user.email} ha reportado a (${info})`,
       message,
-      before: info,
+      before: undefined,
       from: user.email,
     };
 
-    const notificate1 = await axios({
-      method: "post",
-      url: "/musicbands/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
-
-    if (notificate1.acknowledged) return;
-
     await axios({
       method: "post",
-      url: "/places/notification/add",
+      url: "/admins/notification/add",
       data: {
-        email,
+        email: "admin",
         notification,
       },
     });
   };
 
-  const handleChangeT = (e) => {
-    e.preventDefault();
-    setTitle(e.target.value);
-  };
   const handleChangeM = (e) => {
     e.preventDefault();
     setMesagge(e.target.value);
@@ -195,14 +178,7 @@ function Notificar(props, { Fondo, FondoN, Down }) {
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
-        <textarea
-          type="text"
-          placeholder="Titulo"
-          className="textarea textareaTitle"
-          name="description"
-          value={title}
-          onChange={(e) => handleChangeT(e)}
-        />
+        <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" value="Reporte a administración" disabled />
         <button type="button" onClick={handleSubmit}>
           Enviar
         </button>
@@ -214,4 +190,4 @@ function Notificar(props, { Fondo, FondoN, Down }) {
   );
 }
 
-export default Notificar;
+export default Reportar;

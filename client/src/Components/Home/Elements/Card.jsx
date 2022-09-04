@@ -204,7 +204,7 @@ function Card(props) {
   const handlerEye = async (e) => {
     await axios({
       method: "put",
-      url: "/admins/notification/switchn",
+      url: `/${user.role}s/notification/switchn`,
       data: {
         email: user.email,
         id: info._id,
@@ -218,7 +218,7 @@ function Card(props) {
     e.preventDefault();
     await axios({
       method: "post",
-      url: "/admins/notifications/deleteOne",
+      url: `/${user.role}s/notifications/deleteOne`,
       data: {
         email: user.email,
         id: info._id,
@@ -256,14 +256,16 @@ function Card(props) {
         <div className="TextContent">
           <p>{info.message}</p>
         </div>
-        <button
-          onClick={(e) => {
-            handlerSwitchNotif(e);
-          }}
-          type="button"
-        >
-          Responder
-        </button>
+        {user.role === "admin" ? (
+          <button
+            onClick={(e) => {
+              handlerSwitchNotif(e);
+            }}
+            type="button"
+          >
+            Responder
+          </button>
+        ) : null}
       </div>
       {notfSwitch && info && <Notificar info={info} />}
     </CardStyleCont>

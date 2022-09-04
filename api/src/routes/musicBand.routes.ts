@@ -14,7 +14,7 @@ const {
 	switchController,
 	getNotificationsController,
 	deleteOneController,
-  disabledBandController,
+	disabledBandController,
 	getMusicBandController,
 } = require("../controllers/musicBand.controller.ts");
 require("dotenv").config();
@@ -40,7 +40,10 @@ router.post("/bandreviews", addBandReviewController);
 //Revisar restricción
 router.post("/musicbands/notification/add", sendNotificationController);
 //Revisar restricción
-router.post("/musicbands/notifications/deleteAll", deleteNotificationController);
+router.post(
+	"/musicbands/notifications/deleteAll",
+	deleteNotificationController
+);
 
 // Working
 router.put("/musicbands/notification/switchn", switchController);
@@ -48,8 +51,7 @@ router.put("/musicbands/notification/switchn", switchController);
 // Working
 router.post("/musicbands/notifications", getNotificationsController);
 
-router.delete("/musicbands/notifications/deleteOne", deleteOneController)
-
+router.post("/musicbands/notifications/deleteOne", deleteOneController);
 
 router.post(
 	"/signup",
