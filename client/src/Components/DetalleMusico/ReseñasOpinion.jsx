@@ -120,9 +120,11 @@ const ReseñasStyleCont = styled.div`
     }
 
     h6 {
-      font-size: 3rem;
+      font-size: 18px;
       font-weight: 400;
       color: ${Colors.Platinum};
+      text-align: center;
+      width: 100%;
     }
 
     background: transparent;
@@ -277,7 +279,7 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
               </button>
             </div>
           </form>
-        ) : musicBand.reviews ? (
+        ) : musicBand.reviews && musicBand.reviews.length !== 0 ? (
           musicBand.reviews.map((review) => {
             return (
               <div key={review._id} className="coment">
@@ -291,7 +293,7 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
             );
           })
         ) : (
-          <h6>Este perfil aún no tiene reseñas.</h6>
+          <h6>Este artista aún no tiene reseñas.</h6>
         )}
       </div>
     </ReseñasStyleCont>
