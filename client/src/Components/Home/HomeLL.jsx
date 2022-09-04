@@ -273,6 +273,10 @@ const SecondStyleCont = styled.section`
       justify-content: center;
       align-items: center;
 
+      #msgFechas {
+        font-size: 18px;
+      }
+
       & h5 {
         /* border: solid yellow 3px; */
 
@@ -434,6 +438,11 @@ const SecondStyleCont = styled.section`
       margin: 55px 0px 10px 0px;
       padding-bottom: 10px;
       width: 100%;
+    }
+
+    #msgFechas {
+      font-size: 18px;
+      text-align: center;
     }
 
     & .SolicitudesContJr {
@@ -782,7 +791,7 @@ function HomeLL() {
                 </div>
               ) : (
                 <div className="SinEvento">
-                  <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+                  <h4>En esta solapa podrás ver tu próximo evento confirmado.</h4>
                 </div>
               )}
             </div>
@@ -797,41 +806,41 @@ function HomeLL() {
               <section className="FechasCont">
                 <div className="TusFechas">
                   <h5>Tus Fechas</h5>
-                  <div className="Carusel">
-                    <Carousel
-                      className="carousel"
-                      responsive={responsive}
-                      minimumTouchDrag={80}
-                      slidesToSlide={1}
-                    >
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <button
-                                type="button"
-                                className="BtnDelete BTNCerrar"
-                                onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
-                                value={[date.date.substring(0, 10), date.email]}
-                              >
-                                ❌
-                              </button>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <DateStatusStyled dateStatus={date.isAvailable}>
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </DateStatusStyled>
-                              {date.isAvailable ? null : (
-                                <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                  Ver artista
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="Carusel">
+                      <Carousel className="carousel" responsive={responsive} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <button
+                                  type="button"
+                                  className="BtnDelete BTNCerrar"
+                                  onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
+                                  value={[date.date.substring(0, 10), date.email]}
+                                >
+                                  ❌
                                 </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                    Ver artista
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">Añade una o varias fechas para que los artistas puedan postularse.</h1>
+                  )}
+
                   <div className="AddFecha">
                     <label htmlFor="start">
                       Añadir Fecha:
@@ -844,32 +853,37 @@ function HomeLL() {
                 </div>
                 <div className="SolicitudesCont">
                   <h5>Solicitudes</h5>
-                  <div className="SolicitudesContJr">
-                    {orderedPendingDates.map((date) => {
-                      const year = date.date.substring(0, 4);
-                      const month = date.date.substring(5, 7);
-                      const day = date.date.substring(8, 10);
-                      return (
-                        <div className="Solicitud" key={date._id}>
-                          <div className="Left">
-                            <p>{`${day}/${month}/${year}`}</p>
-                            <p>{date.musicBand}</p>
-                            <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                              Detalle
-                            </button>
+
+                  {orderedPendingDates && orderedPendingDates.length !== 0 ? (
+                    <div className="SolicitudesContJr">
+                      {orderedPendingDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div className="Solicitud" key={date._id}>
+                            <div className="Left">
+                              <p>{`${day}/${month}/${year}`}</p>
+                              <p>{date.musicBand}</p>
+                              <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                Detalle
+                              </button>
+                            </div>
+                            <div className="Rigth">
+                              <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Aceptar
+                              </button>
+                              <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Rechazar
+                              </button>
+                            </div>
                           </div>
-                          <div className="Rigth">
-                            <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                              Aceptar
-                            </button>
-                            <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
-                              Rechazar
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">En este apartado verás las solicitudes de los artistas para aceptarlas o rechazarlas.</h1>
+                  )}
                 </div>
               </section>
             </SecondStyleCont>
