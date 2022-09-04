@@ -63,7 +63,11 @@ export const placeSchema = new Schema({
 	},
 	phoneNumber: { type: String, trim: true, default: "" },
 
-	profilePicture: { type: String, require: false, default: "" },
+	profilePicture: {
+		type: String,
+		require: false,
+		default: "https://www.nicepng.com/png/detail/608-6080578_png-file-svg-icono-de-persona-png.png",
+	},
 
 	suscription: {
 		isSuscribed: { type: Boolean, default: false },
@@ -73,12 +77,12 @@ export const placeSchema = new Schema({
 
 	notifications: [
 		{
-			new: {type: Boolean, default: true},
-			message: {type: String, require: true, default:""},
-			type: {type: String, default: "info"},
-			before: {type: Object, default:undefined},
-			from: {type: String, default: "System"}
-		}
+			new: { type: Boolean, default: true },
+			message: { type: String, require: true, default: "" },
+			type: { type: String, default: "info" },
+			before: { type: Object, default: undefined },
+			from: { type: String, default: "System" },
+		},
 	],
 
 	coords: {
