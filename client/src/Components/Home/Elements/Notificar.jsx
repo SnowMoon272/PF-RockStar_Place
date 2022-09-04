@@ -153,7 +153,7 @@ function Notificar(props, { Fondo, FondoN, Down }) {
   const [message, setMesagge] = useState("");
 
   const handleSubmit = async (e) => {
-    const { email } = info;
+    const { from: email } = info;
     const notification = {
       type: "response",
       title,

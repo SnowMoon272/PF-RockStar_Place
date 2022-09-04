@@ -66,7 +66,8 @@ export const placeSchema = new Schema({
 	profilePicture: {
 		type: String,
 		require: false,
-		default: "https://www.nicepng.com/png/detail/608-6080578_png-file-svg-icono-de-persona-png.png",
+		default:
+			"https://www.nicepng.com/png/detail/608-6080578_png-file-svg-icono-de-persona-png.png",
 	},
 
 	suscription: {
@@ -78,6 +79,7 @@ export const placeSchema = new Schema({
 	notifications: [
 		{
 			new: { type: Boolean, default: true },
+			title: { type: String, default: "" },
 			message: { type: String, require: true, default: "" },
 			type: { type: String, default: "info" },
 			before: { type: Object, default: undefined },
