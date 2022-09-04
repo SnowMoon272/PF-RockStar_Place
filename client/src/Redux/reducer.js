@@ -121,6 +121,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notifications: action.payload,
+      };
     case PLACE_COORDS:
       return {
         ...state,
