@@ -128,12 +128,12 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
           box-sizing: border-box;
-          border-radius: 8px;
           width: 100%;
+          height: 100%;
           margin-top: 2.5%;
         }
       }
@@ -367,7 +367,7 @@ const DetailStyleCont = styled.div`
 const DateStatusStyled = styled.div`
   width: 100%;
   background-color: ${Colors.Oxford_Blue};
-  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
   font-size: 20px;
 `;
 

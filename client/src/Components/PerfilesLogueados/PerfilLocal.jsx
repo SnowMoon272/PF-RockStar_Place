@@ -92,12 +92,34 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
           margin-top: 2.5%;
         }
       }
+
+      .bttGestionar {
+            align-self: self-end;
+            font-family: "RocknRoll One", sans-serif;
+            width: 115px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.6rem;
+            background-color: ${Colors.Blue_life};
+            color: ${Colors.Platinum};
+            margin: -1% 2%;
+            transition: all 0.5s ease;
+
+            :hover {
+              transform: scale(1.1);
+              cursor: pointer;
+            }
+          }
 
       .DatesCont {
         color: ${Colors.Platinum};
@@ -108,7 +130,6 @@ const DetailStyleCont = styled.div`
         justify-content: center;
         align-items: center;
         & .carousel {
-          /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
           & .item {
@@ -126,16 +147,17 @@ const DetailStyleCont = styled.div`
             }
             & .day {
               font-size: 50px;
+              margin-top: 8%;
             }
             & .month {
               font-size: 25px;
             }
             & .year {
               font-size: 25px;
+              margin-bottom: 9%;
             }
             & .dateStatus {
               width: 100%;
-              background-color: ${Colors.Oxford_Blue};
               font-size: 20px;
             }
             & .BtnVerMas {
@@ -293,6 +315,14 @@ const DetailStyleCont = styled.div`
     }
   }
 `;
+
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
 const FooterStyledCont = styled.footer`
   background-color: ${Colors.Oxford_Blue};
   position: relative;
@@ -311,11 +341,14 @@ export default function DetailPlace() {
 
   const place = useSelector((state) => state.detail_place);
 
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -387,19 +420,21 @@ export default function DetailPlace() {
                   <span className="title">Próximos eventos</span>
                   <div className="DatesCont">
                     <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
-                            </div>
-                          );
-                        })}
+                      {allDates.map((date) => {
+                        return (
+                          <div className="item" key={date._id}>
+                            <span className="day">{date.date.substring(8, 10)}</span>
+                            <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                            <span className="year">{date.date.substring(0, 4)}</span>
+                            <DateStatusStyled dateStatus={date.isAvailable}>
+                              {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                            </DateStatusStyled>
+                          </div>
+                        );
+                      })}
                     </Carousel>
                   </div>
+                  <button type="button" className="bttGestionar">Gestionar</button>
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">

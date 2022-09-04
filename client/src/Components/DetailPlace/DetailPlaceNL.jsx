@@ -93,9 +93,12 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
           margin-top: 2.5%;
         }
       }
@@ -110,7 +113,6 @@ const DetailStyleCont = styled.div`
         justify-content: center;
         align-items: center;
         & .carousel {
-          /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
           & .item {
@@ -128,12 +130,14 @@ const DetailStyleCont = styled.div`
             }
             & .day {
               font-size: 50px;
+              margin-top: 2%;
             }
             & .month {
               font-size: 25px;
             }
             & .year {
               font-size: 25px;
+              margin-bottom: 4%;
             }
             & .dateStatus {
               width: 100%;
@@ -305,6 +309,13 @@ const DetailStyleCont = styled.div`
   }
 `;
 
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
 const FooterStyledCont = styled.footer`
   position: relative;
   background-color: ${Colors.Green_Nigth};
@@ -447,7 +458,9 @@ export default function DetailPlace() {
                               <span className="day">{date.date.substring(8, 10)}</span>
                               <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                               <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
+                              <DateStatusStyled dateStatus={date.isAvailable}>
+                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                              </DateStatusStyled>
                               {!date.isAvailable ? null : (
                                 <button className="BtnVerMas" type="button" onClick={(e) => handleAplica(e)}>
                                   Aplica
