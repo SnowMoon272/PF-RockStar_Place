@@ -6,8 +6,8 @@ import Colors from "../../Utils/colors";
 import LogosTecnologias from "../../Assets/img/LOGOSTECNOLOGIAS.png";
 import Envelope from "../../Assets/img/envelope.png";
 import LogoHenry from "../../Assets/img/logoHenry.png";
-import Notificar from "../Home/Elements/Notificar";
 import { isAuthenticated } from "../../Utils/auth.controller";
+import ContactUs from "../Home/Elements/ContactUs";
 
 const HomeStyleCont = styled.div`
   display: flex;
@@ -170,7 +170,7 @@ function Footer() {
         </button>
         {SwitchNotif ? (
           <div className="NotifCont">
-            <Notificar Fondo FondoN />
+            <ContactUs Fondo FondoN />
           </div>
         ) : (
           <div className="tecnologias">

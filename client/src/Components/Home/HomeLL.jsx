@@ -679,6 +679,23 @@ function HomeLL() {
         });
         axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
         setRender(!render);
+        const user = getUserInfo();
+        const notification = {
+          type: "info",
+          title: `${user.email} ha aceptado tu solicitud`,
+          message: "Para más información por favor revisa tus fechas",
+          before: undefined,
+          from: place.email,
+        };
+        const value = e.target.value.split(",");
+        await axios({
+          method: "post",
+          url: "/musicbands/notification/add",
+          data: {
+            email: value[1],
+            notification,
+          },
+        });
       } else alert("Ya hay un usuario confirmado en esa fecha");
     } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
   };

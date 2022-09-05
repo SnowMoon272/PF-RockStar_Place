@@ -533,6 +533,22 @@ export default function DetailPlace() {
       });
       setRender2(!render2);
       alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+
+      const notification = {
+        type: "info",
+        title: `${user.email} ha aplicado a una fecha`,
+        message: "Para más información por favor revisa tus fechas",
+        before: undefined,
+        from: user.email,
+      };
+      await axios({
+        method: "post",
+        url: "/places/notification/add",
+        data: {
+          email: place.email,
+          notification,
+        },
+      });
     } else {
       alert("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
