@@ -1,8 +1,8 @@
 import { placeDates, placeAvailable } from "../interfaces/place.interfaces";
 import { musicDates } from "../interfaces/musicBand.interfaces";
 
-import { getMusicBand } from "./musicBandModel";
-import { getPlace } from "./placeModel";
+import { getMusicBand, getMusicBandByName } from "./musicBandModel";
+import { getPlace, getPlaceByName } from "./placeModel";
 
 const { model } = require("mongoose");
 
@@ -28,7 +28,7 @@ export const addPendingDate = async (musicEmail: string, placeEmail: string, dat
 							email: musicEmail,
 						},
 					],
-				},
+				}
 			);
 			await musicBand.updateOne(
 				{ email: musicEmail },
@@ -37,7 +37,7 @@ export const addPendingDate = async (musicEmail: string, placeEmail: string, dat
 						...currentMusicBand.pendingDates,
 						{ place: currentPlace.name, date: date, email: placeEmail },
 					],
-				},
+				}
 			);
 			return { msg: "Se actualizó correctamente" };
 		} else {
@@ -54,27 +54,27 @@ export const removePendingDate = async (musicEmail: string, placeEmail: string, 
 		const currentPlace = await getPlace(placeEmail);
 		if (currentMusicBand && currentPlace && date) {
 			const dateToDeletePlace = currentPlace.pendingDates.find(
-				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail,
+				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail
 			);
 			const dateToDeleteMusic = currentMusicBand.pendingDates.find(
-				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail,
+				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail
 			);
 			if (dateToDeletePlace && dateToDeleteMusic) {
 				await place.updateOne(
 					{ email: placeEmail },
 					{
 						pendingDates: currentPlace.pendingDates.filter(
-							(e: placeDates) => e !== dateToDeletePlace,
+							(e: placeDates) => e !== dateToDeletePlace
 						),
-					},
+					}
 				);
 				await musicBand.updateOne(
 					{ email: musicEmail },
 					{
 						pendingDates: currentMusicBand.pendingDates.filter(
-							(e: musicDates) => e !== dateToDeleteMusic,
+							(e: musicDates) => e !== dateToDeleteMusic
 						),
-					},
+					}
 				);
 				return { msg: "Se eliminó la fecha correctamente" };
 			} else {
@@ -94,23 +94,23 @@ export const removeConfirmedDate = async (musicEmail: string, placeEmail: string
 		const currentPlace = await getPlace(placeEmail);
 		if (currentMusicBand && currentPlace && date) {
 			const dateToDeletePlace = currentPlace.dates.find(
-				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail,
+				(d: placeDates) => d.date.toISOString().substring(0, 10) === date && d.email === musicEmail
 			);
 			const dateToDeleteMusic = currentMusicBand.dates.find(
-				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail,
+				(d: musicDates) => d.date.toISOString().substring(0, 10) === date && d.email === placeEmail
 			);
 			if (dateToDeletePlace && dateToDeleteMusic) {
 				await place.updateOne(
 					{ email: placeEmail },
 					{
 						dates: currentPlace.dates.filter((e: placeDates) => e !== dateToDeletePlace),
-					},
+					}
 				);
 				await musicBand.updateOne(
 					{ email: musicEmail },
 					{
 						dates: currentMusicBand.dates.filter((e: musicDates) => e !== dateToDeleteMusic),
-					},
+					}
 				);
 				return { msg: "Se eliminó la fecha correctamente" };
 			} else {
@@ -135,13 +135,13 @@ export const confirmedDate = async (musicEmail: string, placeEmail: string, date
 				{ email: placeEmail },
 				{
 					availableDates: currentPlace.availableDates.filter(
-						(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date,
+						(d: placeAvailable) => d.date.toISOString().substring(0, 10) !== date
 					),
 					dates: [
 						...currentPlace.dates,
 						{ musicBand: currentMusicBand.name, date: date, email: musicEmail },
 					],
-				},
+				}
 			);
 			await musicBand.updateOne(
 				{ email: musicEmail },
@@ -150,13 +150,29 @@ export const confirmedDate = async (musicEmail: string, placeEmail: string, date
 						...currentMusicBand.dates,
 						{ place: currentPlace.name, date: date, email: placeEmail },
 					],
-				},
+				}
 			);
 			return { msg: "Fecha matcheada!" };
 		} else {
 			return { error: "No se encontraron los usuarios" };
 		}
 	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const getPlaceOrMusicBandByName = async (search: string) => {
+	try {
+		let searchPlaceResponse = await place.find({
+			name: { $regex: search, $options: "i" },
+		});
+		let searchMusicResponse = await musicBand.find({
+			name: { $regex: search, $options: "i" },
+		});
+		let searchResponse = [...searchPlaceResponse, ...searchMusicResponse];
+		if (searchResponse !== undefined) return searchResponse;
+		else return { error: "place or music band not found" };
+	} catch (error) {
 		return { error };
 	}
 };
