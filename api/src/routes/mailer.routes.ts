@@ -3,26 +3,20 @@ const {
 	matchMailController,
 	registerMailController,
 	bannedEmailController,
-	cancelBandMatchController,
+	cancelBandController,
 	updatePasswordMailController,
-	cancelPlaceMatchController,
+	cancelPlaceController,
 } = require("../controllers/nodeMailer.controller");
 
 const router = Router();
 
 export const f = {};
 
+router.get(`/cancelband/:musicEmail/:placeEmail/:date`, cancelBandController);
+router.get(`/cancelplace/:musicEmail/:placeEmail/:date`, cancelPlaceController);
 router.get(`/banned/:email`, bannedEmailController);
 router.get(`/register/mail/:email`, registerMailController);
 router.get(`/matchmails/:musicEmail/:placeEmail/:date`, matchMailController);
 router.get(`/cambioclave/:email`, updatePasswordMailController);
-router.get(
-	`/cancelmatchband/:musicEmail/:placeEmail/:date`,
-	cancelBandMatchController
-);
-router.get(
-	`cancelmatchplace/:musicEmail/:placeEmail/:date`,
-	cancelPlaceMatchController
-);
 
 module.exports = router;

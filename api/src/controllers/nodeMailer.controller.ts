@@ -35,10 +35,14 @@ const oAuth2Client = new google.auth.OAuth2(
 
 oAuth2Client.setCredentials({ refresh_token: AUTH.REFRESH_TOKEN });
 
-const cancelBandMatchController = async (req: any, res: any) => {
+const cancelBandController = async (req: any, res: any) => {
 	const musicEmail = req.params.musicEmail;
 	const placeEmail = req.params.placeEmail;
-	const date = req.params.date;
+	const fecha = req.params.date;
+	const year = fecha.substring(0, 4);
+	const month = fecha.substring(6, 8);
+	const day = fecha.substring(9, 11);
+	const date = `{${day}/${month}/${year}}`;
 	const musicUser = await getMusicBand(musicEmail);
 	const placeUser = await getPlace(placeEmail);
 	if (musicUser && placeUser) {
@@ -81,10 +85,14 @@ const cancelBandMatchController = async (req: any, res: any) => {
 	}
 };
 
-const cancelPlaceMatchcontroller = async (req: any, res: any) => {
+const cancelPlaceController = async (req: any, res: any) => {
 	const musicEmail = req.params.musicEmail;
 	const placeEmail = req.params.placeEmail;
-	const date = req.params.date;
+	const fecha = req.params.date;
+	const year = fecha.substring(0, 4);
+	const month = fecha.substring(6, 8);
+	const day = fecha.substring(9, 11);
+	const date = `{${day}/${month}/${year}}`;
 	const musicUser = await getMusicBand(musicEmail);
 	const placeUser = await getPlace(placeEmail);
 	if (musicUser && placeUser) {
@@ -313,7 +321,7 @@ module.exports = {
 	bannedEmailController,
 	registerMailController,
 	matchMailController,
-	cancelBandMatchController,
+	cancelBandController,
 	updatePasswordMailController,
-	cancelPlaceMatchcontroller,
+	cancelPlaceController,
 };
