@@ -234,7 +234,7 @@ const banMusicBandController = async (req: any, res: any) => {
 			}
 			if (musicBandByEmail.banned === true) {
 				await banHandler(email);
-				res.send("MusicBabd banned = false, MusicBand fue desbaneada");
+				res.send("MusicBand banned = false, MusicBand fue desbaneada");
 			}
 		} else {
 			return res.status(404).send("Email no corresponde a una musicBand");

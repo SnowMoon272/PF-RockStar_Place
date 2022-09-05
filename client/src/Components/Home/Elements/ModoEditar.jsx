@@ -10,6 +10,7 @@ import Colors from "../../../Utils/colors";
 import { getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
 import SinImg from "../../../Assets/img/mystery.webp";
 import LoaderComponent from "../../Loader/Loading";
+import Loader from "../../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * * * * * * * CSS * * * * * * * * * * * * * * * *  */
 
@@ -402,6 +403,8 @@ function ModoEditar() {
   const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
 
+  const [loaderLocal, setLoaderLocal] = useState(false);
+
   const clickTipe = useSelector((state) => state.admin_click);
 
   const [image, setImage] = useState("");
@@ -498,6 +501,7 @@ function ModoEditar() {
       youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
     });
     setErrors({});
+    setLoaderLocal(false);
   }, [place, musicBand]);
 
   /* * * * * * * * * * * * * * * * * Handle´s * * * * * * * * * * * * * * * *  */
@@ -702,6 +706,7 @@ function ModoEditar() {
     e.preventDefault();
     if (clickTipe === "local") {
       if (confirm("Está Usted Seguro?")) {
+        setLoaderLocal(true);
         await axios.put("/banplace", {
           email: place.email,
         });
@@ -712,6 +717,7 @@ function ModoEditar() {
 
     if (clickTipe === "banda") {
       if (confirm("Está Usted Seguro?")) {
+        setLoaderLocal(true);
         await axios.put("/banmusicband", {
           email: musicBand.email,
         });
@@ -726,207 +732,214 @@ function ModoEditar() {
     <div>
       {loading ? (
         <div>
-          <ContainerGralStyled>
-            {clickTipe !== "default" ? (
-              <div>
-                <div className="divTitulo">
-                  <button type="button" onClick={(e) => handleButtonBanear(e)}>
-                    {clickTipe === "local" ? (place.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "banda"}
-                    {clickTipe === "banda" ? (musicBand.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "local"}
-                  </button>
-                  <h1>Datos de Banda / Local</h1>
-                </div>
-                <form className="form" onSubmit={(e) => handleSubmit(e)}>
-                  <div className="div2Columnas">
-                    <div className="divInputsColumna1">
-                      <div className="ContainerInput">
-                        <span>{clickTipe === "local" ? "Nombre Local" : "Nombre Banda"}</span>
-                        <input
-                          type="text"
-                          placeholder="Nombre del local"
-                          className="input"
-                          value={input.name}
-                          name="name"
-                          onChange={(e) => handleChange(e)}
-                        />
-                      </div>
-                      {errors.name && <p>{errors.name}</p>}
-                      <div className="ContainerInput">
-                        <span>Persona a cargo:</span>
-                        <input
-                          type="text"
-                          placeholder="Persona a cargo"
-                          className="input"
-                          value={input.personInCharge}
-                          name="personInCharge"
-                          onChange={(e) => handleChange(e)}
-                        />
-                      </div>
-                      {errors.personInCharge && <p>{errors.personInCharge}</p>}
-                      {clickTipe === "local" ? (
+          {loaderLocal === false ? (
+            <ContainerGralStyled>
+              {clickTipe !== "default" ? (
+                <div>
+                  <div className="divTitulo">
+                    <button type="button" onClick={(e) => handleButtonBanear(e)}>
+                      {clickTipe === "local" ? (place.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "banda"}
+                      {clickTipe === "banda" ? (musicBand.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "local"}
+                    </button>
+                    <h1>Datos de Banda / Local</h1>
+                  </div>
+                  <form className="form" onSubmit={(e) => handleSubmit(e)}>
+                    <div className="div2Columnas">
+                      <div className="divInputsColumna1">
                         <div className="ContainerInput">
-                          <span>Ciudad:</span>
+                          <span>{clickTipe === "local" ? "Nombre Local" : "Nombre Banda"}</span>
                           <input
                             type="text"
-                            placeholder="Ciudad"
+                            placeholder="Nombre del local"
                             className="input"
-                            value={input.city}
-                            name="city"
+                            value={input.name}
+                            name="name"
                             onChange={(e) => handleChange(e)}
                           />
                         </div>
-                      ) : (
-                        clickTipe && clickTipe === "banda"
-                      )}
-                      {clickTipe === "local" ? errors.city && <p>{errors.city}</p> : clickTipe && clickTipe === "banda"}
-                      {clickTipe === "local" ? (
+                        {errors.name && <p>{errors.name}</p>}
                         <div className="ContainerInput">
-                          <span>Dirección:</span>
+                          <span>Persona a cargo:</span>
                           <input
                             type="text"
-                            placeholder="Direccion"
+                            placeholder="Persona a cargo"
                             className="input"
-                            value={input.adress}
-                            name="adress"
+                            value={input.personInCharge}
+                            name="personInCharge"
                             onChange={(e) => handleChange(e)}
                           />
                         </div>
-                      ) : (
-                        clickTipe && clickTipe === "banda"
-                      )}
-
-                      {clickTipe === "local" ? errors.adress && <p>{errors.adress}</p> : clickTipe && clickTipe === "banda"}
-                      <div className="ContainerInput">
-                        <span>Teléfono:</span>
-                        <input
-                          type="text"
-                          placeholder="Telefono de contacto"
-                          className="input"
-                          value={input.phoneNumber}
-                          name="phoneNumber"
-                          onChange={(e) => handleChange(e)}
-                        />
-                      </div>
-                      {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
-                      {clickTipe === "local" ? (
-                        <div className="ContainerInput">
-                          <span>Capacidad del local:</span>
-                          <input
-                            type="text"
-                            placeholder="Capacidad de personas"
-                            className="input"
-                            value={input.capacity}
-                            name="capacity"
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </div>
-                      ) : (
-                        clickTipe && clickTipe === "banda"
-                      )}
-
-                      {clickTipe === "local" ? errors.capacity && <p>{errors.capacity}</p> : clickTipe && clickTipe === "banda"}
-
-                      <div className="ContainerInput">
-                        <span>Instagram:</span>
-                        <input
-                          type="text"
-                          placeholder="Instagram"
-                          className="input"
-                          value={input.instagram}
-                          name="instagram"
-                          onChange={(e) => handleChange(e)}
-                        />
-                      </div>
-                      {errors.instagram && <p>{errors.instagram}</p>}
-                      {clickTipe === "banda" ? (
-                        <div className="ContainerInput">
-                          <span>Spotify:</span>
-                          <input
-                            type="text"
-                            placeholder="Spotify"
-                            className="input"
-                            value={input.spotify}
-                            name="spotify"
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </div>
-                      ) : (
-                        clickTipe && clickTipe === "local"
-                      )}
-                      {clickTipe === "banda" ? errors.spotify && <p>{errors.spotify}</p> : clickTipe && clickTipe === "local"}
-                      {clickTipe === "banda" ? (
-                        <div className="ContainerInput">
-                          <span>Youtube:</span>
-                          <input
-                            type="text"
-                            placeholder="YouTube"
-                            className="input"
-                            value={input.youtube}
-                            name="youtube"
-                            onChange={(e) => handleChange(e)}
-                          />
-                        </div>
-                      ) : (
-                        clickTipe && clickTipe === "local"
-                      )}
-                      {clickTipe === "banda" ? errors.youtube && <p>{errors.youtube}</p> : clickTipe && clickTipe === "banda"}
-                      {clickTipe === "local" ? (
-                        <div>
-                          <p className="sonidoPropio">Sonido propio</p>
-                          <div className="SwitchCont">
-                            <p>No</p>
-                            <input value={input.hasSound} id="switchInter" type="checkbox" onChange={(e) => handleCheckBox(e)} />
-                            <label htmlFor="switchInter" className="label" />
-                            <p>Si</p>
+                        {errors.personInCharge && <p>{errors.personInCharge}</p>}
+                        {clickTipe === "local" ? (
+                          <div className="ContainerInput">
+                            <span>Ciudad:</span>
+                            <input
+                              type="text"
+                              placeholder="Ciudad"
+                              className="input"
+                              value={input.city}
+                              name="city"
+                              onChange={(e) => handleChange(e)}
+                            />
                           </div>
+                        ) : (
+                          clickTipe && clickTipe === "banda"
+                        )}
+                        {clickTipe === "local" ? errors.city && <p>{errors.city}</p> : clickTipe && clickTipe === "banda"}
+                        {clickTipe === "local" ? (
+                          <div className="ContainerInput">
+                            <span>Dirección:</span>
+                            <input
+                              type="text"
+                              placeholder="Direccion"
+                              className="input"
+                              value={input.adress}
+                              name="adress"
+                              onChange={(e) => handleChange(e)}
+                            />
+                          </div>
+                        ) : (
+                          clickTipe && clickTipe === "banda"
+                        )}
+
+                        {clickTipe === "local" ? errors.adress && <p>{errors.adress}</p> : clickTipe && clickTipe === "banda"}
+                        <div className="ContainerInput">
+                          <span>Teléfono:</span>
+                          <input
+                            type="text"
+                            placeholder="Telefono de contacto"
+                            className="input"
+                            value={input.phoneNumber}
+                            name="phoneNumber"
+                            onChange={(e) => handleChange(e)}
+                          />
                         </div>
-                      ) : (
-                        clickTipe && clickTipe === "banda"
-                      )}
-                    </div>
-                    <div className="divsColumna2">
-                      <h1>Foto de perfil</h1>
-                      <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-                        Subir foto
-                      </button>
-                      <div className="ImgACargar">
-                        <img
-                          src={
-                            clickTipe === "local"
-                              ? place && place.profilePicture
+                        {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                        {clickTipe === "local" ? (
+                          <div className="ContainerInput">
+                            <span>Capacidad del local:</span>
+                            <input
+                              type="text"
+                              placeholder="Capacidad de personas"
+                              className="input"
+                              value={input.capacity}
+                              name="capacity"
+                              onChange={(e) => handleChange(e)}
+                            />
+                          </div>
+                        ) : (
+                          clickTipe && clickTipe === "banda"
+                        )}
+
+                        {clickTipe === "local" ? errors.capacity && <p>{errors.capacity}</p> : clickTipe && clickTipe === "banda"}
+
+                        <div className="ContainerInput">
+                          <span>Instagram:</span>
+                          <input
+                            type="text"
+                            placeholder="Instagram"
+                            className="input"
+                            value={input.instagram}
+                            name="instagram"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                        {errors.instagram && <p>{errors.instagram}</p>}
+                        {clickTipe === "banda" ? (
+                          <div className="ContainerInput">
+                            <span>Spotify:</span>
+                            <input
+                              type="text"
+                              placeholder="Spotify"
+                              className="input"
+                              value={input.spotify}
+                              name="spotify"
+                              onChange={(e) => handleChange(e)}
+                            />
+                          </div>
+                        ) : (
+                          clickTipe && clickTipe === "local"
+                        )}
+                        {clickTipe === "banda" ? errors.spotify && <p>{errors.spotify}</p> : clickTipe && clickTipe === "local"}
+                        {clickTipe === "banda" ? (
+                          <div className="ContainerInput">
+                            <span>Youtube:</span>
+                            <input
+                              type="text"
+                              placeholder="YouTube"
+                              className="input"
+                              value={input.youtube}
+                              name="youtube"
+                              onChange={(e) => handleChange(e)}
+                            />
+                          </div>
+                        ) : (
+                          clickTipe && clickTipe === "local"
+                        )}
+                        {clickTipe === "banda" ? errors.youtube && <p>{errors.youtube}</p> : clickTipe && clickTipe === "banda"}
+                        {clickTipe === "local" ? (
+                          <div>
+                            <p className="sonidoPropio">Sonido propio</p>
+                            <div className="SwitchCont">
+                              <p>No</p>
+                              <input value={input.hasSound} id="switchInter" type="checkbox" onChange={(e) => handleCheckBox(e)} />
+                              <label htmlFor="switchInter" className="label" />
+                              <p>Si</p>
+                            </div>
+                          </div>
+                        ) : (
+                          clickTipe && clickTipe === "banda"
+                        )}
+                      </div>
+                      <div className="divsColumna2">
+                        <h1>Foto de perfil</h1>
+                        <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+                          Subir foto
+                        </button>
+                        <div className="ImgACargar">
+                          <img
+                            src={
+                              clickTipe === "local"
+                                ? place && place.profilePicture
+                                  ? input.profilePicture
+                                  : SinImg
+                                : musicBand && musicBand.profilePicture
                                 ? input.profilePicture
                                 : SinImg
-                              : musicBand && musicBand.profilePicture
-                              ? input.profilePicture
-                              : SinImg
-                          }
-                          alt="ingresa una imagen"
-                          width="350px"
-                          height="350px"
+                            }
+                            alt="ingresa una imagen"
+                            width="350px"
+                            height="350px"
+                          />
+                        </div>
+                        <textarea
+                          type="text"
+                          placeholder="Descripcion"
+                          className="textarea"
+                          value={input.description}
+                          name="description"
+                          onChange={(e) => handleChange(e)}
                         />
+                        {errors.description && <p>{errors.description}</p>}
                       </div>
-                      <textarea
-                        type="text"
-                        placeholder="Descripcion"
-                        className="textarea"
-                        value={input.description}
-                        name="description"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {errors.description && <p>{errors.description}</p>}
                     </div>
-                  </div>
-                  <div className="divButton">
-                    <button type="submit" className="BTNs" disabled={handleActivateButton()}>
-                      Actualizar
-                    </button>
-                  </div>
-                </form>
-              </div>
-            ) : (
-              <h1 id="fraseNone">Aquí podrá editar usuarios y banear luego de que seleccione alguno del listado que está debajo.</h1>
-            )}
-          </ContainerGralStyled>
+                    <div className="divButton">
+                      <button type="submit" className="BTNs" disabled={handleActivateButton()}>
+                        Actualizar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              ) : (
+                <h1 id="fraseNone">Aquí podrá editar usuarios y banear luego de que seleccione alguno del listado que está debajo.</h1>
+              )}
+            </ContainerGralStyled>
+          ) : (
+            <div className="divLoader">
+              <img src={Loader} alt="not found" width="200px" height="200px" />
+              <h4>Cargando... Por favor, espere.</h4>
+            </div>
+          )}
         </div>
       ) : (
         <LoaderComponent />
