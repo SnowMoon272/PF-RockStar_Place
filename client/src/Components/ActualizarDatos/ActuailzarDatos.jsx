@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -24,6 +23,53 @@ const ActualizarDatosStyleCont = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
 
   .divButtonDesc {
     position: absolute;
@@ -349,6 +395,10 @@ export default function upLoadData() {
     } else {
       navigate("/");
     }
+    return () => {
+      dispatch(resetDetails([]));
+      toast.remove();
+    };
   }, []);
 
   const [errors, setErrors] = useState({});
@@ -463,27 +513,46 @@ export default function upLoadData() {
 
   async function handleClick(e) {
     e.preventDefault();
-    confirmAlert({
-      title: "Desactivar cuenta",
-      message: "¿Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
-      buttons: [
-        {
-          label: "Sí",
-          onClick: async () => {
-            await axios.put("/bandDisabled", {
-              email: musicBand.email,
-              disabled: true,
-            });
-            localStorage.removeItem("user-token");
-            navigate("/iniciarsesion");
-          },
+    toast.dismiss();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Realmente desea desactivar su cuenta?</b>
+          <p>Si tiene eventos confirmados o solicitudes se cancelarán</p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/bandDisabled", {
+                  email: musicBand.email,
+                  disabled: true,
+                });
+                localStorage.removeItem("user-token");
+                navigate("/iniciarsesion");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+        style: {
+          borderRadius: "3%",
         },
-        {
-          label: "No",
-          onClick: () => {},
-        },
-      ],
-    });
+      },
+    );
   }
 
   return (
@@ -616,7 +685,17 @@ export default function upLoadData() {
               Desactivar cuenta
             </button>
           </div>
-          <Toaster position="top-center" reverseOrder={false} />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              className: "",
+              style: {
+                fontSize: "1.5rem",
+                fontFamily: "RocknRoll One",
+              },
+            }}
+          />
         </ActualizarDatosStyleCont>
       ) : (
         <LoaderComponent />

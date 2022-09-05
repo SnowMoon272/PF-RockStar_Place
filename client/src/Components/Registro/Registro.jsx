@@ -417,7 +417,7 @@ function Registro() {
     const emails = await axios.get("/emails");
 
     if (emails.data.includes(input.email)) {
-      return alert("Este email ya se encuentra registrado, por favor, ingrese otro.");
+      return toast.error("Este email ya se encuentra registrado");
     }
 
     if (
@@ -449,7 +449,7 @@ function Registro() {
         );
       }
       sendMail();
-      alert("Usuario creado con exito");
+      toast.success("Usuario creado con exito");
       setInput({
         PasswordR: "",
         email: "",
@@ -457,12 +457,15 @@ function Registro() {
       });
       return navigate("/iniciarsesion");
     }
-    toast.error("¡Ups! Hay algún problema, revisa el email o contraseña ingresado");
+    toast.error("¡Ups! Hay algún problema, revisa los datos ingresados");
   }
 
   useEffect(() => {
     setLoading(true);
     if (isAuthenticated()) navigate("/iniciarsesion");
+    return () => {
+      toast.remove();
+    };
   }, []);
 
   return (
@@ -495,7 +498,7 @@ function Registro() {
                       <input
                         type="email"
                         className="email"
-                        placeholder="Ingresa con tu e-mail"
+                        placeholder="Ingresa tu e-mail"
                         name="email"
                         autoComplete="off"
                         // eslint-disable-next-line react/jsx-no-bind
@@ -546,8 +549,18 @@ function Registro() {
                   </form>
                 </div>
               </div>
-              <Toaster position="top-center" reverseOrder={false} />
             </LoginStyleCont2>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </LoginStyleCont>
         </div>
       ) : (

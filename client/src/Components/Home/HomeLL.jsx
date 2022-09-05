@@ -221,6 +221,53 @@ const SecondVewStyleCont = styled.section`
   flex-direction: column;
   align-items: center;
 
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
   .ContenidoPrevio {
     position: absolute;
     top: 42px;
@@ -619,6 +666,13 @@ function HomeLL() {
     validateData();
   }, [place]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetDetails([]));
+      toast.remove();
+    };
+  }, []);
+
   useEffect(async () => {
     setLoading(true);
     const User = await getUserInfo();
@@ -651,14 +705,15 @@ function HomeLL() {
   };
 
   const handleDeleteAvailableDate = async (e) => {
+    toast.remove();
     toast(
       (t) => (
         <span className="spancito">
-          <b>¿Estas seguro de eliminar la fecha?</b>
+          <b>¿Estás seguro que quieres eliminar la fecha?</b>
           <div className="buttonCont">
             <button
               type="button"
-              className="buttonToast"
+              className="buttonToastAcept"
               onClick={async () => {
                 await axios.put("/placesdates", {
                   email: place.email,
@@ -669,16 +724,16 @@ function HomeLL() {
                 toast.success("Fecha eliminada");
               }}
             >
-              Sí, estoy seguro.
+              Sí, estoy seguro
             </button>
             <button
               type="button"
-              className="buttonToast"
+              className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
               }}
             >
-              Cancelar.
+              Cancelar
             </button>
           </div>
         </span>
@@ -691,19 +746,53 @@ function HomeLL() {
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/dates", {
-      placeEmail: place.email,
-      musicEmail: e.target.value.split(",")[1],
-      date: e.target.value.split(",")[0],
-    });
-    axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-    setRender(!render);
+    toast.remove();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estás seguro que quieres eliminar la fecha?</b>
+          <p>Ya hay un evento confirmado para este día. De todas formas notificaremos al artista sobre la cancelación </p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/dates", {
+                  placeEmail: place.email,
+                  musicEmail: e.target.value.split(",")[1],
+                  date: e.target.value.split(",")[0],
+                });
+                axios.get(`/cancelmatch/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
     if (checkExists(e.target.value.split(",")[0]) === true) {
       if (checkConfirmed(e.target.value.split(",")[0]) === false) {
+        toast.success("¡Solicitud aceptada!");
         await axios.put("/matchdate", {
           placeEmail: place.email,
           musicEmail: e.target.value.split(",")[1],
@@ -739,6 +828,7 @@ function HomeLL() {
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
+    toast.success("Solicitud rechazada");
     setRender(!render);
   };
 
@@ -935,7 +1025,17 @@ function HomeLL() {
                 </div>
               </section>
             </SecondStyleCont>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </SecondVewStyleCont>
           <FooterStyledCont>
             <Footer />
