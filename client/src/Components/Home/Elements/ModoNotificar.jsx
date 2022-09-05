@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Colors from "../../../Utils/colors";
+
 import IMGBanda from "../../../Assets/img/ROLLING STONES.jpg";
 
 const ContainerGralStyled = styled.div`
@@ -12,6 +14,13 @@ const ContainerGralStyled = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+
+  #fraseNone {
+    font-family: "New Rocker", cursive;
+    margin-top: 80px;
+    text-align: center;
+    font-size: 4rem;
+  }
 
   & h1 {
     /* border: #ffea00 solid 3px; */
@@ -135,61 +144,86 @@ const ContainerGralStyled = styled.div`
 `;
 
 function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
+  const place = useSelector((state) => state.detail_place);
+  const musicBand = useSelector((state) => state.detail_music_band);
+  const clickTipe = useSelector((state) => state.admin_click);
+
   const handlerNotif = (e) => {
     setSwitchNotif(!SwitchNotif);
   };
-
+  console.log("Local", place);
+  console.log("Banda", musicBand);
   return (
     <ContainerGralStyled>
-      <h1>Banda / Local</h1>
-      <div className="Section">
-        <div className="SectionA">
-          <h2>Nombre de la Banda/Local</h2>
-          <div className="InfoPersonal">
-            <p>
-              <span>Persona a cargo: </span>Manuel R Serrano T
-            </p>
-            <p>
-              <span>Telefono: </span>(+52) 55 6192 2596
-            </p>
-            <p>
-              <span>Ciudad: </span>Buenos Aires
-            </p>
-            <p>
-              <span>Email: </span>CastielAltair0027@outlook.com
-            </p>
-            <p>
-              <span>Direccion: </span>Av. Siempre Viva #54
-            </p>
-            <p>
-              <span>Capacidad: </span>110 personas
-            </p>
-            <p>
-              <span>Sonido propio: </span> Si
-            </p>
+      {clickTipe !== "default" ? (
+        <>
+          <h1>Banda / Local</h1>
+          <div className="Section">
+            <div className="SectionA">
+              <h2>{clickTipe === "local" ? place.name : musicBand.name}</h2>
+              <div className="InfoPersonal">
+                <p>
+                  <span>Persona a cargo: </span>
+                  {clickTipe === "local" ? place.personInCharge : musicBand.personInCharge}
+                </p>
+                <p>
+                  <span>Telefono: </span> {clickTipe === "local" ? place.phoneNumber : musicBand.phoneNumber}
+                </p>
+                {clickTipe === "local" && (
+                  <p>
+                    <span>Ciudad: </span>
+                    {place.city};
+                  </p>
+                )}
+                <p>
+                  <span>Email: </span>
+                  {clickTipe === "local" ? place.email : musicBand.email}
+                </p>
+                {clickTipe === "local" && (
+                  <p>
+                    <span>Direccion: </span>
+                    {place.adress};
+                  </p>
+                )}
+                {clickTipe === "local" && (
+                  <p>
+                    <span>Capacidad: </span>
+                    {place.capacity};
+                  </p>
+                )}
+                {clickTipe === "local" && (
+                  <p>
+                    <span>Sonido propio: </span>
+                    {place.hasSound ? "si" : "No"};
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="SectionB">
+              <p>
+                <span>Descripción: </span>
+                {clickTipe === "local" ? place.description : musicBand.description}
+              </p>
+              <p>
+                <span>Rating: </span>⭐{clickTipe === "local" ? place.rating : musicBand.rating}
+              </p>
+            </div>
+            <div className="SectionC">
+              <img src={clickTipe === "local" ? place.profilePicture : musicBand.profilePicture} alt="Banda/Local" />
+              <button
+                type="button"
+                onClick={(e) => {
+                  handlerNotif(e);
+                }}
+              >
+                Notificar
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="SectionB">
-          <p>
-            <span>Descripción: </span>Manuel Serrano Nacido en 1995 es un musico, compositor, productor y pianista britanico de soul clasico. Serrano
-            fue el pianista mas vendido de 2020 en el Reino Unido y encabezo el Royal Albert Hall de Londres.
-          </p>
-          <p>
-            <span>Rating: </span>⭐4.68
-          </p>
-        </div>
-        <div className="SectionC">
-          <img src={IMGBanda} alt="Banda" />
-          <button
-            type="button"
-            onClick={(e) => {
-              handlerNotif(e);
-            }}
-          >
-            Notificar
-          </button>
-        </div>
-      </div>
+        </>
+      ) : (
+        <h1 id="fraseNone">Aquí podrá visualizar y notificar usuarios, luego de que seleccione alguno del listado que está debajo.</h1>
+      )}
     </ContainerGralStyled>
   );
 }
