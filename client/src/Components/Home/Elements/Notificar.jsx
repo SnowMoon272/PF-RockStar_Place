@@ -145,7 +145,7 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar({ Fondo, FondoN, Down, info }) {
+function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const user = getUserInfo();
 
   // const { info } = props;
@@ -184,7 +184,7 @@ function Notificar({ Fondo, FondoN, Down, info }) {
     });
     setMesagge("");
     setTitle("");
-    props.setnotfSwitch(false);
+    setnotfSwitch(false);
   };
 
   const handleChangeT = (e) => {
