@@ -23,6 +23,14 @@ const ContainerGralStyled = styled.div`
   display: flex;
   flex-direction: column;
 
+  #fraseNone {
+    font-family: "New Rocker", cursive;
+    margin-top: 80px;
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 400;
+  }
+
   .divTitulo {
     /* border: red solid 3px; */
 
@@ -54,7 +62,7 @@ const ContainerGralStyled = styled.div`
       }
     }
 
-    h1 {
+    & h1 {
       font-family: "New Rocker";
       font-style: normal;
       font-weight: 400;
@@ -235,11 +243,6 @@ const ContainerGralStyled = styled.div`
     font-family: "New Rocker";
     font-size: 4rem;
     color: ${Colors.Platinum};
-  }
-
-  #fraseNone {
-    margin-top: 80px;
-    text-align: center;
   }
 
   #btn-foto {

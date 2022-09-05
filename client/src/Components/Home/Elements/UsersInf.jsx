@@ -27,66 +27,123 @@ const ContainerGralStyled = styled.div`
     width: 100%;
     height: fit-content;
 
-    & .SwitchyLogo {
+    & .SwitchySearchyLogo {
       /* border: #001eff solid 3px; */
 
       position: relative;
       display: flex;
       justify-content: space-between;
 
-      .SwitchCont {
-        position: relative;
-        top: 45px;
+      .SwitchySearch {
         display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: fit-content;
-        align-self: center;
-        /* border: solid white 1px; */
-        border-radius: 10px;
-        padding: 0px 30px;
-        background-color: #010101e2;
+        justify-content: space-between;
 
-        p {
-          font-family: "New Rocker", cursive;
-          color: white;
-          font-size: 2rem;
-        }
-
-        label {
-          display: inline-block;
-          width: 65px;
-          height: 33px;
-          background-color: ${Colors.Oxford_Blue};
-          border-radius: 100px;
+        .SwitchCont {
           position: relative;
-          transition: 0.2s;
-          margin: 0px 20px 0px 20px;
-          cursor: pointer;
-          ::after {
-            content: "";
-            display: block;
-            width: 25px;
-            height: 25px;
-            background-color: ${Colors.Blue_Vivid};
+          top: 45px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: fit-content;
+          align-self: center;
+          /* border: solid white 1px; */
+          border-radius: 10px;
+          padding: 0px 30px;
+          background-color: #010101e2;
+
+          p {
+            font-family: "New Rocker", cursive;
+            color: white;
+            font-size: 2rem;
+          }
+
+          label {
+            display: inline-block;
+            width: 65px;
+            height: 33px;
+            background-color: ${Colors.Oxford_Blue};
             border-radius: 100px;
-            position: absolute;
-            top: 4px;
-            left: 4px;
+            position: relative;
             transition: 0.2s;
+            margin: 0px 20px 0px 20px;
+            cursor: pointer;
+            ::after {
+              content: "";
+              display: block;
+              width: 25px;
+              height: 25px;
+              background-color: ${Colors.Blue_Vivid};
+              border-radius: 100px;
+              position: absolute;
+              top: 4px;
+              left: 4px;
+              transition: 0.2s;
+            }
+          }
+
+          #switch:checked + label::after {
+            left: 36px;
+          }
+
+          #switch:checked + label {
+            background-color: ${Colors.Platinum};
+          }
+
+          #switch {
+            display: none;
           }
         }
 
-        #switch:checked + label::after {
-          left: 36px;
-        }
+        .Search {
+          margin-left: 30px;
+          position: relative;
+          top: 45px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 400px;
+          height: 65px;
+          align-self: center;
+          border-radius: 10px;
+          padding: 0px 30px;
+          background-color: #010101e2;
 
-        #switch:checked + label {
-          background-color: ${Colors.Platinum};
-        }
+          & label {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-family: "New Rocker", cursive;
+            color: white;
+            font-size: 2.5rem;
+            width: 100%;
 
-        #switch {
-          display: none;
+            & input {
+              width: 75%;
+              border-radius: 5px;
+              height: 30px;
+              border: none;
+              outline: none;
+              padding: 0px 15px;
+            }
+
+            & button {
+              margin-left: 20px;
+              height: 30px;
+              padding: 0px 15px;
+              border-radius: 5px;
+              border: none;
+              background-color: ${Colors.Blue_life};
+              color: ${Colors.Platinum};
+              font-family: "New Rocker", cursive;
+              font-size: 1.8rem;
+              transition: all 0.5s ease;
+
+              :hover {
+                cursor: pointer;
+                transform: scale(1.2);
+              }
+            }
+          }
         }
       }
 
@@ -116,7 +173,7 @@ const ContainerGralStyled = styled.div`
 
       position: relative;
       z-index: 20;
-      margin-top: 130px;
+      margin-top: 50px;
       box-sizing: border-box;
       width: 100%;
       display: flex;
@@ -128,7 +185,6 @@ const ContainerGralStyled = styled.div`
         display: flex;
         width: 100%;
         justify-content: space-between;
-        margin-bottom: 150px;
 
         .ContainerLocBan {
           /* border: blue solid; */
@@ -138,7 +194,7 @@ const ContainerGralStyled = styled.div`
           flex-direction: column;
           align-items: center;
           background-color: ${Colors.Oxford_Blue_transparent};
-          height: auto;
+          height: 400px;
           padding-bottom: 50px;
 
           h1 {
@@ -151,43 +207,66 @@ const ContainerGralStyled = styled.div`
             margin: 30px;
           }
 
-          .divsSmallConfirmados {
-            /* border: red solid 3px; */
+          .CardContair {
+            /* border: purple solid; */
+            width: 100%;
 
             display: flex;
-            background-color: #264380;
-            justify-content: space-between;
-            margin: 10px;
+            flex-direction: column;
             align-items: center;
-            width: 80%;
-            border-radius: 10px;
+            padding-bottom: 50px;
 
-            p {
-              font-family: "RocknRoll One";
-              font-weight: 400;
-              font-size: 1.5rem;
-              color: ${Colors.Platinum};
-              padding: 5px 15px;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+              width: 12px;
+            }
+            &::-webkit-scrollbar-track {
+              background: ${Colors.Oxford_Blue_transparent};
+            }
+            &::-webkit-scrollbar-thumb {
+              background-color: #14213d;
+              border-radius: 25px;
+              border: 1px solid white;
             }
 
-            .BTNDetalle {
+            .divsSmallConfirmados {
               /* border: red solid 3px; */
 
-              width: 70px;
-              height: 3rem;
-              margin-right: 15px;
-              background: ${Colors.Platinum};
-              color: ${Colors.Dark_Cornflower_blue};
-              border: none;
-              border-radius: 8px;
-              font-size: 1.5rem;
-              font-weight: bold;
-              cursor: pointer;
-              transition: all 0.5s ease;
+              display: flex;
+              background-color: #264380;
+              justify-content: space-between;
+              margin: 10px;
+              align-items: center;
+              width: 80%;
+              border-radius: 10px;
 
-              :hover {
+              p {
+                font-family: "RocknRoll One";
+                font-weight: 400;
+                font-size: 1.5rem;
+                color: ${Colors.Platinum};
+                padding: 5px 15px;
+              }
+
+              .BTNDetalle {
+                /* border: red solid 3px; */
+
+                width: 70px;
+                height: 3rem;
+                margin-right: 15px;
+                background: ${Colors.Platinum};
+                color: ${Colors.Dark_Cornflower_blue};
+                border: none;
+                border-radius: 8px;
+                font-size: 1.5rem;
+                font-weight: bold;
                 cursor: pointer;
-                transform: scale(1.2);
+                transition: all 0.5s ease;
+
+                :hover {
+                  cursor: pointer;
+                  transform: scale(1.2);
+                }
               }
             }
           }
@@ -204,6 +283,7 @@ function UsersInf() {
   const dispatch = useDispatch();
   const places = useSelector((state) => state.places);
   const musicBands = useSelector((state) => state.musicBands);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -225,17 +305,37 @@ function UsersInf() {
     dispatch(adminClickLocal(e.target.name));
   }
 
+  function handlerSearch(e) {
+    e.preventDefault();
+    setName("");
+  }
+
+  const handlerInputChange = (e) => {
+    e.preventDefault();
+    setName(e.target.value);
+  };
+
   return (
     <div>
       {loading ? (
         <ContainerGralStyled Switch={Switch}>
           <div className="Container">
-            <div className="SwitchyLogo">
-              <div className="SwitchCont">
-                <p>Notificar</p>
-                <input value={Switch} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
-                <label htmlFor="switch" className="label" />
-                <p>Editar</p>
+            <div className="SwitchySearchyLogo">
+              <div className="SwitchySearch">
+                <div className="SwitchCont">
+                  <p>Notificar</p>
+                  <input value={Switch} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
+                  <label htmlFor="switch" className="label" />
+                  <p>Editar</p>
+                </div>
+                <div className="Search">
+                  <label htmlFor="Search">
+                    <input id="Search" type="text" value={name} onChange={(e) => handlerInputChange(e)} />
+                    <button onClick={(e) => handlerSearch(e)} type="submit">
+                      Buscar
+                    </button>
+                  </label>
+                </div>
               </div>
               <img src={IMGLogo} alt="" />
             </div>
@@ -247,35 +347,39 @@ function UsersInf() {
               <div className="ContLeftRigth">
                 <div className="ContainerLocBan">
                   <h1>Bandas</h1>
-                  {musicBands?.map((musicBand) => {
-                    return (
-                      <div key={musicBand._id} className="divsSmallConfirmados">
-                        <p>{musicBand.name}</p>
-                        <button
-                          value={musicBand.email}
-                          name="banda"
-                          onClick={(e) => handleClickDetallesBanda(e)}
-                          type="button"
-                          className="BTNDetalle"
-                        >
-                          Detalle
-                        </button>
-                      </div>
-                    );
-                  })}
+                  <div className="CardContair">
+                    {musicBands?.map((musicBand) => {
+                      return (
+                        <div key={musicBand._id} className="divsSmallConfirmados">
+                          <p>{musicBand.name}</p>
+                          <button
+                            value={musicBand.email}
+                            name="banda"
+                            onClick={(e) => handleClickDetallesBanda(e)}
+                            type="button"
+                            className="BTNDetalle"
+                          >
+                            Detalle
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className="ContainerLocBan">
                   <h1>Locales</h1>
-                  {places?.map((place) => {
-                    return (
-                      <div key={place._id} className="divsSmallConfirmados">
-                        <p>{place.name}</p>
-                        <button value={place.email} name="local" onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
-                          Detalle
-                        </button>
-                      </div>
-                    );
-                  })}
+                  <div className="CardContair">
+                    {places?.map((place) => {
+                      return (
+                        <div key={place._id} className="divsSmallConfirmados">
+                          <p>{place.name}</p>
+                          <button value={place.email} name="local" onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
+                            Detalle
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
