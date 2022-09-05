@@ -538,9 +538,11 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
         <div className="NotioficationContLogo">
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
-            <div className="FondoNumero">
-              <p>{news(notifications)}</p>
-            </div>
+            {news(notifications) === 0 ? null : (
+              <div className="FondoNumero">
+                <p>{news(notifications)}</p>
+              </div>
+            )}
           </button>
         </div>
       )}
