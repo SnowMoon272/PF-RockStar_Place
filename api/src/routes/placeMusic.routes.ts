@@ -5,7 +5,8 @@ const {
 	removePendingDateController,
 	addConfirmedDateController,
 	removeConfirmedDateController,
-	getEmailsController
+	getEmailsController,
+	getPlaceOrMusicBandByNameController,
 } = require("../controllers/combined.controller");
 
 const router = Router();
@@ -16,6 +17,7 @@ router.post("/pendingdates", addPendingDateController);
 router.put("/pendingdates", removePendingDateController);
 router.put("/matchdate", addConfirmedDateController);
 router.put("/dates", removeConfirmedDateController);
-router.get("/emails", getEmailsController)
+router.get("/emails", getEmailsController);
+router.get("/combinedsearch", getPlaceOrMusicBandByNameController);
 
 module.exports = router;

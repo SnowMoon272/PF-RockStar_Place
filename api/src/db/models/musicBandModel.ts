@@ -96,10 +96,7 @@ export const getMusicBand = async (email: string) => {
 
 export const getMusicBandByID = async (id: string) => {
 	try {
-		let musicBandResponse = await musicBand.findOne(
-			{ _id: id },
-			{ password: 0 }
-		);
+		let musicBandResponse = await musicBand.findOne({ _id: id }, { password: 0 });
 		if (musicBandResponse !== undefined) return musicBandResponse;
 		else return { error: "Musicband not found" };
 	} catch (error: any) {
@@ -128,10 +125,7 @@ const encodePassword = async (password: string) => {
  *	@return {boolean} Retorna un valor de true si las contraseñas matchean o false en el caso de que no
  * @author Sebastian Pérez <https://github.com/Sebastian-pz>
  */
-export const comparePassword = async (
-	password: string,
-	encodedPassword: string
-) => {
+export const comparePassword = async (password: string, encodedPassword: string) => {
 	let valid = await bcrypt.compare(password, encodePassword);
 	return valid;
 };
@@ -212,10 +206,7 @@ export const loginMusicBand = async (email: string, password: string) => {
 	}
 };
 
-export const updateMusicBand = async (
-	email: string,
-	data: musicBandInterface
-) => {
+export const updateMusicBand = async (email: string, data: musicBandInterface) => {
 	try {
 		const userToChange = await musicBand.findOne({ email });
 		if (userToChange) {
@@ -259,12 +250,21 @@ export const disabledMusicBand = async (email: string, disabled: boolean) => {
 
 export const getEmailsMusicBand = async () => {
 	try {
-		const EmailsMusicBand = await musicBand
-			.find({}, { email: 1 })
-			.distinct("email");
+		const EmailsMusicBand = await musicBand.find({}, { email: 1 }).distinct("email");
 		return EmailsMusicBand;
 	} catch (error) {
 		return { error };
 	}
 };
 
+export const getMusicBandByName = async (search: string) => {
+	try {
+		let musicResponse = await musicBand.find({
+			name: { $regex: search, $options: "i" },
+		});
+		if (musicResponse !== undefined) return musicResponse;
+		else return { error: "musicBand not found" };
+	} catch (error) {
+		return { error };
+	}
+};
