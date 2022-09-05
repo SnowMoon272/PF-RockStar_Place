@@ -21,6 +21,7 @@ const PLACES_REQUIRED_INFO = {
 	profilePicture: 1,
 	hasSound: 1,
 	availableDates: 1,
+	dates: 1,
 	banned: 1,
 	disabled: 1,
 };
@@ -218,7 +219,7 @@ export const addPlaceReview = async (email: string, review: placeReviews) => {
 
 	if (userToAddReview) {
 		let previousReviews = userToAddReview.reviews;
-		previousReviews.push(review);
+		previousReviews.unshift(review);
 		try {
 			await place.updateOne({ email }, { reviews: previousReviews });
 			await reloadPlaceRating(email);

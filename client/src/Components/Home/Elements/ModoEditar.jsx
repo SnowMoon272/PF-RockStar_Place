@@ -1,14 +1,17 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable consistent-return */
+/* eslint-disable indent */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../../Utils/colors";
-import { isAuthenticated, getUserInfo } from "../../../Utils/auth.controller";
-import { getDetailPlace, resetDetails } from "../../../Redux/actions";
-import IMGBanda from "../../../Assets/img/ROLLING STONES.jpg";
+import { getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
+import SinImg from "../../../Assets/img/mystery.webp";
 import LoaderComponent from "../../Loader/Loading";
+
+/* * * * * * * * * * * * * * * * * CSS * * * * * * * * * * * * * * * *  */
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -234,6 +237,11 @@ const ContainerGralStyled = styled.div`
     color: ${Colors.Platinum};
   }
 
+  #fraseNone {
+    margin-top: 80px;
+    text-align: center;
+  }
+
   #btn-foto {
     font-family: "New Rocker";
     font-style: normal;
@@ -309,15 +317,17 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
+/* * * * * * * * * * * * * * * * * Funcion valida inputs * * * * * * * * * * * * * * * *  */
+
 function validate(input) {
   const errors = {};
   if (!input.name) {
-    errors.name = "Ingresa el nombre de tu lugar";
+    errors.name = "Ingresa el nombre";
   } else if (!/^[\s\S]{1,25}$/.test(input.name)) {
     errors.name = "El nombre solo puede contener entre 1 y 25 caracteres";
   }
   if (!input.personInCharge) {
-    errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
+    errors.personInCharge = "Ingresa el nombre de la persona a cargo";
   } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
@@ -336,6 +346,15 @@ function validate(input) {
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
+
+  if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(input.spotify)) {
+    errors.spotify = "Ingresa una URL válida. 'example: http://example.com'";
+  }
+
+  if (input.youtube && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(input.youtube)) {
+    errors.youtube = "Ingresa una URL válida. 'example: http://example.com'";
+  }
+
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu local";
   } else if (input.description && !/^[a-zA-Z0-9 .!,Ññ?¿¡]+$/.test(input.description)) {
@@ -343,6 +362,7 @@ function validate(input) {
   } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
     errors.description = "La descripción puede tener entre 3 y 250 caracteres";
   }
+
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";
   } else if (!/^[a-zA-Z0-9 Ññ ]+$/.test(input.city)) {
@@ -350,6 +370,7 @@ function validate(input) {
   } else if (!/^[\s\S]{3,25}$/.test(input.city)) {
     errors.city = "El nombre solo puede contener entre 3 y 25 caracteres";
   }
+
   if (!input.adress) {
     errors.adress = "Ingresa la dirección de tu lugar";
   } else if (!/^[a-zA-Z0-9 Ññ,.]+$/.test(input.adress)) {
@@ -369,39 +390,114 @@ function validate(input) {
   return errors;
 }
 
+/* * * * * * * * * * * * * * * * * Componente * * * * * * * * * * * * * * * *  */
+
 function ModoEditar() {
-  const navigate = useNavigate();
+  /* * * * * * * * * * * * * * * * * Hooks * * * * * * * * * * * * * * * *  */
   const dispatch = useDispatch();
-  const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    if (isAuthenticated()) {
-      dispatch(getDetailPlace(userPlace._id));
-    } else {
-      navigate("/");
-    }
-  }, []);
+  const clickTipe = useSelector((state) => state.admin_click);
 
   const [image, setImage] = useState("");
 
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
-    name: place && place.name ? place.name : "",
-    personInCharge: place && place.personInCharge ? place.personInCharge : "",
+    name: clickTipe === "local" ? (place && place.name ? place.name : "") : musicBand && musicBand.name ? musicBand.name : "",
+    personInCharge:
+      clickTipe === "local"
+        ? place && place.personInCharge
+          ? place.personInCharge
+          : ""
+        : musicBand && musicBand.personInCharge
+        ? musicBand.personInCharge
+        : "",
     city: place && place.city ? place.city : "",
     hasSound: place && place.hasSound ? place.hasSound : false,
     adress: place && place.adress ? place.adress : "",
-    phoneNumber: place && place.phoneNumber ? place.phoneNumber : "",
-    profilePicture: place && place.profilePicture ? place.profilePicture : image,
-    description: place && place.description ? place.description : "",
+    phoneNumber:
+      clickTipe === "local" ? (place && place.phoneNumber ? place.phoneNumber : "") : musicBand && musicBand.phoneNumber ? musicBand.phoneNumber : "",
+    profilePicture:
+      clickTipe === "local"
+        ? place && place.profilePicture
+          ? place.profilePicture
+          : image
+        : musicBand && musicBand.profilePicture
+        ? musicBand.profilePicture
+        : image,
+    description:
+      clickTipe === "local" ? (place && place.description ? place.description : "") : musicBand && musicBand.description ? musicBand.description : "",
     capacity: place && place.capacity ? place.capacity : "",
-    instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+    instagram:
+      clickTipe === "local"
+        ? place && place.socialMedia
+          ? place.socialMedia.instagram
+          : ""
+        : musicBand && musicBand.socialMedia
+        ? musicBand.socialMedia.instagram
+        : "",
+    spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+    youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
 
+  useEffect(() => {
+    setLoading(true);
+    setInput({
+      name: clickTipe === "local" ? (place && place.name ? place.name : "") : musicBand && musicBand.name ? musicBand.name : "",
+      personInCharge:
+        clickTipe === "local"
+          ? place && place.personInCharge
+            ? place.personInCharge
+            : ""
+          : musicBand && musicBand.personInCharge
+          ? musicBand.personInCharge
+          : "",
+      city: place && place.city ? place.city : "",
+      hasSound: place && place.hasSound ? place.hasSound : false,
+      adress: place && place.adress ? place.adress : "",
+      phoneNumber:
+        clickTipe === "local"
+          ? place && place.phoneNumber
+            ? place.phoneNumber
+            : ""
+          : musicBand && musicBand.phoneNumber
+          ? musicBand.phoneNumber
+          : "",
+      profilePicture:
+        clickTipe === "local"
+          ? place && place.profilePicture
+            ? place.profilePicture
+            : image
+          : musicBand && musicBand.profilePicture
+          ? musicBand.profilePicture
+          : image,
+      description:
+        clickTipe === "local"
+          ? place && place.description
+            ? place.description
+            : ""
+          : musicBand && musicBand.description
+          ? musicBand.description
+          : "",
+      capacity: place && place.capacity ? place.capacity : "",
+      instagram:
+        clickTipe === "local"
+          ? place && place.socialMedia
+            ? place.socialMedia.instagram
+            : ""
+          : musicBand && musicBand.socialMedia
+          ? musicBand.socialMedia.instagram
+          : "",
+      spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+      youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
+    });
+    setErrors({});
+  }, [place, musicBand]);
+
+  /* * * * * * * * * * * * * * * * * Handle´s * * * * * * * * * * * * * * * *  */
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
       {
@@ -434,64 +530,123 @@ function ModoEditar() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (input.name && Object.entries(errors).length === 0) {
-      await axios.put("/place", {
-        email: userPlace.email,
-        data: {
-          name: input.name,
-          personInCharge: input.personInCharge,
-          city: input.city,
-          hasSound: input.hasSound,
-          capacity: input.capacity,
-          adress: input.adress,
-          phoneNumber: input.phoneNumber,
-          profilePicture: input.profilePicture,
-          description: input.description,
-          socialMedia: {
-            instagram: input.instagram,
+    if (clickTipe === "local") {
+      if (
+        !errors.name &&
+        input.name &&
+        !errors.personInCharge &&
+        input.personInCharge &&
+        !errors.city &&
+        input.city &&
+        !errors.capacity &&
+        input.capacity &&
+        !errors.adress &&
+        input.adress &&
+        !errors.phoneNumber &&
+        input.phoneNumber &&
+        !errors.instagram &&
+        !errors.description
+      ) {
+        await axios.put("/place", {
+          email: place.email,
+          data: {
+            name: input.name,
+            personInCharge: input.personInCharge,
+            city: input.city,
+            hasSound: input.hasSound,
+            capacity: input.capacity,
+            adress: input.adress,
+            phoneNumber: input.phoneNumber,
+            profilePicture: input.profilePicture,
+            description: input.description,
+            socialMedia: {
+              instagram: input.instagram,
+            },
           },
-        },
-      });
-      alert("Datos actualizados con exito");
+        });
+        alert("Datos actualizados con exito");
 
-      const { data } = await axios({
-        method: "post",
-        url: "/refreshToken",
-        data: {
-          email: userPlace.email,
-        },
-      });
-      if (data) localStorage.setItem("user-token", data);
+        setInput({
+          name: "",
+          personInCharge: "",
+          city: "",
+          hasSound: false,
+          adress: "",
+          phoneNumber: "",
+          profilePicture: "",
+          description: "",
+          capacity: "",
+          instagram: "",
+          spotify: "",
+          youtube: "",
+        });
+        dispatch(getDetailPlaceByEmail(place.email));
+      } else {
+        alert("Por favor complete todos los campos correctamente");
+      }
+    }
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        city: "",
-        hasSound: false,
-        adress: "",
-        phoneNumber: "",
-        profilePicture: "",
-        description: "",
-        capacity: "",
-        instagram: "",
-      });
-      dispatch(resetDetails([]));
-      navigate("/");
-    } else {
-      alert("Por favor complete todos los campos correctamente");
+    if (clickTipe === "banda") {
+      if (
+        !errors.name &&
+        input.name &&
+        !errors.personInCharge &&
+        input.personInCharge &&
+        !errors.phoneNumber &&
+        input.phoneNumber &&
+        !errors.instagram &&
+        !errors.description &&
+        !errors.spotify &&
+        !errors.youtube
+      ) {
+        await axios.put("/musicband", {
+          email: musicBand.email,
+          data: {
+            name: input.name,
+            personInCharge: input.personInCharge,
+            description: input.description,
+            phoneNumber: input.phoneNumber,
+            profilePicture: input.profilePicture,
+            socialMedia: {
+              instagram: input.instagram,
+              spotify: input.spotify,
+              youtube: input.youtube,
+            },
+          },
+        });
+        alert("Datos actualizados con exito");
+
+        setInput({
+          name: "",
+          personInCharge: "",
+          city: "",
+          hasSound: false,
+          adress: "",
+          phoneNumber: "",
+          profilePicture: "",
+          description: "",
+          capacity: "",
+          instagram: "",
+          spotify: "",
+          youtube: "",
+        });
+        dispatch(getDetailMusicBandByEmail(musicBand.email));
+      } else {
+        alert("Por favor complete todos los campos correctamente");
+      }
     }
   }
 
   function handleCheckBox(e) {
     if (e.target.checked) {
-      //si esta checkeado se agrega el tipo
+      //si esta checkeado se cambia el sonido a true
       setInput({
         ...input,
         hasSound: true,
       });
     }
     if (!e.target.checked) {
-      //si no esta checkeado se quita el tipo
+      //si no esta checkeado se cambia el sonido a false
       setInput({
         ...input,
         hasSound: false,
@@ -500,134 +655,274 @@ function ModoEditar() {
   }
 
   function handleActivateButton() {
-    if (input.name && Object.entries(errors).length === 0) {
-      return false;
+    if (clickTipe === "local") {
+      if (
+        !errors.name &&
+        input.name &&
+        !errors.personInCharge &&
+        input.personInCharge &&
+        !errors.city &&
+        input.city &&
+        !errors.capacity &&
+        input.capacity &&
+        !errors.adress &&
+        input.adress &&
+        !errors.phoneNumber &&
+        input.phoneNumber &&
+        !errors.instagram &&
+        !errors.description
+      ) {
+        return false;
+      }
+      return true;
     }
-    return true;
+    if (clickTipe === "banda") {
+      if (
+        !errors.name &&
+        input.name &&
+        !errors.personInCharge &&
+        input.personInCharge &&
+        !errors.phoneNumber &&
+        input.phoneNumber &&
+        !errors.instagram &&
+        !errors.description &&
+        !errors.spotify &&
+        !errors.youtube
+      ) {
+        return false;
+      }
+      return true;
+    }
   }
+
+  async function handleButtonBanear(e) {
+    e.preventDefault();
+    if (clickTipe === "local") {
+      if (confirm("Está Usted Seguro?")) {
+        await axios.put("/banplace", {
+          email: place.email,
+        });
+        await axios.get(`/banned/${place.email}`);
+        dispatch(getDetailPlaceByEmail(place.email));
+      }
+    }
+
+    if (clickTipe === "banda") {
+      if (confirm("Está Usted Seguro?")) {
+        await axios.put("/banmusicband", {
+          email: musicBand.email,
+        });
+        await axios.get(`/banned/${musicBand.email}`);
+        dispatch(getDetailMusicBandByEmail(musicBand.email));
+      }
+    }
+  }
+
   /* * * * * * * * * * * * * * * * * JSX * * * * * * * * * * * * * * * *  */
   return (
     <div>
       {loading ? (
         <div>
           <ContainerGralStyled>
-            <div className="divTitulo">
-              <button type="button">Banear</button>
-              <h1>Datos de Banda / Local</h1>
-            </div>
-            <form className="form" onSubmit={(e) => handleSubmit(e)}>
-              <div className="div2Columnas">
-                <div className="divInputsColumna1">
-                  <div className="ContainerInput">
-                    <span>Nombre local:</span>
-                    <input
-                      type="text"
-                      placeholder="Nombre del local"
-                      className="input"
-                      value={input.name}
-                      name="name"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.name && <p>{errors.name}</p>}
-                  <div className="ContainerInput">
-                    <span>Persona a cargo:</span>
-                    <input
-                      type="text"
-                      placeholder="Persona a cargo"
-                      className="input"
-                      value={input.personInCharge}
-                      name="personInCharge"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.personInCharge && <p>{errors.personInCharge}</p>}
-                  <div className="ContainerInput">
-                    <span>Ciudad:</span>
-                    <input type="text" placeholder="Ciudad" className="input" value={input.city} name="city" onChange={(e) => handleChange(e)} />
-                  </div>
-                  {errors.city && <p>{errors.city}</p>}
-                  <div className="ContainerInput">
-                    <span>Dirección:</span>
-                    <input
-                      type="text"
-                      placeholder="Direccion"
-                      className="input"
-                      value={input.adress}
-                      name="adress"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.adress && <p>{errors.adress}</p>}
-                  <div className="ContainerInput">
-                    <span>Teléfono:</span>
-                    <input
-                      type="text"
-                      placeholder="Telefono de contacto"
-                      className="input"
-                      value={input.phoneNumber}
-                      name="phoneNumber"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
-                  <div className="ContainerInput">
-                    <span>Capacidad del local:</span>
-                    <input
-                      type="text"
-                      placeholder="Capacidad de personas"
-                      className="input"
-                      value={input.capacity}
-                      name="capacity"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.capacity && <p>{errors.capacity}</p>}
-                  <div className="ContainerInput">
-                    <span>Instagram:</span>
-                    <input
-                      type="text"
-                      placeholder="Instagram"
-                      className="input"
-                      value={input.instagram}
-                      name="instagram"
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </div>
-                  {errors.instagram && <p>{errors.instagram}</p>}
-                  <p className="sonidoPropio">Sonido propio</p>
-                  <div className="SwitchCont">
-                    <p>No</p>
-                    <input value={input.hasSound} id="switchInter" type="checkbox" onChange={(e) => handleCheckBox(e)} />
-                    <label htmlFor="switchInter" className="label" />
-                    <p>Si</p>
-                  </div>
-                </div>
-                <div className="divsColumna2">
-                  <h1>Foto de perfil</h1>
-                  <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-                    Subir foto
+            {clickTipe !== "default" ? (
+              <div>
+                <div className="divTitulo">
+                  <button type="button" onClick={(e) => handleButtonBanear(e)}>
+                    {clickTipe === "local" ? (place.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "banda"}
+                    {clickTipe === "banda" ? (musicBand.banned === true ? "Desbanear" : "Banear") : clickTipe && clickTipe === "local"}
                   </button>
-                  <div className="ImgACargar">
-                    <img src={IMGBanda} alt="ingresa una imagen" width="350px" height="350px" />
-                  </div>
-                  <textarea
-                    type="text"
-                    placeholder="Descripcion"
-                    className="textarea"
-                    value={input.description}
-                    name="description"
-                    onChange={(e) => handleChange(e)}
-                  />
-                  {errors.description && <p>{errors.description}</p>}
+                  <h1>Datos de Banda / Local</h1>
                 </div>
+                <form className="form" onSubmit={(e) => handleSubmit(e)}>
+                  <div className="div2Columnas">
+                    <div className="divInputsColumna1">
+                      <div className="ContainerInput">
+                        <span>{clickTipe === "local" ? "Nombre Local" : "Nombre Banda"}</span>
+                        <input
+                          type="text"
+                          placeholder="Nombre del local"
+                          className="input"
+                          value={input.name}
+                          name="name"
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </div>
+                      {errors.name && <p>{errors.name}</p>}
+                      <div className="ContainerInput">
+                        <span>Persona a cargo:</span>
+                        <input
+                          type="text"
+                          placeholder="Persona a cargo"
+                          className="input"
+                          value={input.personInCharge}
+                          name="personInCharge"
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </div>
+                      {errors.personInCharge && <p>{errors.personInCharge}</p>}
+                      {clickTipe === "local" ? (
+                        <div className="ContainerInput">
+                          <span>Ciudad:</span>
+                          <input
+                            type="text"
+                            placeholder="Ciudad"
+                            className="input"
+                            value={input.city}
+                            name="city"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "banda"
+                      )}
+                      {clickTipe === "local" ? errors.city && <p>{errors.city}</p> : clickTipe && clickTipe === "banda"}
+                      {clickTipe === "local" ? (
+                        <div className="ContainerInput">
+                          <span>Dirección:</span>
+                          <input
+                            type="text"
+                            placeholder="Direccion"
+                            className="input"
+                            value={input.adress}
+                            name="adress"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "banda"
+                      )}
+
+                      {clickTipe === "local" ? errors.adress && <p>{errors.adress}</p> : clickTipe && clickTipe === "banda"}
+                      <div className="ContainerInput">
+                        <span>Teléfono:</span>
+                        <input
+                          type="text"
+                          placeholder="Telefono de contacto"
+                          className="input"
+                          value={input.phoneNumber}
+                          name="phoneNumber"
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </div>
+                      {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                      {clickTipe === "local" ? (
+                        <div className="ContainerInput">
+                          <span>Capacidad del local:</span>
+                          <input
+                            type="text"
+                            placeholder="Capacidad de personas"
+                            className="input"
+                            value={input.capacity}
+                            name="capacity"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "banda"
+                      )}
+
+                      {clickTipe === "local" ? errors.capacity && <p>{errors.capacity}</p> : clickTipe && clickTipe === "banda"}
+
+                      <div className="ContainerInput">
+                        <span>Instagram:</span>
+                        <input
+                          type="text"
+                          placeholder="Instagram"
+                          className="input"
+                          value={input.instagram}
+                          name="instagram"
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </div>
+                      {errors.instagram && <p>{errors.instagram}</p>}
+                      {clickTipe === "banda" ? (
+                        <div className="ContainerInput">
+                          <span>Spotify:</span>
+                          <input
+                            type="text"
+                            placeholder="Spotify"
+                            className="input"
+                            value={input.spotify}
+                            name="spotify"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "local"
+                      )}
+                      {clickTipe === "banda" ? errors.spotify && <p>{errors.spotify}</p> : clickTipe && clickTipe === "local"}
+                      {clickTipe === "banda" ? (
+                        <div className="ContainerInput">
+                          <span>Youtube:</span>
+                          <input
+                            type="text"
+                            placeholder="YouTube"
+                            className="input"
+                            value={input.youtube}
+                            name="youtube"
+                            onChange={(e) => handleChange(e)}
+                          />
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "local"
+                      )}
+                      {clickTipe === "banda" ? errors.youtube && <p>{errors.youtube}</p> : clickTipe && clickTipe === "banda"}
+                      {clickTipe === "local" ? (
+                        <div>
+                          <p className="sonidoPropio">Sonido propio</p>
+                          <div className="SwitchCont">
+                            <p>No</p>
+                            <input value={input.hasSound} id="switchInter" type="checkbox" onChange={(e) => handleCheckBox(e)} />
+                            <label htmlFor="switchInter" className="label" />
+                            <p>Si</p>
+                          </div>
+                        </div>
+                      ) : (
+                        clickTipe && clickTipe === "banda"
+                      )}
+                    </div>
+                    <div className="divsColumna2">
+                      <h1>Foto de perfil</h1>
+                      <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+                        Subir foto
+                      </button>
+                      <div className="ImgACargar">
+                        <img
+                          src={
+                            clickTipe === "local"
+                              ? place && place.profilePicture
+                                ? input.profilePicture
+                                : SinImg
+                              : musicBand && musicBand.profilePicture
+                              ? input.profilePicture
+                              : SinImg
+                          }
+                          alt="ingresa una imagen"
+                          width="350px"
+                          height="350px"
+                        />
+                      </div>
+                      <textarea
+                        type="text"
+                        placeholder="Descripcion"
+                        className="textarea"
+                        value={input.description}
+                        name="description"
+                        onChange={(e) => handleChange(e)}
+                      />
+                      {errors.description && <p>{errors.description}</p>}
+                    </div>
+                  </div>
+                  <div className="divButton">
+                    <button type="submit" className="BTNs" disabled={handleActivateButton()}>
+                      Actualizar
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div className="divButton">
-                <button type="submit" className="BTNs" disabled={handleActivateButton()}>
-                  Actualizar
-                </button>
-              </div>
-            </form>
+            ) : (
+              <h1 id="fraseNone">Aquí podrá editar usuarios y banear luego de que seleccione alguno del listado que está debajo.</h1>
+            )}
           </ContainerGralStyled>
         </div>
       ) : (

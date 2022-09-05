@@ -1,13 +1,17 @@
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable indent */
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import Colors from "../../../Utils/colors";
 import Notificar from "./Notificar";
 import SVGUser from "../../../Assets/svg/Ingresar.svg";
 import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 import SVGEye from "../../../Assets/svg/OjoAbierto.svg";
 import SVGNEye from "../../../Assets/svg/OjoCerrado.svg";
+import { getUserInfo } from "../../../Utils/auth.controller";
+import { getNotifications } from "../../../Redux/actions";
 
 const CardStyleCont = styled.div`
   border: solid #ffffff 1px;
@@ -185,30 +189,56 @@ const CardStyleCont = styled.div`
   }
 `;
 
-function Card() {
+function Card(props) {
   const [eye, seteye] = useState(false);
   const [notfSwitch, setnotfSwitch] = useState(false);
+
+  const { info } = props;
+  const dispatch = useDispatch();
+  const user = getUserInfo();
 
   const handlerSwitchNotif = (e) => {
     setnotfSwitch(!notfSwitch);
   };
 
-  const handlerEye = (e) => {
+  const handlerEye = async (e) => {
+    await axios({
+      method: "put",
+      url: `/${user.role}s/notification/switchn`,
+      data: {
+        email: user.email,
+        id: info._id,
+      },
+    });
+    dispatch(getNotifications(user.role, user.email));
     seteye(!eye);
   };
-  const handlerCloseNotif = (e) => {
+  const handlerCloseNotif = async (e) => {
     /* Algo va pasar */
+    e.preventDefault();
+    await axios({
+      method: "post",
+      url: `/${user.role}s/notifications/deleteOne`,
+      data: {
+        email: user.email,
+        id: info._id,
+      },
+    });
+    dispatch(getNotifications(user.role, user.email));
   };
 
   const handlerClickNameCard = (e) => {
     /* Algo va pasar */
   };
+  if (!info) {
+    return <h1>Aquí no hay nada</h1>;
+  }
   return (
-    <CardStyleCont eye={eye}>
+    <CardStyleCont eye={eye} key={info._id}>
       <div className="HeaderCont">
         <a href="/" onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
           <img src={SVGUser} alt="User" />
-          <h6 type="button">CastielAltair0027@outlook.com</h6>
+          <h6 type="button">{info.from}</h6>
         </a>
         <div className="BTNsCont">
           <button onClick={(e) => handlerEye(e)} type="button" className="BTNCerrar Eye">
@@ -220,22 +250,24 @@ function Card() {
         </div>
       </div>
       <div className="SecondVewCont">
-        <h3>
-          Ha reportado al usuario <a href="/"> NombreUserReportado</a>
+        <h3 className={info.type}>
+          {info.title} {/* <a href="/"> NombreUserReportado</a> */}
         </h3>
         <div className="TextContent">
-          <p>El local ha sido muy irrespetuoso con mi banda el día del evento</p>
+          <p>{info.message}</p>
         </div>
-        <button
-          onClick={(e) => {
-            handlerSwitchNotif(e);
-          }}
-          type="button"
-        >
-          Responder
-        </button>
+        {user.role === "admin" ? (
+          <button
+            onClick={(e) => {
+              handlerSwitchNotif(e);
+            }}
+            type="button"
+          >
+            Responder
+          </button>
+        ) : null}
       </div>
-      {notfSwitch && <Notificar />}
+      {notfSwitch && info && <Notificar info={info} />}
     </CardStyleCont>
   );
 }

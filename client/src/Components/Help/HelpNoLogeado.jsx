@@ -77,7 +77,7 @@ const FooterStyledCont = styled.footer`
   background-color: ${Colors.Green_Nigth};
   box-sizing: border-box;
   height: fit-content;
-  margin-left: 76px;
+  margin-left: 70px;
   padding-left: 25px;
   color: white;
   font-size: 3rem;
@@ -108,26 +108,26 @@ export default function Faqs() {
               <h2>¿Qué diferencia hay entre el perfil de artista y el de anfitrión?</h2>
               <p>
                 En RockStarPlace.com el perfil de Artistas está pensado para los que quieren encontrar un lugar para tocar y te permite mostrarle a la
-                comunidad cómo es tu proyecto musical a traves de fotos y/o videos. El perfil Anfitrión es para aquellos que tienen un espacio para
+                comunidad cómo es tu proyecto musical a traves de tus redes sociales. El perfil Anfitrión es para aquellos que tienen un espacio para
                 ofrecer, centro cultural, bar o boliche. Los anfitriones son aquellos que cuentan con un espacio y organizan shows, y lo comparten con
                 la comunidad para que los artistas se postulen.
               </p>
               <br />
               <h2>Tengo un espacio ¿Cómo hago para conseguir bandas y organizar un show?</h2>
               <p>
-                Primero debes registrate como anfitrión en nuestra página web completando el formulario: Registro - Anfitriones en donde podrás cargar
-                tu espacio y crear shows, para que los artistas de la comunidad se postulen para tocar.
+                Primero debes registrate como anfitrión en nuestra página web completando el formulario, en donde podrás cargar tu espacio y crear
+                shows, para que los artistas de la comunidad se postulen para tocar.
               </p>
               <br />
               <h2>¿Cual es el costo?</h2>
               <p>
                 En RockStarPlace.com hacemos esto por y para la Música, por este motivo redujimos los costos al maximo posible. Tanto el registo, como
-                las postulaciones y las publicaciones de las fechas son totalmente gratuitos. Solo se cobrará una minima tarifa a ambas partes cuando
-                se efectue el match entre la banda/artista y el espacio publicado.
+                las postulaciones a las fechas son totalmente gratuitos para las bandas. Solo se cobrará una minima suscripción de $500 ars a los
+                locales cuando se registren, para que puedan comenzar a utilizar el sitio.
               </p>
               <br />
               <h2>¿Cuales son los metodos de pago?</h2>
-              <p>...</p>
+              <p>El pago podrá a realizarse a través de mercadoPago, pudiendo seleccionar la manera que más se adapte a tus necesidades!</p>
             </div>
             <img src={Logo} className="logoayuda" alt="Logo" />
             <div className="Sections B">
@@ -135,32 +135,28 @@ export default function Faqs() {
               <br />
               <h2>Tengo una banda/soy artista ¿Cómo me registro en RockStarPlace.com?</h2>
               <p>
-                Registrarte con nosotros es muy fácil y lo mas importante... ¡Es GRATIS!. Hacé Click en el boton -Registrate Ahora-. Podes ingresar
-                con tu cuenta de Facebook, de Google o podés registrarte con tu email. Son tres simples pasos y ya formaras parte de nuestra
-                comunidad.
+                Registrarte con nosotros es muy fácil y lo mas importante... ¡Es GRATIS! Podes ingresar con tu cuenta de Google o podés registrarte
+                con tu email. Son tres simples pasos y ya formaras parte de nuestra comunidad.
               </p>
               <br />
               <h2>¿Cómo aplico a una fecha?</h2>
               <p>
                 Para postularte para tocar en una fecha tenés que seleccionar un show de la página principal o de los resultados de búsqueda, ir al
-                listado de fechas disponibles y elegir la que prefieras haciendo clic. Se te va a abrir una ventana donde vas a poder dejarle un
-                mensaje al organizador del show, luego hacé clic en el botón ¡QUIERO TOCAR! Una vez que envíes el mensaje, la fecha se agregará a la
-                sección Mis Fechas desde donde podrás darle seguimiento a tu postulación.
+                listado de fechas disponibles y elegir la que prefieras haciendo clic en APLICA. Se le notificará al local que estás interesado en
+                tocar y en caso de aceptarte, podrán empezar a organizar la fecha por su cuenta. La fecha se agregará a la sección Mis Fechas desde
+                donde podrás darle seguimiento a tu postulación.
               </p>
               <br />
               <h2>Soy músico ¿Cómo administro mis fechas?</h2>
               <p>
-                En la sección Mis Fechas, vas a poder administrar las solicitudes que hiciste para tocar en shows haciendo clic en MIS SOLICITUDES:
-                ahí vas a ver el listado de fechas en las que te postulaste, la fecha de la misma y el estado de tu solicitud que puede ser: Nueva,
-                Aprobada, Rechazada o Cancelada. Además podés chatear con el organizador haciendo clic en el ícono del chat.
+                En EVENTOS, vas a poder administrar las solicitudes que hiciste. Ahí vas a ver el listado de fechas en las que te postulaste, la fecha
+                de la misma y el estado de tu solicitud que puede ser: Pendiente o Cerrada.
               </p>
               <br />
               <h2>Soy anfitrión ¿Cómo administro mis Shows?</h2>
               <p>
-                En Mis Shows vas a ver el listado de shows que estás organizando. Desde allí vas a poder administrar las postulaciones que hicieron
-                otros músicos para tocar en cada una de tus fechas. Para eso tenés que hacer clic en Ver solicitudes. Se van a desplegar las distintas
-                fechas de tu show y en cada una vas a poder ver cuántas postulaciones nuevas tenés, cuáles aceptaste, cuáles rechazaste y cuáles aún
-                están pendientes.
+                En HOME vas a ver el listado de shows que estás organizando. Desde allí vas a poder administrar las postulaciones que hicieron otros
+                músicos para tocar en cada una de tus fechas. Ahí podrás aceptarlas, rechazarlas o añadir nuevas fechas disponibles
               </p>
             </div>
           </StyledContenedor>

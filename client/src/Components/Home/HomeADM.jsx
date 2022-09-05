@@ -1,7 +1,9 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "./Elements/Card";
 import Graficas from "./Elements/Graficas";
 import UsersInf from "./Elements/UsersInf";
@@ -10,6 +12,8 @@ import BGHome from "../../Assets/img/blackAndWhite.jpg";
 import SVGNoti from "../../Assets/svg/Notificacion.svg";
 import SVGUser from "../../Assets/svg/Ingresar.svg";
 import IMGUp from "../../Assets/img/flecha-hacia-arriba.png";
+import { getNotifications, removeNotifications } from "../../Redux/actions";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 const HomeStyleCont = styled.div`
   /* border: solid #ff0000 3px; */
@@ -292,13 +296,31 @@ const UsersStyleCont = styled.div`
 
 function HomeADM() {
   const [notificacion, setnotificacion] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const notifications = useSelector((state) => state.notifications);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const user = getUserInfo();
+    setUserInfo(user);
+    dispatch(getNotifications(user.role, user.email));
+  }, []);
 
   const handlerClickExit = (e) => {
+    dispatch(removeNotifications());
     localStorage.removeItem("user-token");
   };
 
   const handlerClickNot = (e) => {
     setnotificacion(!notificacion);
+  };
+
+  const newNotifications = (array) => {
+    let count = 0;
+    array.forEach((notificacion) => {
+      if (notificacion.new) count++;
+    });
+    return count;
   };
 
   return (
@@ -314,14 +336,14 @@ function HomeADM() {
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
             <div className="FondoNumero">
-              <p>2</p>
+              <p>{notifications.length ? newNotifications(notifications) : 0}</p>
             </div>
           </button>
         </div>
         <div className="SesionContainer">
           <img src={SVGUser} alt="User" />
           <h6 type="button">
-            CastielAltair0027@outlook.com
+            {userInfo.email}
             <a href="/">
               <p onClick={(e) => handlerClickExit(e)}>Cerrar Sesión</p>
             </a>
@@ -334,11 +356,11 @@ function HomeADM() {
             <h2>Notificaciones</h2>
             <div className="CardsContainer">
               <div className="CardsContainerScroll">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {notifications.length
+                  ? notifications.map((notification) => {
+                      return <Card info={notification} />;
+                    })
+                  : null}
               </div>
             </div>
           </NotificacionesStyleCont>

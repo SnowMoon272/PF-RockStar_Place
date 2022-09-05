@@ -2,6 +2,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const { musicBand } = require("../db/models/musicBandModel.ts");
 const { place } = require("../db/models/placeModel.ts");
+const { admin } = require("../db/models/admin.model.ts");
 const bcrypt = require("bcrypt");
 
 passport.use(
@@ -36,9 +37,8 @@ passport.use(
 		async (email, password, done) => {
 			try {
 				let user = await musicBand.findOne({ email });
-				if (!user) {
-					user = await place.findOne({ email });
-				}
+				if (!user) user = await place.findOne({ email });
+				if (!user) user = await admin.findOne({ email });
 				if (!user) return done(null, false, { message: "User not found" });
 
 				const validate = await bcrypt.compare(password, user.password);

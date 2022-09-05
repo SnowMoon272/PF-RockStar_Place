@@ -4,10 +4,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getNotifications, removeNotifications } from "../../Redux/actions";
 import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
@@ -370,14 +372,25 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
     FilterSounds: false,
     FilterEvents: false,
   });
+  const dispatch = useDispatch();
   const [infUser, setInfUser] = useState({});
   const [filterSwitch, setfilterSwitch] = useState(false);
   const [notificacion, setnotificacion] = useState(false);
+  const notifications = useSelector((state) => state.notifications);
+
+  const news = (notifications) => {
+    let number = 0;
+    notifications.forEach((notification) => {
+      if (notification.new) number++;
+    });
+    return number;
+  };
 
   useEffect(() => {
     if (isAuthenticated()) {
       const InfUser = getUserInfo();
       setInfUser(InfUser);
+      dispatch(getNotifications(InfUser.role, InfUser.email));
     }
   }, []);
   /* * * * * * * * * * * Handle´s * * * * * * * * * * */
@@ -414,6 +427,7 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
   };
 
   const handlerClickExit = (e) => {
+    dispatch(removeNotifications());
     localStorage.removeItem("user-token");
   };
 
@@ -435,7 +449,7 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
             <div className="FondoNumero">
-              <p>2</p>
+              <p>{news(notifications)}</p>
             </div>
           </button>
         </div>
@@ -445,11 +459,9 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
           <h2>Notificaciones</h2>
           <div className="CardsContainer">
             <div className="CardsContainerScroll">
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+              {notifications.map((notification) => {
+                return <Card info={notification} />;
+              })}
             </div>
           </div>
         </NotificacionesStyleCont>

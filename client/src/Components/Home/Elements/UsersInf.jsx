@@ -2,6 +2,7 @@
 /* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 // import axios from "axios";
 import Colors from "../../../Utils/colors";
 import LoaderComponent from "../../Loader/Loading";
@@ -9,6 +10,7 @@ import ModoNotificar from "./ModoNotificar";
 import ModoEditar from "./ModoEditar";
 import Notificar from "./Notificar";
 import IMGLogo from "../../../Assets/img/LogoCircular.png";
+import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -199,6 +201,9 @@ function UsersInf() {
   const [loading, setLoading] = useState(false);
   const [Switch, setSwitch] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(false);
+  const dispatch = useDispatch();
+  const places = useSelector((state) => state.places);
+  const musicBands = useSelector((state) => state.musicBands);
 
   useEffect(() => {
     setLoading(true);
@@ -210,10 +215,14 @@ function UsersInf() {
   }
 
   function handleClickDetallesBanda(e) {
-    // Algo va pasar
+    e.preventDefault();
+    dispatch(getDetailMusicBandByEmail(e.target.value));
+    dispatch(adminClickBanda(e.target.name));
   }
   function handleClickDetallesLocal(e) {
-    // Algo va pasar
+    e.preventDefault();
+    dispatch(getDetailPlaceByEmail(e.target.value));
+    dispatch(adminClickLocal(e.target.name));
   }
 
   return (
@@ -238,21 +247,35 @@ function UsersInf() {
               <div className="ContLeftRigth">
                 <div className="ContainerLocBan">
                   <h1>Bandas</h1>
-                  <div key="5" className="divsSmallConfirmados">
-                    <p>Los autenticos Asiaticos Locos</p>
-                    <button onClick={(e) => handleClickDetallesBanda(e)} type="button" className="BTNDetalle">
-                      Detalle
-                    </button>
-                  </div>
+                  {musicBands?.map((musicBand) => {
+                    return (
+                      <div key={musicBand._id} className="divsSmallConfirmados">
+                        <p>{musicBand.name}</p>
+                        <button
+                          value={musicBand.email}
+                          name="banda"
+                          onClick={(e) => handleClickDetallesBanda(e)}
+                          type="button"
+                          className="BTNDetalle"
+                        >
+                          Detalle
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="ContainerLocBan">
                   <h1>Locales</h1>
-                  <div key="5" className="divsSmallConfirmados">
-                    <p>Bar los pitufos locos.</p>
-                    <button onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
-                      Detalle
-                    </button>
-                  </div>
+                  {places?.map((place) => {
+                    return (
+                      <div key={place._id} className="divsSmallConfirmados">
+                        <p>{place.name}</p>
+                        <button value={place.email} name="local" onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
+                          Detalle
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -12,8 +12,6 @@ import ImgLogo from "../../Assets/img/logo3.png";
 import LoaderComponent from "../Loader/Loading";
 
 const ContainerGralStyled = styled.div`
-  /* border: red solid 3px; */
-
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
@@ -30,15 +28,11 @@ const ContainerGralStyled = styled.div`
   }
 
   .Container {
-    /* border: red solid 3px; */
-
     box-sizing: border-box;
     width: 100%;
     height: 100vh;
 
     .ContenedorDeArriba {
-      /* border: 3px green solid; */
-
       text-align: center;
       h2 {
         color: ${Colors.Platinum};
@@ -55,8 +49,6 @@ const ContainerGralStyled = styled.div`
       align-items: center;
 
       .divLogo {
-        /* border: 3px purple solid; */
-
         display: flex;
         justify-content: center;
         width: 100%;
@@ -68,15 +60,11 @@ const ContainerGralStyled = styled.div`
       }
 
       .div1 {
-        /* border: 3px purple solid; */
-
         background-color: ${Colors.Oxford_Blue_transparent};
         padding: 15px 25px;
         width: 70%;
 
         .divTitle {
-          /* border: yellow solid; */
-
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -102,21 +90,16 @@ const ContainerGralStyled = styled.div`
         }
 
         .div3Columnas {
-          /* border: blue solid 3px; */
           display: flex;
           justify-content: space-between;
 
           .divColumna1 {
-            /* border: red solid; */
-
             max-width: 35%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
 
             h3 {
-              /* border: greenyellow solid 3px; */
-
               text-align: center;
               font-family: "New Rocker";
               font-weight: 400;
@@ -126,16 +109,12 @@ const ContainerGralStyled = styled.div`
             }
 
             .divsTituloyDesc {
-              /* border: white solid 3px; */
-
               display: flex;
               flex-direction: row;
               align-items: center;
               margin: 0px;
 
               .pTitulo {
-                /* border: black solid 3px; */
-
                 font-family: "RocknRoll One";
                 letter-spacing: -1px;
                 font-weight: 400;
@@ -145,8 +124,6 @@ const ContainerGralStyled = styled.div`
               }
 
               .pDesc {
-                /* border: black solid 3px; */
-
                 font-family: "RocknRoll One";
                 margin: 0px;
                 font-weight: 400;
@@ -158,7 +135,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divColumna2 {
-            /* border: red solid; */
             max-width: 35%;
             display: flex;
             flex-direction: column;
@@ -212,7 +188,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divColumna3 {
-            /* border: red solid; */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -249,8 +224,6 @@ const ContainerGralStyled = styled.div`
     }
 
     .divContainerdeAbajo {
-      /* border: 3px red solid; */
-
       position: relative;
       z-index: 20;
       margin-top: 130px;
@@ -258,17 +231,14 @@ const ContainerGralStyled = styled.div`
       width: 100%;
       display: flex;
       justify-content: center;
-      /* height: auto; */
 
       .divContainerdeAbajoContainer {
-        /* border: 3px green solid; */
         display: flex;
         width: 73%;
         justify-content: space-between;
         margin-bottom: 150px;
 
         .divEventosConfirmados {
-          /* border: blue solid; */
           width: 45%;
 
           display: flex;
@@ -278,9 +248,12 @@ const ContainerGralStyled = styled.div`
           height: auto;
           padding-bottom: 50px;
 
-          h1 {
-            /* border: red solid; */
+          #msgNotConfirmedEvents {
+            color: ${Colors.Platinum};
+            font-size: 18px;
+          }
 
+          h1 {
             font-family: "New Rocker";
             font-weight: 400;
             font-size: 4rem;
@@ -289,8 +262,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divsSmallConfirmados {
-            /* border: red solid; */
-
             display: flex;
             background-color: #264380;
             justify-content: space-between;
@@ -309,10 +280,10 @@ const ContainerGralStyled = styled.div`
             .dateBtn {
               width: 70px;
               height: 3rem;
-              margin-right: 15px;
               background: ${Colors.Platinum};
               color: ${Colors.Dark_Cornflower_blue};
               border: none;
+              margin-right: -5%;
               border-radius: 8px;
               font-size: 1.5rem;
               font-weight: bold;
@@ -329,12 +300,23 @@ const ContainerGralStyled = styled.div`
                 color: ${Colors.Dark_Cornflower_blue};
               }
             }
+
+            .BtnDelete {
+              align-self: start;
+              margin: 0.8% 0%;
+              /* border: solid 0.2rem red; */
+              border: none;
+              cursor: pointer;
+              /* border-radius: 20px; */
+              /* width: 6%;
+              height: 40%; */
+              font-size: 1.3rem;
+              background: none;
+            }
           }
         }
 
         .divSolicitudesPendientes {
-          /* border: red solid; */
-
           width: 45%;
           display: flex;
           flex-direction: column;
@@ -343,9 +325,11 @@ const ContainerGralStyled = styled.div`
           height: auto;
           padding-bottom: 50px;
 
+          #msgNotPendings {
+            color: ${Colors.Platinum};
+            font-size: 18px;
+          }
           h1 {
-            /* border: red solid; */
-
             font-family: "New Rocker";
             font-weight: 400;
             font-size: 4rem;
@@ -354,8 +338,6 @@ const ContainerGralStyled = styled.div`
           }
 
           .divsSmallConfirmados {
-            /* border: red solid; */
-
             display: flex;
             background-color: #264380;
             justify-content: space-between;
@@ -369,7 +351,6 @@ const ContainerGralStyled = styled.div`
               font-weight: 400;
               font-size: 1.5rem;
               color: ${Colors.Platinum};
-              /* padding: 5px 15px; */
             }
 
             .pendingBtn {
@@ -411,6 +392,10 @@ function EventosBanda() {
     ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
     : [];
 
+  const orderedPendingDates = musicBand.pendingDates
+    ? musicBand.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
+
   useEffect(() => {
     setLoading(true);
     dispatch(getDetailMusicBand(params.id));
@@ -430,7 +415,6 @@ function EventosBanda() {
 
   async function handleClickCancelar(e) {
     e.preventDefault();
-    //console.log(e.target.value);
     await axios.put("/pendingdates", {
       musicEmail: musicBand.email,
       placeEmail: e.target.value.split(",")[1],
@@ -438,6 +422,17 @@ function EventosBanda() {
     });
     setRender(!render);
   }
+
+  const handleDeleteClosedDate = async (e) => {
+    e.preventDefault(e);
+    await axios.put("/dates", {
+      placeEmail: e.target.value.split(",")[1],
+      musicEmail: musicBand.email,
+      date: e.target.value.split(",")[0],
+    });
+    await axios.get(`cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/e.target.value.split(",")[0]`);
+    setRender(!render);
+  };
 
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
 
@@ -460,7 +455,7 @@ function EventosBanda() {
                     <h1>Proximo Evento / Detalle del Evento</h1>
                   </div>
                   {musicBand._id && musicBand.dates.length === 0 ? (
-                    <h2>Aquí aparecerá la información de tu próximo evento confirmado.</h2>
+                    <h2>En esta solapa podrás ver tu próximo evento confirmado.</h2>
                   ) : (
                     <div className="div3Columnas">
                       <div className="divColumna1">
@@ -526,36 +521,58 @@ function EventosBanda() {
                 <div className="divContainerdeAbajoContainer">
                   <div className="divEventosConfirmados">
                     <h1>Eventos Confirmados</h1>
-                    {musicBand.dates?.map((date) => {
-                      return (
-                        <div key={date._id} className="divsSmallConfirmados">
-                          <p>{date.date.substring(0, 10)}</p>
-                          <p>{date.place}</p>
-                          <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
-                            Detalle
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {orderedConfirmedDates && orderedConfirmedDates.length !== 0 ? (
+                      orderedConfirmedDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div key={date._id} className="divsSmallConfirmados">
+                            <p>{`${day}/${month}/${year}`}</p>
+                            <p>{date.place}</p>
+                            <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
+                              Detalle
+                            </button>
+                            <button
+                              type="button"
+                              className="BtnDelete"
+                              onClick={(e) => handleDeleteClosedDate(e)}
+                              value={[date.date.substring(0, 10), date.email]}
+                            >
+                              ❌
+                            </button>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <h2 id="msgNotConfirmedEvents">Aún no tienes eventos confirmados.</h2>
+                    )}
                   </div>
                   <div className="divSolicitudesPendientes">
                     <h1>Solicitudes Pendientes</h1>
-                    {musicBand.pendingDates?.map((date) => {
-                      return (
-                        <div key={date._id} className="divsSmallConfirmados">
-                          <p>{date.date.substring(0, 10)}</p>
-                          <p>{date.place}</p>
-                          <button
-                            onClick={(e) => handleClickCancelar(e)}
-                            value={[date.date.substring(0, 10), date.email]}
-                            type="button"
-                            className="pendingBtn"
-                          >
-                            Cancelar
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {orderedPendingDates && orderedPendingDates.length !== 0 ? (
+                      orderedPendingDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div key={date._id} className="divsSmallConfirmados">
+                            <p>{`${day}/${month}/${year}`}</p>
+                            <p>{date.place}</p>
+                            <button
+                              onClick={(e) => handleClickCancelar(e)}
+                              value={[date.date.substring(0, 10), date.email]}
+                              type="button"
+                              className="pendingBtn"
+                            >
+                              Cancelar
+                            </button>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <h2 id="msgNotPendings">Aún no tienes solicitudes pendientes.</h2>
+                    )}
                   </div>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
@@ -14,7 +15,7 @@ import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import LoaderComponent from "../Loader/Loading";
 import MapLocalDetail from "../MapView/MapLocalDetail";
-import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacionNL.png";
 import Footer from "../Footer/Footer";
 
 const HomeStyleCont = styled.div`
@@ -72,6 +73,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      #msgh1 {
+        color: ${Colors.Platinum};
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+
       .title {
         font-family: "New Rocker";
         font-style: normal;
@@ -93,9 +101,12 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
           margin-top: 2.5%;
         }
       }
@@ -110,7 +121,6 @@ const DetailStyleCont = styled.div`
         justify-content: center;
         align-items: center;
         & .carousel {
-          /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
           & .item {
@@ -128,12 +138,14 @@ const DetailStyleCont = styled.div`
             }
             & .day {
               font-size: 50px;
+              margin-top: 2%;
             }
             & .month {
               font-size: 25px;
             }
             & .year {
               font-size: 25px;
+              margin-bottom: 4%;
             }
             & .dateStatus {
               width: 100%;
@@ -235,6 +247,11 @@ const DetailStyleCont = styled.div`
         }
       }
 
+      .spanError {
+        font-size: 10px;
+        color: #3f0f0f;
+      }
+
       .comentarios {
         background: rgba(229, 229, 229, 0.5);
         width: 100%;
@@ -255,6 +272,11 @@ const DetailStyleCont = styled.div`
           }
         }
       }
+    }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
     }
   }
 
@@ -300,6 +322,13 @@ const DetailStyleCont = styled.div`
   }
 `;
 
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
 const FooterStyledCont = styled.footer`
   position: relative;
   background-color: ${Colors.Green_Nigth};
@@ -320,9 +349,12 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
@@ -339,6 +371,7 @@ export default function DetailPlace() {
     setLoading(true);
     return () => {
       dispatch(resetDetails([]));
+      toast.remove();
     };
   }, []);
 
@@ -400,13 +433,37 @@ export default function DetailPlace() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isLog = isAuthenticated();
-    alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
-    !isLog && navigate("/iniciarsesion");
+    toast.error((t) => (
+      <span>
+        Para dejar tu valiosa opinión debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
+    /* alert("Para dejar tu valiosa opinión debes iniciar sesión."); */
+    /* !isLog && navigate("/iniciarsesion"); */
   };
 
   const handleAplica = (e) => {
-    alert("Debes registrarte para poder aplicar a tocar en un local");
-    navigate("/registro");
+    toast.error((t) => (
+      <span>
+        Para poder aplicar a una fecha debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
   };
 
   if (place.banned === true || place.disabled === true) navigate("/");
@@ -426,29 +483,37 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
-                  <div className="DatesCont">
-                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
-                              {!date.isAvailable ? null : (
-                                <button className="BtnVerMas" type="button" onClick={(e) => handleAplica(e)}>
-                                  Aplica
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="DatesCont">
+                      <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {!date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleAplica(e)}>
+                                    Aplica
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgh1">El local aún no tiene fechas publicadas.</h1>
+                  )}
+
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
@@ -465,7 +530,7 @@ export default function DetailPlace() {
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
-                  <span className="title">Comentarios</span>
+                  <span className="title">Reseñas</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
                     <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
                     <div className="RateComentCont">
@@ -489,8 +554,8 @@ export default function DetailPlace() {
                           </button>
                         </div>
                       </div>
-                      {errors.comment && <span>{errors.comment}</span>}
-                      {errors.rating && <span>{errors.rating}</span>}
+                      {errors.comment && <span className="spanError">{errors.comment}</span>}
+                      {errors.rating && <span className="spanError">{errors.rating}</span>}
                       <button className="BotonComent" type="submit">
                         Comentar
                       </button>
@@ -530,6 +595,7 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

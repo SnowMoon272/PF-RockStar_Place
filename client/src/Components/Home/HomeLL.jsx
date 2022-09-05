@@ -13,6 +13,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import toast, { Toaster } from "react-hot-toast";
 
 /* Components & Actions */
 import LoaderComponent from "../Loader/Loading";
@@ -273,6 +274,10 @@ const SecondStyleCont = styled.section`
       justify-content: center;
       align-items: center;
 
+      #msgFechas {
+        font-size: 18px;
+      }
+
       & h5 {
         /* border: solid yellow 3px; */
 
@@ -363,7 +368,7 @@ const SecondStyleCont = styled.section`
               transition: all 0.5s ease;
 
               :hover {
-                transform: scale(1.2);
+                transform: scale(1.1);
                 cursor: pointer;
               }
             }
@@ -434,6 +439,11 @@ const SecondStyleCont = styled.section`
       margin: 55px 0px 10px 0px;
       padding-bottom: 10px;
       width: 100%;
+    }
+
+    #msgFechas {
+      font-size: 18px;
+      text-align: center;
     }
 
     & .SolicitudesContJr {
@@ -521,7 +531,7 @@ const SecondStyleCont = styled.section`
 const DateStatusStyled = styled.div`
   width: 100%;
   background-color: ${Colors.Oxford_Blue};
-  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
   font-size: 20px;
 `;
 
@@ -556,6 +566,10 @@ function HomeLL() {
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
+
+  const orderedPendingDates = place.pendingDates
+    ? place.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const getCurrentDate = () => {
     const currentDate = new Date();
@@ -623,8 +637,8 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.repeated) alert("La fecha ya se encuentra cargada");
-    if (errors.menor) alert("La fecha a ingresar debe ser mayor a la fecha actual");
+    if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
+    if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
@@ -632,16 +646,47 @@ function HomeLL() {
       });
       setDate("");
       setRender(!render);
-    } else alert("Ingrese una fecha");
+      toast.success("Fecha cargada con exito");
+    } else toast.error("Ingrese una fecha");
   };
 
   const handleDeleteAvailableDate = async (e) => {
-    e.preventDefault(e);
-    await axios.put("/placesdates", {
-      email: place.email,
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estas seguro de eliminar la fecha?</b>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToast"
+              onClick={async () => {
+                await axios.put("/placesdates", {
+                  email: place.email,
+                  date: e.target.value.split(",")[0],
+                });
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro.
+            </button>
+            <button
+              type="button"
+              className="buttonToast"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar.
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   const handleDeleteClosedDate = async (e) => {
@@ -651,6 +696,7 @@ function HomeLL() {
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
+    axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
     setRender(!render);
   };
 
@@ -663,9 +709,27 @@ function HomeLL() {
           musicEmail: e.target.value.split(",")[1],
           date: e.target.value.split(",")[0],
         });
+        axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
         setRender(!render);
-      } else alert("Ya hay un usuario confirmado en esa fecha");
-    } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+        const user = getUserInfo();
+        const notification = {
+          type: "info",
+          title: `${user.email} ha aceptado tu solicitud`,
+          message: "Para más información por favor revisa tus fechas",
+          before: undefined,
+          from: place.email,
+        };
+        const value = e.target.value.split(",");
+        await axios({
+          method: "post",
+          url: "/musicbands/notification/add",
+          data: {
+            email: value[1],
+            notification,
+          },
+        });
+      } else toast.error("Ya hay un usuario confirmado en esa fecha");
+    } else toast.error("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
   };
 
   const handleRejectDate = async (e) => {
@@ -753,8 +817,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
@@ -776,7 +840,7 @@ function HomeLL() {
                 </div>
               ) : (
                 <div className="SinEvento">
-                  <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+                  <h4>En esta solapa podrás ver tu próximo evento confirmado.</h4>
                 </div>
               )}
             </div>
@@ -787,47 +851,44 @@ function HomeLL() {
             </div>
 
             <SecondStyleCont>
-              <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
+              <h4 id="Eventos">Gestiona tus Eventos</h4>
               <section className="FechasCont">
                 <div className="TusFechas">
                   <h5>Tus Fechas</h5>
-                  <div className="Carusel">
-                    <Carousel
-                      className="carousel"
-                      responsive={responsive}
-                      /* showDots={true} */
-                      /* centerMode={true} */
-                      minimumTouchDrag={80}
-                      slidesToSlide={1}
-                    >
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <button
-                                type="button"
-                                className="BtnDelete BTNCerrar"
-                                onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
-                                value={[date.date.substring(0, 10), date.email]}
-                              >
-                                ❌
-                              </button>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <DateStatusStyled dateStatus={date.isAvailable}>
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </DateStatusStyled>
-                              {date.isAvailable ? null : (
-                                <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
-                                  Ver más
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="Carusel">
+                      <Carousel className="carousel" responsive={responsive} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <button
+                                  type="button"
+                                  className="BtnDelete BTNCerrar"
+                                  onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
+                                  value={[date.date.substring(0, 10), date.email]}
+                                >
+                                  ❌
                                 </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                    Ver artista
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">Añade una o varias fechas para que los artistas puedan postularse.</h1>
+                  )}
                   <div className="AddFecha">
                     <label htmlFor="start">
                       Añadir Fecha:
@@ -840,9 +901,10 @@ function HomeLL() {
                 </div>
                 <div className="SolicitudesCont">
                   <h5>Solicitudes</h5>
-                  <div className="SolicitudesContJr">
-                    {place.pendingDates &&
-                      place.pendingDates.map((date) => {
+
+                  {orderedPendingDates && orderedPendingDates.length !== 0 ? (
+                    <div className="SolicitudesContJr">
+                      {orderedPendingDates.map((date) => {
                         const year = date.date.substring(0, 4);
                         const month = date.date.substring(5, 7);
                         const day = date.date.substring(8, 10);
@@ -866,10 +928,14 @@ function HomeLL() {
                           </div>
                         );
                       })}
-                  </div>
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">En este apartado verás las solicitudes de los artistas para aceptarlas o rechazarlas.</h1>
+                  )}
                 </div>
               </section>
             </SecondStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </SecondVewStyleCont>
           <FooterStyledCont>
             <Footer />

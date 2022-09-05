@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { getDetailMusicBandByEmail, getDetailPlace, resetDetails } from "../../Redux/actions";
@@ -18,7 +19,7 @@ import LoaderComponent from "../Loader/Loading";
 import Footer from "../Footer/Footer";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaLocalSinUbicacion.png";
-import Notificar from "../Home/Elements/Notificar";
+import Reportar from "../Home/Elements/Reportar";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -78,6 +79,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      #msgh1 {
+        color: ${Colors.Platinum};
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+
       .TitleyButoon {
         display: flex;
         justify-content: space-between;
@@ -128,12 +136,12 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
           box-sizing: border-box;
-          border-radius: 8px;
           width: 100%;
+          height: 100%;
           margin-top: 2.5%;
         }
       }
@@ -264,6 +272,11 @@ const DetailStyleCont = styled.div`
             }
           }
 
+          .spanError {
+            font-size: 10px;
+            color: ${Colors.Platinum};
+          }
+
           .ButtonsComentar {
             font-family: "RocknRoll One", sans-serif;
 
@@ -316,6 +329,11 @@ const DetailStyleCont = styled.div`
       border-radius: 25px;
       background-color: ${Colors.Erie_Black_Transparent};
     }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
+    }
   }
 
   .SecondCont {
@@ -362,7 +380,7 @@ const DetailStyleCont = styled.div`
 const DateStatusStyled = styled.div`
   width: 100%;
   background-color: ${Colors.Oxford_Blue};
-  background-color: ${({ dateStatus }) => (dateStatus ? "green" : "red")};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
   font-size: 20px;
 `;
 
@@ -392,9 +410,11 @@ export default function DetailPlace() {
   const [loading, setLoading] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(true);
 
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
@@ -408,6 +428,7 @@ export default function DetailPlace() {
   useEffect(() => {
     return () => {
       dispatch(resetDetails([]));
+      toast.remove();
     };
   }, []);
 
@@ -415,8 +436,8 @@ export default function DetailPlace() {
     dispatch(getDetailMusicBandByEmail(user.email));
   }, [render2]);
 
-  const checkAplied = (date) => {
-    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date) !== undefined) {
+  const checkAplied = (date, email) => {
+    if (musicBand.pendingDates.find((d) => d.date.substring(0, 10) === date && d.email === email) !== undefined) {
       return true;
     }
     return false;
@@ -506,16 +527,18 @@ export default function DetailPlace() {
   };
 
   const handleAplica = async (e) => {
-    if (checkAplied(e.target.value) === false) {
+    if (checkAplied(e.target.value, place.email) === false) {
       await axios.post("/pendingdates", {
         musicEmail: user.email,
         placeEmail: place.email,
         date: e.target.value,
       });
       setRender2(!render2);
-      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+      toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
+        duration: 4000,
+      });
     } else {
-      alert("Ya aplicaste a esta fecha, espera una respuesta del local");
+      toast.error("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
   };
 
@@ -539,31 +562,37 @@ export default function DetailPlace() {
                 <div className="DataCont">
                   <span className="title">Descripción</span>
                   <span className="description">{place.description}</span>
+                  <hr className="hr" />
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
-                  <div className="DatesCont">
-                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <DateStatusStyled dateStatus={date.isAvailable}>
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </DateStatusStyled>
-                              {!date.isAvailable ? null : (
-                                <button className="BtnVerMas" type="button" value={date.date.substring(0, 10)} onClick={(e) => handleAplica(e)}>
-                                  Aplica
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="DatesCont">
+                      <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {!date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" value={date.date.substring(0, 10)} onClick={(e) => handleAplica(e)}>
+                                    Aplica
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgh1">El local aún no tiene fechas publicadas a las cuales puedas aplicar.</h1>
+                  )}
+
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
@@ -616,8 +645,8 @@ export default function DetailPlace() {
                             </button>
                           </div>
                         </div>
-                        {errors.comment && <span>{errors.comment}</span>}
-                        {errors.rating && <span>{errors.rating}</span>}
+                        {errors.comment && <span className="spanError">{errors.comment}</span>}
+                        {errors.rating && <span className="spanError">{errors.rating}</span>}
                         <button className="ButtonsComentar" type="submit">
                           Comentar
                         </button>
@@ -643,17 +672,19 @@ export default function DetailPlace() {
                   <div className="DataCont Report">
                     <div className="TitleyButoon">
                       <p className="title">{SwitchNotif ? "Comentarios" : "Reportar"}</p>
-                      <button
-                        onClick={(e) => {
-                          handlerSwitchNotif(e);
-                        }}
-                        className="ButtonReport"
-                        type="button"
-                      >
-                        {SwitchNotif ? "Reportar" : "Cancelar"}
-                      </button>
+                      {place && place.email && (
+                        <button
+                          onClick={(e) => {
+                            handlerSwitchNotif(e);
+                          }}
+                          className="ButtonReport"
+                          type="button"
+                        >
+                          {SwitchNotif ? "Reportar" : "Cancelar"}
+                        </button>
+                      )}
                     </div>
-                    <Notificar Title="Title" />
+                    <Reportar info={place.email} />
                   </div>
                 )}
               </div>
@@ -674,6 +705,7 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

@@ -1,5 +1,3 @@
-const express = require("express");
-
 import {
 	addPlaceReview,
 	createPlace,
@@ -15,7 +13,19 @@ import {
 	disabledPlace,
 	banHandler,
 } from "../db/models/placeModel";
-import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
+import {
+	removeConfirmedDate,
+	removePendingDate,
+} from "../db/models/placeMusicModel";
+
+import {
+	deleteAllNotifications,
+	sendNotification,
+	switchNew,
+	getNotifications,
+	deleteOne,
+} from "../db/models/inter.model";
+import { place } from "../db/models/placeModel";
 
 const getAllPlacesController = async (req: any, res: any) => {
 	let { city, sound, dates } = req.query;
@@ -37,7 +47,9 @@ const createPlaceController = async (req: any, res: any) => {
 		try {
 			let created = await createPlace(places);
 			if (created.hasOwnProperty("error"))
-				return res.status(400).send({ error: "Already exist an account with this email" });
+				return res
+					.status(400)
+					.send({ error: "Already exist an account with this email" });
 			return res.status(201).send({ message: "success" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
@@ -53,7 +65,9 @@ const addPlaceReviewController = async (req: any, res: any) => {
 	if (review && email) {
 		try {
 			await addPlaceReview(email, review);
-			return res.status(201).send({ message: "Se añadio la reseña exitosamente" });
+			return res
+				.status(201)
+				.send({ message: "Se añadio la reseña exitosamente" });
 		} catch (error) {
 			return res.status(500).send({ error: "Something went wrong" });
 		}
@@ -109,7 +123,10 @@ const updatePlaceController = async (req: any, res: any) => {
 	if (data) {
 		try {
 			let updated = await updatePlace(email, data);
-			if (updated) return res.status(201).send({ msg: "Se actualizó el lugar correctamente" });
+			if (updated)
+				return res
+					.status(201)
+					.send({ msg: "Se actualizó el lugar correctamente" });
 			return res.status(400).send({ error: "Ha ocurrido un error" });
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo actualizar el lugar" });
@@ -136,7 +153,8 @@ const DeleteAvailableDatePlaceController = async (req: any, res: any) => {
 
 	try {
 		let dateToDelete = await deleteAvailableDate(email, date);
-		if (!dateToDelete.hasOwnProperty("error")) return res.status(201).send(dateToDelete.msg);
+		if (!dateToDelete.hasOwnProperty("error"))
+			return res.status(201).send(dateToDelete.msg);
 		return res.status(400).send(dateToDelete.error);
 	} catch (error) {
 		return res.status(500).send({ error: "Something went wrong" });
@@ -194,17 +212,28 @@ const banPlaceController = async (req: any, res: any) => {
 		if (placeByEmail) {
 			if (placeByEmail.banned === false) {
 				for (const date of placeByEmail.availableDates) {
-					await deleteAvailableDate(email, date.date.toISOString().substring(0, 10));
+					await deleteAvailableDate(
+						email,
+						date.date.toISOString().substring(0, 10)
+					);
 				}
 				for (const date of placeByEmail.pendingDates) {
-					await removePendingDate(date.email, email, date.date.toISOString().substring(0, 10));
+					await removePendingDate(
+						date.email,
+						email,
+						date.date.toISOString().substring(0, 10)
+					);
 				}
 				for (const date of placeByEmail.dates) {
-					await removeConfirmedDate(date.email, email, date.date.toISOString().substring(0, 10));
+					await removeConfirmedDate(
+						date.email,
+						email,
+						date.date.toISOString().substring(0, 10)
+					);
 				}
 				await banHandler(email);
 				res.send(
-					"Place banned = true, todas sus fechas y relaciones con musicbands fueron eliminadas (si las tuviera)",
+					"Place banned = true, todas sus fechas y relaciones con musicbands fueron eliminadas (si las tuviera)"
 				);
 			}
 			if (placeByEmail.banned === true) {
@@ -216,6 +245,68 @@ const banPlaceController = async (req: any, res: any) => {
 		}
 	} else {
 		return res.status(404).send({ msg: "Data incorrecta" });
+	}
+};
+
+//Working good
+const sendNotificationController = async (req: any, res: any) => {
+	const { email, notification } = req.body;
+	if (!email || !notification) return res.status(400).send("Invalid data");
+
+	try {
+		const response = await sendNotification(place, email, notification);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Working good
+const deleteNotificationController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(404).send("Invalid data");
+
+	try {
+		const response = await deleteAllNotifications(place, email);
+		return res.status(200).send(response);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Testing required
+const switchController = async (req: any, res: any) => {
+	const { email, id } = req.body;
+	if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+
+	try {
+		const switchN = await switchNew(place, email, id);
+		return res.status(200).send(switchN);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+//Working
+const getNotificationsController = async (req: any, res: any) => {
+	const { email } = req.body;
+	if (!email) return res.status(400).send({ error: "Invalid data" });
+	try {
+		const notifications = await getNotifications(place, email);
+		return res.status(200).send(notifications);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
+	}
+};
+
+const deleteOneController = async (req: any, res: any) => {
+	try {
+		const { email, id } = req.body;
+		if (!email || !id) return res.status(400).send({ error: "Invalid data" });
+		const operation = await deleteOne(place, email, id);
+		return res.status(200).send(operation);
+	} catch (error) {
+		return res.status(500).send({ error: "Internal error" });
 	}
 };
 
@@ -231,6 +322,11 @@ module.exports = {
 	DeleteAvailableDatePlaceController,
 	suscribedSuccessfulController,
 	getPlaceByEmailController,
-	disabledPlaceController,
 	banPlaceController,
+	sendNotificationController,
+	deleteNotificationController,
+	switchController,
+	getNotificationsController,
+	deleteOneController,
+	disabledPlaceController,
 };

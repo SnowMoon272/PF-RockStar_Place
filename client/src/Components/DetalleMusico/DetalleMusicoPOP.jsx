@@ -1,6 +1,3 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable no-confusing-arrow */
 import React, { useState } from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
@@ -10,7 +7,7 @@ import LogoYouTube from "../../Assets/svg/YouTube.svg";
 import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import SVGCerrar from "../../Assets/svg/Cerrar.svg";
-import Notificar from "../Home/Elements/Notificar";
+import Reportar from "../Home/Elements/Reportar";
 
 const EditStyledCont = styled.div`
   box-sizing: border-box;
@@ -395,7 +392,11 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
             </button>
           )}
           <div className="ReseñasOpinionCont">
-            {stateReporte ? <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} /> : <Notificar Down />}
+            {stateReporte ? (
+              <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} />
+            ) : (
+              <Reportar info={musicBand.email} Down />
+            )}
           </div>
         </div>
       </div>

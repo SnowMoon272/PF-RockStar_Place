@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -12,6 +14,7 @@ import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -386,16 +389,16 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(input.personInCharge)) {
+  } else if (!/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
   }
 
   if (!input.phoneNumber) {
-    errors.phoneNumber = "Ingresa un numero de telefono";
+    errors.phoneNumber = "Ingresa un numero de teléfono";
   } else if (!/^[0-9]+$/.test(input.phoneNumber)) {
-    errors.phoneNumber = "El telefono solo puede contener numeros";
+    errors.phoneNumber = "El teléfono solo puede contener números";
   }
 
   if (
@@ -406,22 +409,22 @@ function validate(input) {
   }
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu local";
-  } else if (input.description && !/^[a-zA-Z0-9 .!,Ññ?¿¡]+$/.test(input.description)) {
+  } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
-  } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
-    errors.description = "La descripción puede tener entre 3 y 250 caracteres";
+  } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
+    errors.description = "La descripción puede tener entre 3 y 500 caracteres";
   }
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";
   } else if (!/^[a-zA-Z0-9 Ññ ]+$/.test(input.city)) {
-    errors.city = "El nombre solo puede contener letras, numeros y espacios";
+    errors.city = "El nombre solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.city)) {
     errors.city = "El nombre solo puede contener entre 3 y 25 caracteres";
   }
   if (!input.adress) {
     errors.adress = "Ingresa la dirección de tu lugar";
   } else if (!/^[a-zA-Z0-9 Ññ,.]+$/.test(input.adress)) {
-    errors.adress = "La dirección solo puede contener letras, numeros y espacios";
+    errors.adress = "La dirección solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.adress)) {
     errors.adress = "La dirección solo puede contener entre 3 y 25 caracteres";
   }
@@ -469,7 +472,24 @@ export default function ActualizarLocal() {
     description: place && place.description ? place.description : "",
     capacity: place && place.capacity ? place.capacity : "",
     instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+    coords: place && place.coords ? place.coords : { lat: "", lng: "" },
   });
+
+  useEffect(() => {
+    setInput({
+      name: place && place.name ? place.name : "",
+      personInCharge: place && place.personInCharge ? place.personInCharge : "",
+      city: place && place.city ? place.city : "",
+      hasSound: place && place.hasSound ? place.hasSound : false,
+      adress: place && place.adress ? place.adress : "",
+      phoneNumber: place && place.phoneNumber ? place.phoneNumber : "",
+      profilePicture: place && place.profilePicture ? place.profilePicture : image,
+      description: place && place.description ? place.description : "",
+      capacity: place && place.capacity ? place.capacity : "",
+      instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+      coords: place && place.coords ? place.coords : { lat: "", lng: "" },
+    });
+  }, [place]);
 
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
@@ -519,11 +539,11 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
-          coords,
+          coords: coords.lat ? coords : input.coords,
         },
       });
       dispatch(resetCoords());
-      alert("Datos actualizados con exito");
+      toast.success("Datos actualizados con éxito");
 
       const { data } = await axios({
         method: "post",
@@ -534,22 +554,12 @@ export default function ActualizarLocal() {
       });
       if (data) localStorage.setItem("user-token", data);
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        city: "",
-        hasSound: false,
-        adress: "",
-        phoneNumber: "",
-        profilePicture: "",
-        description: "",
-        capacity: "",
-        instagram: "",
-      });
       dispatch(resetDetails([]));
-      navigate("/");
+      setTimeout(() => {
+        navigate(`/placeprofile/${userPlace._id}`);
+      }, 1000);
     } else {
-      alert("Por favor complete todos los campos correctamente");
+      toast.error("¡Ups! Hay algún problema, revisa la información");
     }
   }
 
@@ -572,18 +582,27 @@ export default function ActualizarLocal() {
 
   async function handleClick(e) {
     e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran") === true
-    ) {
-      await axios.put("/placeDisabled", {
-        email: place.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-      //console.log("fin del handle", place);
-    }
+    confirmAlert({
+      title: "Desactivar cuenta",
+      message: "¿Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
+      buttons: [
+        {
+          label: "Sí",
+          onClick: async () => {
+            await axios.put("/placeDisabled", {
+              email: place.email,
+              disabled: true,
+            });
+            localStorage.removeItem("user-token");
+            navigate("/iniciarsesion");
+          },
+        },
+        {
+          label: "No",
+          onClick: () => { },
+        },
+      ],
+    });
   }
 
   function handleActivateButton() {
@@ -670,7 +689,7 @@ export default function ActualizarLocal() {
                       <span>Teléfono:</span>
                       <input
                         type="text"
-                        placeholder="Telefono de contacto"
+                        placeholder="Teléfono de contacto"
                         className="input"
                         value={input.phoneNumber}
                         name="phoneNumber"
@@ -716,11 +735,11 @@ export default function ActualizarLocal() {
                       Subir foto
                     </button>
                     <div className="ImgACargar">
-                      <img src={image === "" ? place.profilePicture : image} alt="ingresa una imagen" width="350px" height="350px" />
+                      <img src={image === "" ? place.profilePicture : image} alt="Ingresa una imagen" width="350px" height="350px" />
                     </div>
                     <textarea
                       type="text"
-                      placeholder="Descripcion"
+                      placeholder="Descripción"
                       className="textarea"
                       value={input.description}
                       name="description"
@@ -741,6 +760,7 @@ export default function ActualizarLocal() {
                 Desactivar cuenta
               </button>
             </div>
+            <Toaster position="top-center" reverseOrder={false} />
           </ActualizarDatosStyleCont>
         </div>
       ) : (

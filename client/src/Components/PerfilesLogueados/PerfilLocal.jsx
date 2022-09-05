@@ -71,6 +71,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      #h1msg {
+        color: ${Colors.Platinum};
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+
       .title {
         font-family: "New Rocker";
         font-style: normal;
@@ -92,10 +99,35 @@ const DetailStyleCont = styled.div`
       .mapa {
         width: 100%;
         height: 500px;
-        margin-bottom: 3.5%;
+        margin-bottom: 2.5%;
 
         & img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
           margin-top: 2.5%;
+        }
+      }
+
+      .bttLink {
+        align-self: self-end;
+        margin: -1% 2%;
+      }
+
+      .bttGestionar {
+        font-family: "RocknRoll One", sans-serif;
+        width: 115px;
+        height: 32px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.6rem;
+        background-color: ${Colors.Blue_life};
+        color: ${Colors.Platinum};
+        transition: all 0.5s ease;
+
+        :hover {
+          transform: scale(1.1);
+          cursor: pointer;
         }
       }
 
@@ -108,7 +140,6 @@ const DetailStyleCont = styled.div`
         justify-content: center;
         align-items: center;
         & .carousel {
-          /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
           & .item {
@@ -126,16 +157,17 @@ const DetailStyleCont = styled.div`
             }
             & .day {
               font-size: 50px;
+              margin-top: 8%;
             }
             & .month {
               font-size: 25px;
             }
             & .year {
               font-size: 25px;
+              margin-bottom: 9%;
             }
             & .dateStatus {
               width: 100%;
-              background-color: ${Colors.Oxford_Blue};
               font-size: 20px;
             }
             & .BtnVerMas {
@@ -293,6 +325,14 @@ const DetailStyleCont = styled.div`
     }
   }
 `;
+
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
 const FooterStyledCont = styled.footer`
   background-color: ${Colors.Oxford_Blue};
   position: relative;
@@ -311,11 +351,14 @@ export default function DetailPlace() {
 
   const place = useSelector((state) => state.detail_place);
 
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -385,21 +428,32 @@ export default function DetailPlace() {
                 <hr className="hr" />
                 <div className="DataCont">
                   <span className="title">Próximos eventos</span>
-                  <div className="DatesCont">
-                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
-                      {allDates &&
-                        allDates.map((date) => {
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="DatesCont">
+                      <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates.map((date) => {
                           return (
                             <div className="item" key={date._id}>
                               <span className="day">{date.date.substring(8, 10)}</span>
                               <span className="month">{getMonth(date.date.substring(5, 7))}</span>
                               <span className="year">{date.date.substring(0, 4)}</span>
-                              <div className="dateStatus">{date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}</div>
+                              <DateStatusStyled dateStatus={date.isAvailable}>
+                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                              </DateStatusStyled>
                             </div>
                           );
                         })}
-                    </Carousel>
-                  </div>
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="h1msg">Aún no tienes fechas publicadas. Clickea en -Gestionar- para agendar tu próxima fecha.</h1>
+                  )}
+
+                  <a href="/#Eventos" className="bttLink">
+                    <button type="button" className="bttGestionar">
+                      Gestionar
+                    </button>
+                  </a>
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
@@ -417,21 +471,25 @@ export default function DetailPlace() {
                 </div>
                 <div className="DataCont">
                   <span className="title">Reseñas</span>
-                  <div className="comentarios">
-                    {place.reviews &&
-                      place.reviews.map((p) => {
-                        return (
-                          <div key={p._id} className="coment">
-                            <div className="NameRating">
-                              <span className="autor">{p.author}</span>
-                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                  {place.reviews && place.reviews.length !== 0 ? (
+                    <div className="comentarios">
+                      {place.reviews &&
+                        place.reviews.map((p) => {
+                          return (
+                            <div key={p._id} className="coment">
+                              <div className="NameRating">
+                                <span className="autor">{p.author}</span>
+                                <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                              </div>
+                              <p className="contenidocoment">{p.comment}</p>
+                              <hr />
                             </div>
-                            <p className="contenidocoment">{p.comment}</p>
-                            <hr />
-                          </div>
-                        );
-                      })}
-                  </div>
+                          );
+                        })}
+                    </div>
+                  ) : (
+                    <h1 id="h1msg">Aún no tienes reseñas. Comienza a publicar fechas para que los artistas puedan puntuarte.</h1>
+                  )}
                 </div>
               </div>
               <div className="SecondCont">

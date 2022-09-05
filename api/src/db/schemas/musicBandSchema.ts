@@ -1,7 +1,6 @@
 const { Schema } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-
 export const musicBandSchema = new Schema({
 	personInCharge: {
 		type: String,
@@ -34,7 +33,7 @@ export const musicBandSchema = new Schema({
 		},
 	],
 	banned: { type: Boolean, default: false },
-	disabled : { type: Boolean, default: false },
+	disabled: { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "musicband",
@@ -46,7 +45,11 @@ export const musicBandSchema = new Schema({
 	},
 	phoneNumber: { type: String, trim: true, default: "" },
 	description: { type: String, trim: true, default: "" },
-	profilePicture: { type: String, trim: true, default: "" },
+	profilePicture: {
+		type: String,
+		trim: true,
+		default: "https://www.nicepng.com/png/detail/608-6080578_png-file-svg-icono-de-persona-png.png",
+	},
 	pendingDates: [
 		{
 			place: { type: String },
@@ -54,12 +57,22 @@ export const musicBandSchema = new Schema({
 			email: { type: String },
 		},
 	],
+	notifications: [
+		{
+			new: { type: Boolean, default: true },
+			title: { type: String, default: "" },
+			message: { type: String, require: true, default: "" },
+			type: { type: String, default: "info" },
+			before: { type: Object, default: undefined },
+			from: { type: String, default: "System" },
+		},
+	],
 });
 
-musicBandSchema.methods.isValidPassword = async function(password : string){
-  const user = this;
-  const compare = await bcrypt.compare(password, user.password);
-  return compare;
-}
+musicBandSchema.methods.isValidPassword = async function (password: string) {
+	const user = this;
+	const compare = await bcrypt.compare(password, user.password);
+	return compare;
+};
 
 module.exports = musicBandSchema;

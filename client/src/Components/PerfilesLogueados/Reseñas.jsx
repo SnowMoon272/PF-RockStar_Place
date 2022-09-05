@@ -12,6 +12,11 @@ const ReseñasStyleCont = styled.div`
   height: 77%;
   background-color: ${Colors.Oxford_Blue_transparent};
 
+  #msg{
+    color: ${Colors.Platinum};
+    font-size: 18px;
+  }
+
   .TitleB {
     /* border: solid 3px yellowgreen; */
     font-family: "New Rocker";
@@ -90,26 +95,30 @@ function Reseñas({ Opinion, musicBand }) {
   return (
     <ReseñasStyleCont>
       <h1 className="TitleB">{Opinion ? "Opinion" : "Reseñas"}</h1>
-      <div className="comentarios">
-        {Opinion ? (
-          "Aqui va tu opinion"
-        ) : musicBand.reviews ? (
-          musicBand.reviews.map((review) => {
-            return (
-              <div key={review._id} className="coment">
-                <div className="NameRating">
-                  <span className="autor">{review.author}</span>
-                  <span className="ratingcoment">Rating: ⭐{review.rating}</span>
+      {musicBand.reviews && musicBand.reviews.length !== 0 ? (
+        <div className="comentarios">
+          {Opinion ? (
+            "Aqui va tu opinion"
+          ) : musicBand.reviews ? (
+            musicBand.reviews.map((review) => {
+              return (
+                <div key={review._id} className="coment">
+                  <div className="NameRating">
+                    <span className="autor">{review.author}</span>
+                    <span className="ratingcoment">Rating: ⭐{review.rating}</span>
+                  </div>
+                  <p className="contenidocoment">{review.comment}</p>
+                  <hr />
                 </div>
-                <p className="contenidocoment">{review.comment}</p>
-                <hr />
-              </div>
-            );
-          })
-        ) : (
-          <h6>Aún no tienes reseñas.</h6>
-        )}
-      </div>
+              );
+            })
+          ) : (
+            <h6>Aún no tienes reseñas.</h6>
+          )}
+        </div>
+      ) : (
+        <h1 id="msg">Aún no tienes reseñas.</h1>
+      )}
     </ReseñasStyleCont>
   );
 }

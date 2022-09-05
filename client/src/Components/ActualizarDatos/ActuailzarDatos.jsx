@@ -1,17 +1,17 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-closing-bracket-location */
-/* eslint-disable no-useless-escape */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ActualizarDatosStyleCont = styled.div`
   box-sizing: border-box;
@@ -300,7 +300,7 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo de la banda";
-  } else if (!/^[a-zA-Z Ññ ]+$/.test(input.personInCharge)) {
+  } else if (!/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo  puede contener letras y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
@@ -312,20 +312,23 @@ function validate(input) {
   }
   if (
     input.instagram &&
+    // eslint-disable-next-line no-useless-escape
     !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu banda";
-  } else if (input.description && !/^[a-zA-Z0-9 .!,]+$/.test(input.description)) {
+  } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
-  } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
-    errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
+  } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
+    errors.description = "Ladescripción puede tener entre 3 y 500 caracteres";
   }
+  // eslint-disable-next-line no-useless-escape
   if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.spotify)) {
     errors.spotify = "Ingresa una URL válida. 'example: http://example.com'";
   }
+  // eslint-disable-next-line no-useless-escape
   if (input.youtube && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.youtube)) {
     errors.youtube = "Ingresa una URL válida. 'example: http://example.com'";
   }
@@ -362,6 +365,19 @@ export default function upLoadData() {
     spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
     youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
+
+  useEffect(() => {
+    setInput({
+      name: musicBand && musicBand.name ? musicBand.name : "",
+      personInCharge: musicBand && musicBand.personInCharge ? musicBand.personInCharge : "",
+      description: musicBand && musicBand.description ? musicBand.description : "",
+      profilePicture: musicBand && musicBand.profilePicture ? musicBand.profilePicture : image,
+      phoneNumber: musicBand && musicBand.phoneNumber ? musicBand.phoneNumber : "",
+      instagram: musicBand && musicBand.socialMedia ? musicBand.socialMedia.instagram : "",
+      spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+      youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
+    });
+  }, [musicBand]);
 
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
@@ -424,7 +440,7 @@ export default function upLoadData() {
           },
         },
       });
-      alert("Datos actualizados con exito");
+      toast.success("Datos actualizados con éxito");
 
       const { data } = await axios({
         method: "post",
@@ -436,36 +452,38 @@ export default function upLoadData() {
 
       if (data) localStorage.setItem("user-token", data);
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        description: "",
-        phoneNumber: "",
-        profilePicture: image,
-        instagram: "",
-        spotify: "",
-        youtube: "",
-      });
       dispatch(resetDetails([]));
-      navigate(`/musicbandprofile/${userBand._id}`);
+      setTimeout(() => {
+        navigate(`/musicbandprofile/${userBand._id}`);
+      }, 1000);
     } else {
-      alert("Ups! Hay algún problema, revisa la información");
+      toast.error("¡Ups! Hay algún problema, revisa la información");
     }
   }
 
   async function handleClick(e) {
     e.preventDefault();
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm("Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran") === true
-    ) {
-      await axios.put("/bandDisabled", {
-        email: musicBand.email,
-        disabled: true,
-      });
-      localStorage.removeItem("user-token");
-      navigate("/iniciarsesion");
-    }
+    confirmAlert({
+      title: "Desactivar cuenta",
+      message: "¿Realmente desea desactivar su cuenta? Si tiene eventos confirmados o postulados se cancelaran",
+      buttons: [
+        {
+          label: "Sí",
+          onClick: async () => {
+            await axios.put("/bandDisabled", {
+              email: musicBand.email,
+              disabled: true,
+            });
+            localStorage.removeItem("user-token");
+            navigate("/iniciarsesion");
+          },
+        },
+        {
+          label: "No",
+          onClick: () => { },
+        },
+      ],
+    });
   }
 
   return (
@@ -512,7 +530,7 @@ export default function upLoadData() {
                       Teléfono:
                       <input
                         type="tel"
-                        placeholder="Telefono de contacto"
+                        placeholder="Teléfono de contacto"
                         className="input"
                         value={input.phoneNumber}
                         name="phoneNumber"
@@ -568,7 +586,7 @@ export default function upLoadData() {
                       Descripción:
                       <textarea
                         type="text"
-                        placeholder="Descripcion"
+                        placeholder="Descripción"
                         className="textarea"
                         value={input.description}
                         name="description"
@@ -582,7 +600,7 @@ export default function upLoadData() {
               <div className="cargarImagen">
                 <h3>Foto de perfil</h3>
                 <div>
-                  <img src={image === "" ? musicBand.profilePicture : image} alt="ingresa una imagen" />
+                  <img src={image === "" ? musicBand.profilePicture : image} alt="Ingresa una imagen" />
                 </div>
                 <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
                   Subir foto
@@ -598,6 +616,7 @@ export default function upLoadData() {
               Desactivar cuenta
             </button>
           </div>
+          <Toaster position="top-center" reverseOrder={false} />
         </ActualizarDatosStyleCont>
       ) : (
         <LoaderComponent />
