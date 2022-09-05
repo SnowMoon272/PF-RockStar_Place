@@ -480,7 +480,7 @@ export default function upLoadData() {
         },
         {
           label: "No",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
