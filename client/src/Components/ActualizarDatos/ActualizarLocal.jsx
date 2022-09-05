@@ -475,6 +475,22 @@ export default function ActualizarLocal() {
     coords: place && place.coords ? place.coords : { lat: "", lng: "" },
   });
 
+  useEffect(() => {
+    setInput({
+      name: place && place.name ? place.name : "",
+      personInCharge: place && place.personInCharge ? place.personInCharge : "",
+      city: place && place.city ? place.city : "",
+      hasSound: place && place.hasSound ? place.hasSound : false,
+      adress: place && place.adress ? place.adress : "",
+      phoneNumber: place && place.phoneNumber ? place.phoneNumber : "",
+      profilePicture: place && place.profilePicture ? place.profilePicture : image,
+      description: place && place.description ? place.description : "",
+      capacity: place && place.capacity ? place.capacity : "",
+      instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+      coords: place && place.coords ? place.coords : { lat: "", lng: "" },
+    });
+  }, [place]);
+
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
       {

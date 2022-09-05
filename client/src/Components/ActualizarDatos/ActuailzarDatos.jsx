@@ -366,6 +366,19 @@ export default function upLoadData() {
     youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
 
+  useEffect(() => {
+    setInput({
+      name: musicBand && musicBand.name ? musicBand.name : "",
+      personInCharge: musicBand && musicBand.personInCharge ? musicBand.personInCharge : "",
+      description: musicBand && musicBand.description ? musicBand.description : "",
+      profilePicture: musicBand && musicBand.profilePicture ? musicBand.profilePicture : image,
+      phoneNumber: musicBand && musicBand.phoneNumber ? musicBand.phoneNumber : "",
+      instagram: musicBand && musicBand.socialMedia ? musicBand.socialMedia.instagram : "",
+      spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
+      youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
+    });
+  }, [musicBand]);
+
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
       {
