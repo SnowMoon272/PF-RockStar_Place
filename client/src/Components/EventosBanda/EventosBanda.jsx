@@ -248,6 +248,11 @@ const ContainerGralStyled = styled.div`
           height: auto;
           padding-bottom: 50px;
 
+          #msgNotConfirmedEvents {
+            color: ${Colors.Platinum};
+            font-size: 18px;
+          }
+
           h1 {
             font-family: "New Rocker";
             font-weight: 400;
@@ -320,6 +325,10 @@ const ContainerGralStyled = styled.div`
           height: auto;
           padding-bottom: 50px;
 
+          #msgNotPendings {
+            color: ${Colors.Platinum};
+            font-size: 18px;
+          }
           h1 {
             font-family: "New Rocker";
             font-weight: 400;
@@ -445,7 +454,7 @@ function EventosBanda() {
                     <h1>Proximo Evento / Detalle del Evento</h1>
                   </div>
                   {musicBand._id && musicBand.dates.length === 0 ? (
-                    <h2>Aquí aparecerá la información de tu próximo evento confirmado.</h2>
+                    <h2>En esta solapa podrás ver tu próximo evento confirmado.</h2>
                   ) : (
                     <div className="div3Columnas">
                       <div className="divColumna1">
@@ -511,50 +520,58 @@ function EventosBanda() {
                 <div className="divContainerdeAbajoContainer">
                   <div className="divEventosConfirmados">
                     <h1>Eventos Confirmados</h1>
-                    {orderedConfirmedDates.map((date) => {
-                      const year = date.date.substring(0, 4);
-                      const month = date.date.substring(5, 7);
-                      const day = date.date.substring(8, 10);
-                      return (
-                        <div key={date._id} className="divsSmallConfirmados">
-                          <p>{`${day}/${month}/${year}`}</p>
-                          <p>{date.place}</p>
-                          <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
-                            Detalle
-                          </button>
-                          <button
-                            type="button"
-                            className="BtnDelete"
-                            onClick={(e) => handleDeleteClosedDate(e)}
-                            value={[date.date.substring(0, 10), date.email]}
-                          >
-                            ❌
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {orderedConfirmedDates && orderedConfirmedDates.length !== 0 ? (
+                      orderedConfirmedDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div key={date._id} className="divsSmallConfirmados">
+                            <p>{`${day}/${month}/${year}`}</p>
+                            <p>{date.place}</p>
+                            <button value={date.email} name={date.date} onClick={(e) => handleClickDetalles(e)} type="button" className="dateBtn">
+                              Detalle
+                            </button>
+                            <button
+                              type="button"
+                              className="BtnDelete"
+                              onClick={(e) => handleDeleteClosedDate(e)}
+                              value={[date.date.substring(0, 10), date.email]}
+                            >
+                              ❌
+                            </button>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <h2 id="msgNotConfirmedEvents">Aún no tienes eventos confirmados.</h2>
+                    )}
                   </div>
                   <div className="divSolicitudesPendientes">
                     <h1>Solicitudes Pendientes</h1>
-                    {orderedPendingDates.map((date) => {
-                      const year = date.date.substring(0, 4);
-                      const month = date.date.substring(5, 7);
-                      const day = date.date.substring(8, 10);
-                      return (
-                        <div key={date._id} className="divsSmallConfirmados">
-                          <p>{`${day}/${month}/${year}`}</p>
-                          <p>{date.place}</p>
-                          <button
-                            onClick={(e) => handleClickCancelar(e)}
-                            value={[date.date.substring(0, 10), date.email]}
-                            type="button"
-                            className="pendingBtn"
-                          >
-                            Cancelar
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {orderedPendingDates && orderedPendingDates.length !== 0 ? (
+                      orderedPendingDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div key={date._id} className="divsSmallConfirmados">
+                            <p>{`${day}/${month}/${year}`}</p>
+                            <p>{date.place}</p>
+                            <button
+                              onClick={(e) => handleClickCancelar(e)}
+                              value={[date.date.substring(0, 10), date.email]}
+                              type="button"
+                              className="pendingBtn"
+                            >
+                              Cancelar
+                            </button>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <h2 id="msgNotPendings">Aún no tienes solicitudes pendientes.</h2>
+                    )}
                   </div>
                 </div>
               </div>

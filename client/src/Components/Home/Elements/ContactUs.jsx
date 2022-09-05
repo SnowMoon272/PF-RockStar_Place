@@ -144,16 +144,16 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar(props, { Fondo, FondoN, Down }) {
+function ContactUs(props, { Fondo, FondoN, Down }) {
   const user = getUserInfo();
 
   const { info } = props;
 
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
+  const [update, setUpdate] = useState(true);
 
   const handleSubmit = async (e) => {
-    const { from: email } = info;
     const notification = {
       type: "response",
       title,
@@ -162,25 +162,18 @@ function Notificar(props, { Fondo, FondoN, Down }) {
       from: user.email,
     };
 
-    const notificate1 = await axios({
-      method: "post",
-      url: "/musicbands/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
-
-    if (notificate1.acknowledged) return;
-
     await axios({
       method: "post",
-      url: "/places/notification/add",
+      url: "/admins/notification/add",
       data: {
-        email,
+        email: "admin",
         notification,
       },
     });
+
+    setMesagge("");
+    setTitle("");
+    update ? setUpdate(false) : setUpdate(true);
   };
 
   const handleChangeT = (e) => {
@@ -208,10 +201,10 @@ function Notificar(props, { Fondo, FondoN, Down }) {
         </button>
       </div>
       <div className="SectionC">
-        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
+        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} value={message} />
       </div>
     </ContainerGralStyled>
   );
 }
 
-export default Notificar;
+export default ContactUs;

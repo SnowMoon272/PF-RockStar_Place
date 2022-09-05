@@ -7,6 +7,7 @@ const googleRoutes = require("./google.routes.ts");
 const tokenRoutes = require("./token.routes.ts");
 const adminRoutes = require("./admin.routes.ts");
 const mailerRoutes = require("./mailer.routes");
+const changePasswordRoutes = require("./changePassword.routes.ts");
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use(adminRoutes);
 router.use(tokenRoutes);
 router.use("/auth", googleRoutes);
 router.use(mailerRoutes);
+router.use(changePasswordRoutes);
 
 module.exports = router;

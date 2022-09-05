@@ -6,9 +6,12 @@ import {
 	getMusicBandByID,
 	updateMusicBand,
 	disabledMusicBand,
-	banHandler
+	banHandler,
 } from "../db/models/musicBandModel";
-import { removeConfirmedDate, removePendingDate } from "../db/models/placeMusicModel";
+import {
+	removeConfirmedDate,
+	removePendingDate,
+} from "../db/models/placeMusicModel";
 
 import {
 	deleteAllNotifications,
@@ -109,21 +112,33 @@ const disabledBandController = async (req: any, res: any) => {
 	if (disabled) {
 		try {
 			await disabledMusicBand(email, disabled);
-			let musicBandByEmail = await getMusicBand(email)
+			let musicBandByEmail = await getMusicBand(email);
 			if (musicBandByEmail) {
 				if (musicBandByEmail.disabled === true) {
 					for (const date of musicBandByEmail.pendingDates) {
-						await removePendingDate(email, date.email, date.date.toISOString().substring(0, 10));
+						await removePendingDate(
+							email,
+							date.email,
+							date.date.toISOString().substring(0, 10)
+						);
 					}
 					for (const date of musicBandByEmail.dates) {
-						await removeConfirmedDate(email, date.email, date.date.toISOString().substring(0, 10));
+						await removeConfirmedDate(
+							email,
+							date.email,
+							date.date.toISOString().substring(0, 10)
+						);
 					}
 					res.status(201).send({ msg: "Se desactivo la banda correctamente" });
 				}
 				if (musicBandByEmail.disabled === false) {
-					res.send("MusicBand disabled = false, MusicBand fue activada nuevamente")
+					res.send(
+						"MusicBand disabled = false, MusicBand fue activada nuevamente"
+					);
 				}
-			} else { return res.status(400).send({ error: "Ha ocurrido un error" }) } 
+			} else {
+				return res.status(400).send({ error: "Ha ocurrido un error" });
+			}
 		} catch (error) {
 			return res.status(500).send({ error: "No se pudo desactivar la banda" });
 		}
@@ -195,23 +210,35 @@ const deleteOneController = async (req: any, res: any) => {
 const banMusicBandController = async (req: any, res: any) => {
 	let { email } = req.body;
 	if (email) {
-		let musicBandByEmail = await getMusicBand(email)
+		let musicBandByEmail = await getMusicBand(email);
 		if (musicBandByEmail) {
 			if (musicBandByEmail.banned === false) {
 				for (const date of musicBandByEmail.pendingDates) {
-					await removePendingDate(email, date.email, date.date.toISOString().substring(0, 10));
+					await removePendingDate(
+						email,
+						date.email,
+						date.date.toISOString().substring(0, 10)
+					);
 				}
 				for (const date of musicBandByEmail.dates) {
-					await removeConfirmedDate(email, date.email, date.date.toISOString().substring(0, 10));
+					await removeConfirmedDate(
+						email,
+						date.email,
+						date.date.toISOString().substring(0, 10)
+					);
 				}
-				await banHandler(email)
-				res.send("MusicBand banned = true, todas sus fechas y relaciones con Places fueron eliminadas (si las tuviera)")
+				await banHandler(email);
+				res.send(
+					"MusicBand banned = true, todas sus fechas y relaciones con Places fueron eliminadas (si las tuviera)"
+				);
 			}
 			if (musicBandByEmail.banned === true) {
-				await banHandler(email)
-				res.send("MusicBabd banned = false, MusicBand fue desbaneada")
+				await banHandler(email);
+				res.send("MusicBabd banned = false, MusicBand fue desbaneada");
 			}
-		} else { return res.status(404).send("Email no corresponde a una musicBand") }
+		} else {
+			return res.status(404).send("Email no corresponde a una musicBand");
+		}
 	} else {
 		return res.status(404).send({ msg: "Data incorrecta" });
 	}
@@ -230,5 +257,5 @@ module.exports = {
 	getNotificationsController,
 	switchController,
 	deleteOneController,
-	banMusicBandController
+	banMusicBandController,
 };

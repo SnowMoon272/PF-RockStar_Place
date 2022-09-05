@@ -24,6 +24,41 @@ export const RegisterStyleContJr = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  & .spancito {
+    font-size: 12px;
+    font-family: "RocknRoll One";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  & .buttonToast {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Platinum};
+    text-align: center;
+    justify-content: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #394b6e;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    cursor: pointer;
+  }
+  & .recuperoClave {
+    cursor: pointer;
+  }
+
   & .UpSection {
     height: 25%;
     width: 100%;
