@@ -16,6 +16,7 @@ import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
 import MapLocalDetail from "./Components/MapView/MapLocalDetail";
+import CambioContraseña from "./Components/CambioContraseña/CambioContraseña";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -48,6 +49,7 @@ function App() {
 
         <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} />
         <Route exact path="/mapa" element={<MapLocalDetail />} />
+        <Route exact path="/cambiocontrasenia" element={<CambioContraseña />} />
       </Routes>
     </AppStyle>
   );
