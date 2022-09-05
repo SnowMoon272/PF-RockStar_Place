@@ -277,17 +277,20 @@ const ContainerGralStyled = styled.div`
 `;
 
 function UsersInf() {
+
+  function SortArray(x, y) {
+    if (x.name.charAt(0).toLowerCase() < y.name.charAt(0).toLowerCase()) return -1;
+    if (x.name.charAt(0).toLowerCase() > y.name.charAt(0).toLowerCase()) return 1;
+    return 0;
+  }
+
   const [loading, setLoading] = useState(false);
   const [Switch, setSwitch] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(false);
   const dispatch = useDispatch();
-  const places = useSelector((state) => state.places);
-  const musicBands = useSelector((state) => state.musicBands);
+  const places = useSelector((state) => state.places).sort(SortArray);
+  const musicBands = useSelector((state) => state.musicBands).sort(SortArray);
   const [name, setName] = useState("");
-
-  //console.log(places);
-  const placesOrd = places.sort((a, b) => a.name - b.name);
-  console.log(placesOrd);
 
   useEffect(() => {
     setLoading(true);
@@ -309,9 +312,9 @@ function UsersInf() {
     dispatch(adminClickLocal(e.target.name));
   }
 
-  function handlerSearch(e) {
+  async function handlerSearch(e) {
     e.preventDefault();
-    dispatch(getMusicOrPlacesByName(e.target.value));
+    dispatch(getMusicOrPlacesByName(name));
     setName("");
   }
 
@@ -374,7 +377,7 @@ function UsersInf() {
                 <div className="ContainerLocBan">
                   <h1>Locales</h1>
                   <div className="CardContair">
-                    {placesOrd?.map((place) => {
+                    {places?.map((place) => {
                       return (
                         <div key={place._id} className="divsSmallConfirmados">
                           <p>{place.name}</p>

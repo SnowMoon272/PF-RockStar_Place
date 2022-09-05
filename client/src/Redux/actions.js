@@ -162,7 +162,8 @@ export function getMusicOrPlacesByName(name) {
       const json = await axios.get(`/combinedsearch/?search=${encodName}`);
       return dispatch({
         type: GET_ALL_BY_NAME,
-        payload: json.data,
+        payloadMusic: json.data.filter((e) => e.role === "musicband"),
+        payloadPlace: json.data.filter((e) => e.role === "place"),
       });
     } catch (error) {
       return error;

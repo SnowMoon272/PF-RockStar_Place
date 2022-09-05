@@ -151,8 +151,8 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
   const handlerNotif = (e) => {
     setSwitchNotif(!SwitchNotif);
   };
-  console.log("Local", place);
-  console.log("Banda", musicBand);
+  //console.log("Local", place);
+  //console.log("Banda", musicBand);
   return (
     <ContainerGralStyled>
       {clickTipe !== "default" ? (

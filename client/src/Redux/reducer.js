@@ -70,7 +70,8 @@ function rootReducer(state = initialState, action) {
     case GET_ALL_BY_NAME:
       return {
         ...state,
-        allByName: action.payload,
+        musicBands: action.payloadMusic,
+        places: action.payloadPlace,
       };
     case GET_DETAIL_PLACE:
       return {
