@@ -267,7 +267,7 @@ function Card(props) {
           </button>
         ) : null}
       </div>
-      {notfSwitch && info && <Notificar info={info} />}
+      {notfSwitch && info && <Notificar info={info} setnotfSwitch={setnotfSwitch} />}
     </CardStyleCont>
   );
 }

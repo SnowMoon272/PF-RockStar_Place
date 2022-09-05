@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
@@ -181,6 +182,9 @@ function Notificar(props, { Fondo, FondoN, Down }) {
         notification,
       },
     });
+    setMesagge("");
+    setTitle("");
+    props.setnotfSwitch(false);
   };
 
   const handleChangeT = (e) => {
@@ -208,7 +212,7 @@ function Notificar(props, { Fondo, FondoN, Down }) {
         </button>
       </div>
       <div className="SectionC">
-        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
+        <textarea type="text" value={message} placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
       </div>
     </ContainerGralStyled>
   );
