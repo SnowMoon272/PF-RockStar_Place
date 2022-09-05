@@ -78,91 +78,90 @@ const CambioClaveDetailCont = styled.div`
     width: fit-content;
   }
   .email {
-        /* border: solid 3px purple; */
+    /* border: solid 3px purple; */
 
-        /* position: absolute; */
-        width: 357px;
-        height: 50px;
+    /* position: absolute; */
+    width: 357px;
+    height: 50px;
 
-        font-family: "RocknRoll One";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 29px;
-        display: flex;
-        align-items: center;
-        color: rgba(229, 229, 229, 0.42);
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    color: rgba(229, 229, 229, 0.42);
 
-        background-color: transparent;
-        border: none;
-        border-bottom: 4px solid ${Colors.Blue_life};
-        outline: none;
-        color: ${Colors.Platinum};
-        outline: none;
-        padding-left: 15px;
-      }
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
   .password {
-        /* border: solid 3px purple; */
+    /* border: solid 3px purple; */
 
-        /* position: absolute; */
-        width: 357px;
-        height: 44.56px;
+    /* position: absolute; */
+    width: 357px;
+    height: 44.56px;
 
-        font-family: "RocknRoll One";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 29px;
-        display: flex;
-        align-items: center;
-        color: rgba(229, 229, 229, 0.42);
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    color: rgba(229, 229, 229, 0.42);
 
-        background-color: transparent;
-        border: none;
-        border-bottom: 4px solid ${Colors.Blue_life};
-        outline: none;
-        color: ${Colors.Platinum};
-        outline: none;
-        padding-left: 15px;
-      }
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
 
-      .passwordRepeat {
-        /* border: solid 3px purple; */
+  .passwordRepeat {
+    /* border: solid 3px purple; */
 
-        width: 357px;
-        height: 44.56px;
+    width: 357px;
+    height: 44.56px;
 
-        font-family: "RocknRoll One";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 29px;
-        display: flex;
-        align-items: center;
-        color: rgba(229, 229, 229, 0.42);
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    color: rgba(229, 229, 229, 0.42);
 
-        background-color: transparent;
-        border: none;
-        border-bottom: 4px solid ${Colors.Blue_life};
-        outline: none;
-        color: ${Colors.Platinum};
-        outline: none;
-        padding-left: 15px;
-      }
-      .error {
-        border: solid 3px purple;
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid ${Colors.Blue_life};
+    outline: none;
+    color: ${Colors.Platinum};
+    outline: none;
+    padding-left: 15px;
+  }
+  .error {
+    border: solid 3px purple;
 
-        color: red;
-        font-family: "RocknRoll One";
-        font-style: normal;
-        font-weight: 300;
-        font-size: 15px;
-        line-height: 19px;
-      }
+    color: red;
+    font-family: "RocknRoll One";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 19px;
+  }
 `;
 
 export default function cambioClave() {
-
   const navigate = useNavigate();
 
   const [input, setInput] = useState({
@@ -219,9 +218,9 @@ export default function cambioClave() {
       input.PasswordR &&
       input.password === input.PasswordR
     ) {
-      await axios.put("/chagepassword", {
+      await axios.put("/changepassword", {
         email: input.email,
-        disabled: input.password,
+        newPassword: input.password,
       });
       toast.success("Contraseña modificada con exito");
       setInput({
@@ -239,9 +238,7 @@ export default function cambioClave() {
       {/* <NavBar /> */}
       <CambioClaveDetailCont>
         <h1>Rock Star place</h1>
-        <p>
-          Ingrese su email y nueva contraseña
-        </p>
+        <p>Ingrese su email y nueva contraseña</p>
         <div className="emailRegistro">
           <input
             type="email"

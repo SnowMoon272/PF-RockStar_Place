@@ -71,20 +71,37 @@ function InciarSesion() {
   };
 
   function recuperoClave() {
-    //toast.error("prueba");
-    toast((t) => (
-      <span>
-        <b>¿Estas seguro de cambiar la contraseña?</b>
-        Se enviara un correo con los pasos a seguir
-        <button onClick={() => {
-          toast.dismiss(t.id);
-          axios.get(`/cambioclave/${email}`);
-        }}
-        >
-          Si, estoy seguro
-        </button>
-      </span>
-    ));
+    toast.dismiss();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estas seguro de cambiar la contraseña?</b>
+          <p>Se enviará un correo con los pasos a seguir.</p>
+          <div className="buttonCont">
+            <button
+              className="buttonToast"
+              onClick={() => {
+                toast.dismiss(t.id);
+                axios.get(`/cambioclave/${email}`);
+              }}
+            >
+              Sí, estoy seguro.
+            </button>
+            <button
+              className="buttonToast"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar.
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   }
 
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
@@ -146,7 +163,9 @@ function InciarSesion() {
                       autoComplete="off"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <p className="recuperoClave" onClick={(e) => recuperoClave(e)}>¿Olvidaste tu contraseña?</p>
+                    <p className="recuperoClave" onClick={(e) => recuperoClave(e)}>
+                      ¿Olvidaste tu contraseña?
+                    </p>
                   </div>
                   <button type="submit" onClick={login}>
                     Iniciar Sesión
