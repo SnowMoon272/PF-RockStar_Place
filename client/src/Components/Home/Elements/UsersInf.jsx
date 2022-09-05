@@ -299,6 +299,7 @@ function UsersInf() {
     dispatch(getDetailMusicBandByEmail(e.target.value));
     dispatch(adminClickBanda(e.target.name));
   }
+
   function handleClickDetallesLocal(e) {
     e.preventDefault();
     dispatch(getDetailPlaceByEmail(e.target.value));

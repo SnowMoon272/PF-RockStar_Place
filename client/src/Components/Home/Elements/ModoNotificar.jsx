@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Colors from "../../../Utils/colors";
 
-import IMGBanda from "../../../Assets/img/ROLLING STONES.jpg";
-
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
 
@@ -151,8 +149,6 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
   const handlerNotif = (e) => {
     setSwitchNotif(!SwitchNotif);
   };
-  console.log("Local", place);
-  console.log("Banda", musicBand);
   return (
     <ContainerGralStyled>
       {clickTipe !== "default" ? (

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable indent */
 import React, { useState } from "react";
@@ -11,7 +12,7 @@ import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 import SVGEye from "../../../Assets/svg/OjoAbierto.svg";
 import SVGNEye from "../../../Assets/svg/OjoCerrado.svg";
 import { getUserInfo } from "../../../Utils/auth.controller";
-import { getNotifications } from "../../../Redux/actions";
+import { getNotifications, getDetailMusicBandByEmail, adminClickLocal, adminClickBanda } from "../../../Redux/actions";
 
 const CardStyleCont = styled.div`
   border: solid #ffffff 1px;
@@ -48,6 +49,7 @@ const CardStyleCont = styled.div`
       transition: all 0.1s ease;
       color: ${Colors.Platinum};
       text-decoration: none;
+      background-color: transparent;
       transition: all 0.5s ease;
 
       :hover {
@@ -227,18 +229,28 @@ function Card(props) {
     dispatch(getNotifications(user.role, user.email));
   };
 
-  const handlerClickNameCard = (e) => {
-    /* Algo va pasar */
+  const handlerClickNameCard = async (e) => {
+    // dispatch(getDetailMusicBandByEmail(e.target.value));
+    // dispatch(adminClickBanda(e.target.name));
+    // props.setnotificacion(false);
+    // dispatch(adminClickLocal("local"));
+    // dispatch(adminClickBanda("banda"));
   };
+
+  console.log(info);
+
   if (!info) {
     return <h1>Aquí no hay nada</h1>;
   }
+
   return (
     <CardStyleCont eye={eye} key={info._id}>
       <div className="HeaderCont">
-        <a href="/" onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
-          <img src={SVGUser} alt="User" />
-          <h6 type="button">{info.from}</h6>
+        <a href="#UserINF">
+          <button type="button" name="banda" value={info.from} onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
+            <img src={SVGUser} alt="User" />
+            <h6 type="button">{info.from}</h6>
+          </button>
         </a>
         <div className="BTNsCont">
           <button onClick={(e) => handlerEye(e)} type="button" className="BTNCerrar Eye">
