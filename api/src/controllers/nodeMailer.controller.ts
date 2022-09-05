@@ -40,9 +40,9 @@ const cancelBandController = async (req: any, res: any) => {
 	const placeEmail = req.params.placeEmail;
 	const fecha = req.params.date;
 	const year = fecha.substring(0, 4);
-	const month = fecha.substring(6, 8);
-	const day = fecha.substring(9, 11);
-	const date = `{${day}/${month}/${year}}`;
+	const month = fecha.substring(5, 7);
+	const day = fecha.substring(8, 10);
+	const date = `${day}/${month}/${year}`;
 	const musicUser = await getMusicBand(musicEmail);
 	const placeUser = await getPlace(placeEmail);
 	if (musicUser && placeUser) {
@@ -90,9 +90,9 @@ const cancelPlaceController = async (req: any, res: any) => {
 	const placeEmail = req.params.placeEmail;
 	const fecha = req.params.date;
 	const year = fecha.substring(0, 4);
-	const month = fecha.substring(6, 8);
-	const day = fecha.substring(9, 11);
-	const date = `{${day}/${month}/${year}}`;
+	const month = fecha.substring(5, 7);
+	const day = fecha.substring(8, 10);
+	const date = `${day}/${month}/${year}`;
 	const musicUser = await getMusicBand(musicEmail);
 	const placeUser = await getPlace(placeEmail);
 	if (musicUser && placeUser) {
@@ -140,7 +140,11 @@ const cancelPlaceController = async (req: any, res: any) => {
 const matchMailController = async (req: any, res: any) => {
 	const musicEmail = req.params.musicEmail;
 	const placeEmail = req.params.placeEmail;
-	const date = req.params.date;
+	const fecha = req.params.date;
+	const year = fecha.substring(0, 4);
+	const month = fecha.substring(5, 7);
+	const day = fecha.substring(8, 10);
+	const date = `${day}/${month}/${year}`;
 	const musicUser = await getMusicBand(musicEmail);
 	const placeUser = await getPlace(placeEmail);
 
