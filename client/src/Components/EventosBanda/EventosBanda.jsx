@@ -542,7 +542,7 @@ function EventosBanda() {
                     <h1>Proximo Evento / Detalle del Evento</h1>
                   </div>
                   {musicBand._id && musicBand.dates.length === 0 ? (
-                    <h2>En esta solapa podrás ver tu próximo evento confirmado.</h2>
+                    <h2>Aquí podrás ver tu próximo evento confirmado.</h2>
                   ) : (
                     <div className="div3Columnas">
                       <div className="divColumna1">

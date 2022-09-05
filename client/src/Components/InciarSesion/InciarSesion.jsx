@@ -48,6 +48,7 @@ function InciarSesion() {
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogMusic.data.banned === true) {
+            localStorage.removeItem("user-token");
             return alert("Usuario baneado temporalmente");
           } else {
             window.location.replace(homeURL);
@@ -57,6 +58,7 @@ function InciarSesion() {
           if (userLogPlace.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogPlace.data.banned === true) {
+            localStorage.removeItem("user-token");
             return alert("Usuario baneado temporalmente");
           } else {
             window.location.replace(homeURL);

@@ -166,6 +166,19 @@ const ContainerGralStyled = styled.div`
       box-sizing: border-box;
       position: relative;
       z-index: 20;
+
+      .divLoader {
+        //border: red solid;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 600px;
+        justify-content: center;
+
+        h4 {
+          font-size: 16px;
+        }
+      }
     }
 
     .divContainerdeAbajo {
@@ -277,7 +290,6 @@ const ContainerGralStyled = styled.div`
 `;
 
 function UsersInf() {
-
   function SortArray(x, y) {
     if (x.name.charAt(0).toLowerCase() < y.name.charAt(0).toLowerCase()) return -1;
     if (x.name.charAt(0).toLowerCase() > y.name.charAt(0).toLowerCase()) return 1;
