@@ -361,7 +361,7 @@ function HomeADM() {
               <div className="CardsContainerScroll">
                 {notifications.length
                   ? notifications.map((notification) => {
-                      return <Card info={notification} />;
+                      return <Card info={notification} setnotificacion={setnotificacion} />;
                     })
                   : null}
               </div>
@@ -371,7 +371,7 @@ function HomeADM() {
         <GraficStyleCont>
           <Graficas />
         </GraficStyleCont>
-        <UsersStyleCont>
+        <UsersStyleCont id="UserINF">
           <UsersInf />
         </UsersStyleCont>
       </div>
