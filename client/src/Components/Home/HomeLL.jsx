@@ -13,6 +13,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import toast, { Toaster } from "react-hot-toast";
 
 /* Components & Actions */
 import LoaderComponent from "../Loader/Loading";
@@ -636,8 +637,8 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.repeated) alert("La fecha ya se encuentra cargada");
-    if (errors.menor) alert("La fecha a ingresar debe ser mayor a la fecha actual");
+    if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
+    if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
@@ -645,16 +646,47 @@ function HomeLL() {
       });
       setDate("");
       setRender(!render);
-    } else alert("Ingrese una fecha");
+      toast.success("Fecha cargada con exito");
+    } else toast.error("Ingrese una fecha");
   };
 
   const handleDeleteAvailableDate = async (e) => {
-    e.preventDefault(e);
-    await axios.put("/placesdates", {
-      email: place.email,
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estas seguro de eliminar la fecha?</b>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToast"
+              onClick={async () => {
+                await axios.put("/placesdates", {
+                  email: place.email,
+                  date: e.target.value.split(",")[0],
+                });
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro.
+            </button>
+            <button
+              type="button"
+              className="buttonToast"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar.
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   const handleDeleteClosedDate = async (e) => {
@@ -696,8 +728,8 @@ function HomeLL() {
             notification,
           },
         });
-      } else alert("Ya hay un usuario confirmado en esa fecha");
-    } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+      } else toast.error("Ya hay un usuario confirmado en esa fecha");
+    } else toast.error("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
   };
 
   const handleRejectDate = async (e) => {
@@ -857,7 +889,6 @@ function HomeLL() {
                   ) : (
                     <h1 id="msgFechas">Añade una o varias fechas para que los artistas puedan postularse.</h1>
                   )}
-
                   <div className="AddFecha">
                     <label htmlFor="start">
                       Añadir Fecha:
@@ -904,6 +935,7 @@ function HomeLL() {
                 </div>
               </section>
             </SecondStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </SecondVewStyleCont>
           <FooterStyledCont>
             <Footer />

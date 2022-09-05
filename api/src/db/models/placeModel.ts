@@ -21,6 +21,7 @@ const PLACES_REQUIRED_INFO = {
 	profilePicture: 1,
 	hasSound: 1,
 	availableDates: 1,
+	dates: 1,
 	banned: 1,
 	disabled: 1,
 };
