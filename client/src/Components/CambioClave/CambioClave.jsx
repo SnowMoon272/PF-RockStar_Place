@@ -9,7 +9,7 @@ import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 
-const CambioContraseñaStyleCont = styled.div`
+const CambioClaveStyleCont = styled.div`
   background-image: url(${BGHome});
   box-sizing: border-box;
   width: 100%;
@@ -38,7 +38,7 @@ const CambioContraseñaStyleCont = styled.div`
   }
 `;
 
-const CambioContraseñaDetailCont = styled.div`
+const CambioClaveDetailCont = styled.div`
   box-sizing: border-box;
   background-color: rgba(20, 33, 61, 0.75);
   width: 40%;
@@ -140,7 +140,7 @@ const CambioContraseñaDetailCont = styled.div`
       }
 `;
 
-export default function cambioContraseña() {
+export default function cambioClave() {
 
   const navigate = useNavigate();
 
@@ -205,10 +205,10 @@ export default function cambioContraseña() {
   }; */
 
   return (
-    <CambioContraseñaStyleCont>
+    <CambioClaveStyleCont>
       {/* <NavBar /> */}
 
-      <CambioContraseñaDetailCont>
+      <CambioClaveDetailCont>
         {/* <h2>Su cuenta se encuentra desactivada en</h2> */}
         <h1>Rock Star place</h1>
         <p>
@@ -240,10 +240,10 @@ export default function cambioContraseña() {
           />
           {errors.PasswordR && <p className="error">{errors.PasswordR}</p>}
         </div>
-      </CambioContraseñaDetailCont>
+      </CambioClaveDetailCont>
       <button type="button" className="btnActivar" onClick={(e) => handleClick(e)}>
         Confirmar
       </button>
-    </CambioContraseñaStyleCont>
+    </CambioClaveStyleCont>
   );
 }
