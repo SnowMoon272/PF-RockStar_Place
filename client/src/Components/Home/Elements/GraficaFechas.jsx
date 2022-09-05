@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar, Chart } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlaces } from "../../../Redux/actions";
 
 // const TotalGraficosStyleCont = styled.div`
 //   box-sizing: border-box;
@@ -18,6 +20,16 @@ const GraficoBarrasStyleCont = styled.div`
 `;
 
 function GraficaFechas() {
+  const dispatch = useDispatch();
+  const allPlaces = useSelector((state) => state.places);
+
+  useEffect(async () => {
+    dispatch(getPlaces());
+  }, []);
+
+  const confirmedDates = allPlaces.map((place) => place.dates).flat();
+  console.log(confirmedDates);
+
   const data = {
     labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     datasets: [
@@ -28,7 +40,7 @@ function GraficaFechas() {
         borderWidth: 1,
         hoverBackgroundColor: "#00f54988",
         hoverBorderColor: "#FF000",
-        data: [34, 55, 67, 88, 144, 25, 89, 100, 94, 88, 129, 255],
+        data: [34, 55, 67, 88, 144, 25, 89, 100, confirmedDates.length, 0, 0, 0],
       },
     ],
   };
