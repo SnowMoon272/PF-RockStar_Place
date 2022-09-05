@@ -10,7 +10,7 @@ import ModoNotificar from "./ModoNotificar";
 import ModoEditar from "./ModoEditar";
 import Notificar from "./Notificar";
 import IMGLogo from "../../../Assets/img/LogoCircular.png";
-import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
+import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail, getMusicOrPlacesByName } from "../../../Redux/actions";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -285,6 +285,10 @@ function UsersInf() {
   const musicBands = useSelector((state) => state.musicBands);
   const [name, setName] = useState("");
 
+  //console.log(places);
+  const placesOrd = places.sort((a, b) => a.name - b.name);
+  console.log(placesOrd);
+
   useEffect(() => {
     setLoading(true);
   }, []);
@@ -307,6 +311,7 @@ function UsersInf() {
 
   function handlerSearch(e) {
     e.preventDefault();
+    dispatch(getMusicOrPlacesByName(e.target.value));
     setName("");
   }
 
@@ -369,7 +374,7 @@ function UsersInf() {
                 <div className="ContainerLocBan">
                   <h1>Locales</h1>
                   <div className="CardContair">
-                    {places?.map((place) => {
+                    {placesOrd?.map((place) => {
                       return (
                         <div key={place._id} className="divsSmallConfirmados">
                           <p>{place.name}</p>

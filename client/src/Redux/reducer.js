@@ -4,6 +4,7 @@ import {
   GET_DETAIL_PLACE,
   FILTERED_PLACES,
   GET_PLACES_BY_NAME,
+  GET_ALL_BY_NAME,
   GET_CITIES,
   UPDATE_FILTERS,
   POPULARITY_SORT,
@@ -22,6 +23,7 @@ import {
 const initialState = {
   musicBands: [],
   places: [],
+  allByName: [],
   detail_place: [],
   cities: [],
   filters: {
@@ -64,6 +66,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         places: action.payload,
+      };
+    case GET_ALL_BY_NAME:
+      return {
+        ...state,
+        allByName: action.payload,
       };
     case GET_DETAIL_PLACE:
       return {
