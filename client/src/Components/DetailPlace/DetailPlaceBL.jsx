@@ -537,6 +537,22 @@ export default function DetailPlace() {
       toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
         duration: 4000,
       });
+      const notification = {
+        type: user.role,
+        title: `El usuario ${user.name} se postuló a una fecha.`,
+        message: "Para más información visita tu perfil.",
+        before: undefined,
+        from: user.email,
+      };
+
+      await axios({
+        method: "post",
+        url: "/places/notification/add",
+        data: {
+          email: place.email,
+          notification,
+        },
+      });
     } else {
       toast.error("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
