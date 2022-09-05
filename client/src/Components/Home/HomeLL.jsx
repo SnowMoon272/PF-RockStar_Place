@@ -245,7 +245,7 @@ const SecondVewStyleCont = styled.section`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -261,7 +261,7 @@ const SecondVewStyleCont = styled.section`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -930,7 +930,7 @@ function HomeLL() {
                 </div>
               ) : (
                 <div className="SinEvento">
-                  <h4>Aquí podrás ver tu próximo evento confirmado.</h4>
+                  <h4>En este sector verás la información de tu próximo evento confirmado.</h4>
                 </div>
               )}
             </div>

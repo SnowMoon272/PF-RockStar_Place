@@ -22,7 +22,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
 export function getNotifications(role, email) {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
+      let { data } = await axios({
         method: "post",
         url: `/${role}s/notifications`,
         data: {
@@ -30,6 +30,7 @@ export function getNotifications(role, email) {
           email,
         },
       });
+      data = data.reverse();
       return dispatch({
         type: GET_NOTIFICATIONS,
         payload: data,

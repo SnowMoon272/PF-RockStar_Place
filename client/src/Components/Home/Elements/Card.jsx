@@ -16,8 +16,9 @@ import { getNotifications, getDetailMusicBandByEmail, adminClickLocal, adminClic
 
 const CardStyleCont = styled.div`
   border: solid #ffffff 1px;
-
+  background-color: ${({ eye }) => (eye ? Colors.Platinum_Transparent : Colors.Erie_Black_Transparent)};
   position: relative;
+  color: ${({ eye }) => (eye ? Colors.Erie_Black_Transparent : Colors.Platinum_Transparent)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -25,7 +26,6 @@ const CardStyleCont = styled.div`
   align-items: flex-start;
   width: 99.4%;
   height: fit-content;
-  background-color: ${Colors.Erie_Black_Transparent};
   margin-bottom: 35px;
   border-radius: 10px;
   padding: 15px;
@@ -47,9 +47,9 @@ const CardStyleCont = styled.div`
       display: flex;
       align-items: center;
       transition: all 0.1s ease;
-      color: ${Colors.Platinum};
+      color: ${({ eye }) => (eye ? Colors.Platinum_Transparent : Colors.Erie_Black_Transparent)};
       text-decoration: none;
-      background-color: transparent;
+      background-color: ${({ eye }) => (eye ? Colors.Erie_Black_Transparent : Colors.Platinum_Transparent)};
       transition: all 0.5s ease;
 
       :hover {
@@ -213,7 +213,7 @@ function Card(props) {
       },
     });
     dispatch(getNotifications(user.role, user.email));
-    seteye(!eye);
+    e.new ? seteye(eye) : seteye(!eye);
   };
   const handlerCloseNotif = async (e) => {
     /* Algo va pasar */
@@ -237,16 +237,10 @@ function Card(props) {
     // dispatch(adminClickBanda("banda"));
   };
 
-  console.log(info);
-
-  if (!info) {
-    return <h1>Aquí no hay nada</h1>;
-  }
-
   return (
-    <CardStyleCont eye={eye} key={info._id}>
+    <CardStyleCont eye={info.new} key={info._id}>
       <div className="HeaderCont">
-        <a href="#UserINF">
+        <a href="#UserINF" style={{ "text-decoration": "none" }}>
           <button type="button" name="banda" value={info.from} onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
             <img src={SVGUser} alt="User" />
             <h6 type="button">{info.from}</h6>
@@ -254,7 +248,7 @@ function Card(props) {
         </a>
         <div className="BTNsCont">
           <button onClick={(e) => handlerEye(e)} type="button" className="BTNCerrar Eye">
-            <img src={eye ? SVGEye : SVGNEye} alt="ojo" />
+            <img src={info.new ? SVGEye : SVGNEye} alt="ojo" />
           </button>
           <button onClick={(e) => handlerCloseNotif(e)} type="button" className="BTNCerrar">
             <img src={SVGCerrar} alt="cerrar" />
