@@ -583,7 +583,7 @@ export default function ActualizarLocal() {
         },
         {
           label: "No",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });

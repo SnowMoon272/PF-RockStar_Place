@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { getDetailMusicBandByEmail, getDetailPlace, resetDetails } from "../../Redux/actions";
@@ -415,6 +416,7 @@ export default function DetailPlace() {
   useEffect(() => {
     return () => {
       dispatch(resetDetails([]));
+      toast.remove();
     };
   }, []);
 
@@ -520,9 +522,11 @@ export default function DetailPlace() {
         date: e.target.value,
       });
       setRender2(!render2);
-      alert("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos");
+      toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
+        duration: 4000,
+      });
     } else {
-      alert("Ya aplicaste a esta fecha, espera una respuesta del local");
+      toast.error("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
   };
 
@@ -684,6 +688,7 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

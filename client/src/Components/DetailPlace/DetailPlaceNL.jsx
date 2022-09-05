@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
@@ -358,6 +359,7 @@ export default function DetailPlace() {
     setLoading(true);
     return () => {
       dispatch(resetDetails([]));
+      toast.remove();
     };
   }, []);
 
@@ -419,13 +421,37 @@ export default function DetailPlace() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isLog = isAuthenticated();
-    alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
-    !isLog && navigate("/iniciarsesion");
+    toast.error((t) => (
+      <span>
+        Para dejar tu valiosa opinión debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
+    /* alert("Para dejar tu valiosa opinión debes iniciar sesión."); */
+    /* !isLog && navigate("/iniciarsesion"); */
   };
 
   const handleAplica = (e) => {
-    alert("Debes registrarte para poder aplicar a tocar en un local");
-    navigate("/registro");
+    toast.error((t) => (
+      <span>
+        Para poder aplicar a una fecha debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
   };
 
   if (place.banned === true || place.disabled === true) navigate("/");
@@ -487,7 +513,7 @@ export default function DetailPlace() {
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
-                  <span className="title">Comentarios</span>
+                  <span className="title">Reseñas</span>
                   <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
                     <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
                     <div className="RateComentCont">
@@ -552,6 +578,7 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
+            <Toaster position="top-center" reverseOrder={false} />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

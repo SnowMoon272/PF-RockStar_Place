@@ -759,8 +759,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
