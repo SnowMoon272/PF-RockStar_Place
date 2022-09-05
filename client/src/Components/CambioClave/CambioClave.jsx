@@ -5,7 +5,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import { getUserInfo } from "../../Utils/auth.controller";
 
 const CambioClaveStyleCont = styled.div`
   background-image: url(${BGHome});
