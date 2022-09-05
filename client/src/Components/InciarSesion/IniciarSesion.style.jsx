@@ -24,6 +24,10 @@ export const RegisterStyleContJr = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  & .recuperoClave{
+    cursor: pointer;
+  }
+
   & .UpSection {
     height: 25%;
     width: 100%;

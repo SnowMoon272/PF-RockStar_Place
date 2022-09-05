@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -5,6 +6,7 @@ import React, { useEffect, useState } from "react";
 
 /* Components & Actions */
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import NavBar from "../NavBar/NavBar";
 
 /* Form Img & SVG */
@@ -68,6 +70,23 @@ function InciarSesion() {
     }
   };
 
+  function recuperoClave() {
+    //toast.error("prueba");
+    toast((t) => (
+      <span>
+        <b>¿Estas seguro de cambiar la contraseña?</b>
+        Se enviara un correo con los pasos a seguir
+        <button onClick={() => {
+          toast.dismiss(t.id);
+          axios.get(`/cambioclave/${email}`);
+        }}
+        >
+          Si, estoy seguro
+        </button>
+      </span>
+    ));
+  }
+
   const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
 
   const google = () => {
@@ -127,13 +146,14 @@ function InciarSesion() {
                       autoComplete="off"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <p>¿Olvidaste tu contraseña?</p>
+                    <p className="recuperoClave" onClick={(e) => recuperoClave(e)}>¿Olvidaste tu contraseña?</p>
                   </div>
                   <button type="submit" onClick={login}>
                     Iniciar Sesión
                   </button>
                 </div>
               </div>
+              <Toaster position="top-center" reverseOrder={false} />
             </RegisterStyleContJr>
           </RegisterStyleCont>
         </div>

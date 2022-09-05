@@ -1,6 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-closing-bracket-location */
-/* eslint-disable no-useless-escape */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -315,6 +312,7 @@ function validate(input) {
   }
   if (
     input.instagram &&
+    // eslint-disable-next-line no-useless-escape
     !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
@@ -326,9 +324,11 @@ function validate(input) {
   } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
     errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
   }
+  // eslint-disable-next-line no-useless-escape
   if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.spotify)) {
     errors.spotify = "Ingresa una URL válida. 'example: http://example.com'";
   }
+  // eslint-disable-next-line no-useless-escape
   if (input.youtube && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.youtube)) {
     errors.youtube = "Ingresa una URL válida. 'example: http://example.com'";
   }
