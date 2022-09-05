@@ -664,7 +664,7 @@ function HomeLL() {
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
-    axios.get(`/cancelmatch/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+    axios.get(`/cancelmatchplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
     setRender(!render);
   };
 

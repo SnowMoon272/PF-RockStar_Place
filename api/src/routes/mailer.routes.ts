@@ -21,7 +21,7 @@ router.get(
 	cancelBandMatchController
 );
 router.get(
-	`cancelmatchplace/:musicEmail/:placeEmail:date`,
+	`cancelmatchplace/:musicEmail/:placeEmail/:date`,
 	cancelPlaceMatchController
 );
 
