@@ -218,7 +218,7 @@ export const addPlaceReview = async (email: string, review: placeReviews) => {
 
 	if (userToAddReview) {
 		let previousReviews = userToAddReview.reviews;
-		previousReviews.push(review);
+		previousReviews.unshift(review);
 		try {
 			await place.updateOne({ email }, { reviews: previousReviews });
 			await reloadPlaceRating(email);
