@@ -144,10 +144,10 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar(props, { Fondo, FondoN, Down }) {
+function Notificar({ Fondo, FondoN, Down, info }) {
   const user = getUserInfo();
 
-  const { info } = props;
+  // const { info } = props;
 
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
