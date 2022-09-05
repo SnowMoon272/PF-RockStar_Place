@@ -28,7 +28,6 @@ function GraficaFechas() {
   }, []);
 
   const confirmedDates = allPlaces.map((place) => place.dates).flat();
-  //console.log(confirmedDates);
 
   const data = {
     labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
