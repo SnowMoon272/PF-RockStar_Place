@@ -66,7 +66,7 @@ function InciarSesion() {
         }
       }
     } catch (error) {
-      alert("Verifica tu email o clave");
+      toast.error("Verifica tu email o clave");
     }
   };
 
@@ -79,27 +79,30 @@ function InciarSesion() {
           <p>Se enviará un correo con los pasos a seguir.</p>
           <div className="buttonCont">
             <button
-              className="buttonToast"
+              className="buttonToastAcept"
               onClick={() => {
                 toast.dismiss(t.id);
                 axios.get(`/cambioclave/${email}`);
               }}
             >
-              Sí, estoy seguro.
+              Sí, estoy seguro
             </button>
             <button
-              className="buttonToast"
+              className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
               }}
             >
-              Cancelar.
+              Cancelar
             </button>
           </div>
         </span>
       ),
       {
         duration: Infinity,
+        style: {
+          borderRadius: "3%",
+        },
       },
     );
   }
@@ -151,7 +154,7 @@ function InciarSesion() {
                       name="input-email"
                       id="input_email"
                       type="email"
-                      placeholder="email"
+                      placeholder="Email"
                       autoComplete="off"
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -159,7 +162,7 @@ function InciarSesion() {
                       name="input-password"
                       id="input_password"
                       type="password"
-                      placeholder="password"
+                      placeholder="Contraseña"
                       autoComplete="off"
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -172,8 +175,18 @@ function InciarSesion() {
                   </button>
                 </div>
               </div>
-              <Toaster position="top-center" reverseOrder={false} />
             </RegisterStyleContJr>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </RegisterStyleCont>
         </div>
       ) : (

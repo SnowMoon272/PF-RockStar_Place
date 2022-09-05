@@ -595,7 +595,17 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

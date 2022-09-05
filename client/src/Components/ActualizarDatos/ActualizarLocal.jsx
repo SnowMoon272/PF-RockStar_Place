@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import { confirmAlert } from "react-confirm-alert";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -14,7 +13,6 @@ import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -26,6 +24,53 @@ const ActualizarDatosStyleCont = styled.div`
   flex-direction: row-reverse;
   box-sizing: border-box;
   position: absolute;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
 
   .IMGFondo {
     width: 100%;
@@ -455,6 +500,10 @@ export default function ActualizarLocal() {
     } else {
       navigate("/");
     }
+    return () => {
+      dispatch(resetDetails([]));
+      toast.remove();
+    };
   }, []);
 
   const [image, setImage] = useState("");
@@ -582,27 +631,46 @@ export default function ActualizarLocal() {
 
   async function handleClick(e) {
     e.preventDefault();
-    confirmAlert({
-      title: "Desactivar cuenta",
-      message: "¿Realmente desea desactivar su cuenta? Si tiene fechas pendientes o cerradas con bandas se cancelaran",
-      buttons: [
-        {
-          label: "Sí",
-          onClick: async () => {
-            await axios.put("/placeDisabled", {
-              email: place.email,
-              disabled: true,
-            });
-            localStorage.removeItem("user-token");
-            navigate("/iniciarsesion");
-          },
+    toast.dismiss();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Realmente desea desactivar su cuenta?</b>
+          <p>Si tiene eventos confirmados o solicitudes se cancelarán</p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/placeDisabled", {
+                  email: place.email,
+                  disabled: true,
+                });
+                localStorage.removeItem("user-token");
+                navigate("/iniciarsesion");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+        style: {
+          borderRadius: "3%",
         },
-        {
-          label: "No",
-          onClick: () => { },
-        },
-      ],
-    });
+      },
+    );
   }
 
   function handleActivateButton() {
@@ -760,7 +828,17 @@ export default function ActualizarLocal() {
                 Desactivar cuenta
               </button>
             </div>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </ActualizarDatosStyleCont>
         </div>
       ) : (

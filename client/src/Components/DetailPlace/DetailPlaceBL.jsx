@@ -500,8 +500,8 @@ export default function DetailPlace() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.comment === "" && input.rating === 0) alert("No puede realizar un comentario vacío");
-    else if (Object.keys(errors).length) alert("Check for errors and try again");
+    if (input.comment === "" && input.rating === 0) toast.error("No puede realizar un comentario vacío");
+    else if (Object.keys(errors).length) toast.error("Revisa la información y vuelve a intentar");
     else {
       await axios({
         method: "post",
@@ -705,7 +705,17 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />

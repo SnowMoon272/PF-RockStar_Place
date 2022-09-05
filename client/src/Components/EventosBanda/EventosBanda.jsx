@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
@@ -16,6 +17,53 @@ const ContainerGralStyled = styled.div`
   width: 100%;
   height: fit-content;
   padding-left: 67px;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
 
   .IMG {
     position: fixed;
@@ -401,6 +449,12 @@ function EventosBanda() {
     dispatch(getDetailMusicBand(params.id));
   }, [dispatch, render]);
 
+  useEffect(() => {
+    return () => {
+      toast.remove();
+    };
+  }, []);
+
   if (musicBand._id && !placeFirstDate._id) {
     if (orderedConfirmedDates.length > 0) {
       dispatch(getDetailPlaceByEmail(orderedConfirmedDates[0].email));
@@ -420,17 +474,51 @@ function EventosBanda() {
       placeEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
+    toast.success("Petición cancelada");
     setRender(!render);
   }
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/dates", {
-      placeEmail: e.target.value.split(",")[1],
-      musicEmail: musicBand.email,
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    toast.remove();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estás seguro que quieres eliminar la fecha?</b>
+          <p>Ya hay un evento confirmado para este día. De todas formas notificaremos al local sobre la cancelación </p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/dates", {
+                  placeEmail: e.target.value.split(",")[1],
+                  musicEmail: musicBand.email,
+                  date: e.target.value.split(",")[0],
+                });
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");
@@ -576,6 +664,17 @@ function EventosBanda() {
                 </div>
               </div>
             </div>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
           </ContainerGralStyled>
         </div>
       ) : (
