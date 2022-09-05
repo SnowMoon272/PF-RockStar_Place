@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-//import BotonSuscribete from "./BotonSuscripcion";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
-import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 
@@ -80,6 +78,30 @@ const CambioClaveDetailCont = styled.div`
     height: fit-content;
     width: fit-content;
   }
+  .email {
+        /* border: solid 3px purple; */
+
+        /* position: absolute; */
+        width: 357px;
+        height: 50px;
+
+        font-family: "RocknRoll One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 29px;
+        display: flex;
+        align-items: center;
+        color: rgba(229, 229, 229, 0.42);
+
+        background-color: transparent;
+        border: none;
+        border-bottom: 4px solid ${Colors.Blue_life};
+        outline: none;
+        color: ${Colors.Platinum};
+        outline: none;
+        padding-left: 15px;
+      }
   .password {
         /* border: solid 3px purple; */
 
@@ -146,7 +168,7 @@ export default function cambioClave() {
 
   const [input, setInput] = useState({
     PasswordR: "",
-    //email: "",
+    email: "",
     password: "",
   });
 
@@ -173,9 +195,9 @@ export default function cambioClave() {
     if (input.password !== input.PasswordR) {
       errors.PasswordR = "Las contraseñas no coinciden";
     }
-    /* if (!input.email) {
-      errors.email = "Ingresar contraseña";
-    } */
+    if (!input.email) {
+      errors.email = "Ingresar email";
+    }
     return errors;
   }
 
@@ -187,33 +209,53 @@ export default function cambioClave() {
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   }
 
-  /* async function handleClick(e) {
-    e.preventDefault();
-    const user = await getUserInfo();
-    if (user.role === "musicband") {
-      await axios.put("/bandDisabled", {
-        email: user.email,
-        disabled: "false",
+  // eslint-disable-next-line consistent-return
+  async function handleClick(e) {
+    if (
+      !errors.password &&
+      !errors.PasswordR &&
+      !errors.email &&
+      input.email &&
+      input.password &&
+      input.PasswordR &&
+      input.password === input.PasswordR
+    ) {
+      await axios.put("/chagepassword", {
+        email: input.email,
+        disabled: input.password,
       });
-    } else {
-      await axios.put("/placeDisabled", {
-        email: user.email,
-        disabled: "false",
+      toast.success("Contraseña modificada con exito");
+      setInput({
+        PasswordR: "",
+        email: "",
+        password: "",
       });
+      return navigate("/iniciarsesion");
     }
-    navigate("/");
-  }; */
+    toast.error("¡Ups! Hay algún problema, revisa el email o contraseña");
+  }
 
   return (
     <CambioClaveStyleCont>
       {/* <NavBar /> */}
-
       <CambioClaveDetailCont>
-        {/* <h2>Su cuenta se encuentra desactivada en</h2> */}
         <h1>Rock Star place</h1>
         <p>
-          Ingrese su nueva contraseña
+          Ingrese su email y nueva contraseña
         </p>
+        <div className="emailRegistro">
+          <input
+            type="email"
+            className="email"
+            placeholder="Ingresa tu e-mail"
+            name="email"
+            autoComplete="off"
+            // eslint-disable-next-line react/jsx-no-bind
+            onChange={handleChange}
+            value={input.email}
+          />
+          {errors.email && <p className="error">{errors.email}</p>}
+        </div>
         <div className="PasswordRegistro">
           <input
             type="password"
@@ -244,6 +286,7 @@ export default function cambioClave() {
       <button type="button" className="btnActivar" onClick={(e) => handleClick(e)}>
         Confirmar
       </button>
+      <Toaster position="top-center" reverseOrder={false} />
     </CambioClaveStyleCont>
   );
 }
