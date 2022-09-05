@@ -430,7 +430,7 @@ function EventosBanda() {
       musicEmail: musicBand.email,
       date: e.target.value.split(",")[0],
     });
-    await axios.get(`cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/e.target.value.split(",")[0]`);
+    await axios.get(`cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
     setRender(!render);
   };
 
