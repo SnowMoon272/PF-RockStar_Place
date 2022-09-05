@@ -10,7 +10,7 @@ import ModoNotificar from "./ModoNotificar";
 import ModoEditar from "./ModoEditar";
 import Notificar from "./Notificar";
 import IMGLogo from "../../../Assets/img/LogoCircular.png";
-import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
+import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail, getMusicOrPlacesByName } from "../../../Redux/actions";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -277,12 +277,19 @@ const ContainerGralStyled = styled.div`
 `;
 
 function UsersInf() {
+
+  function SortArray(x, y) {
+    if (x.name.charAt(0).toLowerCase() < y.name.charAt(0).toLowerCase()) return -1;
+    if (x.name.charAt(0).toLowerCase() > y.name.charAt(0).toLowerCase()) return 1;
+    return 0;
+  }
+
   const [loading, setLoading] = useState(false);
   const [Switch, setSwitch] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(false);
   const dispatch = useDispatch();
-  const places = useSelector((state) => state.places);
-  const musicBands = useSelector((state) => state.musicBands);
+  const places = useSelector((state) => state.places).sort(SortArray);
+  const musicBands = useSelector((state) => state.musicBands).sort(SortArray);
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -306,8 +313,9 @@ function UsersInf() {
     dispatch(adminClickLocal(e.target.name));
   }
 
-  function handlerSearch(e) {
+  async function handlerSearch(e) {
     e.preventDefault();
+    dispatch(getMusicOrPlacesByName(name));
     setName("");
   }
 

@@ -4,6 +4,7 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_PLACES = "GET_PLACES",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
+  GET_ALL_BY_NAME = "GET_ALL_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
@@ -147,6 +148,22 @@ export function getDetailMusicBandByEmail(email) {
       return dispatch({
         type: GET_DETAIL_MUSIC_BAND,
         payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function getMusicOrPlacesByName(name) {
+  const encodName = encodeURI(name);
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`/combinedsearch/?search=${encodName}`);
+      return dispatch({
+        type: GET_ALL_BY_NAME,
+        payloadMusic: json.data.filter((e) => e.role === "musicband"),
+        payloadPlace: json.data.filter((e) => e.role === "place"),
       });
     } catch (error) {
       return error;
