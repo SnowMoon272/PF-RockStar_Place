@@ -542,7 +542,7 @@ function HomeBL() {
                   </div>
                 ) : (
                   <div className="SinEvento">
-                    <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+                    <h4>En esta solapa podrás ver tu próximo evento confirmado.</h4>
                   </div>
                 )}
               </div>

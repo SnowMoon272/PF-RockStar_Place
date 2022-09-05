@@ -78,6 +78,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      #msgh1 {
+        color: ${Colors.Platinum};
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+
       .TitleyButoon {
         display: flex;
         justify-content: space-between;
@@ -262,6 +269,11 @@ const DetailStyleCont = styled.div`
                 }
               }
             }
+          }
+
+          .spanError {
+            font-size: 10px;
+            color: ${Colors.Platinum};
           }
 
           .ButtonsComentar {
@@ -566,28 +578,33 @@ export default function DetailPlace() {
                 </div>
                 <div className="DataCont">
                   <span className="title">Próximas fechas</span>
-                  <div className="DatesCont">
-                    <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
-                      {allDates &&
-                        allDates.map((date) => {
-                          return (
-                            <div className="item" key={date._id}>
-                              <span className="day">{date.date.substring(8, 10)}</span>
-                              <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                              <span className="year">{date.date.substring(0, 4)}</span>
-                              <DateStatusStyled dateStatus={date.isAvailable}>
-                                {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                              </DateStatusStyled>
-                              {!date.isAvailable ? null : (
-                                <button className="BtnVerMas" type="button" value={date.date.substring(0, 10)} onClick={(e) => handleAplica(e)}>
-                                  Aplica
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="DatesCont">
+                      <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {!date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" value={date.date.substring(0, 10)} onClick={(e) => handleAplica(e)}>
+                                    Aplica
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgh1">El local aún no tiene fechas publicadas a las cuales puedas aplicar.</h1>
+                  )}
+
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
@@ -640,8 +657,8 @@ export default function DetailPlace() {
                             </button>
                           </div>
                         </div>
-                        {errors.comment && <span>{errors.comment}</span>}
-                        {errors.rating && <span>{errors.rating}</span>}
+                        {errors.comment && <span className="spanError">{errors.comment}</span>}
+                        {errors.rating && <span className="spanError">{errors.rating}</span>}
                         <button className="ButtonsComentar" type="submit">
                           Comentar
                         </button>
