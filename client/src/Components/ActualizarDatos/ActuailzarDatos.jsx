@@ -300,7 +300,7 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo de la banda";
-  } else if (!/^[a-zA-Z Ññ ]+$/.test(input.personInCharge)) {
+  } else if (!/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo  puede contener letras y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo puede contener entre 3 y 25 caracteres";
@@ -322,7 +322,7 @@ function validate(input) {
   } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
-    errors.description = "Ladescripción puede tener entre 3 y 250 caracteres";
+    errors.description = "Ladescripción puede tener entre 3 y 500 caracteres";
   }
   // eslint-disable-next-line no-useless-escape
   if (input.spotify && !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(input.spotify)) {
