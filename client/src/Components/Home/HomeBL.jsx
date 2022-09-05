@@ -586,11 +586,6 @@ function HomeBL() {
                 <Pagination UserLog cardsPerPage={cardsPerPage} allPlaces={allPlaces.length} paginado={paginado} pageNumber={pageNumber} />
               </CarsStyleCont>
             </SecondVewStyleCont>
-            {/* <FooterStyle>
-        Fotter
-        asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
-        sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle> */}
             <FooterStyledCont>
               <Footer />
             </FooterStyledCont>

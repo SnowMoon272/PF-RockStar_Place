@@ -155,7 +155,7 @@ function ContactUs(props, { Fondo, FondoN, Down }) {
 
   const handleSubmit = async (e) => {
     const notification = {
-      type: "response",
+      type: user.role,
       title,
       message,
       before: info,

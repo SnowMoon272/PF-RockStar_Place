@@ -156,7 +156,7 @@ function Notificar({ Fondo, FondoN, Down, info }) {
   const handleSubmit = async (e) => {
     const { from: email } = info;
     const notification = {
-      type: "response",
+      type: user.role,
       title,
       message,
       before: info,

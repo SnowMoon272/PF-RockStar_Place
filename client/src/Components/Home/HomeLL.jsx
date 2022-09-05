@@ -713,7 +713,7 @@ function HomeLL() {
         setRender(!render);
         const user = getUserInfo();
         const notification = {
-          type: "info",
+          type: user.role,
           title: `${user.email} ha aceptado tu solicitud`,
           message: "Para más información por favor revisa tus fechas",
           before: undefined,
