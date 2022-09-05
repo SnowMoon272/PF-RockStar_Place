@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import SVGGoogle from "../../Assets/svg/Google.svg";
@@ -410,6 +411,7 @@ function Registro() {
     await axios.get(`http://localhost:3001/register/mail/${email}`);
   }
 
+  // eslint-disable-next-line consistent-return
   async function handleSubmit(e) {
     e.preventDefault();
     const emails = await axios.get("/emails");
@@ -418,33 +420,44 @@ function Registro() {
       return alert("Este email ya se encuentra registrado, por favor, ingrese otro.");
     }
 
-    if (checked === "banda") {
-      dispatch(
-        registerBand({
-          newMusicBand: {
-            email: input.email,
-            password: input.password,
-          },
-        }),
-      );
-    } else if (checked === "local") {
-      dispatch(
-        registerPlace({
-          newPlace: {
-            email: input.email,
-            password: input.password,
-          },
-        }),
-      );
+    if (
+      !errors.password &&
+      !errors.PasswordR &&
+      !errors.email &&
+      input.email &&
+      input.password &&
+      input.PasswordR &&
+      input.password === input.PasswordR
+    ) {
+      if (checked === "banda") {
+        dispatch(
+          registerBand({
+            newMusicBand: {
+              email: input.email,
+              password: input.password,
+            },
+          }),
+        );
+      } else if (checked === "local") {
+        dispatch(
+          registerPlace({
+            newPlace: {
+              email: input.email,
+              password: input.password,
+            },
+          }),
+        );
+      }
+      sendMail();
+      alert("Usuario creado con exito");
+      setInput({
+        PasswordR: "",
+        email: "",
+        password: "",
+      });
+      return navigate("/iniciarsesion");
     }
-    sendMail();
-    alert("Usuario creado con exito");
-    setInput({
-      PasswordR: "",
-      email: "",
-      password: "",
-    });
-    return navigate("/iniciarsesion");
+    toast.error("¡Ups! Hay algún problema, revisa el email o contraseña ingresado");
   }
 
   useEffect(() => {
@@ -538,6 +551,7 @@ function Registro() {
                   </form>
                 </div>
               </div>
+              <Toaster position="top-center" reverseOrder={false} />
             </LoginStyleCont2>
           </LoginStyleCont>
         </div>
