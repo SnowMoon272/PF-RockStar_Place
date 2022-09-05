@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
@@ -144,10 +145,10 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Notificar(props, { Fondo, FondoN, Down }) {
+function Notificar({ Fondo, FondoN, Down, info }) {
   const user = getUserInfo();
 
-  const { info } = props;
+  // const { info } = props;
 
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
@@ -155,7 +156,7 @@ function Notificar(props, { Fondo, FondoN, Down }) {
   const handleSubmit = async (e) => {
     const { from: email } = info;
     const notification = {
-      type: "response",
+      type: user.role,
       title,
       message,
       before: info,
@@ -181,6 +182,9 @@ function Notificar(props, { Fondo, FondoN, Down }) {
         notification,
       },
     });
+    setMesagge("");
+    setTitle("");
+    props.setnotfSwitch(false);
   };
 
   const handleChangeT = (e) => {
@@ -208,7 +212,7 @@ function Notificar(props, { Fondo, FondoN, Down }) {
         </button>
       </div>
       <div className="SectionC">
-        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
+        <textarea type="text" value={message} placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
       </div>
     </ContainerGralStyled>
   );

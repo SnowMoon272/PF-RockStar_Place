@@ -434,7 +434,7 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(input.personInCharge)) {
+  } else if (!/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
     errors.personInCharge = "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
@@ -457,7 +457,7 @@ function validate(input) {
   } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
-    errors.description = "La descripción puede tener entre 3 y 250 caracteres";
+    errors.description = "La descripción puede tener entre 3 y 500 caracteres";
   }
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";

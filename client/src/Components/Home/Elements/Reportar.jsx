@@ -144,10 +144,10 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Reportar(props, { Fondo, FondoN, Down }) {
+function Reportar({ Fondo, FondoN, Down, info }) {
   const user = getUserInfo();
 
-  const { info } = props;
+  // const { info } = props;
 
   const [message, setMesagge] = useState("");
 

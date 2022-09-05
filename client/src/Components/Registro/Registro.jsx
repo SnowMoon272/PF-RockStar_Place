@@ -542,12 +542,7 @@ function Registro() {
                     <button
                       type="submit"
                       className="registro"
-                      disabled={
-                        !input.email ||
-                        !input.password ||
-                        !input.PasswordR ||
-                        input.password !== input.PasswordR
-                      }
+                      disabled={!input.email || !input.password || !input.PasswordR || input.password !== input.PasswordR}
                     >
                       Registrarse
                     </button>

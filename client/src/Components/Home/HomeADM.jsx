@@ -158,6 +158,7 @@ const HomeStyleCont = styled.div`
       display: flex;
       align-items: center;
       transition: all 0.1s ease;
+      position: relative;
 
       & a {
         color: ${Colors.Platinum};
@@ -172,15 +173,17 @@ const HomeStyleCont = styled.div`
         background-color: ${Colors.Oxford_Blue_transparent};
 
         p {
-          cursor: pointer;
           display: block;
+          cursor: pointer;
           position: absolute;
-          top: 61px;
-          right: 105px;
+          top: 48px;
+          right: 0px;
+          left: 0px;
           font-size: 1.5rem;
-          margin: 0px;
+          margin: auto;
+          width: fit-content;
           background-color: ${Colors.Oxford_Blue_transparent};
-          padding: 4px 20px;
+          padding: 4px 25px;
           border: solid #ffffff 3px;
           border-top-left-radius: 0px;
           border-top-right-radius: 0px;
@@ -358,7 +361,7 @@ function HomeADM() {
               <div className="CardsContainerScroll">
                 {notifications.length
                   ? notifications.map((notification) => {
-                      return <Card info={notification} />;
+                      return <Card info={notification} setnotificacion={setnotificacion} />;
                     })
                   : null}
               </div>
@@ -368,7 +371,7 @@ function HomeADM() {
         <GraficStyleCont>
           <Graficas />
         </GraficStyleCont>
-        <UsersStyleCont>
+        <UsersStyleCont id="UserINF">
           <UsersInf />
         </UsersStyleCont>
       </div>

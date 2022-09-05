@@ -11,11 +11,11 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { getNotifications, removeNotifications } from "../../Redux/actions";
-import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
 
 /* Components & Actions */
-import Colors from "../../Utils/colors";
 import { getUserInfo, isAuthenticated, isMusicband } from "../../Utils/auth.controller";
+import SearchBarYFilters from "./SearchBar_Filters/SearchBar_y_Filters";
+import Colors from "../../Utils/colors";
 import Card from "../Home/Elements/Card";
 
 /* Form Img & SVG */
