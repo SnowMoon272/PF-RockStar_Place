@@ -9,7 +9,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
-import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -432,7 +431,6 @@ export default function DetailPlace() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isLog = isAuthenticated();
     toast.error((t) => (
       <span>
         Para dejar tu valiosa opinión debes
@@ -446,8 +444,6 @@ export default function DetailPlace() {
         </button>
       </span>
     ));
-    /* alert("Para dejar tu valiosa opinión debes iniciar sesión."); */
-    /* !isLog && navigate("/iniciarsesion"); */
   };
 
   const handleAplica = (e) => {

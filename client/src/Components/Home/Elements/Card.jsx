@@ -245,22 +245,14 @@ function Card(props) {
     dispatch(getNotifications(user.role, user.email));
   };
 
-  console.log(userType);
-
   const handlerClickNameCard = (e) => {
     e.preventDefault();
     if (userType === "local") {
       dispatch(getDetailPlaceByEmail(info.from));
       dispatch(adminClickLocal(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     } else if (userType === "banda") {
       dispatch(getDetailMusicBandByEmail(info.from));
       dispatch(adminClickBanda(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     }
     props.setnotificacion(false);
   };
