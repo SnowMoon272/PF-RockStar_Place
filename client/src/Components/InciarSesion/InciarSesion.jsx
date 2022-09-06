@@ -44,7 +44,7 @@ function InciarSesion() {
         const user = await getUserInfo();
         const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
         if (user.role === "musicband") {
-          const userLogMusic = await axios.get(`http://localhost:3001/musicbandemail/${user.email}`);
+          const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogMusic.data.banned === true) {
@@ -54,7 +54,7 @@ function InciarSesion() {
             window.location.replace(homeURL);
           }
         } else if (user.role === "place") {
-          const userLogPlace = await axios.get(`http://localhost:3001/place-email/${user.email}`);
+          const userLogPlace = await axios.get(`https://pf-rock-star-place.herokuapp.com/place-email/${user.email}`);
           if (userLogPlace.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogPlace.data.banned === true) {
