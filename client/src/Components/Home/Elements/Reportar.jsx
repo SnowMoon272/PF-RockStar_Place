@@ -153,7 +153,7 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
 
   const handleSubmit = async (e) => {
     const notification = {
-      type: "report",
+      type: user.role,
       title: `${user.email} ha reportado a (${info})`,
       message,
       before: undefined,
