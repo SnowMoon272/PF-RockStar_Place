@@ -6,8 +6,9 @@ import React, { useEffect, useState } from "react";
 /* Modules */
 
 /* Components & Actions */
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 
 /* Form Img & SVG */
@@ -17,7 +18,6 @@ import LoaderComponent from "../Loader/Loading";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
-import { getUserInfo } from "../../Utils/auth.controller";
 
 function InciarSesion() {
   const [email, setEmail] = useState("");
@@ -117,6 +117,7 @@ function InciarSesion() {
     window.open(`${BACK_URL}/auth/google`, "_self");
   };
   useEffect(() => {
+    if (isAuthenticated()) navigate("/");
     setTimeout(() => {
       setLoading(true);
     }, 100);
@@ -139,7 +140,7 @@ function InciarSesion() {
                 <div className="Left">
                   <h2>Iniciar sesión con una red social</h2>
                   <div className="Butons">
-                    <button type="button" onClick={google}>
+                    <button className="Google" type="button" onClick={google}>
                       <img src={IMGoogle} alt="" />
                       <p>Ingresar con Google</p>
                     </button>

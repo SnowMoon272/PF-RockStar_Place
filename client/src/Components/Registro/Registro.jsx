@@ -179,6 +179,11 @@ const LoginStyleCont2 = styled.div`
         border-radius: 10px;
         display: flex;
         align-items: center;
+        transition: all 0.5s ease;
+        :hover {
+          transform: scale(1.1);
+          cursor: pointer;
+        }
 
         & img {
           width: 40px;
@@ -462,7 +467,7 @@ function Registro() {
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) navigate("/iniciarsesion");
+    if (isAuthenticated()) navigate("/");
     return () => {
       toast.remove();
     };
