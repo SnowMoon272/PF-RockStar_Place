@@ -804,7 +804,7 @@ function HomeLL() {
                 }), {
                   loading: "Eliminando...",
                   success: () => {
-                    axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                    axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
                     setRender(!render);
                     toast.success("Fecha eliminada");
                     setBlock(false);
@@ -858,7 +858,7 @@ function HomeLL() {
               email: e.target.value.split(",")[1],
               notification: {
                 type: user.role,
-                title: `${user.email} ha aceptado tu solicitud`,
+                title: `${user.name} ha aceptado tu solicitud`,
                 message: "Para más información por favor revisa tus fechas",
                 before: undefined,
                 from: place.email,
@@ -888,13 +888,26 @@ function HomeLL() {
 
   const handleRejectDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/pendingdates", {
+    setBlock(true);
+    toast.promise(axios.put("/pendingdates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
+    }), {
+      loading: "Rechazando...",
+      success: () => {
+        setRender(!render);
+        setBlock(false);
+        toast.success("Solicitud rechazada");
+      },
+      error: "error",
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
+      },
     });
-    toast.success("Solicitud rechazada");
-    setRender(!render);
   };
 
   const handleShowDetail = async (e) => {

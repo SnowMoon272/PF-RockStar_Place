@@ -603,6 +603,7 @@ export default function DetailPlace() {
                 style: {
                   fontSize: "1.5rem",
                   fontFamily: "RocknRoll One",
+                  textAlign: "center",
                 },
               }}
             />

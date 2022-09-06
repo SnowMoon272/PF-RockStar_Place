@@ -26,11 +26,66 @@ const HomeStyleCont = styled.div`
   background-image: url(${BGPerfil});
   width: 100%;
   min-height: 100%;
-  padding-left: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 70px;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+`;
+
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: fixed;
+  z-index: ${({ block }) => (block ? 2100 : -1)};
 `;
 
 const DetailStyleCont = styled.div`
@@ -39,7 +94,7 @@ const DetailStyleCont = styled.div`
   height: fit-content;
   background-color: rgba(20, 33, 61, 0.75);
   display: flex;
-  margin: 2.5% 0px;
+  margin: 2.5% 2.5% 2.5% 5%;
 
   .FirstCont {
     width: 61.4%;
@@ -411,6 +466,7 @@ export default function DetailPlace() {
   const [render2, setRender2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [SwitchNotif, setSwitchNotif] = useState(true);
+  const [block, setBlock] = useState(false);
 
   const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
@@ -505,7 +561,8 @@ export default function DetailPlace() {
     if (input.comment === "" && input.rating === 0) toast.error("No puede realizar un comentario vacío");
     else if (Object.keys(errors).length) toast.error("Revisa la información y vuelve a intentar");
     else {
-      await axios({
+      setBlock(true);
+      toast.promise(axios({
         method: "post",
         url: "/placereviews",
         data: {
@@ -519,43 +576,64 @@ export default function DetailPlace() {
         headers: {
           Authorization: localStorage.getItem("user-token"),
         },
+      }), {
+        loading: "Enviando...",
+        success: () => {
+          setInput({
+            comment: "",
+            rating: 0,
+          });
+          setRender(!render);
+          setBlock(false);
+          toast.success("Comentario enviado");
+        },
+        error: "error",
+      }, {
+        success: {
+          style: {
+            display: "none",
+          },
+        },
       });
-      setInput({
-        comment: "",
-        rating: 0,
-      });
-      setRender(!render);
     }
   };
 
   const handleAplica = async (e) => {
+    setBlock(true);
     if (checkAplied(e.target.value, place.email) === false) {
-      await axios.post("/pendingdates", {
+      toast.promise(axios.post("/pendingdates", {
         musicEmail: user.email,
         placeEmail: place.email,
         date: e.target.value,
-      });
-      setRender2(!render2);
-      toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
-        duration: 4000,
-      });
-      const notification = {
-        type: user.role,
-        title: `El usuario ${user.name} se postuló a una fecha.`,
-        message: "Para más información visita tu perfil.",
-        before: undefined,
-        from: user.email,
-      };
-
-      await axios({
-        method: "post",
-        url: "/places/notification/add",
-        data: {
-          email: place.email,
-          notification,
+      }), {
+        loading: "Enviando...",
+        success: () => {
+          axios.post("/places/notification/add", {
+            email: place.email,
+            notification: {
+              type: user.role,
+              title: `El usuario ${user.name} se postuló a una fecha.`,
+              message: "Para más información visita tu perfil.",
+              before: undefined,
+              from: user.email,
+            }
+          });
+          setRender2(!render2);
+          setBlock(false);
+          toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
+            duration: 4000,
+          });
+        },
+        error: "error",
+      }, {
+        success: {
+          style: {
+            display: "none",
+          },
         },
       });
     } else {
+      setBlock(false);
       toast.error("Ya aplicaste a esta fecha, espera una respuesta del local");
     }
   };
@@ -570,6 +648,19 @@ export default function DetailPlace() {
       {loading ? (
         <div>
           <HomeStyleCont>
+            <Blocker block={block} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                  textAlign: "center",
+                },
+              }}
+            />
             <NavBar Home Eventos Perfil />
             <DetailStyleCont>
               <div className="FirstCont">
@@ -628,7 +719,7 @@ export default function DetailPlace() {
                 {SwitchNotif ? (
                   <div className="DataCont">
                     <div className="TitleyButoon">
-                      <p className="title">Comentarios</p>
+                      <p className="title">Reseñas</p>
                       <button
                         onClick={(e) => {
                           handlerSwitchNotif(e);
@@ -722,17 +813,6 @@ export default function DetailPlace() {
                 ) : null}
               </div>
             </DetailStyleCont>
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{
-                className: "",
-                style: {
-                  fontSize: "1.5rem",
-                  fontFamily: "RocknRoll One",
-                },
-              }}
-            />
           </HomeStyleCont>
           <FooterStyledCont>
             <Footer />
