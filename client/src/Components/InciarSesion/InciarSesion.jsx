@@ -1,5 +1,4 @@
 /* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 /* Modules */
@@ -17,6 +16,8 @@ import LoaderComponent from "../Loader/Loading";
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
 import { getUserInfo } from "../../Utils/auth.controller";
+
+require("dotenv").config();
 
 function InciarSesion() {
   const [email, setEmail] = useState("");
@@ -77,7 +78,7 @@ function InciarSesion() {
     toast(
       (t) => (
         <span className="spancito">
-          <b>¿Estas seguro de cambiar la contraseña?</b>
+          <b>¿Estás seguro de cambiar la contraseña?</b>
           <p>Se enviará un correo con los pasos a seguir.</p>
           <div className="buttonCont">
             <button
@@ -113,7 +114,7 @@ function InciarSesion() {
 
   const google = () => {
     localStorage.setItem("loggedWithGoogle", "true");
-    window.open(`${BACK_URL}/auth/google`, "_self");
+    window.open("https://pf-rock-star-place.herokuapp.com/auth/google", "_self");
   };
   useEffect(() => {
     setTimeout(() => {
@@ -142,10 +143,6 @@ function InciarSesion() {
                       <img src={IMGoogle} alt="" />
                       <p>Ingresar con Google</p>
                     </button>
-                    {/* <button type="button">
-                <img src={IMGFace} alt="" />
-                <p>Ingresar con FAcebook</p>
-              </button> */}
                     <a href="https://www.linkedin.com/in/matías-straface-369a66238/">MatiasStraface</a>
                   </div>
                 </div>
@@ -168,9 +165,9 @@ function InciarSesion() {
                       autoComplete="off"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <p className="recuperoClave" onClick={(e) => recuperoClave(e)}>
+                    <button type="button" className="recuperoClave" onClick={(e) => recuperoClave(e)}>
                       ¿Olvidaste tu contraseña?
-                    </p>
+                    </button>
                   </div>
                   <button type="submit" onClick={login}>
                     Iniciar Sesión
