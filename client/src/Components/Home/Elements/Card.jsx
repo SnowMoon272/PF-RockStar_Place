@@ -1,10 +1,5 @@
-/* eslint-disable no-cond-assign */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable indent */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import Colors from "../../../Utils/colors";
@@ -197,12 +192,11 @@ const CardStyleCont = styled.div`
   }
 `;
 
-function Card(props) {
+function Card({ setnotificacion, info }) {
   const [eye, seteye] = useState(false);
   const [notfSwitch, setnotfSwitch] = useState(false);
   const [userType, setuserType] = useState("");
 
-  const { info } = props;
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const user = getUserInfo();
@@ -245,24 +239,16 @@ function Card(props) {
     dispatch(getNotifications(user.role, user.email));
   };
 
-  console.log(userType);
-
   const handlerClickNameCard = (e) => {
     e.preventDefault();
     if (userType === "local") {
       dispatch(getDetailPlaceByEmail(info.from));
       dispatch(adminClickLocal(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     } else if (userType === "banda") {
       dispatch(getDetailMusicBandByEmail(info.from));
       dispatch(adminClickBanda(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     }
-    props.setnotificacion(false);
+    setnotificacion(false);
   };
 
   return (
@@ -284,9 +270,7 @@ function Card(props) {
         </div>
       </div>
       <div className="SecondVewCont">
-        <h3 className={info.type}>
-          {info.title} {/* <a href="/"> NombreUserReportado</a> */}
-        </h3>
+        <h3 className={info.type}>{info.title}</h3>
         <div className="TextContent">
           <p>{info.message}</p>
         </div>

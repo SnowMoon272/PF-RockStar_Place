@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { isAuthenticated, getUserInfo, isMusicband } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -47,7 +47,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -63,7 +63,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -400,11 +400,13 @@ export default function upLoadData() {
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) {
+
+    if (isAuthenticated() && isMusicband()) {
       dispatch(getDetailMusicBand(userBand._id));
     } else {
       navigate("/");
     }
+
     return () => {
       dispatch(resetDetails([]));
       toast.remove();

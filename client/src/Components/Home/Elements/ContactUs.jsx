@@ -1,11 +1,9 @@
-/* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
-// import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */

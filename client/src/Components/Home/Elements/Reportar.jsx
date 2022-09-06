@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -144,7 +143,7 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
+function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stateReporte, setStateReporte }) {
   const user = getUserInfo();
 
   // const { info } = props;
@@ -153,8 +152,8 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
 
   const handleSubmit = async (e) => {
     const notification = {
-      type: "report",
-      title: `${user.name} ha reportado a (${info})`,
+      type: user.role,
+      title: `${user.email} ha reportado a (${info})`,
       message,
       before: undefined,
       from: user.email,
@@ -169,7 +168,8 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
       },
     });
 
-    setSwitchNotif(!SwitchNotif);
+    setSwitchNotif && setSwitchNotif(!SwitchNotif);
+    setStateReporte && setStateReporte(!stateReporte);
     setMesagge("");
   };
 

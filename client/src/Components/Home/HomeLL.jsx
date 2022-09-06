@@ -1,8 +1,5 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable indent */
-/* eslint-disable no-confusing-arrow */
+
 /* React stuff */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,6 +25,7 @@ import Footer from "../Footer/Footer";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
 import Logo from "../../Assets/img/LogoCircular.png";
+import Loader from "../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
@@ -645,12 +643,10 @@ function HomeLL() {
     if (allDates.find((d) => d.date.substring(0, 10) === input) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
     }
-    if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
-      if (getCurrentDate().split("-")[1] >= input.split("-")[1]) {
-        if (getCurrentDate().split("-")[2] > input.split("-")[2]) {
-          errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
-        }
-      }
+    const fechaActual = new Date(getCurrentDate());
+    const fechaInput = new Date(input);
+    if (fechaInput < fechaActual) {
+      errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
     }
     return errors;
   }
@@ -711,6 +707,14 @@ function HomeLL() {
     }
   }
 
+  function Isbanned() {
+    if (place.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
+    }
+  }
+
   const checkConfirmed = (date) => {
     if (place.dates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
     return false;
@@ -724,6 +728,7 @@ function HomeLL() {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     validateData();
+    Isbanned();
   }, [place]);
 
   useEffect(() => {
@@ -756,25 +761,29 @@ function HomeLL() {
     else if (date !== "") {
       setBlock(true);
       toast.remove();
-      toast.promise(axios.post("/placesdates", {
-        email: place.email,
-        date,
-      }), {
-        loading: "Añadiendo...",
-        success: () => {
-          toast.success("Fecha añadida con éxito");
-          setDate("");
-          setRender(!render);
-          setBlock(false);
+      toast.promise(
+        axios.post("/placesdates", {
+          email: place.email,
+          date,
+        }),
+        {
+          loading: "Añadiendo...",
+          success: () => {
+            toast.success("Fecha añadida con éxito");
+            setDate("");
+            setRender(!render);
+            setBlock(false);
+          },
+          error: "error",
         },
-        error: "error",
-      }, {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      });
+      );
     } else toast.error("Ingrese una fecha");
   };
 
@@ -791,24 +800,28 @@ function HomeLL() {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.put("/placesdates", {
-                  email: place.email,
-                  date: e.target.value.split(",")[0],
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    toast.success("Fecha eliminada");
-                    setRender(!render);
-                    setBlock(false);
+                toast.promise(
+                  axios.put("/placesdates", {
+                    email: place.email,
+                    date: e.target.value.split(",")[0],
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      toast.success("Fecha eliminada");
+                      setRender(!render);
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -846,8 +859,7 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                toast.dismiss(t.id);
-                toast.promise(axios.put("/dates", {
+                await axios.put("/dates", {
                   placeEmail: place.email,
                   musicEmail: e.target.value.split(",")[1],
                   date: e.target.value.split(",")[0],
@@ -860,13 +872,14 @@ function HomeLL() {
                     setBlock(false);
                   },
                   error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -912,7 +925,7 @@ function HomeLL() {
                 message: "Para más información por favor revisa tus fechas",
                 before: undefined,
                 from: place.email,
-              },
+               },
             });
             setRender(!render);
             toast.success("¡Fecha aceptada!");
@@ -1034,10 +1047,16 @@ function HomeLL() {
               </button>
             </div>
             <div className="CardUnicaCont">
-              <div className="ImgBanda">
-                <img src={place.profilePicture} alt="Banda" />
-              </div>
-              {confirmedDates.length > 0 ? (
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : (
+                <div className="ImgBanda">
+                  <img src={place.profilePicture} alt="Banda" />
+                </div>
+              )}
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : confirmedDates.length > 0 ? (
                 <div className="ProximoInfCont">
                   <div className="ProximoInf">
                     <h4>Próximo Evento</h4>
@@ -1047,8 +1066,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                          confirmedDates[0].date.substring(5, 7),
-                        )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>

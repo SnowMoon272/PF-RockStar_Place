@@ -23,6 +23,7 @@ import Footer from "../Footer/Footer";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
 import Logo from "../../Assets/img/LogoCircular.png";
+import Loader from "../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
@@ -469,6 +470,14 @@ function HomeBL() {
     }
   }
 
+  function Isbanned() {
+    if (musicBand.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
+    }
+  }
+
   function validate() {
     if (musicBand && musicBand.name === "") {
       setBlock(true);
@@ -520,6 +529,7 @@ function HomeBL() {
 
   useEffect(() => {
     disabledValidate();
+    Isbanned();
     validate();
     return () => {
       dispatch(
@@ -623,9 +633,15 @@ function HomeBL() {
               </div>
               <div className="CardUnicaCont">
                 <div className="ImgBanda">
-                  <img src={musicBand.profilePicture} alt="Banda" />
+                  {Object.entries(musicBand).length === 0 ? (
+                    <img src={Loader} alt="not found" width="200px" height="200px" />
+                  ) : (
+                    <img src={musicBand.profilePicture} alt="Banda" />
+                  )}
                 </div>
-                {confirmedDates.length > 0 ? (
+                {Object.entries(musicBand).length === 0 ? (
+                  <img src={Loader} alt="not found" width="200px" height="200px" />
+                ) : confirmedDates.length > 0 ? (
                   <div className="ProximoInfCont">
                     <div className="ProximoInf">
                       <h4>Proximo Evento</h4>
