@@ -277,7 +277,6 @@ const ContainerGralStyled = styled.div`
 `;
 
 function UsersInf() {
-
   function SortArray(x, y) {
     if (x.name.charAt(0).toLowerCase() < y.name.charAt(0).toLowerCase()) return -1;
     if (x.name.charAt(0).toLowerCase() > y.name.charAt(0).toLowerCase()) return 1;

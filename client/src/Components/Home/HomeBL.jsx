@@ -17,6 +17,7 @@ import NavBar from "../NavBar/NavBar";
 import LoaderComponent from "../Loader/Loading";
 import { getPlaces, updateFilters, popularitySort, getDetailMusicBand, resetDetails, getDetailPlaceEvent } from "../../Redux/actions";
 import Footer from "../Footer/Footer";
+
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
