@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";

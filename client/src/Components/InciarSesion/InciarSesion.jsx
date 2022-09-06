@@ -1,6 +1,6 @@
-/* eslint-disable consistent-return */
 /* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable consistent-return */
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 /* Modules */

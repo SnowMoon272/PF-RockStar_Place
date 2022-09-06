@@ -1,8 +1,5 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable indent */
-/* eslint-disable no-confusing-arrow */
+
 /* React stuff */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
