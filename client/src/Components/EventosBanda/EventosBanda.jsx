@@ -15,7 +15,6 @@ const ContainerGralStyled = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
-  padding-left: 67px;
 
   & .spancito {
     display: flex;
@@ -77,6 +76,7 @@ const ContainerGralStyled = styled.div`
   .Container {
     box-sizing: border-box;
     width: 100%;
+    padding-left: 4.5%;
     height: 100vh;
 
     .ContenedorDeArriba {
@@ -425,6 +425,15 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: fixed;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
+`;
+
 function EventosBanda() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -434,6 +443,7 @@ function EventosBanda() {
   const [dateToRender, setDateToRender] = useState("");
   const [render, setRender] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [block, setBlock] = useState(false);
 
   const orderedConfirmedDates = musicBand.dates
     ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
@@ -468,17 +478,31 @@ function EventosBanda() {
 
   async function handleClickCancelar(e) {
     e.preventDefault();
-    await axios.put("/pendingdates", {
+    setBlock(true);
+    toast.promise(axios.put("/pendingdates", {
       musicEmail: musicBand.email,
       placeEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
+    }), {
+      loading: "Cancelando...",
+      success: () => {
+        setRender(!render);
+        setBlock(false);
+        toast.success("Petición cancelada");
+      },
+      error: "error",
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
+      },
     });
-    toast.success("Petición cancelada");
-    setRender(!render);
   }
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
+    setBlock(true);
     toast.remove();
     toast(
       (t) => (
@@ -490,15 +514,27 @@ function EventosBanda() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                await axios.put("/dates", {
+                toast.dismiss(t.id);
+                toast.promise(axios.put("/dates", {
                   placeEmail: e.target.value.split(",")[1],
                   musicEmail: musicBand.email,
                   date: e.target.value.split(",")[0],
+                }), {
+                  loading: "Eliminando...",
+                  success: () => {
+                    axios.get(`/cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
+                    setRender(!render);
+                    toast.success("Fecha eliminada");
+                    setBlock(false);
+                  },
+                  error: "error",
+                }, {
+                  success: {
+                    style: {
+                      display: "none",
+                    },
+                  },
                 });
-                setRender(!render);
-                toast.dismiss(t.id);
-                toast.success("Fecha eliminada");
-                axios.get(`/cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
               }}
             >
               Sí, estoy seguro
@@ -508,6 +544,7 @@ function EventosBanda() {
               className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
+                setBlock(false);
               }}
             >
               Cancelar
@@ -528,6 +565,18 @@ function EventosBanda() {
       {loading ? (
         <div>
           <ContainerGralStyled>
+            <Blocker block={block} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
             <NavBar Home Perfil />
             <div className="IMG">
               <img src={BGPerfil} alt="" />
@@ -664,17 +713,6 @@ function EventosBanda() {
                 </div>
               </div>
             </div>
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{
-                className: "",
-                style: {
-                  fontSize: "1.5rem",
-                  fontFamily: "RocknRoll One",
-                },
-              }}
-            />
           </ContainerGralStyled>
         </div>
       ) : (

@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
+import toast, { Toaster } from "react-hot-toast";
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
@@ -31,6 +32,83 @@ const HomeStyleCont = styled.div`
   width: 100%;
   height: fit-content;
   position: absolute;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
+`;
+
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
 `;
 
 const FirtVewStyleCont = styled.div`
@@ -377,6 +455,8 @@ function HomeBL() {
   const placeEvent = useSelector((state) => state.detail_event);
   const [user, setuser] = useState({});
   const [loading, setLoading] = useState(false);
+  const [zIndex, setzIndex] = useState(true);
+  const [block, setBlock] = useState(false);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
@@ -400,9 +480,31 @@ function HomeBL() {
 
   function validate() {
     if (musicBand && musicBand.name === "") {
-      alert("Debe cargar los datos de la banda");
-      dispatch(resetDetails([]));
-      navigate("/actualizarbanda");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Para continuar debes cargar los datos de la banda</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/actualizarbanda");
+                }}
+              >
+                Cargar datos
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     }
   }
 
@@ -421,6 +523,7 @@ function HomeBL() {
           Evento: false,
         }),
       );
+      toast.remove();
     };
   }, []);
 
@@ -502,7 +605,19 @@ function HomeBL() {
     <div>
       {loading ? (
         <div>
-          <HomeStyleCont>
+          <HomeStyleCont zIndex={zIndex}>
+            <Blocker block={block} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
             <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
 
             <FirtVewStyleCont>
@@ -536,8 +651,8 @@ function HomeBL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>

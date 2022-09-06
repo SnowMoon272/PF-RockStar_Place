@@ -49,6 +49,12 @@ const HomeStyleCont = styled.div`
     width: 100%;
   }
 
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   & .buttonToastAcept {
     font-family: "RocknRoll One", sans-serif;
     color: ${Colors.Erie_Black};
@@ -647,13 +653,57 @@ function HomeLL() {
 
   function validateData() {
     if (place && place.name === "") {
-      alert("Debe cargar los datos del local");
-      dispatch(resetDetails([]));
-      navigate("/actualizarlocal");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Para continuar debes cargar los datos del local</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/actualizarlocal");
+                }}
+              >
+                Cargar datos
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     } else if (place && place.suscription?.isSuscribed === false) {
-      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
-      dispatch(resetDetails([]));
-      navigate("/suscribete");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Debes suscribirte para obtener los beneficios de Rock Star place</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/suscribete");
+                }}
+              >
+                Suscribirte
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     }
   }
 
@@ -809,39 +859,27 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                await axios.put("/dates", {
+                toast.dismiss(t.id);
+                toast.promise(axios.put("/dates", {
                   placeEmail: place.email,
                   musicEmail: e.target.value.split(",")[1],
                   date: e.target.value.split(",")[0],
+                }), {
+                  loading: "Eliminando...",
+                  success: () => {
+                    axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                    setRender(!render);
+                    toast.success("Fecha eliminada");
+                    setBlock(false);
+                  },
+                  error: "error",
+                }, {
+                  success: {
+                    style: {
+                      display: "none",
+                    },
+                  },
                 });
-                axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-                setRender(!render);
-
-                toast.dismiss(t.id);
-                toast.promise(
-                  axios.put("/dates", {
-                    placeEmail: place.email,
-                    musicEmail: e.target.value.split(",")[1],
-                    date: e.target.value.split(",")[0],
-                  }),
-                  {
-                    loading: "Eliminando...",
-                    success: () => {
-                      axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-                      setRender(!render);
-                      toast.success("Fecha eliminada");
-                      setBlock(false);
-                    },
-                    error: "error",
-                  },
-                  {
-                    success: {
-                      style: {
-                        display: "none",
-                      },
-                    },
-                  },
-                );
               }}
             >
               Sí, estoy seguro
@@ -870,41 +908,37 @@ function HomeLL() {
     setBlock(true);
     if (checkExists(e.target.value.split(",")[0]) === true) {
       if (checkConfirmed(e.target.value.split(",")[0]) === false) {
-        toast.promise(
-          axios.put("/matchdate", {
-            placeEmail: place.email,
-            musicEmail: e.target.value.split(",")[1],
-            date: e.target.value.split(",")[0],
-          }),
-          {
-            loading: "Confirmando...",
-            success: () => {
-              axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-              const user = getUserInfo();
-              axios.post("/musicbands/notification/add", {
-                email: e.target.value.split(",")[1],
-                notification: {
-                  type: user.role,
-                  title: `${user.email} ha aceptado tu solicitud`,
-                  message: "Para más información por favor revisa tus fechas",
-                  before: undefined,
-                  from: place.email,
-                },
-              });
-              setRender(!render);
-              toast.success("¡Fecha aceptada!");
-              setBlock(false);
-            },
-            error: "error",
-          },
-          {
-            success: {
-              style: {
-                display: "none",
+        toast.promise(axios.put("/matchdate", {
+          placeEmail: place.email,
+          musicEmail: e.target.value.split(",")[1],
+          date: e.target.value.split(",")[0],
+        }), {
+          loading: "Confirmando...",
+          success: () => {
+            axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+            const user = getUserInfo();
+            axios.post("/musicbands/notification/add", {
+              email: e.target.value.split(",")[1],
+              notification: {
+                type: user.role,
+                title: `${user.name} ha aceptado tu solicitud`,
+                message: "Para más información por favor revisa tus fechas",
+                before: undefined,
+                from: place.email,
               },
+            });
+            setRender(!render);
+            toast.success("¡Fecha aceptada!");
+            setBlock(false);
+          },
+          error: "error",
+        }, {
+          success: {
+            style: {
+              display: "none",
             },
           },
-        );
+        });
       } else {
         setBlock(false);
         toast.error("Ya hay un usuario confirmado en esa fecha");
@@ -917,13 +951,26 @@ function HomeLL() {
 
   const handleRejectDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/pendingdates", {
+    setBlock(true);
+    toast.promise(axios.put("/pendingdates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
+    }), {
+      loading: "Rechazando...",
+      success: () => {
+        setRender(!render);
+        setBlock(false);
+        toast.success("Solicitud rechazada");
+      },
+      error: "error",
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
+      },
     });
-    toast.success("Solicitud rechazada");
-    setRender(!render);
   };
 
   const handleShowDetail = async (e) => {
@@ -1019,8 +1066,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
