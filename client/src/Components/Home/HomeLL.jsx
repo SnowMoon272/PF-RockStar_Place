@@ -13,18 +13,16 @@ import axios from "axios";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import toast, { Toaster } from "react-hot-toast";
 
 /* Components & Actions */
+import LoaderComponent from "../Loader/Loading";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
-import {
-  getDetailMusicBandByEmail,
-  getDetailEvent,
-  getDetailPlace,
-  resetDetails,
-} from "../../Redux/actions";
+import { getDetailMusicBandByEmail, getDetailEvent, getDetailPlace, resetDetails } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 import DetalleMusicoPOP from "../DetalleMusico/DetalleMusicoPOP";
+import Footer from "../Footer/Footer";
 
 /* Form Img & SVG */
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
@@ -45,10 +43,10 @@ const HomeStyleCont = styled.div`
     position: fixed;
     top: 0px;
     bottom: 0px;
-    left: 0px;
+    left: 70px;
     right: 0px;
-    width: 80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
     margin: auto;
     z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
   }
@@ -223,6 +221,53 @@ const SecondVewStyleCont = styled.section`
   flex-direction: column;
   align-items: center;
 
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
   .ContenidoPrevio {
     position: absolute;
     top: 42px;
@@ -276,6 +321,10 @@ const SecondStyleCont = styled.section`
       justify-content: center;
       align-items: center;
 
+      #msgFechas {
+        font-size: 18px;
+      }
+
       & h5 {
         /* border: solid yellow 3px; */
 
@@ -297,7 +346,11 @@ const SecondStyleCont = styled.section`
           /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
+
           & .item {
+            /* border: solid yellow 1.5px; */
+
+            position: relative;
             width: 90%;
             height: 250px;
             background-color: ${Colors.Blue_life};
@@ -306,28 +359,65 @@ const SecondStyleCont = styled.section`
             font-family: "RocknRoll One";
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
             & .BtnDelete {
               position: absolute;
-              right: 7%;
+              top: 5px;
+              right: 5px;
             }
+
+            & .BTNCerrar {
+              /* background-color: ${Colors.Erie_Black}; */
+              background-color: transparent;
+              border: none;
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+              border: solid red 2px;
+              transition: all 0.5s ease;
+
+              :hover {
+                background-color: ${Colors.Erie_Black};
+                transform: scale(1.2);
+                cursor: pointer;
+              }
+            }
+
             & .day {
               font-size: 50px;
             }
             & .month {
               font-size: 25px;
+              margin-bottom: 6px;
             }
             & .year {
               font-size: 25px;
-            }
-            & .dateStatus {
-              width: 100%;
-              background-color: ${Colors.Oxford_Blue};
-              font-size: 20px;
+              margin-bottom: 10px;
             }
             & .BtnVerMas {
-              position: absolute;
-              top: 88%;
-              right: 38%;
+              position: relative;
+              top: 15px;
+              width: 130px;
+              height: 30px;
+              border: none;
+              background-color: ${Colors.Oxford_Blue};
+              border-radius: 4px;
+              font-size: 1.8rem;
+              color: ${Colors.Platinum};
+              font-family: "RocknRoll One", sans-serif;
+
+              transition: all 0.5s ease;
+
+              :hover {
+                transform: scale(1.1);
+                cursor: pointer;
+              }
             }
           }
         }
@@ -358,6 +448,24 @@ const SecondStyleCont = styled.section`
             border-radius: 5px;
           }
         }
+
+        .BTNAddFecha {
+          font-family: "RocknRoll One", sans-serif;
+          width: 140px;
+          height: 35px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.8rem;
+          background-color: ${Colors.Blue_life};
+          color: white;
+          margin-left: 20px;
+          transition: all 0.5s ease;
+
+          :hover {
+            transform: scale(1.2);
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -378,6 +486,11 @@ const SecondStyleCont = styled.section`
       margin: 55px 0px 10px 0px;
       padding-bottom: 10px;
       width: 100%;
+    }
+
+    #msgFechas {
+      font-size: 18px;
+      text-align: center;
     }
 
     & .SolicitudesContJr {
@@ -462,16 +575,23 @@ const SecondStyleCont = styled.section`
   }
 `;
 
-// const FooterStyle = styled.section`
-//   box-sizing: border-box;
-//   position: relative;
-//   background-color: ${Colors.Erie_Black};
-//   width: 100%;
-//   height: 80px;
-//   z-index: 27;
-//   color: white;
-//   padding-left: 75px;
-// `;
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Oxford_Blue};
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: 70px;
+  padding-left: 25px;
+  font-size: 3rem;
+  z-index: 50;
+`;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
 function HomeLL() {
@@ -483,28 +603,25 @@ function HomeLL() {
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
   const [zIndex, setzIndex] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const confirmedDates = place.dates
-    ? place.dates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
-    : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
   const availableDates = place.availableDates
-    ? place.availableDates.sort(
-        (a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)),
-      )
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
     : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
+  const orderedPendingDates = place.pendingDates
+    ? place.pendingDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
+
   const getCurrentDate = () => {
-    const date = new Date();
-    let month = date.getMonth() + 1;
-    if (month.toString().length < 2) month = `0${month}`;
-    const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
-    return currentDate;
+    const currentDate = new Date();
+    const date = currentDate.toISOString();
+    return `${date.substring(0, 4)}-${date.substring(5, 7)}-${date.substring(8, 10)}`;
   };
 
   function validate(input) {
@@ -549,7 +666,15 @@ function HomeLL() {
     validateData();
   }, [place]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetDetails([]));
+      toast.remove();
+    };
+  }, []);
+
   useEffect(async () => {
+    setLoading(true);
     const User = await getUserInfo();
     dispatch(getDetailPlace(User._id));
   }, [dispatch, render]);
@@ -566,8 +691,8 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.repeated) alert("La fecha ya se encuentra cargada");
-    if (errors.menor) alert("La fecha a ingresar debe ser mayor a la fecha actual");
+    if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
+    if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       await axios.post("/placesdates", {
         email: place.email,
@@ -575,40 +700,125 @@ function HomeLL() {
       });
       setDate("");
       setRender(!render);
-    } else alert("Ingrese una fecha");
+      toast.success("Fecha cargada con exito");
+    } else toast.error("Ingrese una fecha");
   };
 
   const handleDeleteAvailableDate = async (e) => {
-    e.preventDefault(e);
-    await axios.put("/placesdates", {
-      email: place.email,
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    toast.remove();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estás seguro que quieres eliminar la fecha?</b>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/placesdates", {
+                  email: place.email,
+                  date: e.target.value.split(",")[0],
+                });
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/dates", {
-      placeEmail: place.email,
-      musicEmail: e.target.value.split(",")[1],
-      date: e.target.value.split(",")[0],
-    });
-    setRender(!render);
+    toast.remove();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estás seguro que quieres eliminar la fecha?</b>
+          <p>Ya hay un evento confirmado para este día. De todas formas notificaremos al artista sobre la cancelación </p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/dates", {
+                  placeEmail: place.email,
+                  musicEmail: e.target.value.split(",")[1],
+                  date: e.target.value.split(",")[0],
+                });
+                axios.get(`/cancelmatch/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                setRender(!render);
+                toast.dismiss(t.id);
+                toast.success("Fecha eliminada");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+      },
+    );
   };
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
     if (checkExists(e.target.value.split(",")[0]) === true) {
       if (checkConfirmed(e.target.value.split(",")[0]) === false) {
+        toast.success("¡Solicitud aceptada!");
         await axios.put("/matchdate", {
           placeEmail: place.email,
           musicEmail: e.target.value.split(",")[1],
           date: e.target.value.split(",")[0],
         });
+        axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
         setRender(!render);
-      } else alert("Ya hay un usuario confirmado en esa fecha");
-    } else alert("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+        const user = getUserInfo();
+        const notification = {
+          type: user.role,
+          title: `${user.email} ha aceptado tu solicitud`,
+          message: "Para más información por favor revisa tus fechas",
+          before: undefined,
+          from: place.email,
+        };
+        const value = e.target.value.split(",");
+        await axios({
+          method: "post",
+          url: "/musicbands/notification/add",
+          data: {
+            email: value[1],
+            notification,
+          },
+        });
+      } else toast.error("Ya hay un usuario confirmado en esa fecha");
+    } else toast.error("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
   };
 
   const handleRejectDate = async (e) => {
@@ -618,6 +828,7 @@ function HomeLL() {
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
     });
+    toast.success("Solicitud rechazada");
     setRender(!render);
   };
 
@@ -662,197 +873,178 @@ function HomeLL() {
     if (mes === "12") return "Diciembre";
     return mes;
   };
-
   /* * * * * * * * * * * React JSX * * * * * * * * * * */
   return (
-    <HomeStyleCont zIndex={zIndex}>
-      <NavBar Perfil HelpLog />
-      <div className="POPContainer">
-        {musicBandDetail._id ? (
-          <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} />
-        ) : null}
-      </div>
-      <FirtVewStyleCont>
-        <div className="ImgContainer">
-          <img src={BGHome} alt="Background" />
-        </div>
-        <div className="Heder">
-          <img className="Logo" src={IMGLogoA} alt="" />
-          <h1 className="Title">{place.name}</h1>
-          <button type="button" className="Notificacion">
-            <img src="" alt="" />
-          </button>
-        </div>
-        <div className="CardUnicaCont">
-          <div className="ImgBanda">
-            <img src={place.profilePicture} alt="Banda" />
+    <div>
+      {loading ? (
+        <HomeStyleCont zIndex={zIndex}>
+          <NavBar Perfil HelpLog />
+          <div className="POPContainer">
+            {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
           </div>
-          {confirmedDates.length > 0 ? (
-            <div className="ProximoInfCont">
-              <div className="ProximoInf">
-                <h4>Próximo Evento</h4>
-                <p>
-                  <span>Banda: </span>
-                  {musicBandEvent.name} <br />
-                  <span>Fecha: </span>
-                  {confirmedDates.length > 0
-                    ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                        confirmedDates[0].date.substring(5, 7),
-                      )} de ${confirmedDates[0].date.substring(0, 4)}`
-                    : null}
-                  <br />
-                  <span>Contacto: </span>
-                  {musicBandEvent.personInCharge} <br />
-                  <span>Telefono: </span>
-                  {musicBandEvent.phoneNumber} <br />
-                  <span>Direccion: </span>
-                  {place.adress}
-                </p>
-              </div>
-              <div className="ProximoIMGyBtn">
-                <img src={musicBandEvent.profilePicture} alt="Band" />
-                <Link className="Lynk_Btn" to="/">
-                  <button
-                    type="button"
-                    onClick={(e) => handleShowDetail(e)}
-                    value={musicBandEvent.email}
-                  >
-                    Detalle
-                  </button>
-                </Link>
-              </div>
+          <FirtVewStyleCont>
+            <div className="ImgContainer">
+              <img src={BGHome} alt="Background" />
             </div>
-          ) : (
-            <div className="SinEvento">
-              <h4>Acá aparecerá la información de tu próximo evento confirmado.</h4>
+            <div className="Heder">
+              <img className="Logo" src={IMGLogoA} alt="" />
+              <h1 className="Title">{place.name}</h1>
+              <button type="button" className="Notificacion">
+                <img src="" alt="" />
+              </button>
             </div>
-          )}
-        </div>
-      </FirtVewStyleCont>
-      <SecondVewStyleCont UserLog id="SecondVewStyleCont">
-        <div className="ContenidoPrevio">
-          <img src={Logo} alt="Logo" />
-        </div>
+            <div className="CardUnicaCont">
+              <div className="ImgBanda">
+                <img src={place.profilePicture} alt="Banda" />
+              </div>
+              {confirmedDates.length > 0 ? (
+                <div className="ProximoInfCont">
+                  <div className="ProximoInf">
+                    <h4>Próximo Evento</h4>
+                    <p>
+                      <span>Banda: </span>
+                      {musicBandEvent.name} <br />
+                      <span>Fecha: </span>
+                      {confirmedDates.length > 0
+                        ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                        : null}
+                      <br />
+                      <span>Contacto: </span>
+                      {musicBandEvent.personInCharge} <br />
+                      <span>Telefono: </span>
+                      {musicBandEvent.phoneNumber} <br />
+                      <span>Direccion: </span>
+                      {place.adress}
+                    </p>
+                  </div>
+                  <div className="ProximoIMGyBtn">
+                    <img src={musicBandEvent.profilePicture} alt="Band" />
+                    <Link className="Lynk_Btn" to="/">
+                      <button type="button" onClick={(e) => handleShowDetail(e)} value={musicBandEvent.email}>
+                        Detalle
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="SinEvento">
+                  <h4>En este sector verás la información de tu próximo evento confirmado.</h4>
+                </div>
+              )}
+            </div>
+          </FirtVewStyleCont>
+          <SecondVewStyleCont UserLog id="SecondVewStyleCont">
+            <div className="ContenidoPrevio">
+              <img src={Logo} alt="Logo" />
+            </div>
 
-        <SecondStyleCont>
-          <h4 id="Ancla_Titulo">Gestiona tus Eventos</h4>
-          <section className="FechasCont">
-            <div className="TusFechas">
-              <h5>Tus Fechas</h5>
-              <div className="Carusel">
-                <Carousel
-                  className="carousel"
-                  responsive={responsive}
-                  /* showDots={true} */
-                  /* centerMode={true} */
-                  minimumTouchDrag={80}
-                  slidesToSlide={1}
-                >
-                  {allDates &&
-                    allDates.map((date) => {
-                      return (
-                        <div className="item" key={date._id}>
-                          <button
-                            type="button"
-                            className="BtnDelete"
-                            onClick={
-                              date.isAvailable
-                                ? (e) => handleDeleteAvailableDate(e)
-                                : (e) => handleDeleteClosedDate(e)
-                            }
-                            value={[date.date.substring(0, 10), date.email]}
-                          >
-                            X
-                          </button>
-                          <span className="day">{date.date.substring(8, 10)}</span>
-                          <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                          <span className="year">{date.date.substring(0, 4)}</span>
-                          <div className="dateStatus">
-                            {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+            <SecondStyleCont>
+              <h4 id="Eventos">Gestiona tus Eventos</h4>
+              <section className="FechasCont">
+                <div className="TusFechas">
+                  <h5>Tus Fechas</h5>
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="Carusel">
+                      <Carousel className="carousel" responsive={responsive} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <button
+                                  type="button"
+                                  className="BtnDelete BTNCerrar"
+                                  onClick={date.isAvailable ? (e) => handleDeleteAvailableDate(e) : (e) => handleDeleteClosedDate(e)}
+                                  value={[date.date.substring(0, 10), date.email]}
+                                >
+                                  ❌
+                                </button>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                    Ver artista
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">Añade una o varias fechas para que los artistas puedan postularse.</h1>
+                  )}
+                  <div className="AddFecha">
+                    <label htmlFor="start">
+                      Añadir Fecha:
+                      <input type="date" id="start" value={date} min={getCurrentDate()} onChange={(e) => handleDateChange(e)} />
+                      <button className="BTNAddFecha" type="button" onClick={(e) => handleSubmitDate(e)}>
+                        Añadir
+                      </button>
+                    </label>
+                  </div>
+                </div>
+                <div className="SolicitudesCont">
+                  <h5>Solicitudes</h5>
+
+                  {orderedPendingDates && orderedPendingDates.length !== 0 ? (
+                    <div className="SolicitudesContJr">
+                      {orderedPendingDates.map((date) => {
+                        const year = date.date.substring(0, 4);
+                        const month = date.date.substring(5, 7);
+                        const day = date.date.substring(8, 10);
+                        return (
+                          <div className="Solicitud" key={date._id}>
+                            <div className="Left">
+                              <p>{`${day}/${month}/${year}`}</p>
+                              <p>{date.musicBand}</p>
+                              <button type="button" onClick={(e) => handleShowDetail(e)} value={date.email}>
+                                Detalle
+                              </button>
+                            </div>
+                            <div className="Rigth">
+                              <button type="button" onClick={(e) => handleConfirmDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Aceptar
+                              </button>
+                              <button type="button" onClick={(e) => handleRejectDate(e)} value={[date.date.substring(0, 10), date.email]}>
+                                Rechazar
+                              </button>
+                            </div>
                           </div>
-                          {date.isAvailable ? null : (
-                            <button
-                              className="BtnVerMas"
-                              type="button"
-                              onClick={(e) => handleShowDetail(e)}
-                              value={date.email}
-                            >
-                              Ver más
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                </Carousel>
-              </div>
-              <div className="AddFecha">
-                <label htmlFor="start">
-                  Añadir Fecha:
-                  <input
-                    type="date"
-                    id="start"
-                    value={date}
-                    min={getCurrentDate()}
-                    onChange={(e) => handleDateChange(e)}
-                  />
-                  <button type="button" onClick={(e) => handleSubmitDate(e)}>
-                    Añadir
-                  </button>
-                </label>
-              </div>
-            </div>
-            <div className="SolicitudesCont">
-              <h5>Solicitudes</h5>
-              <div className="SolicitudesContJr">
-                {place.pendingDates &&
-                  place.pendingDates.map((date) => {
-                    const year = date.date.substring(0, 4);
-                    const month = date.date.substring(5, 7);
-                    const day = date.date.substring(8, 10);
-                    return (
-                      <div className="Solicitud" key={date._id}>
-                        <div className="Left">
-                          <p>{`${day}/${month}/${year}`}</p>
-                          <p>{date.musicBand}</p>
-                          <button
-                            type="button"
-                            onClick={(e) => handleShowDetail(e)}
-                            value={date.email}
-                          >
-                            Detalle
-                          </button>
-                        </div>
-                        <div className="Rigth">
-                          <button
-                            type="button"
-                            onClick={(e) => handleConfirmDate(e)}
-                            value={[date.date.substring(0, 10), date.email]}
-                          >
-                            Aceptar
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleRejectDate(e)}
-                            value={[date.date.substring(0, 10), date.email]}
-                          >
-                            Rechazar
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          </section>
-        </SecondStyleCont>
-      </SecondVewStyleCont>
-
-      {/* <FooterStyle>
-        Fotter
-        asdlfjkhgasdkjfughkaduisfhgiluadhfligushjdofiughjoadipufghjlsikdufjvblskdfjgpiijfghoiusjfñboisjdlfbkjsrñftogbjslfifdjnmg
-        sdlifdjgsld iolsidfurtdhjg isufdfhopiu sdlfiu ghsldi uh
-      </FooterStyle> */}
-    </HomeStyleCont>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <h1 id="msgFechas">En este apartado verás las solicitudes de los artistas para aceptarlas o rechazarlas.</h1>
+                  )}
+                </div>
+              </section>
+            </SecondStyleCont>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+          </SecondVewStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
+        </HomeStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }
 

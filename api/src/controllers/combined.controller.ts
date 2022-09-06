@@ -1,10 +1,12 @@
-const express = require("express");
+import { getEmailsMusicBand } from "../db/models/musicBandModel";
+import { getEmailsPlaces } from "../db/models/placeModel";
 
 import {
 	addPendingDate,
 	removePendingDate,
 	confirmedDate,
 	removeConfirmedDate,
+	getPlaceOrMusicBandByName,
 } from "../db/models/placeMusicModel";
 
 const addPendingDateController = async (req: any, res: any) => {
@@ -67,9 +69,34 @@ const addConfirmedDateController = async (req: any, res: any) => {
 	}
 };
 
+const getEmailsController = async (req: any, res: any) => {
+	try {
+		let emailsPlaces = await getEmailsPlaces();
+		let emailsMusicBands = await getEmailsMusicBand();
+		let allEmails = emailsPlaces.concat(emailsMusicBands);
+		res.send(allEmails);
+	} catch (error) {
+		return res.status(500).send({ error: "Something went wrong" });
+	}
+};
+
+const getPlaceOrMusicBandByNameController = async (req: any, res: any) => {
+	let { search } = req.query;
+	if (!search) return res.status(404).send({ message: "Invalid data" });
+	search = decodeURI(search);
+	try {
+		const searchMusicOrPlace = await getPlaceOrMusicBandByName(search);
+		return res.status(200).send(searchMusicOrPlace);
+	} catch (error) {
+		return res.status(500).send({ error: "Something went wrong" });
+	}
+};
+
 module.exports = {
 	addPendingDateController,
 	removePendingDateController,
 	removeConfirmedDateController,
 	addConfirmedDateController,
+	getEmailsController,
+	getPlaceOrMusicBandByNameController,
 };

@@ -4,6 +4,7 @@ import {
 	placeInterface,
 	placeRoles,
 	suscription,
+	coords,
 } from "../interfaces/place.interfaces";
 const { model } = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -19,6 +20,10 @@ const PLACES_REQUIRED_INFO = {
 	rating: 1,
 	profilePicture: 1,
 	hasSound: 1,
+	availableDates: 1,
+	dates: 1,
+	banned: 1,
+	disabled: 1,
 };
 
 /**
@@ -46,12 +51,16 @@ export const deletePlace = async (email: string) => {
  * @author Sebastian Pérez, Matías Straface, Carlos Laprida.
  */
 
-export const getAllPlaces = async (city?: string, sound?: string) => {
+export const getAllPlaces = async (city?: string, sound?: string, dates?: string) => {
 	try {
-		if (!city && !sound) return await getAll();
-		if (city && !sound) return await getPlacesByCity(city);
-		if (!city && sound) return await getPlacesBySound(sound);
-		if (city && sound) return await getPlacesByCityAndSound(city, sound);
+		if (!city && !sound && !dates) return await getAll();
+		if (city && sound && dates) return await getPlacesByAllFilters(city, sound, dates);
+		if (city && !sound && !dates) return await getPlacesByCity(city);
+		if (!city && sound && !dates) return await getPlacesBySound(sound);
+		if (city && sound && !dates) return await getPlacesByCityAndSound(city, sound);
+		if (city && !sound && dates) return await getPlacesByCityAndDates(city, dates);
+		if (!city && sound && dates) return await getPlacesBySoundAndDates(sound, dates);
+		if (!city && !sound && dates) return await getPlacesByDates(dates);
 	} catch (error) {
 		return { error };
 	}
@@ -67,6 +76,77 @@ const getPlacesBySound = async (sound: string) => {
 	let filter = sound === "sonidoSi" ? { hasSound: true } : { hasSound: false };
 	return await place.find(filter, PLACES_REQUIRED_INFO);
 };
+
+const getPlacesByDates = async (dates: string) => {
+	let allPlaces = await place.find({}, PLACES_REQUIRED_INFO);
+	if (dates === "hasDates") {
+		allPlaces = allPlaces.filter((e: any) => {
+			return e.availableDates.length > 0;
+		});
+	} else {
+		allPlaces = allPlaces.filter((e: any) => {
+			return e.availableDates.length < 1;
+		});
+	}
+	return allPlaces;
+};
+
+const getPlacesBySoundAndDates = async (sound: string, dates: string) => {
+	try {
+		let filteredPlaces = await getPlacesBySound(sound);
+
+		if (dates === "hasDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length > 0;
+			});
+		} else if (dates === "noDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length < 1;
+			});
+		}
+		return filteredPlaces;
+	} catch (error) {
+		return error;
+	}
+};
+const getPlacesByCityAndDates = async (city: string, dates: string) => {
+	try {
+		let filteredPlaces = await getPlacesByCity(city);
+
+		if (dates === "hasDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length > 0;
+			});
+		} else if (dates === "noDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length < 1;
+			});
+		}
+		return filteredPlaces;
+	} catch (error) {
+		return error;
+	}
+};
+
+const getPlacesByAllFilters = async (city: string, sound: string, dates: string) => {
+	try {
+		let filteredPlaces = await getPlacesByCityAndSound(city, sound);
+
+		if (dates === "hasDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length > 0;
+			});
+		} else if (dates === "noDates") {
+			filteredPlaces = filteredPlaces.filter((e: any) => {
+				return e.availableDates.length < 1;
+			});
+		}
+		return filteredPlaces;
+	} catch (error) {
+		return error;
+	}
+};
+
 const getPlacesByCityAndSound = async (city: string, sound: string) => {
 	let filter =
 		sound === "sonidoSi" ? { city: city, hasSound: true } : { city: city, hasSound: false };
@@ -139,7 +219,7 @@ export const addPlaceReview = async (email: string, review: placeReviews) => {
 
 	if (userToAddReview) {
 		let previousReviews = userToAddReview.reviews;
-		previousReviews.push(review);
+		previousReviews.unshift(review);
 		try {
 			await place.updateOne({ email }, { reviews: previousReviews });
 			await reloadPlaceRating(email);
@@ -261,6 +341,7 @@ export const updatePlace = async (email: string, data: placeInterface) => {
 					socialMedia: {
 						instagram: data.socialMedia.instagram,
 					},
+					coords: data.coords,
 				},
 			);
 			return place.findOne({ email });
@@ -331,5 +412,29 @@ export const suscribedSuccessful = async (email: string, suscription: suscriptio
 		return { msg: "Suscription is done!" };
 	} catch (error) {
 		return { error: "Is something wrong" };
+	}
+};
+
+export const disabledPlace = async (email: string, disabled: boolean) => {
+	try {
+		const placeToChange = await place.find({ email });
+		if (placeToChange) {
+			await place.updateOne({ email }, { disabled });
+			//console.log(placeToChange)
+			return place.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const getEmailsPlaces = async () => {
+	try {
+		const EmailsPlaces = await place.find({}, { email: 1 }).distinct("email");
+		return EmailsPlaces;
+	} catch (error) {
+		return { error };
 	}
 };

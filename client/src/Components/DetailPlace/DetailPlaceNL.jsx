@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
@@ -12,6 +13,10 @@ import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
+import LoaderComponent from "../Loader/Loading";
+import MapLocalDetail from "../MapView/MapLocalDetail";
+import MapaVacio from "../../Assets/img/MapaLocalSinUbicacionNL.png";
+import Footer from "../Footer/Footer";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -68,6 +73,13 @@ const DetailStyleCont = styled.div`
       align-items: flex-start;
       margin-top: 1.5%;
 
+      #msgh1 {
+        color: ${Colors.Platinum};
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+
       .title {
         font-family: "New Rocker";
         font-style: normal;
@@ -86,6 +98,19 @@ const DetailStyleCont = styled.div`
         color: ${Colors.Platinum};
       }
 
+      .mapa {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 2.5%;
+
+        & img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          margin-top: 2.5%;
+        }
+      }
+
       .DatesCont {
         color: ${Colors.Green_Nigth};
 
@@ -96,7 +121,6 @@ const DetailStyleCont = styled.div`
         justify-content: center;
         align-items: center;
         & .carousel {
-          /* border: solid yellow 1.5px; */
           width: 100%;
           height: 100%;
           & .item {
@@ -114,12 +138,14 @@ const DetailStyleCont = styled.div`
             }
             & .day {
               font-size: 50px;
+              margin-top: 2%;
             }
             & .month {
               font-size: 25px;
             }
             & .year {
               font-size: 25px;
+              margin-bottom: 4%;
             }
             & .dateStatus {
               width: 100%;
@@ -128,9 +154,23 @@ const DetailStyleCont = styled.div`
               color: ${Colors.Platinum};
             }
             & .BtnVerMas {
+              font-family: "RocknRoll One";
               position: absolute;
-              top: 88%;
-              right: 38%;
+              top: 80%;
+              right: 30%;
+              width: 110px;
+              height: 35px;
+              background-color: ${Colors.Green_Nigth};
+              border-radius: 10px;
+              border: none;
+              color: white;
+              transition: all 0.5s ease;
+
+              :hover {
+                background-color: ${Colors.Erie_Black};
+                transform: scale(1.2);
+                cursor: pointer;
+              }
             }
           }
         }
@@ -207,6 +247,11 @@ const DetailStyleCont = styled.div`
         }
       }
 
+      .spanError {
+        font-size: 10px;
+        color: #3f0f0f;
+      }
+
       .comentarios {
         background: rgba(229, 229, 229, 0.5);
         width: 100%;
@@ -227,6 +272,11 @@ const DetailStyleCont = styled.div`
           }
         }
       }
+    }
+
+    .hr {
+      width: 100%;
+      margin-top: 3%;
     }
   }
 
@@ -272,6 +322,24 @@ const DetailStyleCont = styled.div`
   }
 `;
 
+const DateStatusStyled = styled.div`
+  width: 100%;
+  background-color: ${Colors.Oxford_Blue};
+  background-color: ${({ dateStatus }) => (dateStatus ? "#6a994e" : "#bc4749")};
+  font-size: 20px;
+`;
+
+const FooterStyledCont = styled.footer`
+  position: relative;
+  background-color: ${Colors.Green_Nigth};
+  box-sizing: border-box;
+  height: fit-content;
+  margin-left: 70px;
+  padding-left: 25px;
+  color: wheat;
+  font-size: 3rem;
+`;
+
 export default function DetailPlace() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -281,13 +349,18 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  const confirmedDates = place.dates ? place.dates.map((date) => date) : [];
 
-  const availableDates = place.availableDates ? place.availableDates.map((date) => date) : [];
+  const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
+
+  const availableDates = place.availableDates
+    ? place.availableDates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10)))
+    : [];
 
   const allDates = [...confirmedDates, ...availableDates];
 
   const [errors, setErrors] = useState({});
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (place.length === 0) dispatch(getDetailPlace(params.id));
@@ -295,8 +368,10 @@ export default function DetailPlace() {
   }, [input]);
 
   useEffect(() => {
+    setLoading(true);
     return () => {
       dispatch(resetDetails([]));
+      toast.remove();
     };
   }, []);
 
@@ -358,137 +433,187 @@ export default function DetailPlace() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isLog = isAuthenticated();
-    alert("Para poder dejar tu valiosa opinion intenta Iniciar sesión.");
-    !isLog && navigate("/iniciarsesion");
+    toast.error((t) => (
+      <span>
+        Para dejar tu valiosa opinión debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
+    /* alert("Para dejar tu valiosa opinión debes iniciar sesión."); */
+    /* !isLog && navigate("/iniciarsesion"); */
   };
 
   const handleAplica = (e) => {
-    alert("Debes registrarte para poder aplicar a tocar en un local");
-    navigate("/registro");
+    toast.error((t) => (
+      <span>
+        Para poder aplicar a una fecha debes
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/iniciarsesion");
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </span>
+    ));
   };
 
+  if (place.banned === true || place.disabled === true) navigate("/");
+
   return (
-    <HomeStyleCont>
-      <NavBar LogIn Home FondoImg />
-      <DetailStyleCont>
-        <div className="FirstCont">
-          <div className="NameAndRating">
-            <span className="PlaceName">{place.name}</span>
-            <span className="rating">Rating: {place.rating}</span>
-          </div>
-          <div className="DataCont">
-            <span className="title">Descripción</span>
-            <span className="description">{place.description}</span>
-          </div>
-          <div className="DataCont">
-            <span className="title">Próximas fechas</span>
-            <div className="DatesCont">
-              <Carousel
-                className="carousel"
-                responsive={responsive}
-                showDots={true}
-                minimumTouchDrag={80}
-                slidesToSlide={1}
-              >
-                {allDates &&
-                  allDates.map((date) => {
-                    return (
-                      <div className="item" key={date._id}>
-                        <span className="day">{date.date.substring(8, 10)}</span>
-                        <span className="month">{getMonth(date.date.substring(5, 7))}</span>
-                        <span className="year">{date.date.substring(0, 4)}</span>
-                        <div className="dateStatus">
-                          {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
-                        </div>
-                        {!date.isAvailable ? null : (
-                          <button
-                            className="BtnVerMas"
-                            type="button"
-                            onClick={(e) => handleAplica(e)}
-                          >
-                            Aplica
+    <div>
+      {loading ? (
+        <div>
+          <HomeStyleCont>
+            <NavBar LogIn Home FondoImg />
+            <DetailStyleCont>
+              <div className="FirstCont">
+                <div className="NameAndRating">
+                  <span className="PlaceName">{place.name}</span>
+                  <span className="rating">Rating: ⭐{place.rating}</span>
+                </div>
+                <div className="DataCont">
+                  <span className="title">Descripción</span>
+                  <span className="description">{place.description}</span>
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
+                  <span className="title">Próximas fechas</span>
+                  {allDates && allDates.length !== 0 ? (
+                    <div className="DatesCont">
+                      <Carousel className="carousel" responsive={responsive} showDots={true} minimumTouchDrag={80} slidesToSlide={1}>
+                        {allDates &&
+                          allDates.map((date) => {
+                            return (
+                              <div className="item" key={date._id}>
+                                <span className="day">{date.date.substring(8, 10)}</span>
+                                <span className="month">{getMonth(date.date.substring(5, 7))}</span>
+                                <span className="year">{date.date.substring(0, 4)}</span>
+                                <DateStatusStyled dateStatus={date.isAvailable}>
+                                  {date.isAvailable ? "Fecha Disponible" : "Fecha Cerrada"}
+                                </DateStatusStyled>
+                                {!date.isAvailable ? null : (
+                                  <button className="BtnVerMas" type="button" onClick={(e) => handleAplica(e)}>
+                                    Aplica
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <h1 id="msgh1">El local aún no tiene fechas publicadas.</h1>
+                  )}
+
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
+                  <span className="title">Ubicación</span>
+                  <div className="mapa">
+                    {place.coords ? (
+                      place.coords.lat !== "" ? (
+                        <MapLocalDetail placePosition={place.coords} placeName={place.name} />
+                      ) : (
+                        <img src={MapaVacio} alt="not found" />
+                      )
+                    ) : null}
+                  </div>
+                  <hr className="hr" />
+                </div>
+                <div className="DataCont">
+                  <span className="title">Reseñas</span>
+                  <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
+                    <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
+                    <div className="RateComentCont">
+                      <div className="RateCont">
+                        <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
+                        <div className="buttons">
+                          <button type="button" value={1} onClick={(e) => handleClick(e)}>
+                            1
                           </button>
-                        )}
+                          <button type="button" value={2} onClick={(e) => handleClick(e)}>
+                            2
+                          </button>
+                          <button type="button" value={3} onClick={(e) => handleClick(e)}>
+                            3
+                          </button>
+                          <button type="button" value={4} onClick={(e) => handleClick(e)}>
+                            4
+                          </button>
+                          <button type="button" value={5} onClick={(e) => handleClick(e)}>
+                            5
+                          </button>
+                        </div>
                       </div>
-                    );
-                  })}
-              </Carousel>
-            </div>
-          </div>
-          {/* <hr />
-          <span className="title">Ubicación</span>
-          <p>Mapa</p> */}
-          <div className="DataCont">
-            <span className="title">Comentarios</span>
-            <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-              <input
-                placeholder="Ingresa tu comentario"
-                className="input"
-                value={input.comment}
-                onChange={(e) => handleChange(e)}
-              />
-              <div className="RateComentCont">
-                <div className="RateCont">
-                  <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
-                  <div className="buttons">
-                    <button type="button" value={1} onClick={(e) => handleClick(e)}>
-                      1
-                    </button>
-                    <button type="button" value={2} onClick={(e) => handleClick(e)}>
-                      2
-                    </button>
-                    <button type="button" value={3} onClick={(e) => handleClick(e)}>
-                      3
-                    </button>
-                    <button type="button" value={4} onClick={(e) => handleClick(e)}>
-                      4
-                    </button>
-                    <button type="button" value={5} onClick={(e) => handleClick(e)}>
-                      5
-                    </button>
+                      {errors.comment && <span className="spanError">{errors.comment}</span>}
+                      {errors.rating && <span className="spanError">{errors.rating}</span>}
+                      <button className="BotonComent" type="submit">
+                        Comentar
+                      </button>
+                    </div>
+                  </form>
+                  <div className="comentarios">
+                    {place.reviews &&
+                      place.reviews.map((p) => {
+                        return (
+                          <div key={p._id} className="coment">
+                            <div className="NameRating">
+                              <span className="autor">{p.author}</span>
+                              <span className="ratingcoment">Rating: ⭐{p.rating}</span>
+                            </div>
+                            <p className="contenidocoment">{p.comment}</p>
+                            <hr />
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
-                {errors.comment && <span>{errors.comment}</span>}
-                {errors.rating && <span>{errors.rating}</span>}
-                <button className="BotonComent" type="submit">
-                  Comentar
-                </button>
               </div>
-            </form>
-            <div className="comentarios">
-              {place.reviews &&
-                place.reviews.map((p) => {
-                  return (
-                    <div key={p._id} className="coment">
-                      <div className="NameRating">
-                        <span className="autor">{p.author}</span>
-                        <span className="ratingcoment">Rating: {p.rating}</span>
-                      </div>
-                      <p className="contenidocoment">{p.comment}</p>
-                      <hr />
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
+              <div className="SecondCont">
+                <img src={place.profilePicture} className="profile" alt="Img not found" />
+                <span className="stats">Ciudad: {place.city}</span>
+                <span className="stats">Dirección: {place.adress}</span>
+                <span className="stats">Persona a cargo: {place.personInCharge}</span>
+                <span className="stats">Teléfono: {place.phoneNumber}</span>
+                <span className="stats">Capacidad: {place.capacity}</span>
+                <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
+                <hr className="hr" />
+                <p className="stats">Email: {place.email}</p>
+                {place.socialMedia && place.socialMedia.instagram !== "" ? (
+                  <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
+                    <img className="ImglogosRedes" src={LogoInstagram} alt="" />
+                  </a>
+                ) : null}
+              </div>
+            </DetailStyleCont>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+          </HomeStyleCont>
+          <FooterStyledCont>
+            <Footer />
+          </FooterStyledCont>
         </div>
-        <div className="SecondCont">
-          <img src={place.profilePicture} className="profile" alt="Img not found" />
-          <span className="stats">Ciudad: {place.city}</span>
-          <span className="stats">Dirección: {place.adress}</span>
-          <span className="stats">Persona a cargo: {place.personInCharge}</span>
-          <span className="stats">Teléfono: {place.phoneNumber}</span>
-          <span className="stats">Capacidad: {place.capacity}</span>
-          <span className="stats">Sonido Propio: {place.hasSound ? "Si" : "No"}</span>
-          <hr className="hr" />
-          <p className="stats">Email: {place.email}</p>
-          {place.socialMedia && place.socialMedia.instagram !== "" ? (
-            <a target="_blank" href={place.socialMedia.instagram} rel="noreferrer">
-              <img className="ImglogosRedes" src={LogoInstagram} alt="" />
-            </a>
-          ) : null}
-        </div>
-      </DetailStyleCont>
-    </HomeStyleCont>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

@@ -9,11 +9,13 @@ import { getUserInfo } from "../../Utils/auth.controller";
 const ReseñasStyleCont = styled.div`
   /* border: solid 3px blueviolet; */
 
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 60%;
+  height: 100%;
   background-color: ${Colors.Oxford_Blue_transparent};
+  border-radius: 15px;
 
   .TitleB {
     /* border: solid 3px yellowgreen; */
@@ -34,22 +36,29 @@ const ReseñasStyleCont = styled.div`
     width: 100%;
 
     .comentar {
-      background: rgba(229, 229, 229, 0.5);
+      background: ${Colors.Erie_Black_Transparent};
+      border-radius: 15px;
       width: 100%;
-      height: 150px;
-      margin-top: 3%;
+      height: 100%;
+      /* margin-top: 3%; */
       display: flex;
       flex-direction: column;
+      justify-content: space-around;
       padding: 2%;
       box-sizing: border-box;
+
       input {
-        width: 95%;
-        height: 80%;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100px;
+        border: solid white 1px;
+        border-radius: 10px;
         background-color: transparent;
-        border: none;
+        padding-left: 15px;
         color: ${Colors.Platinum};
         font-family: "RocknRoll One";
         font-size: 16px;
+        margin-bottom: 15px;
       }
       input::placeholder {
         color: ${Colors.Platinum};
@@ -58,11 +67,24 @@ const ReseñasStyleCont = styled.div`
       .RateComentCont {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
+        span {
+          position: relative;
+          top: -30px;
+          color: #ff00007f;
+          font-size: 1.5rem;
+        }
         .RateCont {
-          /* display: flex; */
+          /* border: solid red 3px; */
+          width: 150px;
+          height: fit-content;
+          display: flex;
+          flex-direction: column;
 
           .rate {
+            /* border: solid red 3px; */
+            margin-bottom: 15px;
             font-family: "RocknRoll One";
             font-style: normal;
             font-weight: 400;
@@ -81,16 +103,28 @@ const ReseñasStyleCont = styled.div`
           }
         }
 
-        button {
-          width: 30%;
+        .BTNSubmint {
+          width: 150px;
+          height: 45px;
+          border-radius: 10px;
+          background-color: ${Colors.Blue_life};
+          border: none;
+          transition: all 0.5s ease;
+
+          :hover {
+            cursor: pointer;
+            transform: scale(1.1);
+          }
         }
       }
     }
 
     h6 {
-      font-size: 3rem;
+      font-size: 18px;
       font-weight: 400;
       color: ${Colors.Platinum};
+      text-align: center;
+      width: 100%;
     }
 
     background: transparent;
@@ -216,15 +250,10 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
       <div className="comentarios">
         {Opinion ? (
           <form className="comentar" onSubmit={(e) => handleSubmit(e)}>
-            <input
-              placeholder="Ingresa tu comentario"
-              className="input"
-              value={input.comment}
-              onChange={(e) => handleChange(e)}
-            />
+            <input placeholder="Ingresa tu comentario" className="input" value={input.comment} onChange={(e) => handleChange(e)} />
             <div className="RateComentCont">
               <div className="RateCont">
-                <span className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</span>
+                <p className="rate">Puntaje: {input.rating !== 0 ? input.rating : ""}</p>
                 <div className="buttons">
                   <button type="button" value={1} onClick={(e) => handleClick(e)}>
                     1
@@ -245,10 +274,12 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
               </div>
               {errors.comment && <span>{errors.comment}</span>}
               {errors.rating && <span>{errors.rating}</span>}
-              <button type="submit">Comentar</button>
+              <button className="BTNSubmint" type="submit">
+                Comentar
+              </button>
             </div>
           </form>
-        ) : musicBand.reviews ? (
+        ) : musicBand.reviews && musicBand.reviews.length !== 0 ? (
           musicBand.reviews.map((review) => {
             return (
               <div key={review._id} className="coment">
@@ -262,7 +293,7 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
             );
           })
         ) : (
-          <h6>Este perfil aún no tiene reseñas.</h6>
+          <h6>Este artista aún no tiene reseñas.</h6>
         )}
       </div>
     </ReseñasStyleCont>

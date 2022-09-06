@@ -36,3 +36,9 @@ export type musicSocialMedia = {
 	spotify: string;
 	youtube: string;
 };
+
+export interface notification {
+	isNew: boolean,
+	message: string,
+	type: string,
+}

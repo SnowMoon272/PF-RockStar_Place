@@ -4,12 +4,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
 import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
-import { getDetailPlace, resetDetails } from "../../Redux/actions";
+import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
+import LoaderComponent from "../Loader/Loading";
+import MapPopUp from "../MapView/MapPopUp";
 
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
@@ -18,25 +21,128 @@ const ActualizarDatosStyleCont = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${BGPerfil});
   flex-direction: row-reverse;
   box-sizing: border-box;
+  position: absolute;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .IMGFondo {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    object-fit: cover;
+    z-index: 50;
+  }
 
   .divLogo {
     img {
       position: absolute;
       top: 45px;
-      right: 140px;
+      right: 90px;
+      z-index: 120;
+    }
+  }
+
+  .divButtonDesc {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    z-index: 55;
+
+    .BTNsDesc {
+      border: solid white 1px;
+      font-family: "New Rocker";
+      font-weight: 200;
+      font-size: 2rem;
+      background-color: black;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      padding: 10px 10px;
+
+      :hover {
+        transform: scale(1.1);
+        transition: 0.5s;
+      }
     }
   }
 `;
 
+const POPContainer = styled.div`
+  border: solid ${Colors.Blue_Vivid} 2px;
+  /* display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")}; */
+  display: flex;
+  border-radius: 15px;
+  justify-content: center;
+  position: fixed;
+  width: 52%;
+  height: 75%;
+  margin: auto;
+  top: 0%;
+  bottom: 0px;
+  left: 70px;
+  right: 0px;
+  /* z-index: 25; */
+  z-index: ${({ POPSwitch }) => (!POPSwitch ? 25 : 100)};
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
+  /* border: solid #fff 3px; */
+
   box-sizing: border-box;
+  border-radius: 15px;
   background-color: ${Colors.Oxford_Blue_transparent};
   padding: 50px;
   width: 80%;
   height: 80%;
+  position: absolute;
+  z-index: 75;
 
   .divTitulo {
     display: flex;
@@ -62,6 +168,25 @@ const ActualizarDatosStyleCont2 = styled.div`
       color: ${Colors.Platinum};
       font-family: "New Rocker";
       font-weight: 400;
+    }
+
+    .BTNDesplegar {
+      /* font-family: "New Rocker"; */
+      font-family: "RocknRoll One", sans-serif;
+      padding: 5px;
+      margin: 6px 15px;
+      background-color: ${Colors.Blue_life};
+      /* background-color: transparent; */
+      color: ${Colors.Platinum};
+      font-size: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+
+      :hover {
+        transition: all 1s ease;
+        transform: scale(1.1);
+      }
     }
   }
 
@@ -300,8 +425,6 @@ const ActualizarDatosStyleCont2 = styled.div`
   }
 `;
 
-/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-
 function validate(input) {
   const errors = {};
   if (!input.name) {
@@ -311,50 +434,42 @@ function validate(input) {
   }
   if (!input.personInCharge) {
     errors.personInCharge = "Ingresa el nombre de la persona a cargo del lugar";
-  } else if (
-    !/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(
-      input.personInCharge,
-    )
-  ) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
+  } else if (!/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.personInCharge)) {
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener letras y espacios. Y debe contener mas de 3 caracteres";
   } else if (!/^[\s\S]{3,25}$/.test(input.personInCharge)) {
-    errors.personInCharge =
-      "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
+    errors.personInCharge = "El nombre de la persona a cargo solo puede contener entre 3 y 25 caracteres";
   }
 
   if (!input.phoneNumber) {
-    errors.phoneNumber = "Ingresa un numero de telefono";
+    errors.phoneNumber = "Ingresa un numero de teléfono";
   } else if (!/^[0-9]+$/.test(input.phoneNumber)) {
-    errors.phoneNumber = "El telefono solo puede contener numeros";
+    errors.phoneNumber = "El teléfono solo puede contener números";
   }
 
   if (
     input.instagram &&
-    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
-      input.instagram,
-    )
+    !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(input.instagram)
   ) {
     errors.instagram = "Ingresa una URL válida. 'example: http://example.com'";
   }
   if (!input.description) {
     errors.description = "Ingresa la descripción de tu local";
-  } else if (input.description && !/^[a-zA-Z0-9 .!,Ññ?¿¡]+$/.test(input.description)) {
+  } else if (input.description && !/^[a-zA-ZÀ-ÿ0-9@:!%. ,:-_\u00f1\u00d1]+$/g.test(input.description)) {
     errors.description = "La descripción puede contener letras, números y espacios";
-  } else if (!/^[\s\S]{3,250}$/.test(input.description)) {
-    errors.description = "La descripción puede tener entre 3 y 250 caracteres";
+  } else if (!/^[\s\S]{3,500}$/.test(input.description)) {
+    errors.description = "La descripción puede tener entre 3 y 500 caracteres";
   }
   if (!input.city) {
     errors.city = "Ingresa el nombre de tu ciudad";
   } else if (!/^[a-zA-Z0-9 Ññ ]+$/.test(input.city)) {
-    errors.city = "El nombre solo puede contener letras, numeros y espacios";
+    errors.city = "El nombre solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.city)) {
     errors.city = "El nombre solo puede contener entre 3 y 25 caracteres";
   }
   if (!input.adress) {
     errors.adress = "Ingresa la dirección de tu lugar";
   } else if (!/^[a-zA-Z0-9 Ññ,.]+$/.test(input.adress)) {
-    errors.adress = "La dirección solo puede contener letras, numeros y espacios";
+    errors.adress = "La dirección solo puede contener letras, números y espacios";
   } else if (!/^[\s\S]{3,25}$/.test(input.adress)) {
     errors.adress = "La dirección solo puede contener entre 3 y 25 caracteres";
   }
@@ -375,13 +490,20 @@ export default function ActualizarLocal() {
   const dispatch = useDispatch();
   const userPlace = getUserInfo();
   const place = useSelector((state) => state.detail_place);
+  const coords = useSelector((state) => state.place_coords);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     if (isAuthenticated()) {
       dispatch(getDetailPlace(userPlace._id));
     } else {
       navigate("/");
     }
+    return () => {
+      dispatch(resetDetails([]));
+      toast.remove();
+    };
   }, []);
 
   const [image, setImage] = useState("");
@@ -399,7 +521,24 @@ export default function ActualizarLocal() {
     description: place && place.description ? place.description : "",
     capacity: place && place.capacity ? place.capacity : "",
     instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+    coords: place && place.coords ? place.coords : { lat: "", lng: "" },
   });
+
+  useEffect(() => {
+    setInput({
+      name: place && place.name ? place.name : "",
+      personInCharge: place && place.personInCharge ? place.personInCharge : "",
+      city: place && place.city ? place.city : "",
+      hasSound: place && place.hasSound ? place.hasSound : false,
+      adress: place && place.adress ? place.adress : "",
+      phoneNumber: place && place.phoneNumber ? place.phoneNumber : "",
+      profilePicture: place && place.profilePicture ? place.profilePicture : image,
+      description: place && place.description ? place.description : "",
+      capacity: place && place.capacity ? place.capacity : "",
+      instagram: place && place.socialMedia ? place.socialMedia.instagram : "",
+      coords: place && place.coords ? place.coords : { lat: "", lng: "" },
+    });
+  }, [place]);
 
   function handleOpenWidget() {
     const widgetCloudinary = window.cloudinary.createUploadWidget(
@@ -449,9 +588,11 @@ export default function ActualizarLocal() {
           socialMedia: {
             instagram: input.instagram,
           },
+          coords: coords.lat ? coords : input.coords,
         },
       });
-      alert("Datos actualizados con exito");
+      dispatch(resetCoords());
+      toast.success("Datos actualizados con éxito");
 
       const { data } = await axios({
         method: "post",
@@ -462,22 +603,12 @@ export default function ActualizarLocal() {
       });
       if (data) localStorage.setItem("user-token", data);
 
-      setInput({
-        name: "",
-        personInCharge: "",
-        city: "",
-        hasSound: false,
-        adress: "",
-        phoneNumber: "",
-        profilePicture: "",
-        description: "",
-        capacity: "",
-        instagram: "",
-      });
       dispatch(resetDetails([]));
-      navigate("/");
+      setTimeout(() => {
+        navigate(`/placeprofile/${userPlace._id}`);
+      }, 1000);
     } else {
-      alert("Por favor complete todos los campos correctamente");
+      toast.error("¡Ups! Hay algún problema, revisa la información");
     }
   }
 
@@ -498,6 +629,50 @@ export default function ActualizarLocal() {
     }
   }
 
+  async function handleClick(e) {
+    e.preventDefault();
+    toast.dismiss();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Realmente desea desactivar su cuenta?</b>
+          <p>Si tiene eventos confirmados o solicitudes se cancelarán</p>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                await axios.put("/placeDisabled", {
+                  email: place.email,
+                  disabled: true,
+                });
+                localStorage.removeItem("user-token");
+                navigate("/iniciarsesion");
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
+        style: {
+          borderRadius: "3%",
+        },
+      },
+    );
+  }
+
   function handleActivateButton() {
     if (input.name && Object.entries(errors).length === 0) {
       return false;
@@ -505,147 +680,170 @@ export default function ActualizarLocal() {
     return true;
   }
 
+  const [POPSwitch, setPOPSwitch] = useState(false);
+
+  const handlerSwitch = (e) => {
+    setPOPSwitch(!POPSwitch);
+  };
+
   return (
-    <ActualizarDatosStyleCont>
-      <div className="divLogo">
-        <img src={LogoCircular} alt="" height="150px" width="150px" />
-      </div>
-      <NavBar Perfil Home />
-      <ActualizarDatosStyleCont2>
-        <div className="divTitulo">
-          <h1>Completa / Edita tus datos</h1>
-        </div>
-        <form className="form" onSubmit={(e) => handleSubmit(e)}>
-          <div className="div2Columnas">
-            <div className="divInputsColumna1">
-              <div className="ContainerInput">
-                <span>Nombre local:</span>
-                <input
-                  type="text"
-                  placeholder="Nombre del local"
-                  className="input"
-                  value={input.name}
-                  name="name"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.name && <p>{errors.name}</p>}
-              <div className="ContainerInput">
-                <span>Persona a cargo:</span>
-                <input
-                  type="text"
-                  placeholder="Persona a cargo"
-                  className="input"
-                  value={input.personInCharge}
-                  name="personInCharge"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.personInCharge && <p>{errors.personInCharge}</p>}
-              <div className="ContainerInput">
-                <span>Ciudad:</span>
-                <input
-                  type="text"
-                  placeholder="Ciudad"
-                  className="input"
-                  value={input.city}
-                  name="city"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.city && <p>{errors.city}</p>}
-              <div className="ContainerInput">
-                <span>Dirección:</span>
-                <input
-                  type="text"
-                  placeholder="Direccion"
-                  className="input"
-                  value={input.adress}
-                  name="adress"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.adress && <p>{errors.adress}</p>}
-              <div className="ContainerInput">
-                <span>Teléfono:</span>
-                <input
-                  type="text"
-                  placeholder="Telefono de contacto"
-                  className="input"
-                  value={input.phoneNumber}
-                  name="phoneNumber"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
-              <div className="ContainerInput">
-                <span>Capacidad del local:</span>
-                <input
-                  type="text"
-                  placeholder="Capacidad de personas"
-                  className="input"
-                  value={input.capacity}
-                  name="capacity"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.capacity && <p>{errors.capacity}</p>}
-              <div className="ContainerInput">
-                <span>Instagram:</span>
-                <input
-                  type="text"
-                  placeholder="Instagram"
-                  className="input"
-                  value={input.instagram}
-                  name="instagram"
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-              {errors.instagram && <p>{errors.instagram}</p>}
-              <p className="sonidoPropio">Sonido propio</p>
-              <div className="SwitchCont">
-                <p>No</p>
-                <input
-                  value={input.hasSound}
-                  id="switch"
-                  type="checkbox"
-                  onChange={(e) => handleCheckBox(e)}
-                />
-                <label htmlFor="switch" className="label" />
-                <p>Si</p>
-              </div>
+    <div>
+      {loading ? (
+        <div>
+          <ActualizarDatosStyleCont>
+            <img className="IMGFondo" src={BGPerfil} alt="BG" />
+            <div className="divLogo">
+              <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
-            <div className="divsColumna2">
-              <h1>Foto de perfil</h1>
-              <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
-                Subir foto
+            <NavBar Perfil Home />
+            <POPContainer POPSwitch={POPSwitch}>
+              <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
+            </POPContainer>
+            <ActualizarDatosStyleCont2>
+              <div className="divTitulo">
+                <h1>Completa / Edita tus datos</h1>
+              </div>
+              <form className="form" onSubmit={(e) => handleSubmit(e)}>
+                <div className="div2Columnas">
+                  <div className="divInputsColumna1">
+                    <div className="ContainerInput">
+                      <span>Nombre local:</span>
+                      <input
+                        type="text"
+                        placeholder="Nombre del local"
+                        className="input"
+                        value={input.name}
+                        name="name"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.name && <p>{errors.name}</p>}
+                    <div className="ContainerInput">
+                      <span>Persona a cargo:</span>
+                      <input
+                        type="text"
+                        placeholder="Persona a cargo"
+                        className="input"
+                        value={input.personInCharge}
+                        name="personInCharge"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.personInCharge && <p>{errors.personInCharge}</p>}
+                    <div className="ContainerInput">
+                      <span>Ciudad:</span>
+                      <input type="text" placeholder="Ciudad" className="input" value={input.city} name="city" onChange={(e) => handleChange(e)} />
+                    </div>
+                    {errors.city && <p>{errors.city}</p>}
+                    <div className="ContainerInput">
+                      <span>Dirección:</span>
+                      <input
+                        type="text"
+                        placeholder="Direccion"
+                        className="input"
+                        value={input.adress}
+                        name="adress"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.adress && <p>{errors.adress}</p>}
+                    <div className="ContainerInput">
+                      <span>Ubicación en el mapa:</span>
+                      <button className="BTNDesplegar" onClick={(e) => handlerSwitch(e)} type="button">
+                        Desplegar mapa
+                      </button>
+                    </div>
+                    <div className="ContainerInput">
+                      <span>Teléfono:</span>
+                      <input
+                        type="text"
+                        placeholder="Teléfono de contacto"
+                        className="input"
+                        value={input.phoneNumber}
+                        name="phoneNumber"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+                    <div className="ContainerInput">
+                      <span>Capacidad del local:</span>
+                      <input
+                        type="text"
+                        placeholder="Capacidad de personas"
+                        className="input"
+                        value={input.capacity}
+                        name="capacity"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.capacity && <p>{errors.capacity}</p>}
+                    <div className="ContainerInput">
+                      <span>Instagram:</span>
+                      <input
+                        type="text"
+                        placeholder="Instagram"
+                        className="input"
+                        value={input.instagram}
+                        name="instagram"
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                    {errors.instagram && <p>{errors.instagram}</p>}
+                    <p className="sonidoPropio">Sonido propio</p>
+                    <div className="SwitchCont">
+                      <p>No</p>
+                      <input value={input.hasSound} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
+                      <label htmlFor="switch" className="label" />
+                      <p>Si</p>
+                    </div>
+                  </div>
+                  <div className="divsColumna2">
+                    <h1>Foto de perfil</h1>
+                    <button type="button" id="btn-foto" onClick={() => handleOpenWidget()}>
+                      Subir foto
+                    </button>
+                    <div className="ImgACargar">
+                      <img src={image === "" ? place.profilePicture : image} alt="Ingresa una imagen" width="350px" height="350px" />
+                    </div>
+                    <textarea
+                      type="text"
+                      placeholder="Descripción"
+                      className="textarea"
+                      value={input.description}
+                      name="description"
+                      onChange={(e) => handleChange(e)}
+                    />
+                    {errors.description && <p>{errors.description}</p>}
+                  </div>
+                </div>
+                <div className="divButton">
+                  <button type="submit" className="BTNs" disabled={handleActivateButton()}>
+                    Actualizar
+                  </button>
+                </div>
+              </form>
+            </ActualizarDatosStyleCont2>
+            <div className="divButtonDesc">
+              <button type="button" className="BTNsDesc" onClick={(e) => handleClick(e)}>
+                Desactivar cuenta
               </button>
-              <div className="ImgACargar">
-                <img
-                  src={image === "" ? place.profilePicture : image}
-                  alt="ingresa una imagen"
-                  width="350px"
-                  height="350px"
-                />
-              </div>
-              <textarea
-                type="text"
-                placeholder="Descripcion"
-                className="textarea"
-                value={input.description}
-                name="description"
-                onChange={(e) => handleChange(e)}
-              />
-              {errors.description && <p>{errors.description}</p>}
             </div>
-          </div>
-          <div className="divButton">
-            <button type="submit" className="BTNs" disabled={handleActivateButton()}>
-              Actualizar
-            </button>
-          </div>
-        </form>
-      </ActualizarDatosStyleCont2>
-    </ActualizarDatosStyleCont>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+          </ActualizarDatosStyleCont>
+        </div>
+      ) : (
+        <LoaderComponent />
+      )}
+    </div>
   );
 }

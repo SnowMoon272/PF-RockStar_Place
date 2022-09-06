@@ -10,6 +10,53 @@ export const RegisterStyleCont = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 40%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover{
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
 `;
 
 export const RegisterStyleContJr = styled.div`
@@ -23,6 +70,10 @@ export const RegisterStyleContJr = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  & .recuperoClave {
+    cursor: pointer;
+  }
 
   & .UpSection {
     height: 25%;
@@ -97,6 +148,15 @@ export const RegisterStyleContJr = styled.div`
             margin: 0px auto;
             color: ${Colors.Platinum};
           }
+        }
+
+        & a {
+          color: transparent;
+          cursor: context-menu;
+          text-decoration: none;
+          font-size: 1rem;
+          position: relative;
+          bottom: -300px;
         }
       }
     }

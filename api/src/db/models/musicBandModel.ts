@@ -1,11 +1,11 @@
-
 import {
 	musicReviews,
 	musicRoles,
 	musicBandInterface,
-} from '../interfaces/musicBand.interfaces';
-const { model } = require('mongoose');
-const bcrypt = require('bcrypt');
+	notification,
+} from "../interfaces/musicBand.interfaces";
+const { model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const musicBandSchema = require("../schemas/musicBandSchema.ts");
 
@@ -166,7 +166,7 @@ export const getAllMusicBands = async () => {
 	try {
 		const allMusicBands = await musicBand.find(
 			{},
-			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 },
+			{ _id: 1, email: 1, name: 1, rating: 1, description: 1 }
 		);
 		return allMusicBands;
 	} catch (error: any) {
@@ -223,13 +223,48 @@ export const updateMusicBand = async (email: string, data: musicBandInterface) =
 						youtube: data.socialMedia.youtube,
 						spotify: data.socialMedia.spotify,
 					},
-				},
+				}
 			);
 			return musicBand.findOne({ email });
 		} else {
 			return { error: "User does not exist." };
 		}
 	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const disabledMusicBand = async (email: string, disabled: boolean) => {
+	try {
+		const userToChange = await musicBand.findOne({ email });
+		if (userToChange) {
+			await musicBand.updateOne({ email }, { disabled });
+			return musicBand.findOne({ email });
+		} else {
+			return { error: "User does not exist." };
+		}
+	} catch (error: any) {
+		return { error };
+	}
+};
+
+export const getEmailsMusicBand = async () => {
+	try {
+		const EmailsMusicBand = await musicBand.find({}, { email: 1 }).distinct("email");
+		return EmailsMusicBand;
+	} catch (error) {
+		return { error };
+	}
+};
+
+export const getMusicBandByName = async (search: string) => {
+	try {
+		let musicResponse = await musicBand.find({
+			name: { $regex: search, $options: "i" },
+		});
+		if (musicResponse !== undefined) return musicResponse;
+		else return { error: "musicBand not found" };
+	} catch (error) {
 		return { error };
 	}
 };

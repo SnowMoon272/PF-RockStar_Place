@@ -22,7 +22,7 @@ const ButtonStyleSuscribete = styled.div`
 export default function BotonSuscribete() {
   return (
     <ButtonStyleSuscribete>
-      <form action="http://localhost:3001/checkout" method="POST">
+      <form action="https://pf-rock-star-place.herokuapp.com/checkout" method="POST">
         <button className="btnSuscribete" type="submit">
           Suscribete
         </button>

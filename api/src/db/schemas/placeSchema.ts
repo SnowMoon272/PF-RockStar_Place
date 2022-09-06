@@ -26,6 +26,7 @@ export const placeSchema = new Schema({
 	description: { type: String, trim: true, default: "" },
 
 	banned: { type: Boolean, default: false },
+	disabled: { type: Boolean, default: false },
 	role: {
 		type: String,
 		default: "place",
@@ -62,12 +63,33 @@ export const placeSchema = new Schema({
 	},
 	phoneNumber: { type: String, trim: true, default: "" },
 
-	profilePicture: { type: String, require: false, default: "" },
+	profilePicture: {
+		type: String,
+		require: false,
+		default:
+			"https://www.nicepng.com/png/detail/608-6080578_png-file-svg-icono-de-persona-png.png",
+	},
 
 	suscription: {
 		isSuscribed: { type: Boolean, default: false },
 		startDate: { type: Date, default: Date.now },
 		payment_id: { type: String, default: "" },
+	},
+
+	notifications: [
+		{
+			new: { type: Boolean, default: true },
+			title: { type: String, default: "" },
+			message: { type: String, require: true, default: "" },
+			type: { type: String, default: "info" },
+			before: { type: Object, default: undefined },
+			from: { type: String, default: "System" },
+		},
+	],
+
+	coords: {
+		lat: { type: String, default: "" },
+		lng: { type: String, default: "" },
 	},
 });
 

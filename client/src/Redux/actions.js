@@ -4,13 +4,51 @@ export const GET_DETAIL_PLACE = "GET_DETAIL_PLACE",
   GET_PLACES = "GET_PLACES",
   FILTERED_PLACES = "FILTERED_PLACES",
   GET_PLACES_BY_NAME = "GET_PLACES_BY_NAME",
+  GET_ALL_BY_NAME = "GET_ALL_BY_NAME",
   UPDATE_FILTERS = "UPDATE_FILTERS",
   POPULARITY_SORT = "POPULARITY_SORT",
   GET_CITIES = "GET_CITIES",
   RESET_DETAILS = "RESET_DETAILS",
   GET_DETAIL_MUSIC_BAND = "GET_DETAIL_MUSIC_BAND",
   GET_DETAIL_EVENT = "GET_DETAIL_EVENT",
-  POST_REGISTER = "POST_REGISTER";
+  POST_REGISTER = "POST_REGISTER",
+  PLACE_COORDS = "PLACE_COORDS",
+  ADMIN_CLICK_BANDA = "ADMIN_CLICK_BANDA",
+  ADMIN_CLICK_LOCAL = "ADMIN_CLICK_LOCAL",
+  GET_MUSIC_BANDS = "GET_MUSIC_BANDS",
+  GET_NOTIFICATIONS = "GET_NOTIFICATIONS",
+  REMOVE_NOTIFICATIONS = "REMOVE_NOTIFICATIONS";
+
+export function getNotifications(role, email) {
+  return async (dispatch) => {
+    try {
+      let { data } = await axios({
+        method: "post",
+        url: `/${role}s/notifications`,
+        data: {
+          // eslint-disable-next-line object-shorthand
+          email,
+        },
+      });
+      data = data.reverse();
+      return dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function removeNotifications() {
+  return async (dispatch) => {
+    return dispatch({
+      type: REMOVE_NOTIFICATIONS,
+      payload: [],
+    });
+  };
+}
 
 export function updateFilters(data) {
   return {
@@ -118,17 +156,46 @@ export function getDetailMusicBandByEmail(email) {
   };
 }
 
-export function filteredPlaces(city, sound) {
+export function getMusicOrPlacesByName(name) {
+  const encodName = encodeURI(name);
+  return async (dispatch) => {
+    try {
+      const json = await axios.get(`/combinedsearch/?search=${encodName}`);
+      return dispatch({
+        type: GET_ALL_BY_NAME,
+        payloadMusic: json.data.filter((e) => e.role === "musicband"),
+        payloadPlace: json.data.filter((e) => e.role === "place"),
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function filteredPlaces(city, sound, dates) {
   return async (dispatch) => {
     try {
       let json;
-      if (city && !sound) {
+      if (city && sound && dates) {
+        json = await axios.get(`/places?city=${city}&sound=${sound}&dates=${dates}`);
+      }
+      if (city && !sound && !dates) {
         json = await axios.get(`/places?city=${city}`);
-      } else if (!city && sound) {
+      }
+      if (!city && sound && !dates) {
         json = await axios.get(`/places?sound=${sound}`);
       }
-      if (city && sound) {
+      if (city && sound && !dates) {
         json = await axios.get(`/places?city=${city}&sound=${sound}`);
+      }
+      if (city && !sound && dates) {
+        json = await axios.get(`/places?city=${city}&dates=${dates}`);
+      }
+      if (!city && sound && dates) {
+        json = await axios.get(`/places?sound=${sound}&dates=${dates}`);
+      }
+      if (!city && !sound && dates) {
+        json = await axios.get(`/places?dates=${dates}`);
       }
       return dispatch({
         type: FILTERED_PLACES,
@@ -192,5 +259,47 @@ export function getDetailPlaceByEmail(email) {
     } catch (error) {
       return error;
     }
+  };
+}
+
+export function getMusicBands() {
+  return async (dispatch) => {
+    try {
+      const json = await axios.get("/musicbands");
+      return dispatch({
+        type: GET_MUSIC_BANDS,
+        payload: json.data,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function updatePlaceCoords(coords) {
+  return {
+    type: PLACE_COORDS,
+    payload: coords,
+  };
+}
+
+export function resetCoords() {
+  return {
+    type: PLACE_COORDS,
+    payload: {},
+  };
+}
+
+export function adminClickLocal(payload) {
+  return {
+    type: ADMIN_CLICK_LOCAL,
+    payload,
+  };
+}
+
+export function adminClickBanda(payload) {
+  return {
+    type: ADMIN_CLICK_BANDA,
+    payload,
   };
 }
