@@ -25,6 +25,7 @@ import Footer from "../Footer/Footer";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
 import Logo from "../../Assets/img/LogoCircular.png";
+import Loader from "../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
@@ -636,12 +637,10 @@ function HomeLL() {
     if (allDates.find((d) => d.date.substring(0, 10) === input) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
     }
-    if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
-      if (getCurrentDate().split("-")[1] >= input.split("-")[1]) {
-        if (getCurrentDate().split("-")[2] > input.split("-")[2]) {
-          errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
-        }
-      }
+    const fechaActual = new Date(getCurrentDate());
+    const fechaInput = new Date(input);
+    if (fechaInput < fechaActual) {
+      errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
     }
     return errors;
   }
@@ -1001,10 +1000,16 @@ function HomeLL() {
               </button>
             </div>
             <div className="CardUnicaCont">
-              <div className="ImgBanda">
-                <img src={place.profilePicture} alt="Banda" />
-              </div>
-              {confirmedDates.length > 0 ? (
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : (
+                <div className="ImgBanda">
+                  <img src={place.profilePicture} alt="Banda" />
+                </div>
+              )}
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : confirmedDates.length > 0 ? (
                 <div className="ProximoInfCont">
                   <div className="ProximoInf">
                     <h4>Próximo Evento</h4>
