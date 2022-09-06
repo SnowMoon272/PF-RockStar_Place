@@ -614,7 +614,7 @@ export default function DetailPlace() {
               message: "Para más información visita tu perfil.",
               before: undefined,
               from: user.email,
-            }
+            },
           });
           setRender2(!render2);
           setBlock(false);

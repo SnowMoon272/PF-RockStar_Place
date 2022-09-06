@@ -859,7 +859,8 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                await axios.put("/dates", {
+                toast.dismiss(t.id);
+                toast.promise(axios.put("/dates", {
                   placeEmail: place.email,
                   musicEmail: e.target.value.split(",")[1],
                   date: e.target.value.split(",")[0],
@@ -872,14 +873,13 @@ function HomeLL() {
                     setBlock(false);
                   },
                   error: "error",
-                  {
-                    success: {
-                      style: {
-                        display: "none",
-                      },
+                }, {
+                  success: {
+                    style: {
+                      display: "none",
                     },
                   },
-                );
+                });
               }}
             >
               Sí, estoy seguro
@@ -925,7 +925,7 @@ function HomeLL() {
                 message: "Para más información por favor revisa tus fechas",
                 before: undefined,
                 from: place.email,
-               },
+              },
             });
             setRender(!render);
             toast.success("¡Fecha aceptada!");
@@ -1066,8 +1066,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>

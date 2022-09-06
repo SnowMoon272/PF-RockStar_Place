@@ -382,37 +382,37 @@ function UsersInf() {
                   <div className="CardContair">
                     {searchMusicBand.length >= 1
                       ? searchMusicBand.map((musicBand) => {
-                          return (
-                            <div key={musicBand._id} className="divsSmallConfirmados">
-                              <p>{musicBand.name}</p>
-                              <button
-                                value={musicBand.email}
-                                name="banda"
-                                onClick={(e) => handleClickDetallesBanda(e)}
-                                type="button"
-                                className="BTNDetalle"
-                              >
-                                Detalle
-                              </button>
-                            </div>
-                          );
-                        })
+                        return (
+                          <div key={musicBand._id} className="divsSmallConfirmados">
+                            <p>{musicBand.name}</p>
+                            <button
+                              value={musicBand.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })
                       : musicBands.map((musicBand) => {
-                          return (
-                            <div key={musicBand._id} className="divsSmallConfirmados">
-                              <p>{musicBand.name}</p>
-                              <button
-                                value={musicBand.email}
-                                name="banda"
-                                onClick={(e) => handleClickDetallesBanda(e)}
-                                type="button"
-                                className="BTNDetalle"
-                              >
-                                Detalle
-                              </button>
-                            </div>
-                          );
-                        })}
+                        return (
+                          <div key={musicBand._id} className="divsSmallConfirmados">
+                            <p>{musicBand.name}</p>
+                            <button
+                              value={musicBand.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="ContainerLocBan">
@@ -420,38 +420,38 @@ function UsersInf() {
                   <div className="CardContair">
                     {searchPlace.length >= 1
                       ? searchPlace.map((place) => {
-                          return (
-                            <div key={place._id} className="divsSmallConfirmados">
-                              <p>{place.name}</p>
-                              <button
-                                value={place.email}
-                                name="banda"
-                                onClick={(e) => handleClickDetallesBanda(e)}
-                                type="button"
-                                className="BTNDetalle"
-                              >
-                                Detalle
-                              </button>
-                            </div>
-                          );
-                        })
+                        return (
+                          <div key={place._id} className="divsSmallConfirmados">
+                            <p>{place.name}</p>
+                            <button
+                              value={place.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })
                       : places &&
-                        places.map((place) => {
-                          return (
-                            <div key={place._id} className="divsSmallConfirmados">
-                              <p>{place.name}</p>
-                              <button
-                                value={place.email}
-                                name="local"
-                                onClick={(e) => handleClickDetallesLocal(e)}
-                                type="button"
-                                className="BTNDetalle"
-                              >
-                                Detalle
-                              </button>
-                            </div>
-                          );
-                        })}
+                      places.map((place) => {
+                        return (
+                          <div key={place._id} className="divsSmallConfirmados">
+                            <p>{place.name}</p>
+                            <button
+                              value={place.email}
+                              name="local"
+                              onClick={(e) => handleClickDetallesLocal(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

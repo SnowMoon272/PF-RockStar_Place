@@ -76,6 +76,7 @@ const ContainerGralStyled = styled.div`
   .Container {
     box-sizing: border-box;
     width: 100%;
+    padding-left: 4.5%;
     height: 100vh;
 
     .ContenedorDeArriba {
