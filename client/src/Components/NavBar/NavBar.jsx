@@ -1,6 +1,3 @@
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable indent */
-/* eslint-disable no-var */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* React stuff */
 import React, { useState, useEffect } from "react";
@@ -49,54 +46,6 @@ const NavBarStyle = styled.nav`
   height: 100vh;
   box-shadow: 0px -4px 20px rgb(217, 217, 217);
   letter-spacing: 1px;
-
-  /* & .spancito {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-  }
-
-  & .buttonCont {
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    margin-top: 5%;
-  }
-
-  & .buttonToastAcept {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 40%;
-    height: 35px;
-    background-color: #adc178;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover{
-      background-color: #64923c;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  }
-  & .buttonToastCancel {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 40%;
-    height: 35px;
-    background-color: #ff9b85;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover{
-      background-color: #ee6055;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  } */
 
   & .NotioficationContLogo {
     /* border: solid #ff00fb 3px; */
@@ -475,46 +424,6 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
   };
 
   const handlerClickExit = (e) => {
-    /* e.preventDefault();
-    toast.dismiss();
-    toast(
-      (t) => (
-        <span className="spancito">
-          <b>¿Realmente deseas cerrar sesión?</b>
-          <div className="buttonCont">
-            <button
-              type="button"
-              className="buttonToastAcept"
-              onClick={() => {
-                toast.dismiss(t.id);
-                dispatch(removeNotifications());
-                localStorage.removeItem("user-token");
-                setTimeout(() => {
-                  navigate("/");
-                }, 1000);
-              }}
-            >
-              Sí
-            </button>
-            <button
-              type="button"
-              className="buttonToastCancel"
-              onClick={() => {
-                toast.dismiss(t.id);
-              }}
-            >
-              No
-            </button>
-          </div>
-        </span>
-      ),
-      {
-        duration: Infinity,
-        style: {
-          borderRadius: "3%",
-        },
-      },
-    ); */
     dispatch(removeNotifications());
     localStorage.removeItem("user-token");
   };

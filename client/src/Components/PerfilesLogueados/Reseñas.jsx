@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
@@ -12,7 +11,7 @@ const ReseñasStyleCont = styled.div`
   height: 77%;
   background-color: ${Colors.Oxford_Blue_transparent};
 
-  #msg{
+  #msg {
     color: ${Colors.Platinum};
     font-size: 18px;
   }

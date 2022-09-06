@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-//import BotonSuscribete from "./BotonSuscripcion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Colors from "../../Utils/colors";

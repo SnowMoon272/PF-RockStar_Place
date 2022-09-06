@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";

@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable comma-dangle */
-
 /* React stuff */
 import React, { useEffect, useState } from "react";
 

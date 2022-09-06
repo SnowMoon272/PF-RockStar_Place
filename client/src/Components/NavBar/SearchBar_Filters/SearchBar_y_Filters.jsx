@@ -1,5 +1,3 @@
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable indent */
 /* React stuff */
 import React, { useState, useEffect } from "react";
 
@@ -276,22 +274,12 @@ export default function SearchBarYFilters({
         <>
           <div className="ContainerTitle">
             <h4>Busqueda por Local</h4>
-            <button
-              name="Search"
-              onClick={(e) => handlerSubmintCloseSearch(e)}
-              type="button"
-              className="BTNCerrar"
-            >
+            <button name="Search" onClick={(e) => handlerSubmintCloseSearch(e)} type="button" className="BTNCerrar">
               <img src={SVGCerrar} alt="" />
             </button>
           </div>
           <div className="ContainerSearch">
-            <input
-              value={name}
-              onChange={(e) => handlerInputChange(e)}
-              type="text"
-              placeholder="Rock Store"
-            />
+            <input value={name} onChange={(e) => handlerInputChange(e)} type="text" placeholder="Rock Store" />
             <button onClick={(e) => handlerSubmintSearch(e)} type="submit">
               Search
             </button>
@@ -302,12 +290,7 @@ export default function SearchBarYFilters({
         <>
           <div className="ContainerTitle">
             <h4>Filtrar por Ciudad</h4>
-            <button
-              name="FilterCities"
-              onClick={(e) => handlerSubmintCloseCity(e)}
-              type="button"
-              className="BTNCerrar"
-            >
+            <button name="FilterCities" onClick={(e) => handlerSubmintCloseCity(e)} type="button" className="BTNCerrar">
               <img src={SVGCerrar} alt="" />
             </button>
           </div>
@@ -319,12 +302,7 @@ export default function SearchBarYFilters({
               className="StyleSelect"
               name="cities"
             >
-              <option
-                className="StyleOption"
-                defaultValue="opcion_blockeada"
-                hidden
-                label="Elige tu Ciudad"
-              />
+              <option className="StyleOption" defaultValue="opcion_blockeada" hidden label="Elige tu Ciudad" />
               {cities?.map((city) => {
                 return (
                   <option key={city} value={city}>
@@ -340,12 +318,7 @@ export default function SearchBarYFilters({
         <>
           <div className="ContainerTitle">
             <h4>Locales con equipo de Audio</h4>
-            <button
-              name="FilterSounds"
-              onClick={(e) => handlerSubmintCloseSound(e)}
-              type="button"
-              className="BTNCerrar"
-            >
+            <button name="FilterSounds" onClick={(e) => handlerSubmintCloseSound(e)} type="button" className="BTNCerrar">
               <img src={SVGCerrar} alt="" />
             </button>
           </div>
@@ -357,12 +330,7 @@ export default function SearchBarYFilters({
               className="StyleSelect"
               name="sound"
             >
-              <option
-                className="StyleOption"
-                defaultValue="opcion_blockeada"
-                hidden
-                label="Elige tu opcion."
-              />
+              <option className="StyleOption" defaultValue="opcion_blockeada" hidden label="Elige tu opcion." />
               <option value="sonidoSi">Si</option>
               <option value="sonidoNo">No</option>
             </select>
@@ -373,12 +341,7 @@ export default function SearchBarYFilters({
         <>
           <div className="ContainerTitle">
             <h4>Locales con fechas disponibles</h4>
-            <button
-              name="FilterEvents"
-              onClick={(e) => handlerSubmintCloseEvent(e)}
-              type="button"
-              className="BTNCerrar"
-            >
+            <button name="FilterEvents" onClick={(e) => handlerSubmintCloseEvent(e)} type="button" className="BTNCerrar">
               <img src={SVGCerrar} alt="" />
             </button>
           </div>
@@ -390,12 +353,7 @@ export default function SearchBarYFilters({
               className="StyleSelect"
               name="event"
             >
-              <option
-                className="StyleOption"
-                defaultValue="opcion_blockeada"
-                hidden
-                label="Elige tu opcion."
-              />
+              <option className="StyleOption" defaultValue="opcion_blockeada" hidden label="Elige tu opcion." />
               <option value="hasDates">Disponible</option>
               <option value="noDates">No Disponible</option>
             </select>

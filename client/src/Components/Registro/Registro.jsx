@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -412,7 +411,7 @@ function Registro() {
     }
   };
   async function sendMail() {
-    const email = input.email;
+    const { email } = input;
     await axios.get(`https://pf-rock-star-place.herokuapp.com/register/mail/${email}`);
   }
 
