@@ -1,5 +1,3 @@
-// import { any, any } from "express";
-
 const express = require("express");
 
 export const f = {};
@@ -21,9 +19,9 @@ const checkOutController = async (req: any, res: any) => {
 				},
 			],
 			back_urls: {
-				failure: "http://localhost:3000/suscripcionerror",
-				pending: "http://localhost:3000/suscripcionerror",
-				success: "http://localhost:3000/suscripcionsuccess",
+				failure: "https://pf-rock-star-place.vercel.app/suscripcionerror",
+				pending: "https://pf-rock-star-place.vercel.app/suscripcionerror",
+				success: "https://pf-rock-star-place.vercel.app/suscripcionsuccess",
 			},
 			auto_return: "approved",
 		};
@@ -31,7 +29,7 @@ const checkOutController = async (req: any, res: any) => {
 			res.redirect(response.body.init_point);
 		});
 	} catch (error) {
-		console.log(error);
+		throw Error("Payment error");
 	}
 };
 

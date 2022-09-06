@@ -408,7 +408,7 @@ function Registro() {
   };
   async function sendMail() {
     const email = input.email;
-    await axios.get(`http://localhost:3001/register/mail/${email}`);
+    await axios.get(`https://pf-rock-star-place.herokuapp.com/register/mail/${email}`);
   }
 
   // eslint-disable-next-line consistent-return

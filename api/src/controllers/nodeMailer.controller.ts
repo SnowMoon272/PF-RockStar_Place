@@ -17,21 +17,15 @@ export const f = {};
 
 const SERVICE = "gmail";
 const AUTH = {
-	TYPE: "OAuth2",
-	USER: "rockstarplaceok@gmail.com",
-	CLIENT_ID:
-		"193709480522-3cfatqmpnvh1p4ut1pnmhi34d1jbunmq.apps.googleusercontent.com",
-	CLIENT_SECRET: "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",
-	REDIRECT_URI: "https://developers.google.com/oauthplayground",
-	REFRESH_TOKEN:
-		"1//04Xez4hBWpof2CgYIARAAGAQSNwF-L9IrKowoW8CKG3yWaxZD1TLuTpJAW3r0DPqWrlTtHhFD61BxYfDFq6W4gcLtyVG2XY6Q2OQ",
+	TYPE: process.env.TYPE,
+	USER: process.env.USER,
+	CLIENT_ID: process.env.CLIENT_ID,
+	CLIENT_SECRET: process.env.CLIENT_SECRET,
+	REDIRECT_URI: process.env.REDIRECT_URI,
+	REFRESH_TOKEN: process.env.REFRESH_TOKEN,
 };
 
-const oAuth2Client = new google.auth.OAuth2(
-	AUTH.CLIENT_ID,
-	AUTH.CLIENT_SECRET,
-	AUTH.REDIRECT_URI
-);
+const oAuth2Client = new google.auth.OAuth2(AUTH.CLIENT_ID, AUTH.CLIENT_SECRET, AUTH.REDIRECT_URI);
 
 oAuth2Client.setCredentials({ refresh_token: AUTH.REFRESH_TOKEN });
 
@@ -181,8 +175,7 @@ const matchMailController = async (req: any, res: any) => {
 				};
 
 				let result =
-					(await transporter.sendMail(placeMail)) &&
-					(await transporter.sendMail(musicMail));
+					(await transporter.sendMail(placeMail)) && (await transporter.sendMail(musicMail));
 				return result;
 			} catch (error) {
 				console.log(error);
