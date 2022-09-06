@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
@@ -142,10 +143,6 @@ function InciarSesion() {
                       <img src={IMGoogle} alt="" />
                       <p>Ingresar con Google</p>
                     </button>
-                    {/* <button type="button">
-                <img src={IMGFace} alt="" />
-                <p>Ingresar con FAcebook</p>
-              </button> */}
                     <a href="https://www.linkedin.com/in/matías-straface-369a66238/">MatiasStraface</a>
                   </div>
                 </div>
@@ -168,9 +165,9 @@ function InciarSesion() {
                       autoComplete="off"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <p className="recuperoClave" onClick={(e) => recuperoClave(e)}>
+                    <button type="button" className="recuperoClave" onClick={(e) => recuperoClave(e)}>
                       ¿Olvidaste tu contraseña?
-                    </p>
+                    </button>
                   </div>
                   <button type="submit" onClick={login}>
                     Iniciar Sesión
