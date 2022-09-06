@@ -318,10 +318,10 @@ function HomeADM() {
     setnotificacion(!notificacion);
   };
 
-  const newNotifications = (array) => {
+  const newNotifications = (notifications) => {
     let count = 0;
-    array.forEach((notificacion) => {
-      if (notificacion.new) count++;
+    notifications.forEach((notification) => {
+      if (notification.new) count++;
     });
     return count;
   };
@@ -338,9 +338,11 @@ function HomeADM() {
         <div className="NotioficationContLogo">
           <button type="button" onClick={(e) => handlerClickNot(e)}>
             <img className="ImgCapana" src={SVGNoti} alt="Notificacion" />
-            <div className="FondoNumero">
-              <p>{notifications.length ? newNotifications(notifications) : 0}</p>
-            </div>
+            {newNotifications(notifications) === 0 ? null : (
+              <div className="FondoNumero">
+                <p>{newNotifications(notifications)}</p>
+              </div>
+            )}
           </button>
         </div>
         <div className="SesionContainer">
