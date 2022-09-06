@@ -514,6 +514,7 @@ function HomeBL() {
           Evento: false,
         }),
       );
+      toast.remove();
     };
   }, []);
 
@@ -600,12 +601,12 @@ function HomeBL() {
               position="top-center"
               reverseOrder={false}
               toastOptions={{
-              className: "",
-              style: {
-                fontSize: "1.5rem",
-                fontFamily: "RocknRoll One",
-              },
-            }}
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
             />
             <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
 
@@ -634,8 +635,8 @@ function HomeBL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>
