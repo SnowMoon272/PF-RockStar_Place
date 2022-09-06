@@ -1,8 +1,10 @@
+/* eslint-disable no-cond-assign */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable indent */
 import React, { useState } from "react";
 import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import Colors from "../../../Utils/colors";
@@ -12,7 +14,7 @@ import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 import SVGEye from "../../../Assets/svg/OjoAbierto.svg";
 import SVGNEye from "../../../Assets/svg/OjoCerrado.svg";
 import { getUserInfo } from "../../../Utils/auth.controller";
-import { getNotifications, getDetailMusicBandByEmail, adminClickLocal, adminClickBanda } from "../../../Redux/actions";
+import { getNotifications, getDetailMusicBandByEmail, adminClickLocal, adminClickBanda, getDetailPlaceByEmail } from "../../../Redux/actions";
 
 const CardStyleCont = styled.div`
   border: solid #ffffff 1px;
@@ -40,35 +42,39 @@ const CardStyleCont = styled.div`
     width: 100%;
     /* margin: 10px; */
 
-    & .SesionContainer {
-      border: solid #ffffff 3px;
-      border-radius: 50px;
-      padding: 4px 8px 4px 4px;
-      display: flex;
-      align-items: center;
-      transition: all 0.1s ease;
-      color: ${({ eye }) => (eye ? Colors.Platinum_Transparent : Colors.Erie_Black_Transparent)};
+    & a {
       text-decoration: none;
-      background-color: ${({ eye }) => (eye ? Colors.Erie_Black_Transparent : Colors.Platinum_Transparent)};
-      transition: all 0.5s ease;
 
-      :hover {
-        transform: scale(1.04);
-        cursor: pointer;
-        background-color: ${Colors.Platinum};
-        color: ${Colors.Erie_Black};
-      }
+      & .SesionContainer {
+        border: solid #ffffff 3px;
+        border-radius: 50px;
+        padding: 4px 8px 4px 4px;
+        display: flex;
+        align-items: center;
+        transition: all 0.1s ease;
+        color: ${({ eye }) => (eye ? Colors.Platinum_Transparent : Colors.Erie_Black_Transparent)};
+        text-decoration: none;
+        background-color: ${({ eye }) => (eye ? Colors.Erie_Black_Transparent : Colors.Platinum_Transparent)};
+        transition: all 0.5s ease;
 
-      & img {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-      }
+        :hover {
+          transform: scale(1.04);
+          cursor: pointer;
+          background-color: ${Colors.Platinum};
+          color: ${Colors.Erie_Black};
+        }
 
-      & h6 {
-        font-size: 1.5rem;
-        margin: 0px;
-        font-weight: 400;
+        & img {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+        }
+
+        & h6 {
+          font-size: 1.5rem;
+          margin: 0px;
+          font-weight: 400;
+        }
       }
     }
 
@@ -197,6 +203,7 @@ function Card(props) {
 
   const { info } = props;
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const user = getUserInfo();
 
   const handlerSwitchNotif = (e) => {
@@ -229,21 +236,35 @@ function Card(props) {
     dispatch(getNotifications(user.role, user.email));
   };
 
-  const handlerClickNameCard = async (e) => {
-    // dispatch(getDetailMusicBandByEmail(e.target.value));
-    // dispatch(adminClickBanda(e.target.name));
-    // props.setnotificacion(false);
-    // dispatch(adminClickLocal("local"));
-    // dispatch(adminClickBanda("banda"));
+  let userType;
+
+  if (info.type === "musicband") {
+    userType = "banda";
+  } else if (info.type === "place") {
+    userType = "local";
+  }
+
+  const handlerClickNameCard = (e) => {
+    e.preventDefault();
+    if (userType === "local") {
+      dispatch(getDetailPlaceByEmail(info.from));
+      dispatch(adminClickLocal(userType));
+      // navigate("/#UserINF");
+    } else if (userType === "banda") {
+      dispatch(getDetailMusicBandByEmail(info.from));
+      dispatch(adminClickBanda(userType));
+      // navigate("/#UserINF");
+    }
+    props.setnotificacion(false);
   };
 
   return (
     <CardStyleCont eye={info.new} key={info._id}>
       <div className="HeaderCont">
-        <a href="#UserINF" style={{ "text-decoration": "none" }}>
-          <button type="button" name="banda" value={info.from} onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
+        <a href="#UserINF">
+          <button type="button" onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
             <img src={SVGUser} alt="User" />
-            <h6 type="button">{info.from}</h6>
+            <h6>{info.from}</h6>
           </button>
         </a>
         <div className="BTNsCont">
