@@ -51,6 +51,12 @@ const HomeStyleCont = styled.div`
     width: 100%;
   }
 
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   & .buttonToastAcept {
     font-family: "RocknRoll One", sans-serif;
     color: ${Colors.Erie_Black};
@@ -651,13 +657,57 @@ function HomeLL() {
 
   function validateData() {
     if (place && place.name === "") {
-      alert("Debe cargar los datos del local");
-      dispatch(resetDetails([]));
-      navigate("/actualizarlocal");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Para continuar debes cargar los datos del local</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/actualizarlocal");
+                }}
+              >
+                Cargar datos
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     } else if (place && place.suscription?.isSuscribed === false) {
-      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
-      dispatch(resetDetails([]));
-      navigate("/suscribete");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Debes suscribirte para obtener los beneficios de Rock Star place</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/suscribete");
+                }}
+              >
+                Suscribirte
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     }
   }
 
