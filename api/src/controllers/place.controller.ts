@@ -12,7 +12,9 @@ import {
 	getPlace,
 	disabledPlace,
 	banHandler,
+  place
 } from "../db/models/placeModel";
+
 import {
 	removeConfirmedDate,
 	removePendingDate,
@@ -25,7 +27,7 @@ import {
 	getNotifications,
 	deleteOne,
 } from "../db/models/inter.model";
-import { place } from "../db/models/placeModel";
+
 
 const getAllPlacesController = async (req: any, res: any) => {
 	let { city, sound, dates } = req.query;
