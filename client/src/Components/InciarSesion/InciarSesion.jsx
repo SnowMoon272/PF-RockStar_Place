@@ -37,13 +37,14 @@ function InciarSesion() {
         withCredentials: true,
         url: "/login",
       });
+
       if (response) {
         const { token } = response.data;
         localStorage.setItem("user-token", token);
         const header = new Headers();
         header.append("authorization", token);
         const user = await getUserInfo();
-        const homeURL = process.env.FRONT_VERCEL || "http://localhost:3000/";
+        const homeURL = process.env.FRONT_VERCEL;
         if (user.role === "musicband") {
           const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
