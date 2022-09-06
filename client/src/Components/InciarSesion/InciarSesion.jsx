@@ -142,10 +142,6 @@ function InciarSesion() {
                       <img src={IMGoogle} alt="" />
                       <p>Ingresar con Google</p>
                     </button>
-                    {/* <button type="button">
-                <img src={IMGFace} alt="" />
-                <p>Ingresar con FAcebook</p>
-              </button> */}
                     <a href="https://www.linkedin.com/in/matías-straface-369a66238/">MatiasStraface</a>
                   </div>
                 </div>
