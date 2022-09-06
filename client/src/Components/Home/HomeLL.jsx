@@ -661,6 +661,14 @@ function HomeLL() {
     }
   }
 
+  function Isbanned() {
+    if (place.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
+    }
+  }
+
   const checkConfirmed = (date) => {
     if (place.dates.find((d) => d.date.substring(0, 10) === date) !== undefined) return true;
     return false;
@@ -674,6 +682,7 @@ function HomeLL() {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     validateData();
+    Isbanned();
   }, [place]);
 
   useEffect(() => {
@@ -706,25 +715,29 @@ function HomeLL() {
     else if (date !== "") {
       setBlock(true);
       toast.remove();
-      toast.promise(axios.post("/placesdates", {
-        email: place.email,
-        date,
-      }), {
-        loading: "Añadiendo...",
-        success: () => {
-          toast.success("Fecha añadida con éxito");
-          setDate("");
-          setRender(!render);
-          setBlock(false);
+      toast.promise(
+        axios.post("/placesdates", {
+          email: place.email,
+          date,
+        }),
+        {
+          loading: "Añadiendo...",
+          success: () => {
+            toast.success("Fecha añadida con éxito");
+            setDate("");
+            setRender(!render);
+            setBlock(false);
+          },
+          error: "error",
         },
-        error: "error",
-      }, {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      });
+      );
     } else toast.error("Ingrese una fecha");
   };
 
@@ -741,24 +754,28 @@ function HomeLL() {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.put("/placesdates", {
-                  email: place.email,
-                  date: e.target.value.split(",")[0],
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    toast.success("Fecha eliminada");
-                    setRender(!render);
-                    setBlock(false);
+                toast.promise(
+                  axios.put("/placesdates", {
+                    email: place.email,
+                    date: e.target.value.split(",")[0],
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      toast.success("Fecha eliminada");
+                      setRender(!render);
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -797,26 +814,30 @@ function HomeLL() {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.put("/dates", {
-                  placeEmail: place.email,
-                  musicEmail: e.target.value.split(",")[1],
-                  date: e.target.value.split(",")[0],
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-                    setRender(!render);
-                    toast.success("Fecha eliminada");
-                    setBlock(false);
+                toast.promise(
+                  axios.put("/dates", {
+                    placeEmail: place.email,
+                    musicEmail: e.target.value.split(",")[1],
+                    date: e.target.value.split(",")[0],
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                      setRender(!render);
+                      toast.success("Fecha eliminada");
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -845,37 +866,41 @@ function HomeLL() {
     setBlock(true);
     if (checkExists(e.target.value.split(",")[0]) === true) {
       if (checkConfirmed(e.target.value.split(",")[0]) === false) {
-        toast.promise(axios.put("/matchdate", {
-          placeEmail: place.email,
-          musicEmail: e.target.value.split(",")[1],
-          date: e.target.value.split(",")[0],
-        }), {
-          loading: "Confirmando...",
-          success: () => {
-            axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-            const user = getUserInfo();
-            axios.post("/musicbands/notification/add", {
-              email: e.target.value.split(",")[1],
-              notification: {
-                type: user.role,
-                title: `${user.email} ha aceptado tu solicitud`,
-                message: "Para más información por favor revisa tus fechas",
-                before: undefined,
-                from: place.email,
-              },
-            });
-            setRender(!render);
-            toast.success("¡Fecha aceptada!");
-            setBlock(false);
+        toast.promise(
+          axios.put("/matchdate", {
+            placeEmail: place.email,
+            musicEmail: e.target.value.split(",")[1],
+            date: e.target.value.split(",")[0],
+          }),
+          {
+            loading: "Confirmando...",
+            success: () => {
+              axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+              const user = getUserInfo();
+              axios.post("/musicbands/notification/add", {
+                email: e.target.value.split(",")[1],
+                notification: {
+                  type: user.role,
+                  title: `${user.email} ha aceptado tu solicitud`,
+                  message: "Para más información por favor revisa tus fechas",
+                  before: undefined,
+                  from: place.email,
+                },
+              });
+              setRender(!render);
+              toast.success("¡Fecha aceptada!");
+              setBlock(false);
+            },
+            error: "error",
           },
-          error: "error",
-        }, {
-          success: {
-            style: {
-              display: "none",
+          {
+            success: {
+              style: {
+                display: "none",
+              },
             },
           },
-        });
+        );
       } else {
         setBlock(false);
         toast.error("Ya hay un usuario confirmado en esa fecha");
@@ -984,8 +1009,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                          confirmedDates[0].date.substring(5, 7),
-                        )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>

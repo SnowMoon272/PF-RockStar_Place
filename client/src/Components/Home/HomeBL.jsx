@@ -389,6 +389,14 @@ function HomeBL() {
     }
   }
 
+  function Isbanned() {
+    if (musicBand.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
+    }
+  }
+
   function validate() {
     if (musicBand && musicBand.name === "") {
       alert("Debe cargar los datos de la banda");
@@ -417,6 +425,7 @@ function HomeBL() {
 
   useEffect(() => {
     disabledValidate();
+    Isbanned();
     validate();
     return () => {
       dispatch(
