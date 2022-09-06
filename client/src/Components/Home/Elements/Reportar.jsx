@@ -144,7 +144,7 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Reportar({ Fondo, FondoN, Down, info }) {
+function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
   const user = getUserInfo();
 
   // const { info } = props;
@@ -168,6 +168,9 @@ function Reportar({ Fondo, FondoN, Down, info }) {
         notification,
       },
     });
+
+    setSwitchNotif(!SwitchNotif);
+    setMesagge("");
   };
 
   const handleChangeM = (e) => {
@@ -184,7 +187,7 @@ function Reportar({ Fondo, FondoN, Down, info }) {
         </button>
       </div>
       <div className="SectionC">
-        <textarea type="text" placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
+        <textarea type="text" value={message} placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
       </div>
     </ContainerGralStyled>
   );

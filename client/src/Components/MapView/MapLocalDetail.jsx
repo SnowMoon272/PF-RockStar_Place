@@ -14,7 +14,7 @@ const MapStyleCont = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   .leaflet-container {
     width: 100%;
     height: 100%;
@@ -37,7 +37,7 @@ const IconLocation = L.icon({
   shadowUrl: null,
   shadowSize: null,
   shadowAnchor: null,
-  iconSize: [35, 35],
+  iconSize: [70, 70],
   className: "leaflet-venue-icon",
 });
 
@@ -57,4 +57,4 @@ export default function MapLocalDetail({ placePosition, placeName }) {
       </Map>
     </MapStyleCont>
   );
-};
+}

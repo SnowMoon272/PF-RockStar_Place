@@ -170,7 +170,7 @@ function Footer() {
         </button>
         {SwitchNotif ? (
           <div className="NotifCont">
-            <ContactUs Fondo FondoN />
+            <ContactUs Fondo FondoN setSwitchNotif={setSwitchNotif} />
           </div>
         ) : (
           <div className="tecnologias">

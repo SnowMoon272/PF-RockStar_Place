@@ -144,10 +144,10 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function ContactUs(props, { Fondo, FondoN, Down }) {
+function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
   const user = getUserInfo();
 
-  const { info } = props;
+  // const { info } = props;
 
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
@@ -173,6 +173,7 @@ function ContactUs(props, { Fondo, FondoN, Down }) {
 
     setMesagge("");
     setTitle("");
+    setSwitchNotif(false);
     update ? setUpdate(false) : setUpdate(true);
   };
 

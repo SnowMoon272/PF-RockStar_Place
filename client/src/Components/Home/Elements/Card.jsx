@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable indent */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -200,11 +200,20 @@ const CardStyleCont = styled.div`
 function Card(props) {
   const [eye, seteye] = useState(false);
   const [notfSwitch, setnotfSwitch] = useState(false);
+  const [userType, setuserType] = useState("");
 
   const { info } = props;
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const user = getUserInfo();
+
+  useEffect(() => {
+    if (info.type === "musicband") {
+      setuserType("banda");
+    } else if (info.type === "place") {
+      setuserType("local");
+    }
+  }, []);
 
   const handlerSwitchNotif = (e) => {
     setnotfSwitch(!notfSwitch);
@@ -236,13 +245,7 @@ function Card(props) {
     dispatch(getNotifications(user.role, user.email));
   };
 
-  let userType;
-
-  if (info.type === "musicband") {
-    userType = "banda";
-  } else if (info.type === "place") {
-    userType = "local";
-  }
+  console.log(userType);
 
   const handlerClickNameCard = (e) => {
     e.preventDefault();
@@ -250,10 +253,14 @@ function Card(props) {
       dispatch(getDetailPlaceByEmail(info.from));
       dispatch(adminClickLocal(userType));
       // navigate("/#UserINF");
+      console.log(userType);
+      console.log(info.from);
     } else if (userType === "banda") {
       dispatch(getDetailMusicBandByEmail(info.from));
       dispatch(adminClickBanda(userType));
       // navigate("/#UserINF");
+      console.log(userType);
+      console.log(info.from);
     }
     props.setnotificacion(false);
   };

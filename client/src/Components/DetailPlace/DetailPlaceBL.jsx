@@ -608,7 +608,6 @@ export default function DetailPlace() {
                   ) : (
                     <h1 id="msgh1">El local aún no tiene fechas publicadas a las cuales puedas aplicar.</h1>
                   )}
-
                   <hr className="hr" />
                 </div>
                 <div className="DataCont">
@@ -700,7 +699,7 @@ export default function DetailPlace() {
                         </button>
                       )}
                     </div>
-                    <Reportar info={place.email} />
+                    <Reportar info={place.email} setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />
                   </div>
                 )}
               </div>
