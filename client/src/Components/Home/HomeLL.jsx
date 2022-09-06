@@ -37,6 +37,53 @@ const HomeStyleCont = styled.div`
   height: fit-content;
   position: absolute;
 
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
   .POPContainer {
     display: flex;
     justify-content: center;
@@ -50,6 +97,15 @@ const HomeStyleCont = styled.div`
     margin: auto;
     z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
   }
+`;
+
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
 `;
 
 const FirtVewStyleCont = styled.div`
@@ -220,53 +276,6 @@ const SecondVewStyleCont = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  & .spancito {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-  }
-
-  & .buttonCont {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  & .buttonToastAcept {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 45%;
-    height: 35px;
-    background-color: #adc178;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover {
-      background-color: #64923c;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  }
-  & .buttonToastCancel {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 45%;
-    height: 35px;
-    background-color: #ff9b85;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover {
-      background-color: #ee6055;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  }
 
   .ContenidoPrevio {
     position: absolute;
@@ -603,6 +612,7 @@ function HomeLL() {
   const [errors, setErrors] = useState({});
   const [render, setRender] = useState(false);
   const [zIndex, setzIndex] = useState(true);
+  const [block, setBlock] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -692,19 +702,34 @@ function HomeLL() {
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
     if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
-    if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
+    else if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
-      await axios.post("/placesdates", {
+      setBlock(true);
+      toast.remove();
+      toast.promise(axios.post("/placesdates", {
         email: place.email,
         date,
+      }), {
+        loading: "Añadiendo...",
+        success: () => {
+          toast.success("Fecha añadida con éxito");
+          setDate("");
+          setRender(!render);
+          setBlock(false);
+        },
+        error: "error",
+      }, {
+        success: {
+          style: {
+            display: "none",
+          },
+        },
       });
-      setDate("");
-      setRender(!render);
-      toast.success("Fecha cargada con exito");
     } else toast.error("Ingrese una fecha");
   };
 
   const handleDeleteAvailableDate = async (e) => {
+    setBlock(true);
     toast.remove();
     toast(
       (t) => (
@@ -715,13 +740,25 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                await axios.put("/placesdates", {
+                toast.dismiss(t.id);
+                toast.promise(axios.put("/placesdates", {
                   email: place.email,
                   date: e.target.value.split(",")[0],
+                }), {
+                  loading: "Eliminando...",
+                  success: () => {
+                    toast.success("Fecha eliminada");
+                    setRender(!render);
+                    setBlock(false);
+                  },
+                  error: "error",
+                }, {
+                  success: {
+                    style: {
+                      display: "none",
+                    },
+                  },
                 });
-                setRender(!render);
-                toast.dismiss(t.id);
-                toast.success("Fecha eliminada");
               }}
             >
               Sí, estoy seguro
@@ -731,6 +768,7 @@ function HomeLL() {
               className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
+                setBlock(false);
               }}
             >
               Cancelar
@@ -746,6 +784,7 @@ function HomeLL() {
 
   const handleDeleteClosedDate = async (e) => {
     e.preventDefault(e);
+    setBlock(true);
     toast.remove();
     toast(
       (t) => (
@@ -757,15 +796,27 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                await axios.put("/dates", {
+                toast.dismiss(t.id);
+                toast.promise(axios.put("/dates", {
                   placeEmail: place.email,
                   musicEmail: e.target.value.split(",")[1],
                   date: e.target.value.split(",")[0],
+                }), {
+                  loading: "Eliminando...",
+                  success: () => {
+                    axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                    setRender(!render);
+                    toast.success("Fecha eliminada");
+                    setBlock(false);
+                  },
+                  error: "error",
+                }, {
+                  success: {
+                    style: {
+                      display: "none",
+                    },
+                  },
                 });
-                axios.get(`/cancelmatch/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-                setRender(!render);
-                toast.dismiss(t.id);
-                toast.success("Fecha eliminada");
               }}
             >
               Sí, estoy seguro
@@ -775,6 +826,7 @@ function HomeLL() {
               className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
+                setBlock(false);
               }}
             >
               Cancelar
@@ -790,35 +842,48 @@ function HomeLL() {
 
   const handleConfirmDate = async (e) => {
     e.preventDefault(e);
+    setBlock(true);
     if (checkExists(e.target.value.split(",")[0]) === true) {
       if (checkConfirmed(e.target.value.split(",")[0]) === false) {
-        toast.success("¡Solicitud aceptada!");
-        await axios.put("/matchdate", {
+        toast.promise(axios.put("/matchdate", {
           placeEmail: place.email,
           musicEmail: e.target.value.split(",")[1],
           date: e.target.value.split(",")[0],
-        });
-        axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
-        setRender(!render);
-        const user = getUserInfo();
-        const notification = {
-          type: user.role,
-          title: `${user.email} ha aceptado tu solicitud`,
-          message: "Para más información por favor revisa tus fechas",
-          before: undefined,
-          from: place.email,
-        };
-        const value = e.target.value.split(",");
-        await axios({
-          method: "post",
-          url: "/musicbands/notification/add",
-          data: {
-            email: value[1],
-            notification,
+        }), {
+          loading: "Confirmando...",
+          success: () => {
+            axios.get(`/matchmails/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+            const user = getUserInfo();
+            axios.post("/musicbands/notification/add", {
+              email: e.target.value.split(",")[1],
+              notification: {
+                type: user.role,
+                title: `${user.email} ha aceptado tu solicitud`,
+                message: "Para más información por favor revisa tus fechas",
+                before: undefined,
+                from: place.email,
+              },
+            });
+            setRender(!render);
+            toast.success("¡Fecha aceptada!");
+            setBlock(false);
+          },
+          error: "error",
+        }, {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         });
-      } else toast.error("Ya hay un usuario confirmado en esa fecha");
-    } else toast.error("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+      } else {
+        setBlock(false);
+        toast.error("Ya hay un usuario confirmado en esa fecha");
+      }
+    } else {
+      setBlock(false);
+      toast.error("La fecha ya no existe, debe ingresarla denuevo para poder aceptar la petición");
+    }
   };
 
   const handleRejectDate = async (e) => {
@@ -878,6 +943,18 @@ function HomeLL() {
     <div>
       {loading ? (
         <HomeStyleCont zIndex={zIndex}>
+          <Blocker block={block} />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              className: "",
+              style: {
+                fontSize: "1.5rem",
+                fontFamily: "RocknRoll One",
+              },
+            }}
+          />
           <NavBar Perfil HelpLog />
           <div className="POPContainer">
             {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
@@ -907,8 +984,8 @@ function HomeLL() {
                       <span>Fecha: </span>
                       {confirmedDates.length > 0
                         ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                            confirmedDates[0].date.substring(5, 7),
-                          )} de ${confirmedDates[0].date.substring(0, 4)}`
+                          confirmedDates[0].date.substring(5, 7),
+                        )} de ${confirmedDates[0].date.substring(0, 4)}`
                         : null}
                       <br />
                       <span>Contacto: </span>
@@ -939,7 +1016,6 @@ function HomeLL() {
             <div className="ContenidoPrevio">
               <img src={Logo} alt="Logo" />
             </div>
-
             <SecondStyleCont>
               <h4 id="Eventos">Gestiona tus Eventos</h4>
               <section className="FechasCont">
@@ -1025,17 +1101,6 @@ function HomeLL() {
                 </div>
               </section>
             </SecondStyleCont>
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{
-                className: "",
-                style: {
-                  fontSize: "1.5rem",
-                  fontFamily: "RocknRoll One",
-                },
-              }}
-            />
           </SecondVewStyleCont>
           <FooterStyledCont>
             <Footer />
