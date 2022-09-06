@@ -35,7 +35,7 @@ export const RegisterStyleCont = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -51,7 +51,7 @@ export const RegisterStyleCont = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -70,10 +70,6 @@ export const RegisterStyleContJr = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
-  & .recuperoClave {
-    cursor: pointer;
-  }
 
   & .UpSection {
     height: 25%;
@@ -211,6 +207,20 @@ export const RegisterStyleContJr = styled.div`
         border-radius: 10px;
         font-size: 3rem;
         cursor: pointer;
+      }
+
+      .recuperoClave {
+        height: 0px;
+        width: 200px;
+        padding: 0px;
+        font-family: "RocknRoll One", sans-serif;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+        color: ${Colors.Green_Light};
+        margin: 5px 65px 30px 0px;
+        align-self: flex-end;
       }
     }
   }
