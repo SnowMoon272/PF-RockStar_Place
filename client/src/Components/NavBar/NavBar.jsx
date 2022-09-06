@@ -7,9 +7,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Modules */
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import toast, { Toaster } from "react-hot-toast";
 import { getNotifications, removeNotifications } from "../../Redux/actions";
 
 /* Components & Actions */
@@ -426,7 +425,6 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
   const [filterSwitch, setfilterSwitch] = useState(false);
   const [notificacion, setnotificacion] = useState(false);
   const notifications = useSelector((state) => state.notifications);
-  const navigate = useNavigate();
 
   const news = (notifications) => {
     let number = 0;
