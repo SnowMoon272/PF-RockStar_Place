@@ -40,6 +40,7 @@ export const isPlace = () => {
 
 export const getUserInfo = () => {
   const token = localStorage.getItem("user-token");
+  if (!token) return false;
   const decoded = jwt.decode(token);
   return decoded.user;
 };

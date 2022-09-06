@@ -9,7 +9,7 @@ import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
-import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { isAuthenticated, getUserInfo, isPlace } from "../../Utils/auth.controller";
 import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
@@ -49,7 +49,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -65,7 +65,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -495,7 +495,7 @@ export default function ActualizarLocal() {
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) {
+    if (isAuthenticated() && isPlace()) {
       dispatch(getDetailPlace(userPlace._id));
     } else {
       navigate("/");

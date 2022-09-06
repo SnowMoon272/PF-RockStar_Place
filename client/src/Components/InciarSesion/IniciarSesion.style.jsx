@@ -134,6 +134,12 @@ export const RegisterStyleContJr = styled.div`
           display: flex;
           align-items: center;
 
+          transition: all 0.5s ease;
+          :hover {
+            transform: scale(1.1);
+            cursor: pointer;
+          }
+
           & img {
             width: 40px;
             height: 40px;

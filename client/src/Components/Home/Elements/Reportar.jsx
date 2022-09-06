@@ -144,7 +144,7 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
-function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
+function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stateReporte, setStateReporte }) {
   const user = getUserInfo();
 
   // const { info } = props;
@@ -169,7 +169,8 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif }) {
       },
     });
 
-    setSwitchNotif(!SwitchNotif);
+    setSwitchNotif && setSwitchNotif(!SwitchNotif);
+    setStateReporte && setStateReporte(!stateReporte);
     setMesagge("");
   };
 

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
+import { isAuthenticated } from "../../Utils/auth.controller";
 
 const CambioClaveStyleCont = styled.div`
   background-image: url(${BGHome});
@@ -163,6 +164,10 @@ const CambioClaveDetailCont = styled.div`
 
 export default function cambioClave() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) navigate("/");
+  }, []);
 
   const [input, setInput] = useState({
     PasswordR: "",
