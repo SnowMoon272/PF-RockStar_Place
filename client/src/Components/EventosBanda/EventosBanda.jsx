@@ -42,7 +42,7 @@ const ContainerGralStyled = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -58,7 +58,7 @@ const ContainerGralStyled = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -499,6 +499,7 @@ function EventosBanda() {
                 setRender(!render);
                 toast.dismiss(t.id);
                 toast.success("Fecha eliminada");
+                axios.get(`/cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
               }}
             >
               Sí, estoy seguro

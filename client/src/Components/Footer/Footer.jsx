@@ -156,16 +156,16 @@ function Footer() {
             <Link to="https://github.com/federicosilvaflores">
               <li>Federico Silva</li>
             </Link>
-            <Link to="https://google.com">
+            <Link to="https://github.com/FacuForsyth">
               <li>Facundo Ramirez</li>
             </Link>
             <Link to="https://github.com/alann03">
               <li>Alan Huismann</li>
             </Link>
             <Link to="https://github.com/Sebastian-pz">
-              <li>Sebastián Pérezs</li>
+              <li>Sebastián Pérez</li>
             </Link>
-            <Link to="http://google.com">
+            <Link to="http://github.com/Charlie1203">
               <li>Carlos Laprida</li>
             </Link>
           </ul>
