@@ -18,8 +18,6 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
-// if (process.env.FRONT_VERCEL) corsOptions.origin = process.env.FRONT_VERCEL;
-
 server.use(cors(corsOptions));
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -31,6 +29,7 @@ server.get("/", (req: any, res: { setHeader: (arg0: string, arg1: string) => voi
 	res.setHeader("Access-Control-Max-Age", "1800");
 	res.setHeader("Access-Control-Allow-Headers", "content-type");
 	res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
+	res.status(200).send("Todo ok");
 });
 
 server.use(

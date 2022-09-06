@@ -401,10 +401,12 @@ export default function DetailPlace() {
   const place = useSelector((state) => state.detail_place);
   const musicBand = useSelector((state) => state.detail_music_band);
   const user = getUserInfo();
+
   const [input, setInput] = useState({
     comment: "",
     rating: 0,
   });
+
   const [render, setRender] = useState(false);
   const [render2, setRender2] = useState(false);
   const [loading, setLoading] = useState(false);

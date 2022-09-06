@@ -1,16 +1,10 @@
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.BACK_JWT_SECRET;
-// const { musicBand }= require("../db/models/musicBandModel");
-// const {place}= require("../db/models/placeModel");
-
 const { getMusicBand } = require("../db/models/musicBandModel.ts");
 const { getPlace } = require("../db/models/placeModel.ts");
 
 const reloadTokenController = async (req: any, res: any) => {
-	console.log(req.body);
-
 	const { email } = req.body;
-	console.log(email);
 	if (!email) return res.status(400).send({ message: "Invalid data" });
 	try {
 		let user = await getMusicBand(email);
@@ -27,7 +21,7 @@ const reloadTokenController = async (req: any, res: any) => {
 				},
 			},
 			jwtSecret,
-			{ expiresIn: 60 * 60 }
+			{ expiresIn: 60 * 60 },
 		);
 
 		return res.status(200).send(token);

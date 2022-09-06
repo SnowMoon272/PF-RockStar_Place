@@ -1,5 +1,3 @@
-// import { any, any } from "express";
-
 const express = require("express");
 
 export const f = {};
@@ -31,7 +29,7 @@ const checkOutController = async (req: any, res: any) => {
 			res.redirect(response.body.init_point);
 		});
 	} catch (error) {
-		console.log(error);
+		throw Error("Payment error");
 	}
 };
 

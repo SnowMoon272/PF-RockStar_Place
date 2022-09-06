@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { getEmailsMusicBand } from "../db/models/musicBandModel";
 import { getEmailsPlaces } from "../db/models/placeModel";
 
@@ -9,8 +8,6 @@ import {
 	removeConfirmedDate,
 	getPlaceOrMusicBandByName,
 } from "../db/models/placeMusicModel";
-
-const express = require("express");
 
 const addPendingDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
@@ -27,7 +24,7 @@ const addPendingDateController = async (req: any, res: any) => {
 	}
 };
 
-const removePendingDateController = async (req: Request, res: Response) => {
+const removePendingDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
 	if (musicEmail && placeEmail && date) {
 		try {
@@ -42,7 +39,7 @@ const removePendingDateController = async (req: Request, res: Response) => {
 	}
 };
 
-const removeConfirmedDateController = async (req: Request, res: Response) => {
+const removeConfirmedDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
 	if (musicEmail && placeEmail && date) {
 		try {
@@ -57,7 +54,7 @@ const removeConfirmedDateController = async (req: Request, res: Response) => {
 	}
 };
 
-const addConfirmedDateController = async (req: Request, res: Response) => {
+const addConfirmedDateController = async (req: any, res: any) => {
 	let { musicEmail, placeEmail, date } = req.body;
 	if (musicEmail && placeEmail && date) {
 		try {
@@ -72,7 +69,7 @@ const addConfirmedDateController = async (req: Request, res: Response) => {
 	}
 };
 
-const getEmailsController = async (req: Request, res: Response) => {
+const getEmailsController = async (req: any, res: any) => {
 	try {
 		let emailsPlaces = await getEmailsPlaces();
 		let emailsMusicBands = await getEmailsMusicBand();
