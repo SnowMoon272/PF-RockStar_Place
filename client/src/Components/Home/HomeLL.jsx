@@ -813,6 +813,14 @@ function HomeLL() {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
+                await axios.put("/dates", {
+                  placeEmail: place.email,
+                  musicEmail: e.target.value.split(",")[1],
+                  date: e.target.value.split(",")[0],
+                });
+                axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                setRender(!render);
+
                 toast.dismiss(t.id);
                 toast.promise(
                   axios.put("/dates", {
