@@ -13,7 +13,7 @@ require("./src/auth/auth.js");
 
 // origin: "https://pf-rock-star-place.vercel.app",
 const corsOptions = {
-	origin: process.env.FRONT_VERCEL || "http://localhost:3000",
+	origin: "https://pf-rock-star-place.vercel.app",
 	methods: "GET, POST, PUT, DELETE",
 	credentials: true,
 	optionSuccessStatus: 200,
