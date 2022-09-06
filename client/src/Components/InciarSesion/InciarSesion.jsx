@@ -42,7 +42,7 @@ function InciarSesion() {
         const header = new Headers();
         header.append("authorization", token);
         const user = await getUserInfo();
-        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        const homeURL = process.env.FRONT_VERCEL || "http://localhost:3000/";
         if (user.role === "musicband") {
           const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {

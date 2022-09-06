@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoGithub from "../../Assets/img/logoGitHub.png";
 import Colors from "../../Utils/colors";
 import LogosTecnologias from "../../Assets/img/LOGOSTECNOLOGIAS.png";
@@ -147,13 +147,27 @@ function Footer() {
         </div>
         <div className="colaboradoresLi">
           <ul>
-            <li>Manuel Roberto Serrano Torres</li>
-            <li>Matías Gabriel Straface</li>
-            <li>Federico Silva Flores</li>
-            <li>Facundo Ramirez Forsyth</li>
-            <li>Alan Huismann</li>
-            <li>Sebastián Pérez Zuluaga</li>
-            <li>Carlos Laprida</li>
+            <Link to="https://github.com/SnowMoon272">
+              <li>Manuel Serrano</li>
+            </Link>
+            <Link to="https://github.com/mgstraface">
+              <li>Matías Straface</li>
+            </Link>
+            <Link to="https://github.com/federicosilvaflores">
+              <li>Federico Silva</li>
+            </Link>
+            <Link to="https://google.com">
+              <li>Facundo Ramirez</li>
+            </Link>
+            <Link to="https://github.com/alann03">
+              <li>Alan Huismann</li>
+            </Link>
+            <Link to="https://github.com/Sebastian-pz">
+              <li>Sebastián Pérezs</li>
+            </Link>
+            <Link to="http://google.com">
+              <li>Carlos Laprida</li>
+            </Link>
           </ul>
         </div>
       </div>
