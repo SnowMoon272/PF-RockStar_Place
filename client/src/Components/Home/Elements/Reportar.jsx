@@ -52,11 +52,12 @@ const ContainerGralStyled = styled.div`
       padding: 0.2rem 0;
       outline: none;
       background-color: ${({ Fondo }) => (Fondo ? Colors.Erie_Black_Transparent : Colors.Oxford_Blue_transparent)};
+      font-size: 2.5rem;
     }
     color: ${Colors.Platinum};
     transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     margin-bottom: 15px;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
   }
 
   .textareaTitle:focus,
@@ -68,7 +69,7 @@ const ContainerGralStyled = styled.div`
   }
 
   .textareaTitle::placeholder {
-    font-size: 2rem;
+    font-size: 2.5rem;
     padding: 5px 0px 0px 8px;
     color: ${Colors.Platinum};
     opacity: 50%;
@@ -119,7 +120,7 @@ const ContainerGralStyled = styled.div`
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       margin: 5px 0px 5px 0px;
-      font-size: 1.5rem;
+      font-size: 2.5rem;
     }
 
     .textarea:focus,
@@ -131,7 +132,7 @@ const ContainerGralStyled = styled.div`
     }
 
     .textarea::placeholder {
-      font-size: 2rem;
+      font-size: 2.5rem;
       padding: 5px 0px 0px 8px;
       color: ${Colors.Platinum};
       opacity: 50%;
