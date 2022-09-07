@@ -654,6 +654,7 @@ function HomeLL() {
   function validateData() {
     if (place && place.name === "") {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
@@ -680,6 +681,7 @@ function HomeLL() {
       );
     } else if (place && place.suscription?.isSuscribed === false) {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
@@ -1033,7 +1035,7 @@ function HomeLL() {
               },
             }}
           />
-          <NavBar Perfil HelpLog />
+          <NavBar Perfil HelpLog block={block} setBlock={setBlock} />
           <div className="POPContainer">
             {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
           </div>

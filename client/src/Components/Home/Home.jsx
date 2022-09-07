@@ -27,7 +27,7 @@ function Home() {
           },
         });
         localStorage.removeItem("role");
-        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        const homeURL = "https://pf-rock-star-place.vercel.app";
         window.location.replace(homeURL);
       }
       localStorage.removeItem("loggedWithGoogle");

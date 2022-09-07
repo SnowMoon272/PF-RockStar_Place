@@ -9,7 +9,7 @@ import { switchToMusicBand, switchToPlace } from "../db/models/socialModel";
 const router = Router();
 export const f = {};
 
-const CLIENT_URL = process.env.FRONT_VERCEL || "http://localhost:3000/";
+const CLIENT_URL = "https://pf-rock-star-place.vercel.app";
 
 router.get("/login/failed", (req: any, res: any) => {
 	res.status(401).send({ error: "login failed" });
@@ -68,6 +68,16 @@ router.get("/login/success", (req: any, res: any) => {
 			const token = jwt.sign(body, jwtSecret);
 			// saveToken(token);
 			req.session.token = token;
+			try {
+				res.cookie("session", token);
+			} catch (error) {
+				console.log("El método 1 no funcionó");
+			}
+			try {
+				res.session.token = token;
+			} catch (error) {
+				console.log("El método 2 no funcionó");
+			}
 			return res.json({ token });
 		}
 		const body = {

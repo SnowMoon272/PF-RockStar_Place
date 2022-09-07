@@ -146,8 +146,6 @@ const ContainerGralStyled = styled.div`
 function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const user = getUserInfo();
 
-  // const { info } = props;
-
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
 

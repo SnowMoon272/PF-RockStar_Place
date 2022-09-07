@@ -146,9 +146,9 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
   const musicBand = useSelector((state) => state.detail_music_band);
   const clickTipe = useSelector((state) => state.admin_click);
 
-  const handlerNotif = (e) => {
-    setSwitchNotif(!SwitchNotif);
-  };
+  // const handlerNotif = (e) => {
+  //   setSwitchNotif(!SwitchNotif);
+  // };
   return (
     <ContainerGralStyled>
       {clickTipe !== "default" ? (
@@ -206,14 +206,14 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
             </div>
             <div className="SectionC">
               <img src={clickTipe === "local" ? place.profilePicture : musicBand.profilePicture} alt="Banda/Local" />
-              <button
+              {/* <button
                 type="button"
                 onClick={(e) => {
                   handlerNotif(e);
                 }}
               >
                 Notificar
-              </button>
+              </button> */}
             </div>
           </div>
         </>
