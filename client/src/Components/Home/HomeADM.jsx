@@ -16,7 +16,6 @@ import { getNotifications, removeNotifications } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
 
 const HomeStyleCont = styled.div`
-
   & .spancito {
     display: flex;
     align-items: center;
@@ -306,6 +305,11 @@ const NotificacionesStyleCont = styled.section`
     font-size: 6rem;
     font-weight: 400;
   }
+  & h6 {
+    font-family: "RocknRoll One";
+    font-size: 3rem;
+    color: ${Colors.Platinum};
+  }
 
   & .CardsContainer {
     /* border: solid #2fff00 3px; */
@@ -434,15 +438,21 @@ function HomeADM() {
         {notificacion && (
           <NotificacionesStyleCont>
             <h2>Notificaciones</h2>
-            <div className="CardsContainer">
-              <div className="CardsContainerScroll">
-                {notifications.length
-                  ? notifications.map((notification) => {
-                    return <Card key={notification._id} info={notification} setnotificacion={setnotificacion} block={block} setBlock={setBlock} />;
-                  })
-                  : null}
+            {notifications.length < 1 ? (
+              <h6>Aquí se mostrarán tus notificaciones</h6>
+            ) : (
+              <div className="CardsContainer">
+                <div className="CardsContainerScroll">
+                  {notifications.length
+                    ? notifications.map((notification) => {
+                        return (
+                          <Card key={notification._id} info={notification} setnotificacion={setnotificacion} block={block} setBlock={setBlock} />
+                        );
+                      })
+                    : null}
+                </div>
               </div>
-            </div>
+            )}
           </NotificacionesStyleCont>
         )}
         <GraficStyleCont>

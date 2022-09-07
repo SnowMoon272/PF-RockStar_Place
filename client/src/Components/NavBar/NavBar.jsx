@@ -313,6 +313,9 @@ const NotificacionesStyleCont = styled.section`
   padding: 35px;
   border-radius: 10px;
   z-index: 1000;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 
   & h2 {
     /* border: solid #ff1100 3px; */
@@ -324,6 +327,12 @@ const NotificacionesStyleCont = styled.section`
     width: 100%;
     font-size: 6rem;
     font-weight: 400;
+    color: ${Colors.Platinum};
+  }
+
+  & h6 {
+    font-family: "RocknRoll One";
+    font-size: 3rem;
     color: ${Colors.Platinum};
   }
 
@@ -360,7 +369,23 @@ const NotificacionesStyleCont = styled.section`
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog, block, setBlock }) {
+function NavBar({
+  Perfil,
+  Eventos,
+  FondoImg,
+  FiltroA,
+  FiltroB,
+  FiltroC,
+  paginado,
+  setFilter,
+  filter,
+  LogIn,
+  Home,
+  Buscar,
+  UserLog,
+  block,
+  setBlock,
+}) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
@@ -456,13 +481,17 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
       {notificacion && (
         <NotificacionesStyleCont>
           <h2>Notificaciones</h2>
-          <div className="CardsContainer">
-            <div className="CardsContainerScroll">
-              {notifications.map((notification) => {
-                return <Card info={notification} block={block} setBlock={setBlock} />;
-              })}
+          {notifications.length < 1 ? (
+            <h6>Aquí se mostrarán tus notificaciones</h6>
+          ) : (
+            <div className="CardsContainer">
+              <div className="CardsContainerScroll">
+                {notifications.map((notification) => {
+                  return <Card info={notification} block={block} setBlock={setBlock} />;
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </NotificacionesStyleCont>
       )}
       <div className="Search_Filter">
