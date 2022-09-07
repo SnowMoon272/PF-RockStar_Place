@@ -49,7 +49,7 @@ function App() {
 
         <Route exact path="/musicband/events/:id" element={<EventosBanda />} />
 
-        <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} />
+        {/* <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} /> */}
         <Route exact path="/mapa" element={<MapLocalDetail />} />
         <Route exact path="/cambioclave" element={<CambioClave />} />
 
