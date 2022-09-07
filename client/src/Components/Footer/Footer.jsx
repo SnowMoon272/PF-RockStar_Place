@@ -138,7 +138,7 @@ function Footer() {
 
   const handlerSwitchNotif = (e) => {
     e.preventDefault();
-    /* !isAuthenticated() && alert("!Debes iniciar sesión para hacer esto!");
+    /* !isAuthenticated() && alert("Debes iniciar sesión para hacer esto");
     isAuthenticated() ? setSwitchNotif(!SwitchNotif) : navegate("/iniciarsesion"); */
     if (!isAuthenticated()) {
       toast.remove();
