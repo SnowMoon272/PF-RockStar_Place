@@ -426,7 +426,7 @@ function UsersInf() {
                               <p>{place.name}</p>
                               <button
                                 value={place.email}
-                                name="banda"
+                                name="local"
                                 onClick={(e) => handleClickDetallesLocal(e)}
                                 type="button"
                                 className="BTNDetalle"
