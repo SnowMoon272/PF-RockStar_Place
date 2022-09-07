@@ -6,12 +6,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../../Utils/colors";
 import { getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
 import SinImg from "../../../Assets/img/mystery.webp";
 import LoaderComponent from "../../Loader/Loading";
 import Loader from "../../../Assets/svg/Loader.svg";
-
 /* * * * * * * * * * * * * * * * * CSS * * * * * * * * * * * * * * * *  */
 
 const ContainerGralStyled = styled.div`
@@ -571,7 +571,7 @@ function ModoEditar() {
             },
           },
         });
-        alert("Datos actualizados con exito");
+        toast.success("Datos actualizados con exito");
 
         setInput({
           name: "",
@@ -621,7 +621,7 @@ function ModoEditar() {
             },
           },
         });
-        alert("Datos actualizados con exito");
+        toast.success("Datos actualizados con exito");
 
         setInput({
           name: "",
@@ -639,7 +639,7 @@ function ModoEditar() {
         });
         dispatch(getDetailMusicBandByEmail(musicBand.email));
       } else {
-        alert("Por favor complete todos los campos correctamente");
+        toast.error("Por favor complete todos los campos correctamente");
       }
     }
   }
@@ -734,6 +734,17 @@ function ModoEditar() {
         <div>
           {loaderLocal === false ? (
             <ContainerGralStyled>
+              <Toaster
+                position="top-center"
+                reverseOrder={false}
+                toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+              />
               {clickTipe !== "default" ? (
                 <div>
                   <div className="divTitulo">

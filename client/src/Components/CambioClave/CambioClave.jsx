@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
@@ -169,9 +169,12 @@ export default function cambioClave() {
     if (isAuthenticated()) navigate("/");
   }, []);
 
+  const busqueda = useLocation().search;
+  const EmailUser = new URLSearchParams(busqueda).get("email");
+
   const [input, setInput] = useState({
     PasswordR: "",
-    email: "",
+    email: EmailUser,
     password: "",
   });
 
@@ -248,7 +251,7 @@ export default function cambioClave() {
           <input
             type="email"
             className="email"
-            placeholder="Ingresa tu e-mail"
+            disabled
             name="email"
             autoComplete="off"
             // eslint-disable-next-line react/jsx-no-bind

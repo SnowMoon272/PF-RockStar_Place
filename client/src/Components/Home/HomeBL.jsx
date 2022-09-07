@@ -474,7 +474,7 @@ function HomeBL() {
   function Isbanned() {
     if (musicBand.banned === true) {
       localStorage.removeItem("user-token");
-      alert("Usuario baneado temporalmente");
+      toast.error("Usuario baneado temporalmente");
       navigate("/iniciarsesion");
     }
   }
@@ -482,6 +482,7 @@ function HomeBL() {
   function validate() {
     if (musicBand && musicBand.name === "") {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
@@ -524,7 +525,6 @@ function HomeBL() {
           Evento: false,
         }),
       );
-      toast.remove();
     };
   }, []);
 
@@ -619,7 +619,7 @@ function HomeBL() {
                 },
               }}
             />
-            <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
+            <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} block={block} setBlock={setBlock} />
 
             <FirtVewStyleCont>
               <div className="ImgContainer">
@@ -652,8 +652,8 @@ function HomeBL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>

@@ -1369,7 +1369,7 @@ const updatePasswordTemplate = (email: any) => {
     <td class="es-m-p0r es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:560px">
     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
     <tr>
-    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#EFEFEF;font-size:16px">Nos comunicamos para informarte que recibimos un intento para cambiar o actualizar tu contraseña.<br>&nbsp;Si es correcto, haz click <A HREF="https://pf-rock-star-place.vercel.app/cambioclave"> aquí </A>. Sino, desestima este mensaje.&nbsp;</p></td>
+    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#EFEFEF;font-size:16px">Nos comunicamos para informarte que recibimos un intento para cambiar o actualizar tu contraseña.<br>&nbsp;Si es correcto, haz click <A HREF="https://pf-rock-star-place.vercel.app/cambioclave/?email=${email}"> aquí </A>. Sino, desestima este mensaje.&nbsp;</p></td>
     </tr>
     <tr>
     <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:40px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#FFFFFF">Esperamos que sigas rockeandola...</h2></td>
