@@ -186,7 +186,7 @@ const ContainerGralStyled = styled.div`
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             margin: 2px 20px 2px 20px;
 
             .pTitulo {
@@ -479,25 +479,29 @@ function EventosBanda() {
   async function handleClickCancelar(e) {
     e.preventDefault();
     setBlock(true);
-    toast.promise(axios.put("/pendingdates", {
-      musicEmail: musicBand.email,
-      placeEmail: e.target.value.split(",")[1],
-      date: e.target.value.split(",")[0],
-    }), {
-      loading: "Cancelando...",
-      success: () => {
-        setRender(!render);
-        setBlock(false);
-        toast.success("Petición cancelada");
+    toast.promise(
+      axios.put("/pendingdates", {
+        musicEmail: musicBand.email,
+        placeEmail: e.target.value.split(",")[1],
+        date: e.target.value.split(",")[0],
+      }),
+      {
+        loading: "Cancelando...",
+        success: () => {
+          setRender(!render);
+          setBlock(false);
+          toast.success("Petición cancelada");
+        },
+        error: "error",
       },
-      error: "error",
-    }, {
-      success: {
-        style: {
-          display: "none",
+      {
+        success: {
+          style: {
+            display: "none",
+          },
         },
       },
-    });
+    );
   }
 
   const handleDeleteClosedDate = async (e) => {
@@ -515,26 +519,30 @@ function EventosBanda() {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.put("/dates", {
-                  placeEmail: e.target.value.split(",")[1],
-                  musicEmail: musicBand.email,
-                  date: e.target.value.split(",")[0],
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    axios.get(`/cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
-                    setRender(!render);
-                    toast.success("Fecha eliminada");
-                    setBlock(false);
+                toast.promise(
+                  axios.put("/dates", {
+                    placeEmail: e.target.value.split(",")[1],
+                    musicEmail: musicBand.email,
+                    date: e.target.value.split(",")[0],
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      axios.get(`/cancelplace/${musicBand.email}/${e.target.value.split(",")[1]}/${e.target.value.split(",")[0]}`);
+                      setRender(!render);
+                      toast.success("Fecha eliminada");
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -632,10 +640,8 @@ function EventosBanda() {
                         </div>
                       </div>
                       <div className="divColumna2">
-                        <p className="pDesc">
-                          <p className="pTitulo">Descripción:</p>
-                          {placeFirstDate.description}
-                        </p>
+                        <p className="pTitulo">Descripción:</p>
+                        <p className="pDesc">{placeFirstDate.description}</p>
                         <div className="divsTituloyDesc">
                           <p className="pTitulo">Rating:</p>
                           <p className="pDesc">⭐{placeFirstDate.rating}</p>
