@@ -84,14 +84,11 @@ export const RegisterStyleContJr = styled.div`
     }
 
     & p {
-      /* border: solid rgba(255, 255, 255, 0) 1px; */
-
       font-family: "RocknRoll One", sans-serif;
       margin: 0px;
       font-size: 3rem;
 
       & a {
-        border: solid rgba(255, 255, 255, 0) 1px;
         text-decoration: none;
         color: ${Colors.Blue_life};
       }
@@ -104,7 +101,7 @@ export const RegisterStyleContJr = styled.div`
     height: 75%;
     display: flex;
     justify-content: space-around;
-    padding-top: 70px;
+    margin-top: 70px;
     font-size: 2rem;
 
     & .Left {
