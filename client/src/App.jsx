@@ -17,6 +17,7 @@ import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
 import MapLocalDetail from "./Components/MapView/MapLocalDetail";
 import CambioClave from "./Components/CambioClave/CambioClave";
+import RegistroGoogle from "./Components/Registro/RegistroGoogle";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -50,6 +51,7 @@ function App() {
         <Route exact path="/reactivarCuenta" element={<ReactivarCuenta />} />
         <Route exact path="/mapa" element={<MapLocalDetail />} />
         <Route exact path="/cambioclave" element={<CambioClave />} />
+        <Route exact path="/registrogoogle" element={<RegistroGoogle />} />
       </Routes>
     </AppStyle>
   );
