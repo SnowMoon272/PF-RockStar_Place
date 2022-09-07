@@ -161,14 +161,6 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
       from: user.email,
     };
 
-    /* await axios({
-      method: "post",
-      url: "/admins/notification/add",
-      data: {
-        email: "admin",
-        notification,
-      },
-    }); */
     toast.promise(axios.post("/admins/notification/add", {
       email: "admin",
       notification,

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
 // import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
@@ -159,15 +160,24 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
       from: user.email,
     };
 
-    await axios({
-      method: "post",
-      url: "/admins/notification/add",
-      data: {
-        email: "admin",
-        notification,
+    toast.promise(axios.post("/admins/notification/add", {
+      email: "admin",
+      notification,
+    }), {
+      loading: "Enviando...",
+      success: () => {
+        toast.success("Mensaje enviado con éxito");
+        setMesagge("");
+        setSwitchNotif(!SwitchNotif);
       },
+      error: "error",
+        }, {
+          success: {
+            style: {
+              display: "none",
+            },
+          },
     });
-
     setSwitchNotif && setSwitchNotif(!SwitchNotif);
     setStateReporte && setStateReporte(!stateReporte);
     setMesagge("");
@@ -179,6 +189,17 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+              className: "",
+              style: {
+                fontSize: "1.5rem",
+                fontFamily: "RocknRoll One",
+              },
+            }}
+      />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" value="Reporte a administración" disabled />
