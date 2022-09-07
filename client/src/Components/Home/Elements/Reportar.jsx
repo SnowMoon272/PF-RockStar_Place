@@ -147,8 +147,6 @@ const ContainerGralStyled = styled.div`
 function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stateReporte, setStateReporte }) {
   const user = getUserInfo();
 
-  // const { info } = props;
-
   const [message, setMesagge] = useState("");
 
   const handleSubmit = async (e) => {
@@ -170,7 +168,7 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
         success: () => {
           toast.success("Mensaje enviado con éxito");
           setMesagge("");
-          setSwitchNotif(!SwitchNotif);
+          /* setSwitchNotif(!SwitchNotif); */
         },
         error: "error",
       },
@@ -193,17 +191,6 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          className: "",
-          style: {
-            fontSize: "1.5rem",
-            fontFamily: "RocknRoll One",
-          },
-        }}
-      />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea type="text" placeholder="Titulo" className="textarea textareaTitle" name="description" value="Reporte a administración" disabled />
