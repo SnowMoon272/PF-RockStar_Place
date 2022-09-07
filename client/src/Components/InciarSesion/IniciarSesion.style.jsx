@@ -89,6 +89,7 @@ export const RegisterStyleContJr = styled.div`
       font-size: 3rem;
 
       & a {
+        border: solid rgba(255, 255, 255, 0) 1px;
         text-decoration: none;
         color: ${Colors.Blue_life};
       }
