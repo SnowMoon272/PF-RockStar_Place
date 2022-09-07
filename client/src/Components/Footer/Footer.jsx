@@ -144,7 +144,7 @@ function Footer() {
       toast.remove();
       toast.error((t) => (
         <span>
-          !Debes iniciar sesión para hacer esto!
+          Debes iniciar sesión para hacer esto
           <button
             type="button"
             onClick={() => {
