@@ -37,9 +37,6 @@ router.get("/cookie-info", (req: any, res: any) => {
 router.post("/change/type", async (req: any, res: any) => {
 	const { role, email } = req.body;
 	if(role && email){
-		console.log(`Llegó ${role}`);
-		console.log(`Llegó ${email}`);
-		
 		if(role === musicRoles.MUSICBAND){
 			try {
 				await switchToMusicBand(email);
@@ -83,15 +80,6 @@ router.get("/login/success", (req: any, res: any) => {
 		return res.json({ token });
 	}
 });
-
-// router.get("/get/cookie-session", async (req:any, res:any) => {
-//   if(token){
-//     console.log(token);
-//     res.status(200).send(token);
-//     token = "";
-//   }
-//   return
-// });
 
 router.get("/logout", (req: any, res: any) => {
 	req.logout();
