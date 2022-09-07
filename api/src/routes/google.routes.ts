@@ -68,6 +68,7 @@ router.get("/login/success", (req: any, res: any) => {
 			const token = jwt.sign(body, jwtSecret);
 			// saveToken(token);
 			req.session.token = token;
+			res.session.token = token;
 			return res.json({ token });
 		}
 		const body = {
