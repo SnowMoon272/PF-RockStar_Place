@@ -346,7 +346,6 @@ export default function DetailPlace() {
     comment: "",
     rating: 0,
   });
-  /* hola */
   const confirmedDates = place.dates ? place.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
   const availableDates = place.availableDates
