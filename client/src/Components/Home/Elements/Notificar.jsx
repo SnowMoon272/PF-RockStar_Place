@@ -208,58 +208,51 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
       setTitle("");
       setnotfSwitch(false);
     }
-
-    const handleChangeT = (e) => {
-      e.preventDefault();
-      setTitle(e.target.value);
-      setErrorsTitle(validateTitle(e.target.value));
-    };
-
-    const handleChangeM = (e) => {
-      e.preventDefault();
-      setMesagge(e.target.value);
-      setErrorsMsg(validateMsg(e.target.value));
-    };
-    return (
-      <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{
-            className: "",
-            style: {
-              fontSize: "1.5rem",
-              fontFamily: "RocknRoll One",
-              textAlign: "center",
-            },
-          }}
-        />
-        {Down && <h1 className="TitleB">Reporte</h1>}
-        <div className="SectionB">
-          <textarea
-            type="text"
-            placeholder="Titulo"
-            className="textarea textareaTitle"
-            name="description"
-            value={title}
-            onChange={(e) => handleChangeT(e)}
-          />
-          <button type="button" onClick={handleSubmit}>
-            Enviar
-          </button>
-        </div>
-        <div className="SectionC">
-          <textarea
-            type="text"
-            value={message}
-            placeholder="Notificación"
-            className="textarea"
-            name="description"
-            onChange={(e) => handleChangeM(e)}
-          />
-        </div>
-      </ContainerGralStyled>
-    );
   };
+
+  const handleChangeT = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+    setErrorsTitle(validateTitle(e.target.value));
+  };
+
+  const handleChangeM = (e) => {
+    e.preventDefault();
+    setMesagge(e.target.value);
+    setErrorsMsg(validateMsg(e.target.value));
+  };
+  return (
+    <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+            textAlign: "center",
+          },
+        }}
+      />
+      {Down && <h1 className="TitleB">Reporte</h1>}
+      <div className="SectionB">
+        <textarea
+          type="text"
+          placeholder="Titulo"
+          className="textarea textareaTitle"
+          name="description"
+          value={title}
+          onChange={(e) => handleChangeT(e)}
+        />
+        <button type="button" onClick={(e) => handleSubmit(e)}>
+          Enviar
+        </button>
+      </div>
+      <div className="SectionC">
+        <textarea type="text" value={message} placeholder="Notificación" className="textarea" name="description" onChange={(e) => handleChangeM(e)} />
+      </div>
+    </ContainerGralStyled>
+  );
 }
 export default Notificar;
