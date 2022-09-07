@@ -163,6 +163,7 @@ export default function Faqs() {
   const [block, setBlock] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
+    toast.remove();
     setLoading(true);
   }, []);
 

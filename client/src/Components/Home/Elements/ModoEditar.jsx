@@ -486,8 +486,8 @@ function ModoEditar() {
           ? place.personInCharge
           : ""
         : musicBand && musicBand.personInCharge
-        ? musicBand.personInCharge
-        : "",
+          ? musicBand.personInCharge
+          : "",
     city: place && place.city ? place.city : "",
     hasSound: place && place.hasSound ? place.hasSound : false,
     adress: place && place.adress ? place.adress : "",
@@ -499,8 +499,8 @@ function ModoEditar() {
           ? place.profilePicture
           : image
         : musicBand && musicBand.profilePicture
-        ? musicBand.profilePicture
-        : image,
+          ? musicBand.profilePicture
+          : image,
     description:
       clickTipe === "local" ? (place && place.description ? place.description : "") : musicBand && musicBand.description ? musicBand.description : "",
     capacity: place && place.capacity ? place.capacity : "",
@@ -510,8 +510,8 @@ function ModoEditar() {
           ? place.socialMedia.instagram
           : ""
         : musicBand && musicBand.socialMedia
-        ? musicBand.socialMedia.instagram
-        : "",
+          ? musicBand.socialMedia.instagram
+          : "",
     spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
     youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
   });
@@ -527,8 +527,8 @@ function ModoEditar() {
             ? place.personInCharge
             : ""
           : musicBand && musicBand.personInCharge
-          ? musicBand.personInCharge
-          : "",
+            ? musicBand.personInCharge
+            : "",
       city: place && place.city ? place.city : "",
       hasSound: place && place.hasSound ? place.hasSound : false,
       adress: place && place.adress ? place.adress : "",
@@ -538,24 +538,24 @@ function ModoEditar() {
             ? place.phoneNumber
             : ""
           : musicBand && musicBand.phoneNumber
-          ? musicBand.phoneNumber
-          : "",
+            ? musicBand.phoneNumber
+            : "",
       profilePicture:
         clickTipe === "local"
           ? place && place.profilePicture
             ? place.profilePicture
             : image
           : musicBand && musicBand.profilePicture
-          ? musicBand.profilePicture
-          : image,
+            ? musicBand.profilePicture
+            : image,
       description:
         clickTipe === "local"
           ? place && place.description
             ? place.description
             : ""
           : musicBand && musicBand.description
-          ? musicBand.description
-          : "",
+            ? musicBand.description
+            : "",
       capacity: place && place.capacity ? place.capacity : "",
       instagram:
         clickTipe === "local"
@@ -563,8 +563,8 @@ function ModoEditar() {
             ? place.socialMedia.instagram
             : ""
           : musicBand && musicBand.socialMedia
-          ? musicBand.socialMedia.instagram
-          : "",
+            ? musicBand.socialMedia.instagram
+            : "",
       spotify: musicBand && musicBand.socialMedia ? musicBand.socialMedia.spotify : "",
       youtube: musicBand && musicBand.socialMedia ? musicBand.socialMedia.youtube : "",
     });
@@ -657,7 +657,7 @@ function ModoEditar() {
         });
         dispatch(getDetailPlaceByEmail(place.email));
       } else {
-        alert("Por favor complete todos los campos correctamente");
+        toast.error("Por favor complete todos los campos correctamente");
       }
     }
 
@@ -833,58 +833,58 @@ function ModoEditar() {
         });
         await axios.get(`/banned/${musicBand.email}`);
         dispatch(getDetailMusicBandByEmail(musicBand.email)); */
-        toast.remove();
-        toast(
-          (t) => (
-            <span className="spancito">
-              <b>¿Está Usted Seguro?</b>
-              <div className="buttonCont">
-                <button
-                  type="button"
-                  className="buttonToastAcept"
-                  onClick={async () => {
-                    toast.dismiss(t.id);
-                    setLoaderLocal(true);
-                    toast.promise(axios.put("/banmusicband", {
-                      email: musicBand.email,
-                    }), {
-                      loading: "Modificando estado...",
-                      success: () => {
-                        axios.get(`/banned/${musicBand.email}`);
-                        dispatch(getDetailMusicBandByEmail(musicBand.email));
-                        toast.success("Usuario modificado");
-                        //setBlock(false);
+      toast.remove();
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>¿Está Usted Seguro?</b>
+            <div className="buttonCont">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setLoaderLocal(true);
+                  toast.promise(axios.put("/banmusicband", {
+                    email: musicBand.email,
+                  }), {
+                    loading: "Modificando estado...",
+                    success: () => {
+                      axios.get(`/banned/${musicBand.email}`);
+                      dispatch(getDetailMusicBandByEmail(musicBand.email));
+                      toast.success("Usuario modificado");
+                      //setBlock(false);
+                    },
+                    error: "error",
+                  }, {
+                    success: {
+                      style: {
+                        display: "none",
                       },
-                      error: "error",
-                    }, {
-                      success: {
-                        style: {
-                          display: "none",
-                        },
-                      },
-                    });
-                  }}
-                >
-                  Sí, estoy seguro
-                </button>
-                <button
-                  type="button"
-                  className="buttonToastCancel"
-                  onClick={() => {
-                    toast.dismiss(t.id);
-                    //setBlock(false);
-                  }}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </span>
-          ),
-          {
-            duration: Infinity,
-          },
-        );
-      }
+                    },
+                  });
+                }}
+              >
+                Sí, estoy seguro
+              </button>
+              <button
+                type="button"
+                className="buttonToastCancel"
+                onClick={() => {
+                  toast.dismiss(t.id);
+                  //setBlock(false);
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
+    }
   }
 
   /* * * * * * * * * * * * * * * * * JSX * * * * * * * * * * * * * * * *  */
@@ -898,12 +898,12 @@ function ModoEditar() {
                 position="top-center"
                 reverseOrder={false}
                 toastOptions={{
-                className: "",
-                style: {
-                  fontSize: "1.5rem",
-                  fontFamily: "RocknRoll One",
-                },
-              }}
+                  className: "",
+                  style: {
+                    fontSize: "1.5rem",
+                    fontFamily: "RocknRoll One",
+                  },
+                }}
               />
               {clickTipe !== "default" ? (
                 <div>
@@ -1075,8 +1075,8 @@ function ModoEditar() {
                                   ? input.profilePicture
                                   : SinImg
                                 : musicBand && musicBand.profilePicture
-                                ? input.profilePicture
-                                : SinImg
+                                  ? input.profilePicture
+                                  : SinImg
                             }
                             alt="ingresa una imagen"
                             width="350px"

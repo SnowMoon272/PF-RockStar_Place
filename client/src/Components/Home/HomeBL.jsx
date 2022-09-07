@@ -465,11 +465,11 @@ function HomeBL() {
     if (confirmedDates.length > 0) dispatch(getDetailPlaceEvent(confirmedDates[0].email));
   }
 
-  function disabledValidate() {
+  /* function disabledValidate() {
     if (musicBand.disabled === true) {
       navigate("/reactivarCuenta");
     }
-  }
+  } */
 
   function Isbanned() {
     if (musicBand.banned === true) {
