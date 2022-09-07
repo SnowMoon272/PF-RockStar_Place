@@ -359,10 +359,10 @@ const bandMatchTemplate = (bandName: any, date: any, placeName: any) => {
     <td class="es-m-p0r es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:560px">
     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
     <tr>
-    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#EFEFEF;font-size:16px">Estamos muy contentos de avisarte que ${placeName} aceptó tu solicitud para tocar el ${date} .<br> En el detalle de tus eventos cerrados, podrás acceder a los datos de contacto del local para que puedas coordinar y ultimar detalles.</p></td>
+    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#e5e5e5;font-size:16px">Estamos muy contentos de avisarte que ${placeName} aceptó tu solicitud para tocar el ${date} .<br> En el detalle de tus eventos cerrados, podrás acceder a los datos de contacto del local para que puedas coordinar y ultimar detalles.</p></td>
     </tr>
     <tr>
-    <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:40px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#FFFFFF">Felicidades y éxitos en la fecha!!!</h2></td>
+    <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:40px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#e5e5e5">Felicidades y éxitos en la fecha!!!</h2></td>
     </tr>
     </table></td>
     </tr>
@@ -373,7 +373,7 @@ const bandMatchTemplate = (bandName: any, date: any, placeName: any) => {
     <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px"><img class="adapt-img" src="https://wdbkny.stripocdn.email/content/guids/CABINET_2c08af9e46abd212569925b240debe0c/images/44391625818311503.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="560"></td>
     </tr>
     <tr>
-    <td align="left" style="padding:0;Margin:0;padding-bottom:10px;padding-top:30px"><h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#FFFFFF">el equipo de RockStar place.</h3></td>
+    <td align="left" style="padding:0;Margin:0;padding-bottom:10px;padding-top:30px"><h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#e5e5e5">el equipo de RockStar place.</h3></td>
     </tr>
     <tr>
     <td align="left" class="es-m-txt-c" style="padding:0;Margin:0;font-size:0">
@@ -561,10 +561,10 @@ const placeMatchTemplate = (placeName: any, bandName: any, date: any) => {
     <td class="es-m-p0r es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:560px">
     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
     <tr>
-    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#EFEFEF;font-size:16px">Estamos muy contentos de que hayas aceptado la solicitud de ${bandName} para tocar en sus instalaciones el ${date}. En tu panel de administración de fechas, podrás acceder al detalle y datos de contacto de la banda para ultimar detalles...<br> Gracias por seguir confiando en nuestro sitio para organizar tus eventos.<br></p></td>
+    <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#e5e5e5;font-size:16px">Estamos muy contentos de que hayas aceptado la solicitud de ${bandName} para tocar en sus instalaciones el ${date}. En tu panel de administración de fechas, podrás acceder al detalle y datos de contacto de la banda para ultimar detalles...<br> Gracias por seguir confiando en nuestro sitio para organizar tus eventos.<br></p></td>
     </tr>
     <tr>
-    <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:40px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#FFFFFF">Felicidades y éxitos en la fecha!!!</h2></td>
+    <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:40px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#e5e5e5">Felicidades y éxitos en la fecha!!!</h2></td>
     </tr>
     </table></td>
     </tr>
@@ -575,7 +575,7 @@ const placeMatchTemplate = (placeName: any, bandName: any, date: any) => {
     <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px"><img class="adapt-img" src="https://wdbkny.stripocdn.email/content/guids/CABINET_2c08af9e46abd212569925b240debe0c/images/44391625818311503.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="560"></td>
     </tr>
     <tr>
-    <td align="left" style="padding:0;Margin:0;padding-bottom:10px;padding-top:30px"><h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#FFFFFF">el equipo de RockStar place.</h3></td>
+    <td align="left" style="padding:0;Margin:0;padding-bottom:10px;padding-top:30px"><h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:Righteous, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#e5e5e5">el equipo de RockStar place.</h3></td>
     </tr>
     <tr>
     <td align="left" class="es-m-txt-c" style="padding:0;Margin:0;font-size:0">

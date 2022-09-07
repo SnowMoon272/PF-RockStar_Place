@@ -30,12 +30,11 @@ const CardStyleCont = styled.div`
   padding: 15px;
 
   & .HeaderCont {
-    /* border: solid #ff0000 3px; */
-
     box-sizing: border-box;
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     /* margin: 10px; */
 
@@ -75,7 +74,21 @@ const CardStyleCont = styled.div`
       }
     }
 
+    h3 {
+      font-weight: 400;
+      font-size: 2.3rem;
+      margin: 0px;
+      width: fit-content;
+
+      & a {
+        color: ${Colors.Blue_Vivid};
+        font-weight: 400;
+      }
+    }
+
     & .BTNsCont {
+      position: relative;
+      bottom: 15px;
       display: flex;
       width: 80px;
       justify-content: space-between;
@@ -123,30 +136,10 @@ const CardStyleCont = styled.div`
   }
 
   & .SecondVewCont {
-    /* border: solid #ff0000 3px; */
     width: 100%;
     position: relative;
 
-    & h3 {
-      /* border: solid #ff0000 3px; */
-
-      position: relative;
-      top: -42px;
-      left: 25%;
-      font-weight: 400;
-      font-size: 2.5rem;
-      margin: 0px;
-      width: fit-content;
-
-      & a {
-        color: ${Colors.Blue_Vivid};
-        font-weight: 400;
-      }
-    }
-
     & .TextContent {
-      /* border: solid #ffffff 1px; */
-
       width: 80%;
       height: 100px;
       margin-left: 25px;
@@ -166,12 +159,11 @@ const CardStyleCont = styled.div`
 
       & p {
         margin-right: 8px;
-        font-size: 2.5rem;
+        font-size: 1.9rem;
       }
     }
 
     & button {
-      /* border: solid #2fff00 3px; */
       font-family: "New Rocker", cursive;
       position: relative;
       left: 86%;
@@ -322,6 +314,7 @@ function Card({ setnotificacion, info, block, setBlock }) {
             <h6>{info.from}</h6>
           </button>
         </a>
+        <h3 className={info.type}>{info.title}</h3>
         <div className="BTNsCont">
           <button onClick={(e) => handlerEye(e)} type="button" className="BTNCerrar Eye">
             <img src={info.new ? SVGEye : SVGNEye} alt="ojo" />
@@ -332,7 +325,6 @@ function Card({ setnotificacion, info, block, setBlock }) {
         </div>
       </div>
       <div className="SecondVewCont">
-        <h3 className={info.type}>{info.title}</h3>
         <div className="TextContent">
           <p>{info.message}</p>
         </div>
