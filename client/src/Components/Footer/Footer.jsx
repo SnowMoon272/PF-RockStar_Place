@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LogoGithub from "../../Assets/img/logoGitHub.png";
 import Colors from "../../Utils/colors";
 import LogosTecnologias from "../../Assets/img/LOGOSTECNOLOGIAS.png";
@@ -39,6 +39,9 @@ const HomeStyleCont = styled.div`
         font-size: 1.2rem;
         font-weight: 400;
         color: ${Colors.Platinum};
+      }
+      a {
+        text-decoration: none;
       }
     }
   }
@@ -147,27 +150,27 @@ function Footer() {
         </div>
         <div className="colaboradoresLi">
           <ul>
-            <Link to="https://github.com/SnowMoon272">
+            <a href="https://github.com/SnowMoon272" target="_blank" rel="noreferrer">
               <li>Manuel Serrano</li>
-            </Link>
-            <Link to="https://github.com/mgstraface">
+            </a>
+            <a href="https://github.com/mgstraface" target="_blank" rel="noreferrer">
               <li>Matías Straface</li>
-            </Link>
-            <Link to="https://github.com/federicosilvaflores">
+            </a>
+            <a href="https://github.com/federicosilvaflores" target="_blank" rel="noreferrer">
               <li>Federico Silva</li>
-            </Link>
-            <Link to="https://github.com/FacuForsyth">
+            </a>
+            <a href="https://github.com/FacuForsyth" target="_blank" rel="noreferrer">
               <li>Facundo Ramirez</li>
-            </Link>
-            <Link to="https://github.com/alann03">
+            </a>
+            <a href="https://github.com/alann03" target="_blank" rel="noreferrer">
               <li>Alan Huismann</li>
-            </Link>
-            <Link to="https://github.com/Sebastian-pz">
+            </a>
+            <a href="https://github.com/Sebastian-pz" target="_blank" rel="noreferrer">
               <li>Sebastián Pérez</li>
-            </Link>
-            <Link to="http://github.com/Charlie1203">
+            </a>
+            <a href="http://github.com/Charlie1203" target="_blank" rel="noreferrer">
               <li>Carlos Laprida</li>
-            </Link>
+            </a>
           </ul>
         </div>
       </div>
