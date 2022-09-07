@@ -146,9 +146,9 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
   const musicBand = useSelector((state) => state.detail_music_band);
   const clickTipe = useSelector((state) => state.admin_click);
 
-  const handlerNotif = (e) => {
-    setSwitchNotif(!SwitchNotif);
-  };
+  // const handlerNotif = (e) => {
+  //   setSwitchNotif(!SwitchNotif);
+  // };
   return (
     <ContainerGralStyled>
       {clickTipe !== "default" ? (
