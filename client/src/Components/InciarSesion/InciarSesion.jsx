@@ -21,6 +21,7 @@ import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
 require("dotenv").config();
 
 function InciarSesion() {
+  const BACK_URL = "https://pf-rock-star-place.herokuapp.com";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,9 +46,9 @@ function InciarSesion() {
         const header = new Headers();
         header.append("authorization", token);
         const user = await getUserInfo();
-        const homeURL = "/";
+        const homeURL = process.env.FRONT_VERCEL;
         if (user.role === "musicband") {
-          const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
+          const userLogMusic = await axios.get(`${BACK_URL}/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogMusic.data.banned === true) {
@@ -57,7 +58,7 @@ function InciarSesion() {
             window.location.replace(homeURL);
           }
         } else if (user.role === "place") {
-          const userLogPlace = await axios.get(`https://pf-rock-star-place.herokuapp.com/place-email/${user.email}`);
+          const userLogPlace = await axios.get(`${BACK_URL}/place-email/${user.email}`);
           if (userLogPlace.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogPlace.data.banned === true) {
@@ -112,11 +113,9 @@ function InciarSesion() {
     );
   }
 
-  const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
-
   const google = () => {
     localStorage.setItem("loggedWithGoogle", "true");
-    window.open("https://pf-rock-star-place.herokuapp.com/auth/google", "_self");
+    window.open(`${BACK_URL}/auth/google`, "_self");
   };
   useEffect(() => {
     if (isAuthenticated()) navigate("/");
