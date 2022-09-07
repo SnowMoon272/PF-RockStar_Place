@@ -756,8 +756,10 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
-    else if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
+    if (errors.repeated) {
+      setDate("");
+      toast.error("La fecha ya se encuentra cargada");
+    } else if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       setBlock(true);
       toast.remove();
