@@ -118,6 +118,7 @@ function InciarSesion() {
     window.open(`${BACK_URL}/auth/google`, "_self");
   };
   useEffect(() => {
+    toast.remove();
     if (isAuthenticated()) navigate("/");
     setTimeout(() => {
       setLoading(true);
