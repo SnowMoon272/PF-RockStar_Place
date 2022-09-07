@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
@@ -13,6 +13,7 @@ import LogoSpotify from "../../Assets/svg/Spotyfy.svg";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
 import Editar from "../../Assets/svg/Editar.svg";
 import LoaderComponent from "../Loader/Loading";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 const EditStyledCont = styled.div`
   /* border: solid 3px red; */
@@ -262,14 +263,14 @@ const EditStyledCont = styled.div`
 
 export default function PerfilMusico() {
   const dispatch = useDispatch();
-  const params = useParams();
+  const user = getUserInfo();
   const navigate = useNavigate();
   const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getDetailMusicBand(params.id));
+    dispatch(getDetailMusicBand(user._id));
   }, []);
 
   if (musicBand.banned === true || musicBand.disabled === true) navigate("/");

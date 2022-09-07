@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -10,6 +10,7 @@ import { getDetailMusicBand, getDetailPlaceByEmail } from "../../Redux/actions";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import ImgLogo from "../../Assets/img/logo3.png";
 import LoaderComponent from "../Loader/Loading";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 const ContainerGralStyled = styled.div`
   box-sizing: border-box;
@@ -436,7 +437,7 @@ const Blocker = styled.div`
 
 function EventosBanda() {
   const dispatch = useDispatch();
-  const params = useParams();
+  const user = getUserInfo();
   const musicBand = useSelector((state) => state.detail_music_band);
   const placeFirstDate = useSelector((state) => state.detail_place);
 
@@ -455,7 +456,7 @@ function EventosBanda() {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getDetailMusicBand(params.id));
+    dispatch(getDetailMusicBand(user._id));
   }, [dispatch, render]);
 
   useEffect(() => {

@@ -160,24 +160,28 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
       from: user.email,
     };
 
-    toast.promise(axios.post("/admins/notification/add", {
-      email: "admin",
-      notification,
-    }), {
-      loading: "Enviando...",
-      success: () => {
-        toast.success("Mensaje enviado con éxito");
-        setMesagge("");
-        setSwitchNotif(!SwitchNotif);
+    toast.promise(
+      axios.post("/admins/notification/add", {
+        email: "admin",
+        notification,
+      }),
+      {
+        loading: "Enviando...",
+        success: () => {
+          toast.success("Mensaje enviado con éxito");
+          setMesagge("");
+          setSwitchNotif(!SwitchNotif);
+        },
+        error: "error",
       },
-      error: "error",
-        }, {
-          success: {
-            style: {
-              display: "none",
-            },
+      {
+        success: {
+          style: {
+            display: "none",
           },
-    });
+        },
+      },
+    );
     setSwitchNotif && setSwitchNotif(!SwitchNotif);
     setStateReporte && setStateReporte(!stateReporte);
     setMesagge("");
@@ -193,12 +197,12 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
         position="top-center"
         reverseOrder={false}
         toastOptions={{
-              className: "",
-              style: {
-                fontSize: "1.5rem",
-                fontFamily: "RocknRoll One",
-              },
-            }}
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
       />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
