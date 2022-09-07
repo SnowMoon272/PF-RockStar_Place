@@ -36,7 +36,7 @@ server.get('/', (req: any, res: { setHeader: (arg0: string, arg1: string) => voi
 server.use(
 	cookieSession({
 		name: "session",
-		keys: ["AAA"],
+		keys: ["AAAQ"],
 		maxAge: 24 * 60 * 60 * 100,
 	}),
 );

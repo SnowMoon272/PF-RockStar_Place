@@ -66,19 +66,9 @@ router.get("/login/success", (req: any, res: any) => {
 				name: user.name,
 			};
 			const token = jwt.sign(body, jwtSecret);
-			// saveToken(token);
+			res.cookie("session", token );
 			req.session.token = token;
-			try {
-				res.cookie("session", token);
-			} catch (error) {
-				console.log("El método 1 no funcionó");
-			}
-			try {
-				res.session.token = token;
-			} catch (error) {
-				console.log("El método 1 no funcionó");
-			}
-			return res.json({ token });
+			return res.send({ success: true, token });
 		}
 		const body = {
 			_id: user._id,
@@ -87,7 +77,9 @@ router.get("/login/success", (req: any, res: any) => {
 		};
 		const token = jwt.sign(body, jwtSecret);
 
-		return res.json({ token });
+		res.cookie("session", token );
+		req.session.token = token;
+		return res.send({ success: true, token });
 	}
 });
 
