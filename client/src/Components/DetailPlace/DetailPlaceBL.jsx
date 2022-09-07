@@ -476,44 +476,12 @@ export default function DetailPlace() {
 
   const [errors, setErrors] = useState({});
 
-  function validate() {
-    if (musicBand && musicBand.name === "") {
-      setBlock(true);
-      toast.remove();
-      toast(
-        (t) => (
-          <span className="spancito">
-            <b>Para continuar debes cargar los datos de la banda</b>
-            <div className="buttonCont2">
-              <button
-                type="button"
-                className="buttonToastAcept"
-                onClick={async () => {
-                  toast.dismiss(t.id);
-                  setBlock(false);
-                  dispatch(resetDetails([]));
-                  navigate("/actualizarbanda");
-                }}
-              >
-                Cargar datos
-              </button>
-            </div>
-          </span>
-        ),
-        {
-          duration: Infinity,
-        },
-      );
-    }
-  }
-
   useEffect(() => {
     setLoading(true);
     dispatch(getDetailPlace(params.id));
   }, [dispatch, render]);
 
   useEffect(() => {
-    validate();
     return () => {
       dispatch(resetDetails([]));
       toast.remove();
