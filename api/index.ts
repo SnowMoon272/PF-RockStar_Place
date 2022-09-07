@@ -11,7 +11,8 @@ const cors = require("cors");
 const server = express();
 require("./src/auth/auth.js");
 
-const front = "https://pf-rock-star-place.vercel.app"
+// const front = "https://pf-rock-star-place.vercel.app"
+const front = "http://localhost:3000";
 
 const corsOptions = {
 	origin: front,
@@ -25,12 +26,12 @@ server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(morgan("dev"));
-server.get('/', (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
-	res.setHeader('Access-Control-Allow-Origin', front);
-	res.setHeader('Access-Control-Allow-Credentials', 'true');
-	res.setHeader('Access-Control-Max-Age', '1800');
-	res.setHeader('Access-Control-Allow-Headers', 'content-type');
-	res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
+server.get("/", (req: any, res: { setHeader: (arg0: string, arg1: string) => void }) => {
+	res.setHeader("Access-Control-Allow-Origin", front);
+	res.setHeader("Access-Control-Allow-Credentials", "true");
+	res.setHeader("Access-Control-Max-Age", "1800");
+	res.setHeader("Access-Control-Allow-Headers", "content-type");
+	res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
 });
 
 server.use(
