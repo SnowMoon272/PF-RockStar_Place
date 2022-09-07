@@ -34,23 +34,9 @@ const CardStyleCont = styled.div`
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     /* margin: 10px; */
-
-    & h3 {
-      position: relative;
-      top: -42px;
-      left: 25%;
-      font-weight: 400;
-      font-size: 2.5rem;
-      margin: 0px;
-      width: fit-content;
-
-      & a {
-        color: ${Colors.Blue_Vivid};
-        font-weight: 400;
-      }
-    }
 
     & a {
       text-decoration: none;
@@ -88,7 +74,21 @@ const CardStyleCont = styled.div`
       }
     }
 
+    h3 {
+      font-weight: 400;
+      font-size: 2rem;
+      margin: 0px;
+      width: fit-content;
+
+      & a {
+        color: ${Colors.Blue_Vivid};
+        font-weight: 400;
+      }
+    }
+
     & .BTNsCont {
+      position: relative;
+      bottom: 15px;
       display: flex;
       width: 80px;
       justify-content: space-between;
