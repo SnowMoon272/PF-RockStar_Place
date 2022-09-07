@@ -193,59 +193,6 @@ const CardStyleCont = styled.div`
     }
   }
 
-  & .spancito {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-  }
-
-  & .buttonCont {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  & .buttonCont2 {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  & .buttonToastAcept {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 45%;
-    height: 35px;
-    background-color: #adc178;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover {
-      background-color: #64923c;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  }
-  & .buttonToastCancel {
-    font-family: "RocknRoll One", sans-serif;
-    color: ${Colors.Erie_Black};
-    text-align: center;
-    margin: 8px 0px;
-    width: 45%;
-    height: 35px;
-    background-color: #ff9b85;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover {
-      background-color: #ee6055;
-      color: ${Colors.Platinum};
-      transition: 0.3s;
-    }
-  }
-
   .POPContainer {
     display: flex;
     justify-content: center;
@@ -261,28 +208,16 @@ const CardStyleCont = styled.div`
   }
 `;
 
-const Blocker = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  opacity: 40%;
-  position: absolute;
-  z-index: ${({ block }) => (block ? 2100 : 0)};
-`;
-
-function Card({ setnotificacion, info }) {
+function Card({ setnotificacion, info, block, setBlock }) {
   const [eye, seteye] = useState(false);
   const [notfSwitch, setnotfSwitch] = useState(false);
   const [userType, setuserType] = useState("");
   const [zIndex, setzIndex] = useState(true);
-  const [block, setBlock] = useState(false);
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const user = getUserInfo();
 
   useEffect(() => {
-    toast.remove();
     if (info.type === "musicband") {
       setuserType("banda");
     } else if (info.type === "place") {
@@ -307,10 +242,9 @@ function Card({ setnotificacion, info }) {
     e.new ? seteye(eye) : seteye(!eye);
   };
   const handlerCloseNotif = async (e) => {
-    /* Algo va pasar */
     e.preventDefault();
-    setBlock(true);
     toast.remove();
+    setBlock(true);
     toast(
       (t) => (
         <span className="spancito">
@@ -329,9 +263,9 @@ function Card({ setnotificacion, info }) {
                   {
                     loading: "Eliminando...",
                     success: () => {
-                      toast.success("Notificacion eliminada");
                       dispatch(getNotifications(user.role, user.email));
                       setBlock(false);
+                      toast.success("Notificacion eliminada");
                     },
                     error: "error",
                   },
@@ -380,18 +314,6 @@ function Card({ setnotificacion, info }) {
 
   return (
     <CardStyleCont eye={info.new} key={info._id} zIndex={zIndex}>
-      <Blocker block={block} />
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          className: "",
-          style: {
-            fontSize: "1.5rem",
-            fontFamily: "RocknRoll One",
-          },
-        }}
-      />
       <div className="HeaderCont">
         <a href="#UserINF">
           <button type="button" onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
