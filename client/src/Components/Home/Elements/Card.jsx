@@ -255,8 +255,6 @@ function Card({ setnotificacion, info, block, setBlock }) {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                console.log(user.email);
-                console.log(info._id);
                 toast.dismiss(t.id);
                 toast.promise(
                   axios.post(`/${user.role}s/notifications/deleteOne`, {
