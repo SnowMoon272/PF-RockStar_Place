@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import LogoGithub from "../../Assets/img/logoGitHub.png";
 import Colors from "../../Utils/colors";
 import LogosTecnologias from "../../Assets/img/LOGOSTECNOLOGIAS.png";
@@ -137,12 +138,39 @@ function Footer() {
 
   const handlerSwitchNotif = (e) => {
     e.preventDefault();
-    !isAuthenticated() && alert("!Debes iniciar sesión para hacer esto!");
-    isAuthenticated() ? setSwitchNotif(!SwitchNotif) : navegate("/iniciarsesion");
+    /* !isAuthenticated() && alert("Debes iniciar sesión para hacer esto");
+    isAuthenticated() ? setSwitchNotif(!SwitchNotif) : navegate("/iniciarsesion"); */
+    if (!isAuthenticated()) {
+      toast.remove();
+      toast.error((t) => (
+        <span>
+          Debes iniciar sesión para hacer esto
+          <button
+            type="button"
+            onClick={() => {
+              navegate("/iniciarsesion");
+            }}
+          >
+            Iniciar sesión
+          </button>
+        </span>
+      ));
+    } else setSwitchNotif(!SwitchNotif);
   };
 
   return (
     <HomeStyleCont>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
+      />
       <div className="colaboradoresCont">
         <div className="colaboradoresTitle">
           <img src={LogoGithub} alt="Git Hub" />
