@@ -76,7 +76,7 @@ const CardStyleCont = styled.div`
 
     h3 {
       font-weight: 400;
-      font-size: 2rem;
+      font-size: 2.3rem;
       margin: 0px;
       width: fit-content;
 
@@ -159,7 +159,7 @@ const CardStyleCont = styled.div`
 
       & p {
         margin-right: 8px;
-        font-size: 2.5rem;
+        font-size: 1.9rem;
       }
     }
 
