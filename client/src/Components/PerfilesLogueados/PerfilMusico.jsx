@@ -260,6 +260,73 @@ const EditStyledCont = styled.div`
       */
     }
   }
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
 `;
 
 const Blocker = styled.div`
@@ -268,7 +335,7 @@ const Blocker = styled.div`
   background-color: black;
   opacity: 40%;
   position: fixed;
-  z-index: ${({ block }) => (block ? 2100 : 0)};
+  z-index: ${({ block }) => (block ? 2100 : -1)};
 `;
 
 export default function PerfilMusico() {
