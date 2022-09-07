@@ -474,7 +474,7 @@ function HomeBL() {
   function Isbanned() {
     if (musicBand.banned === true) {
       localStorage.removeItem("user-token");
-      alert("Usuario baneado temporalmente");
+      toast.error("Usuario baneado temporalmente");
       navigate("/iniciarsesion");
     }
   }
