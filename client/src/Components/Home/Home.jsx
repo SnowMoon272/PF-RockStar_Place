@@ -14,8 +14,6 @@ function Home() {
   const ifIsSocial = async () => {
     if (localStorage.getItem("loggedWithGoogle")) {
       const { data } = await axios.get("/auth/cookie-info", { withCredentials: true });
-      console.log(data);
-      if (data) localStorage.removeItem("loggedWithGoogle");
       localStorage.setItem("user-token", data);
       setReloadState(reloadState + 1);
       if (localStorage.getItem("role")) {
@@ -29,7 +27,7 @@ function Home() {
           },
         });
         localStorage.removeItem("role");
-        const homeURL = process.env.REACT_APP_API || "http://localhost:3000/";
+        const homeURL = "https://pf-rock-star-place.vercel.app";
         window.location.replace(homeURL);
       }
       localStorage.removeItem("loggedWithGoogle");
