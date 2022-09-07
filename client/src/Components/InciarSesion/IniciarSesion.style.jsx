@@ -84,6 +84,8 @@ export const RegisterStyleContJr = styled.div`
     }
 
     & p {
+      /* border: solid rgba(255, 255, 255, 0) 1px; */
+
       font-family: "RocknRoll One", sans-serif;
       margin: 0px;
       font-size: 3rem;
