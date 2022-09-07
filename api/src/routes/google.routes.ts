@@ -10,7 +10,7 @@ const router = Router();
 export const f = {};
 
 const CLIENT_URL =
-	"https://pf-rock-star-place.vercel.app/" || "http://localhost:3000/";
+	"https://pf-rock-star-place.vercel.app/";
 
 router.get("/login/failed", (req: any, res: any) => {
 	res.status(401).send({ error: "login failed" });

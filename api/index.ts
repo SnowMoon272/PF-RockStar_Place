@@ -42,7 +42,7 @@ server.get(
 server.use(
 	cookieSession({
 		name: "session",
-		keys: ["AAAQ"],
+		keys: ["AAA"],
 		maxAge: 24 * 60 * 60 * 100,
 	})
 );
