@@ -206,14 +206,14 @@ function ModoNotificar({ SwitchNotif, setSwitchNotif }) {
             </div>
             <div className="SectionC">
               <img src={clickTipe === "local" ? place.profilePicture : musicBand.profilePicture} alt="Banda/Local" />
-              <button
+              {/* <button
                 type="button"
                 onClick={(e) => {
                   handlerNotif(e);
                 }}
               >
                 Notificar
-              </button>
+              </button> */}
             </div>
           </div>
         </>
