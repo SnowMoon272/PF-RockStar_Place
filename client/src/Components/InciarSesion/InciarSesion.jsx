@@ -1,6 +1,5 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 /* Modules */
@@ -19,7 +18,10 @@ import LoaderComponent from "../Loader/Loading";
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
 
+require("dotenv").config();
+
 function InciarSesion() {
+  const BACK_URL = "https://pf-rock-star-place.herokuapp.com";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +48,7 @@ function InciarSesion() {
         const user = await getUserInfo();
         const homeURL = process.env.FRONT_VERCEL;
         if (user.role === "musicband") {
-          const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
+          const userLogMusic = await axios.get(`${BACK_URL}/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogMusic.data.banned === true) {
@@ -56,7 +58,7 @@ function InciarSesion() {
             window.location.replace(homeURL);
           }
         } else if (user.role === "place") {
-          const userLogPlace = await axios.get(`https://pf-rock-star-place.herokuapp.com/place-email/${user.email}`);
+          const userLogPlace = await axios.get(`${BACK_URL}/place-email/${user.email}`);
           if (userLogPlace.data.disabled === true) {
             navigate("/reactivarcuenta");
           } else if (userLogPlace.data.banned === true) {
@@ -79,7 +81,7 @@ function InciarSesion() {
     toast(
       (t) => (
         <span className="spancito">
-          <b>¿Estas seguro de cambiar la contraseña?</b>
+          <b>¿Estás seguro de cambiar la contraseña?</b>
           <p>Se enviará un correo con los pasos a seguir.</p>
           <div className="buttonCont">
             <button
@@ -110,8 +112,6 @@ function InciarSesion() {
       },
     );
   }
-
-  const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
 
   const google = () => {
     localStorage.setItem("loggedWithGoogle", "true");

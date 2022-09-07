@@ -11,9 +11,8 @@ const cors = require("cors");
 const server = express();
 require("./src/auth/auth.js");
 
-// origin: "https://pf-rock-star-place.vercel.app",
 const corsOptions = {
-	origin: process.env.FRONT_VERCEL || "http://localhost:3000",
+	origin: "https://pf-rock-star-place.vercel.app",
 	methods: "GET, POST, PUT, DELETE",
 	credentials: true,
 	optionSuccessStatus: 200,
@@ -21,12 +20,11 @@ const corsOptions = {
 
 server.use(cors(corsOptions));
 
-// res.setHeader("Access-Control-Allow-Origin", "https://pf-rock-star-place.vercel.app");
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(morgan("dev"));
 server.get("/", (req: any, res: any) => {
-	res.setHeader("Access-Control-Allow-Origin", process.env.FRONT_VERCEL || "http://localhost:3000");
+	res.setHeader("Access-Control-Allow-Origin", "https://pf-rock-star-place.vercel.app");
 	res.setHeader("Access-Control-Allow-Credentials", "true");
 	res.setHeader("Access-Control-Max-Age", "1800");
 	res.setHeader("Access-Control-Allow-Headers", "content-type");

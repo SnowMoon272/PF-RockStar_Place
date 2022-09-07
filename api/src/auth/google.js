@@ -14,32 +14,19 @@ passport.use(
 		},
 		async function (accessToken, refreshToken, profile, done) {
 			try {
-        // console.log(profile);
-        const { name, picture, email} = profile._json;
-        console.log(`Nombre: ${name}, email: ${email}`);
+				const { name, picture, email } = profile._json;
 				let user = await musicBand.findOne({ email: email });
 				if (!user) user = await place.findOne({ email: email });
 				if (!user) user = await socialUser.findOne({ email: email });
-
-        // console.log(user);
 				if (user) return done(null, user);
 
-        const newSocialUser = {
-          email: email,
-          profilePicture: picture,
+				const newSocialUser = {
+					email: email,
+					profilePicture: picture,
 					personInCharge: name,
-          role: "social"
-        }
-        // email: {
-        //   type: String,
-        //   unique: true,
-        // },
-        // profilePicture: {type: String, trim: true, default: ""},
-        // personInCharge: {type: String, trim: true},
-        // role: {type: String, require:true, default:"social"}
-
+					role: "social",
+				};
 				user = await socialUser.create(newSocialUser);
-        // console.log(user);
 				return done(null, user, { message: "Successful" });
 			} catch (error) {
 				done(error, false);
