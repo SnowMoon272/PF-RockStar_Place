@@ -132,6 +132,7 @@ const ContainerGralStyled = styled.div`
               border: none;
               outline: none;
               padding: 0px 15px;
+              font-size: 2rem;
             }
 
             & button {

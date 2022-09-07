@@ -101,7 +101,7 @@ export const RegisterStyleContJr = styled.div`
     height: 75%;
     display: flex;
     justify-content: space-around;
-    padding-top: 70px;
+    margin-top: 70px;
     font-size: 2rem;
 
     & .Left {

@@ -1,5 +1,7 @@
+/* eslint-disable consistent-return */
 import axios from "axios";
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
@@ -52,11 +54,12 @@ const ContainerGralStyled = styled.div`
       padding: 0.2rem 0;
       outline: none;
       background-color: ${({ Fondo }) => (Fondo ? Colors.Erie_Black_Transparent : Colors.Oxford_Blue_transparent)};
+      font-size: 2.5rem;
     }
     color: ${Colors.Platinum};
     transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     margin-bottom: 15px;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
   }
 
   .textareaTitle:focus,
@@ -68,7 +71,7 @@ const ContainerGralStyled = styled.div`
   }
 
   .textareaTitle::placeholder {
-    font-size: 2rem;
+    font-size: 2.5rem;
     padding: 5px 0px 0px 8px;
     color: ${Colors.Platinum};
     opacity: 50%;
@@ -119,7 +122,7 @@ const ContainerGralStyled = styled.div`
       color: ${Colors.Platinum};
       transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       margin: 5px 0px 5px 0px;
-      font-size: 1.5rem;
+      font-size: 2.5rem;
     }
 
     .textarea:focus,
@@ -131,7 +134,7 @@ const ContainerGralStyled = styled.div`
     }
 
     .textarea::placeholder {
-      font-size: 2rem;
+      font-size: 2.5rem;
       padding: 5px 0px 0px 8px;
       color: ${Colors.Platinum};
       opacity: 50%;
@@ -143,6 +146,23 @@ const ContainerGralStyled = styled.div`
     }
   }
 `;
+const validateTitle = (input) => {
+  const errorsTitle = {};
+
+  if (input === "") {
+    errorsTitle.title = "Ingrese titulo";
+  }
+  return errorsTitle;
+};
+
+const validateMsg = (input) => {
+  const errorsMsg = {};
+
+  if (input === "") {
+    errorsMsg.msg = "Ingrese mensaje";
+  }
+  return errorsMsg;
+};
 
 function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const user = getUserInfo();
@@ -150,26 +170,32 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
 
+  const [errorsTitle, setErrorsTitle] = useState({ title: "Ingrese titulo" });
+  const [errorsMsg, setErrorsMsg] = useState({ msg: "Ingrese mensaje" });
+
   const handleSubmit = async (e) => {
-    const { from: email } = info;
-    const notification = {
-      type: user.role,
-      title,
-      message,
-      before: info,
-      from: user.email,
-    };
+    if (errorsTitle.title || errorsMsg.msg) {
+      toast.error("Por favor, complete ambos campos");
+    } else {
+      const { from: email } = info;
+      const notification = {
+        type: user.role,
+        title,
+        message,
+        before: info,
+        from: user.email,
+      };
 
-    const notificate1 = await axios({
-      method: "post",
-      url: "/musicbands/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
+      const notificate1 = await axios({
+        method: "post",
+        url: "/musicbands/notification/add",
+        data: {
+          email,
+          notification,
+        },
+      });
 
-    if (notificate1.acknowledged) return;
+      if (notificate1.acknowledged) return;
 
     await axios({
       method: "post",
@@ -188,10 +214,13 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const handleChangeT = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
+    setErrorsTitle(validateTitle(e.target.value));
   };
+
   const handleChangeM = (e) => {
     e.preventDefault();
     setMesagge(e.target.value);
+    setErrorsMsg(validateMsg(e.target.value));
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
@@ -203,6 +232,7 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
           style: {
             fontSize: "1.5rem",
             fontFamily: "RocknRoll One",
+            textAlign: "center",
           },
         }}
       />
@@ -216,7 +246,7 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
           value={title}
           onChange={(e) => handleChangeT(e)}
         />
-        <button type="button" onClick={handleSubmit}>
+        <button type="button" onClick={(e) => handleSubmit(e)}>
           Enviar
         </button>
       </div>
@@ -226,5 +256,4 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
     </ContainerGralStyled>
   );
 }
-
 export default Notificar;

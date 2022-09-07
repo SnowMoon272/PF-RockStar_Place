@@ -560,76 +560,84 @@ export default function DetailPlace() {
     else if (Object.keys(errors).length) toast.error("Revisa la información y vuelve a intentar");
     else {
       setBlock(true);
-      toast.promise(axios({
-        method: "post",
-        url: "/placereviews",
-        data: {
-          review: {
-            author: user.name,
-            comment: input.comment,
-            rating: Number(input.rating),
+      toast.promise(
+        axios({
+          method: "post",
+          url: "/placereviews",
+          data: {
+            review: {
+              author: user.name,
+              comment: input.comment,
+              rating: Number(input.rating),
+            },
+            email: place.email,
           },
-          email: place.email,
+          headers: {
+            Authorization: localStorage.getItem("user-token"),
+          },
+        }),
+        {
+          loading: "Enviando...",
+          success: () => {
+            setInput({
+              comment: "",
+              rating: 0,
+            });
+            setRender(!render);
+            setBlock(false);
+            toast.success("Comentario enviado");
+          },
+          error: "error",
         },
-        headers: {
-          Authorization: localStorage.getItem("user-token"),
-        },
-      }), {
-        loading: "Enviando...",
-        success: () => {
-          setInput({
-            comment: "",
-            rating: 0,
-          });
-          setRender(!render);
-          setBlock(false);
-          toast.success("Comentario enviado");
-        },
-        error: "error",
-      }, {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      });
+      );
     }
   };
 
   const handleAplica = async (e) => {
     setBlock(true);
     if (checkAplied(e.target.value, place.email) === false) {
-      toast.promise(axios.post("/pendingdates", {
-        musicEmail: user.email,
-        placeEmail: place.email,
-        date: e.target.value,
-      }), {
-        loading: "Enviando...",
-        success: () => {
-          axios.post("/places/notification/add", {
-            email: place.email,
-            notification: {
-              type: user.role,
-              title: `El usuario ${user.name} se postuló a una fecha.`,
-              message: "Para más información visita tu perfil.",
-              before: undefined,
-              from: user.email,
-            },
-          });
-          setRender2(!render2);
-          setBlock(false);
-          toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
-            duration: 4000,
-          });
+      toast.promise(
+        axios.post("/pendingdates", {
+          musicEmail: user.email,
+          placeEmail: place.email,
+          date: e.target.value,
+        }),
+        {
+          loading: "Enviando...",
+          success: () => {
+            axios.post("/places/notification/add", {
+              email: place.email,
+              notification: {
+                type: user.role,
+                title: `El usuario ${user.name} se postuló a una fecha.`,
+                message: "Para más información visita tu perfil.",
+                before: undefined,
+                from: user.email,
+              },
+            });
+            setRender2(!render2);
+            setBlock(false);
+            toast.success("Tu petición a este local ha sido recibida, consulta el estado en tu pestaña de eventos", {
+              duration: 4000,
+            });
+          },
+          error: "error",
         },
-        error: "error",
-      }, {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      });
+      );
     } else {
       setBlock(false);
       toast.error("Ya aplicaste a esta fecha, espera una respuesta del local");

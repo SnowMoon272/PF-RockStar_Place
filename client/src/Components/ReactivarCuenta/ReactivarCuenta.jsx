@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Colors from "../../Utils/colors";
-import NavBar from "../NavBar/NavBar";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import { getUserInfo } from "../../Utils/auth.controller";
 
@@ -102,8 +101,6 @@ export default function activarCuenta() {
 
   return (
     <ActivarCuentaStyleCont>
-      <NavBar />
-
       <ActivarCuentaDetailCont>
         <h2>Su cuenta se encuentra desactivada en</h2>
         <h1>Rock Star place</h1>

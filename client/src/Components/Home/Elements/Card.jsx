@@ -134,7 +134,7 @@ const CardStyleCont = styled.div`
       top: -42px;
       left: 25%;
       font-weight: 400;
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin: 0px;
       width: fit-content;
 
@@ -166,7 +166,7 @@ const CardStyleCont = styled.div`
 
       & p {
         margin-right: 8px;
-        font-size: 1.4rem;
+        font-size: 2.5rem;
       }
     }
 
@@ -255,8 +255,6 @@ function Card({ setnotificacion, info, block, setBlock }) {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
-                console.log(user.email);
-                console.log(info._id);
                 toast.dismiss(t.id);
                 toast.promise(
                   axios.post(`/${user.role}s/notifications/deleteOne`, {
