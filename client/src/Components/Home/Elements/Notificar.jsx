@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import styled from "styled-components";
-import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
 // import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
@@ -197,18 +196,19 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
 
       if (notificate1.acknowledged) return;
 
-    await axios({
-      method: "post",
-      url: "/places/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
-    toast.success("Mensaje enviado");
-    setMesagge("");
-    setTitle("");
-    setnotfSwitch(false);
+      await axios({
+        method: "post",
+        url: "/places/notification/add",
+        data: {
+          email,
+          notification,
+        },
+      });
+      toast.success("Mensaje enviado");
+      setMesagge("");
+      setTitle("");
+      setnotfSwitch(false);
+    };
   };
 
   const handleChangeT = (e) => {
@@ -255,5 +255,6 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
       </div>
     </ContainerGralStyled>
   );
-}
+};
+
 export default Notificar;
