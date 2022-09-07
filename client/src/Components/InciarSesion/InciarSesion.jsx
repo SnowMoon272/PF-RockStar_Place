@@ -46,7 +46,7 @@ function InciarSesion() {
         const header = new Headers();
         header.append("authorization", token);
         const user = await getUserInfo();
-        const homeURL = process.env.FRONT_VERCEL;
+        const homeURL = "/";
         if (user.role === "musicband") {
           const userLogMusic = await axios.get(`${BACK_URL}/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
