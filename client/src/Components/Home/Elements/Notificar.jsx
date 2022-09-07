@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
 // import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
@@ -178,6 +179,7 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
         notification,
       },
     });
+    toast.success("Mensaje enviado");
     setMesagge("");
     setTitle("");
     setnotfSwitch(false);
@@ -193,6 +195,17 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
+      />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea

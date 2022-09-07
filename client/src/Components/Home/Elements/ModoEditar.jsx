@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../../Utils/colors";
 import { getDetailMusicBandByEmail, getDetailPlaceByEmail } from "../../../Redux/actions";
 import SinImg from "../../../Assets/img/mystery.webp";
@@ -319,6 +320,73 @@ const ContainerGralStyled = styled.div`
       display: none;
     }
   }
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 45px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 45px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
 `;
 
 /* * * * * * * * * * * * * * * * * Funcion valida inputs * * * * * * * * * * * * * * * *  */
@@ -451,6 +519,7 @@ function ModoEditar() {
 
   useEffect(() => {
     setLoading(true);
+    //toast.remove();
     setInput({
       name: clickTipe === "local" ? (place && place.name ? place.name : "") : musicBand && musicBand.name ? musicBand.name : "",
       personInCharge:
@@ -705,26 +774,118 @@ function ModoEditar() {
   async function handleButtonBanear(e) {
     e.preventDefault();
     if (clickTipe === "local") {
-      if (confirm("Está Usted Seguro?")) {
-        setLoaderLocal(true);
-        await axios.put("/banplace", {
-          email: place.email,
-        });
-        await axios.get(`/banned/${place.email}`);
-        dispatch(getDetailPlaceByEmail(place.email));
-      }
+      toast.remove();
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>¿Está Usted Seguro?</b>
+            <div className="buttonCont">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  toast.promise(axios.put("/banplace", {
+                    email: place.email,
+                  }), {
+                    loading: "Modificando usuario...",
+                    success: () => {
+                      axios.get(`/banned/${place.email}`);
+                      dispatch(getDetailPlaceByEmail(place.email));
+                      toast.success("Usuario modificado");
+                      //setBlock(false);
+                    },
+                    error: "error",
+                  }, {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
+                    },
+                  });
+                }}
+              >
+                Sí, estoy seguro
+              </button>
+              <button
+                type="button"
+                className="buttonToastCancel"
+                onClick={() => {
+                  toast.dismiss(t.id);
+                  //setBlock(false);
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     }
 
     if (clickTipe === "banda") {
-      if (confirm("Está Usted Seguro?")) {
+      /* if (confirm("Está Usted Seguro?")) {
         setLoaderLocal(true);
         await axios.put("/banmusicband", {
           email: musicBand.email,
         });
         await axios.get(`/banned/${musicBand.email}`);
-        dispatch(getDetailMusicBandByEmail(musicBand.email));
+        dispatch(getDetailMusicBandByEmail(musicBand.email)); */
+        toast.remove();
+        toast(
+          (t) => (
+            <span className="spancito">
+              <b>¿Está Usted Seguro?</b>
+              <div className="buttonCont">
+                <button
+                  type="button"
+                  className="buttonToastAcept"
+                  onClick={async () => {
+                    toast.dismiss(t.id);
+                    setLoaderLocal(true);
+                    toast.promise(axios.put("/banmusicband", {
+                      email: musicBand.email,
+                    }), {
+                      loading: "Modificando estado...",
+                      success: () => {
+                        axios.get(`/banned/${musicBand.email}`);
+                        dispatch(getDetailMusicBandByEmail(musicBand.email));
+                        toast.success("Usuario modificado");
+                        //setBlock(false);
+                      },
+                      error: "error",
+                    }, {
+                      success: {
+                        style: {
+                          display: "none",
+                        },
+                      },
+                    });
+                  }}
+                >
+                  Sí, estoy seguro
+                </button>
+                <button
+                  type="button"
+                  className="buttonToastCancel"
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    //setBlock(false);
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </span>
+          ),
+          {
+            duration: Infinity,
+          },
+        );
       }
-    }
   }
 
   /* * * * * * * * * * * * * * * * * JSX * * * * * * * * * * * * * * * *  */
@@ -734,6 +895,17 @@ function ModoEditar() {
         <div>
           {loaderLocal === false ? (
             <ContainerGralStyled>
+              <Toaster
+                position="top-center"
+                reverseOrder={false}
+                toastOptions={{
+                  className: "",
+                  style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                  },
+                }}
+              />
               {clickTipe !== "default" ? (
                 <div>
                   <div className="divTitulo">
