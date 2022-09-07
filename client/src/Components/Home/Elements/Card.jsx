@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
@@ -320,24 +321,28 @@ function Card({ setnotificacion, info }) {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.post(`/${user.role}s/notifications/deleteOne`, {
-                  email: user.email,
-                  id: info._id,
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    toast.success("Notificacion eliminada");
-                    dispatch(getNotifications(user.role, user.email));
-                    setBlock(false);
+                toast.promise(
+                  axios.post(`/${user.role}s/notifications/deleteOne`, {
+                    email: user.email,
+                    id: info._id,
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      toast.success("Notificacion eliminada");
+                      dispatch(getNotifications(user.role, user.email));
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -380,12 +385,12 @@ function Card({ setnotificacion, info }) {
         position="top-center"
         reverseOrder={false}
         toastOptions={{
-              className: "",
-              style: {
-                fontSize: "1.5rem",
-                fontFamily: "RocknRoll One",
-              },
-            }}
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
       />
       <div className="HeaderCont">
         <a href="#UserINF">
