@@ -482,6 +482,7 @@ function HomeBL() {
   function validate() {
     if (musicBand && musicBand.name === "") {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
@@ -524,7 +525,6 @@ function HomeBL() {
           Evento: false,
         }),
       );
-      toast.remove();
     };
   }, []);
 
@@ -652,8 +652,8 @@ function HomeBL() {
                         <span>Fecha: </span>
                         {confirmedDates.length > 0
                           ? `${confirmedDates[0].date.substring(8, 10)} de ${getMonth(
-                              confirmedDates[0].date.substring(5, 7),
-                            )} de ${confirmedDates[0].date.substring(0, 4)}`
+                            confirmedDates[0].date.substring(5, 7),
+                          )} de ${confirmedDates[0].date.substring(0, 4)}`
                           : null}
                         <br />
                         <span>Contacto: </span>
