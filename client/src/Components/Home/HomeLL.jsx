@@ -1035,7 +1035,7 @@ function HomeLL() {
               },
             }}
           />
-          <NavBar Perfil HelpLog />
+          <NavBar Perfil HelpLog block={block} setBlock={setBlock} />
           <div className="POPContainer">
             {musicBandDetail._id ? <DetalleMusicoPOP setzIndex={setzIndex} zIndex={zIndex} musicBand={musicBandDetail} /> : null}
           </div>

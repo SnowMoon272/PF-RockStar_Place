@@ -360,7 +360,7 @@ const NotificacionesStyleCont = styled.section`
 `;
 
 /* * * * * * * * * * * React Component Function  * * * * * * * * * * */
-function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog }) {
+function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado, setFilter, filter, LogIn, Home, Buscar, UserLog, block, setBlock }) {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const [navState, setNavState] = useState({
     Active: false,
@@ -459,7 +459,7 @@ function NavBar({ Perfil, Eventos, FondoImg, FiltroA, FiltroB, FiltroC, paginado
           <div className="CardsContainer">
             <div className="CardsContainerScroll">
               {notifications.map((notification) => {
-                return <Card info={notification} />;
+                return <Card info={notification} block={block} setBlock={setBlock} />;
               })}
             </div>
           </div>

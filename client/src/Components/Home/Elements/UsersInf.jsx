@@ -356,7 +356,7 @@ function UsersInf() {
             <div className="SwitchySearchyLogo">
               <div className="SwitchySearch">
                 <div className="SwitchCont">
-                  <p>Notificar</p>
+                  <p>Perfil</p>
                   <input value={Switch} id="switch" type="checkbox" onChange={(e) => handleCheckBox(e)} />
                   <label htmlFor="switch" className="label" />
                   <p>Editar</p>
