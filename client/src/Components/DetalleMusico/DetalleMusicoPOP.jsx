@@ -295,7 +295,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
   };
 
   const [stateReseña, setStateReseña] = useState(false);
-  const [stateReporte, setSstateReporte] = useState(true);
+  const [stateReporte, setStateReporte] = useState(true);
 
   const handlerSwitch = (e) => {
     e.preventDefault();
@@ -304,7 +304,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
 
   const handlerSwitchB = (e) => {
     e.preventDefault();
-    setSstateReporte(!stateReporte);
+    setStateReporte(!stateReporte);
   };
 
   return (
@@ -395,7 +395,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
             {stateReporte ? (
               <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} />
             ) : (
-              <Reportar info={musicBand.email} Down />
+              <Reportar info={musicBand.email} Down stateReporte={stateReporte} setStateReporte={setStateReporte} />
             )}
           </div>
         </div>

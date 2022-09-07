@@ -1,6 +1,5 @@
-/* eslint-disable indent */
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable indent */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -154,7 +153,8 @@ const HomeStyleCont = styled.div`
     & .SesionContainer {
       border: solid #ffffff 3px;
       border-radius: 50px;
-      padding: 4px 8px 4px 4px;
+      border-bottom-left-radius: 0px;
+      padding: 4px 16px 4px 8px;
       display: flex;
       align-items: center;
       transition: all 0.1s ease;
@@ -178,12 +178,12 @@ const HomeStyleCont = styled.div`
           position: absolute;
           top: 48px;
           right: 0px;
-          left: 0px;
-          font-size: 1.5rem;
+          left: -22.5px;
+          font-size: 1rem;
           margin: auto;
           width: fit-content;
           background-color: ${Colors.Oxford_Blue_transparent};
-          padding: 4px 25px;
+          padding: 4px 14px;
           border: solid #ffffff 3px;
           border-top-left-radius: 0px;
           border-top-right-radius: 0px;

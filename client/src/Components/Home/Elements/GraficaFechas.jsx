@@ -6,14 +6,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlaces } from "../../../Redux/actions";
 
-// const TotalGraficosStyleCont = styled.div`
-//   box-sizing: border-box;
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   justify-content: center;
-// `;
-
 const GraficoBarrasStyleCont = styled.div`
   height: 75%;
   width: 50%;

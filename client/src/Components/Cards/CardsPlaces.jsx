@@ -1,5 +1,3 @@
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable max-len */
 import React from "react";
 import styled from "styled-components";
 import CardPlace from "./CardPlace";

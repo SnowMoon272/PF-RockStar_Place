@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,15 @@ import ModoNotificar from "./ModoNotificar";
 import ModoEditar from "./ModoEditar";
 import Notificar from "./Notificar";
 import IMGLogo from "../../../Assets/img/LogoCircular.png";
-import { adminClickBanda, adminClickLocal, getDetailMusicBandByEmail, getDetailPlaceByEmail, getMusicOrPlacesByName } from "../../../Redux/actions";
+import {
+  adminClickBanda,
+  adminClickLocal,
+  getDetailMusicBandByEmail,
+  getDetailPlaceByEmail,
+  getMusicOrPlacesByName,
+  getMusicBands,
+  getPlaces,
+} from "../../../Redux/actions";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -302,10 +309,14 @@ function UsersInf() {
   const dispatch = useDispatch();
   const places = useSelector((state) => state.places).sort(SortArray);
   const musicBands = useSelector((state) => state.musicBands).sort(SortArray);
+  const searchPlace = useSelector((state) => state.searchPlace).sort(SortArray);
+  const searchMusicBand = useSelector((state) => state.searchMusicBand).sort(SortArray);
   const [name, setName] = useState("");
 
   useEffect(() => {
     setLoading(true);
+    dispatch(getMusicBands());
+    dispatch(getPlaces());
   }, []);
 
   function handleCheckBox(e) {
@@ -369,37 +380,78 @@ function UsersInf() {
                 <div className="ContainerLocBan">
                   <h1>Bandas</h1>
                   <div className="CardContair">
-                    {musicBands?.map((musicBand) => {
-                      return (
-                        <div key={musicBand._id} className="divsSmallConfirmados">
-                          <p>{musicBand.name}</p>
-                          <button
-                            value={musicBand.email}
-                            name="banda"
-                            onClick={(e) => handleClickDetallesBanda(e)}
-                            type="button"
-                            className="BTNDetalle"
-                          >
-                            Detalle
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {searchMusicBand.length >= 1
+                      ? searchMusicBand.map((musicBand) => {
+                        return (
+                          <div key={musicBand._id} className="divsSmallConfirmados">
+                            <p>{musicBand.name}</p>
+                            <button
+                              value={musicBand.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })
+                      : musicBands.map((musicBand) => {
+                        return (
+                          <div key={musicBand._id} className="divsSmallConfirmados">
+                            <p>{musicBand.name}</p>
+                            <button
+                              value={musicBand.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="ContainerLocBan">
                   <h1>Locales</h1>
                   <div className="CardContair">
-                    {places?.map((place) => {
-                      return (
-                        <div key={place._id} className="divsSmallConfirmados">
-                          <p>{place.name}</p>
-                          <button value={place.email} name="local" onClick={(e) => handleClickDetallesLocal(e)} type="button" className="BTNDetalle">
-                            Detalle
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {searchPlace.length >= 1
+                      ? searchPlace.map((place) => {
+                        return (
+                          <div key={place._id} className="divsSmallConfirmados">
+                            <p>{place.name}</p>
+                            <button
+                              value={place.email}
+                              name="banda"
+                              onClick={(e) => handleClickDetallesBanda(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })
+                      : places &&
+                      places.map((place) => {
+                        return (
+                          <div key={place._id} className="divsSmallConfirmados">
+                            <p>{place.name}</p>
+                            <button
+                              value={place.email}
+                              name="local"
+                              onClick={(e) => handleClickDetallesLocal(e)}
+                              type="button"
+                              className="BTNDetalle"
+                            >
+                              Detalle
+                            </button>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

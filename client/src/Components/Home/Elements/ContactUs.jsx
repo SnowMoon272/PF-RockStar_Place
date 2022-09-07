@@ -1,11 +1,9 @@
-/* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
-// import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -176,12 +174,12 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
         update ? setUpdate(false) : setUpdate(true);
       },
       error: "error",
-        }, {
-          success: {
-            style: {
-              display: "none",
-            },
-          },
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
+      },
     });
   };
 
@@ -199,12 +197,12 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
         position="top-center"
         reverseOrder={false}
         toastOptions={{
-              className: "",
-              style: {
-                fontSize: "1.5rem",
-                fontFamily: "RocknRoll One",
-              },
-            }}
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
       />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
