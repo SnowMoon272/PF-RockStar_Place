@@ -76,7 +76,7 @@ router.get("/login/success", (req: any, res: any) => {
 			try {
 				res.session.token = token;
 			} catch (error) {
-				console.log("El método 1 no funcionó");
+				console.log("El método 2 no funcionó");
 			}
 			return res.json({ token });
 		}
