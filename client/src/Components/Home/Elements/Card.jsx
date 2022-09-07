@@ -132,7 +132,7 @@ const CardStyleCont = styled.div`
 
       position: relative;
       top: -42px;
-      left: 350px;
+      left: 25%;
       font-weight: 400;
       font-size: 2rem;
       margin: 0px;

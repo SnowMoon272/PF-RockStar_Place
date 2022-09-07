@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
 import { getDetailMusicBand } from "../../Redux/actions";
@@ -261,12 +262,22 @@ const EditStyledCont = styled.div`
   }
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: fixed;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
+`;
+
 export default function PerfilMusico() {
   const dispatch = useDispatch();
   const user = getUserInfo();
   const navigate = useNavigate();
   const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
+  const [block, setBlock] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -279,8 +290,20 @@ export default function PerfilMusico() {
     <div>
       {loading ? (
         <div>
+          <Blocker block={block} />
           <EditStyledCont Foto={musicBand}>
-            <NavBar HomeLinkBanda Home Eventos UserLog />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+            <NavBar HomeLinkBanda Home Eventos UserLog block={block} setBlock={setBlock} />
             <div className="VewContainer">
               <div className="InfoBandaCont">
                 <h1 className="TitleA">{musicBand.name}</h1>

@@ -586,7 +586,7 @@ export default function upLoadData() {
               },
             }}
           />
-          <NavBar Home />
+          <NavBar Home block={block} setBlock={setBlock} />
           <ActualizarDatosStyleCont2>
             <h1>Completa/edita tus datos</h1>
             <div className="formyCargarImagen">

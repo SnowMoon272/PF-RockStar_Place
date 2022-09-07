@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -343,10 +344,20 @@ const FooterStyledCont = styled.footer`
   font-size: 3rem;
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: fixed;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
+`;
+
 export default function DetailPlace() {
   const dispatch = useDispatch();
   const user = getUserInfo();
   const navigate = useNavigate();
+  const [block, setBlock] = useState(false);
 
   const place = useSelector((state) => state.detail_place);
 
@@ -412,8 +423,20 @@ export default function DetailPlace() {
     <div>
       {loading ? (
         <div>
+          <Blocker block={block} />
           <HomeStyleCont>
-            <NavBar Home />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+            <NavBar Home block={block} setBlock={setBlock} />
             <DetailStyleCont>
               <div className="FirstCont">
                 <div className="NameAndRating">
