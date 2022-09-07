@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-//import BotonSuscribete from "./BotonSuscripcion";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Colors from "../../Utils/colors";
@@ -83,7 +81,6 @@ const ActivarCuentaDetailCont = styled.div`
 `;
 
 export default function activarCuenta() {
-
   const navigate = useNavigate();
 
   async function handleClick(e) {
@@ -101,7 +98,7 @@ export default function activarCuenta() {
       });
     }
     navigate("/");
-  };
+  }
 
   return (
     <ActivarCuentaStyleCont>
@@ -111,9 +108,8 @@ export default function activarCuenta() {
         <h2>Su cuenta se encuentra desactivada en</h2>
         <h1>Rock Star place</h1>
         <p>
-          Si quieres volver a acceder a los beneficios de Rock Star place,
-          puedes comunicarte con nosotros a rockstar_place@gmail.com
-          o bien haciendo click en el boton.
+          Si quieres volver a acceder a los beneficios de Rock Star place, puedes comunicarte con nosotros a rockstar_place@gmail.com o bien haciendo
+          click en el boton.
         </p>
       </ActivarCuentaDetailCont>
       <button type="button" className="btnActivar" onClick={(e) => handleClick(e)}>

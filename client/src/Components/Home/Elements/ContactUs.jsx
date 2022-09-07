@@ -1,10 +1,9 @@
-/* eslint-disable indent */
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
-// import SVGCerrar from "../../../Assets/svg/Cerrar.svg";
 
 const ContainerGralStyled = styled.div`
   /* border: red solid 3px; */
@@ -162,19 +161,26 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
       from: user.email,
     };
 
-    await axios({
-      method: "post",
-      url: "/admins/notification/add",
-      data: {
-        email: "admin",
-        notification,
+    toast.promise(axios.post("/admins/notification/add", {
+      email: "admin",
+      notification,
+    }), {
+      loading: "Enviando...",
+      success: () => {
+        toast.success("Mensaje enviado con éxito");
+        setMesagge("");
+        setTitle("");
+        setSwitchNotif(false);
+        update ? setUpdate(false) : setUpdate(true);
+      },
+      error: "error",
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
       },
     });
-
-    setMesagge("");
-    setTitle("");
-    setSwitchNotif(false);
-    update ? setUpdate(false) : setUpdate(true);
   };
 
   const handleChangeT = (e) => {
@@ -187,6 +193,17 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
+      />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea

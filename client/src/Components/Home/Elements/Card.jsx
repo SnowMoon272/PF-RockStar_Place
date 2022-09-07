@@ -1,12 +1,9 @@
-/* eslint-disable no-cond-assign */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../../Utils/colors";
 import Notificar from "./Notificar";
 import SVGUser from "../../../Assets/svg/Ingresar.svg";
@@ -195,19 +192,97 @@ const CardStyleCont = styled.div`
       }
     }
   }
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
 `;
 
-function Card(props) {
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
+`;
+
+function Card({ setnotificacion, info }) {
   const [eye, seteye] = useState(false);
   const [notfSwitch, setnotfSwitch] = useState(false);
   const [userType, setuserType] = useState("");
+  const [zIndex, setzIndex] = useState(true);
+  const [block, setBlock] = useState(false);
 
-  const { info } = props;
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const user = getUserInfo();
 
   useEffect(() => {
+    toast.remove();
     if (info.type === "musicband") {
       setuserType("banda");
     } else if (info.type === "place") {
@@ -234,39 +309,89 @@ function Card(props) {
   const handlerCloseNotif = async (e) => {
     /* Algo va pasar */
     e.preventDefault();
-    await axios({
-      method: "post",
-      url: `/${user.role}s/notifications/deleteOne`,
-      data: {
-        email: user.email,
-        id: info._id,
+    setBlock(true);
+    toast.remove();
+    toast(
+      (t) => (
+        <span className="spancito">
+          <b>¿Estás seguro que quieres eliminar la notificacion?</b>
+          <div className="buttonCont">
+            <button
+              type="button"
+              className="buttonToastAcept"
+              onClick={async () => {
+                toast.dismiss(t.id);
+                toast.promise(
+                  axios.post(`/${user.role}s/notifications/deleteOne`, {
+                    email: user.email,
+                    id: info._id,
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      toast.success("Notificacion eliminada");
+                      dispatch(getNotifications(user.role, user.email));
+                      setBlock(false);
+                    },
+                    error: "error",
+                  },
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
+                    },
+                  },
+                );
+              }}
+            >
+              Sí, estoy seguro
+            </button>
+            <button
+              type="button"
+              className="buttonToastCancel"
+              onClick={() => {
+                toast.dismiss(t.id);
+                setBlock(false);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </span>
+      ),
+      {
+        duration: Infinity,
       },
-    });
-    dispatch(getNotifications(user.role, user.email));
+    );
   };
-
-  console.log(userType);
 
   const handlerClickNameCard = (e) => {
     e.preventDefault();
     if (userType === "local") {
       dispatch(getDetailPlaceByEmail(info.from));
       dispatch(adminClickLocal(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     } else if (userType === "banda") {
       dispatch(getDetailMusicBandByEmail(info.from));
       dispatch(adminClickBanda(userType));
-      // navigate("/#UserINF");
-      console.log(userType);
-      console.log(info.from);
     }
-    props.setnotificacion(false);
+    setnotificacion(false);
   };
 
   return (
-    <CardStyleCont eye={info.new} key={info._id}>
+    <CardStyleCont eye={info.new} key={info._id} zIndex={zIndex}>
+      <Blocker block={block} />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
+      />
       <div className="HeaderCont">
         <a href="#UserINF">
           <button type="button" onClick={(e) => handlerClickNameCard(e)} className="SesionContainer">
@@ -284,9 +409,7 @@ function Card(props) {
         </div>
       </div>
       <div className="SecondVewCont">
-        <h3 className={info.type}>
-          {info.title} {/* <a href="/"> NombreUserReportado</a> */}
-        </h3>
+        <h3 className={info.type}>{info.title}</h3>
         <div className="TextContent">
           <p>{info.message}</p>
         </div>

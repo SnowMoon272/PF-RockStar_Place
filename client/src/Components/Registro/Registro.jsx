@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -179,6 +178,11 @@ const LoginStyleCont2 = styled.div`
         border-radius: 10px;
         display: flex;
         align-items: center;
+        transition: all 0.5s ease;
+        :hover {
+          transform: scale(1.1);
+          cursor: pointer;
+        }
 
         & img {
           width: 40px;
@@ -407,7 +411,7 @@ function Registro() {
     }
   };
   async function sendMail() {
-    const email = input.email;
+    const { email } = input;
     await axios.get(`https://pf-rock-star-place.herokuapp.com/register/mail/${email}`);
   }
 
@@ -462,7 +466,7 @@ function Registro() {
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) navigate("/iniciarsesion");
+    if (isAuthenticated()) navigate("/");
     return () => {
       toast.remove();
     };

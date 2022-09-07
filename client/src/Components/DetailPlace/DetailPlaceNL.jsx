@@ -1,5 +1,3 @@
-/* eslint-disable comma-dangle */
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
@@ -9,7 +7,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
-import { isAuthenticated } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 import validate from "./validationsComment";
 import LogoInstagram from "../../Assets/svg/Instagram.svg";
@@ -432,7 +429,6 @@ export default function DetailPlace() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isLog = isAuthenticated();
     toast.error((t) => (
       <span>
         Para dejar tu valiosa opinión debes
@@ -446,8 +442,6 @@ export default function DetailPlace() {
         </button>
       </span>
     ));
-    /* alert("Para dejar tu valiosa opinión debes iniciar sesión."); */
-    /* !isLog && navigate("/iniciarsesion"); */
   };
 
   const handleAplica = (e) => {
@@ -603,6 +597,7 @@ export default function DetailPlace() {
                 style: {
                   fontSize: "1.5rem",
                   fontFamily: "RocknRoll One",
+                  textAlign: "center",
                 },
               }}
             />

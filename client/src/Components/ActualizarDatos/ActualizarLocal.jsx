@@ -9,7 +9,7 @@ import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import LogoCircular from "../../Assets/img/LogoCircular.png";
-import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { isAuthenticated, getUserInfo, isPlace } from "../../Utils/auth.controller";
 import { getDetailPlace, resetCoords, resetDetails } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import MapPopUp from "../MapView/MapPopUp";
@@ -17,7 +17,6 @@ import MapPopUp from "../MapView/MapPopUp";
 const ActualizarDatosStyleCont = styled.div`
   width: 100%;
   height: 100vh;
-  padding-left: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +48,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -65,7 +64,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -114,6 +113,15 @@ const ActualizarDatosStyleCont = styled.div`
   }
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : -1)};
+`;
+
 const POPContainer = styled.div`
   border: solid ${Colors.Blue_Vivid} 2px;
   /* display: ${({ POPSwitch }) => (POPSwitch ? "flex" : "none")}; */
@@ -143,6 +151,7 @@ const ActualizarDatosStyleCont2 = styled.div`
   height: 80%;
   position: absolute;
   z-index: 75;
+  margin-left: 5%;
 
   .divTitulo {
     display: flex;
@@ -492,10 +501,11 @@ export default function ActualizarLocal() {
   const place = useSelector((state) => state.detail_place);
   const coords = useSelector((state) => state.place_coords);
   const [loading, setLoading] = useState(false);
+  const [block, setBlock] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) {
+    if (isAuthenticated() && isPlace()) {
       dispatch(getDetailPlace(userPlace._id));
     } else {
       navigate("/");
@@ -631,6 +641,7 @@ export default function ActualizarLocal() {
 
   async function handleClick(e) {
     e.preventDefault();
+    setBlock(true);
     toast.dismiss();
     toast(
       (t) => (
@@ -648,6 +659,7 @@ export default function ActualizarLocal() {
                 });
                 localStorage.removeItem("user-token");
                 navigate("/iniciarsesion");
+                setBlock(false);
               }}
             >
               Sí, estoy seguro
@@ -657,6 +669,7 @@ export default function ActualizarLocal() {
               className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
+                setBlock(false);
               }}
             >
               Cancelar
@@ -695,6 +708,18 @@ export default function ActualizarLocal() {
             <div className="divLogo">
               <img src={LogoCircular} alt="" height="150px" width="150px" />
             </div>
+            <Blocker block={block} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
             <NavBar Perfil Home />
             <POPContainer POPSwitch={POPSwitch}>
               <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
@@ -828,17 +853,6 @@ export default function ActualizarLocal() {
                 Desactivar cuenta
               </button>
             </div>
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{
-                className: "",
-                style: {
-                  fontSize: "1.5rem",
-                  fontFamily: "RocknRoll One",
-                },
-              }}
-            />
           </ActualizarDatosStyleCont>
         </div>
       ) : (

@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/jsx-props-no-multi-spaces */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getDetailPlace, resetDetails } from "../../Redux/actions";
 import Colors from "../../Utils/colors";
 import NavBar from "../NavBar/NavBar";
@@ -15,6 +13,7 @@ import LoaderComponent from "../Loader/Loading";
 import Footer from "../Footer/Footer";
 import MapLocalDetail from "../MapView/MapLocalDetail";
 import MapaVacio from "../../Assets/img/MapaPerfilSinUbicacion.png";
+import { getUserInfo } from "../../Utils/auth.controller";
 
 const HomeStyleCont = styled.div`
   box-sizing: border-box;
@@ -346,7 +345,7 @@ const FooterStyledCont = styled.footer`
 
 export default function DetailPlace() {
   const dispatch = useDispatch();
-  const params = useParams();
+  const user = getUserInfo();
   const navigate = useNavigate();
 
   const place = useSelector((state) => state.detail_place);
@@ -363,7 +362,7 @@ export default function DetailPlace() {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getDetailPlace(params.id));
+    dispatch(getDetailPlace(user._id));
   }, [dispatch]);
 
   useEffect(() => {

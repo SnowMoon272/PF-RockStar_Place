@@ -37,6 +37,8 @@ const initialState = {
   notifications: [],
   place_coords: {},
   admin_click: "default",
+  searchPlace: [],
+  searchMusicBand: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -70,8 +72,8 @@ function rootReducer(state = initialState, action) {
     case GET_ALL_BY_NAME:
       return {
         ...state,
-        musicBands: action.payloadMusic,
-        places: action.payloadPlace,
+        searchMusicBand: action.payloadMusic,
+        searchPlace: action.payloadPlace,
       };
     case GET_DETAIL_PLACE:
       return {

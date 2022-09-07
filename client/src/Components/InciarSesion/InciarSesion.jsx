@@ -1,11 +1,13 @@
 /* eslint-disable react/button-has-type */
+/* eslint-disable consistent-return */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 /* Modules */
 
 /* Components & Actions */
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
 import NavBar from "../NavBar/NavBar";
 
 /* Form Img & SVG */
@@ -15,7 +17,6 @@ import LoaderComponent from "../Loader/Loading";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
-import { getUserInfo } from "../../Utils/auth.controller";
 
 require("dotenv").config();
 
@@ -37,13 +38,14 @@ function InciarSesion() {
         withCredentials: true,
         url: "/login",
       });
+
       if (response) {
         const { token } = response.data;
         localStorage.setItem("user-token", token);
         const header = new Headers();
         header.append("authorization", token);
         const user = await getUserInfo();
-        const homeURL = process.env.FRONT_VERCEL || "http://localhost:3000/";
+        const homeURL = process.env.FRONT_VERCEL;
         if (user.role === "musicband") {
           const userLogMusic = await axios.get(`https://pf-rock-star-place.herokuapp.com/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
@@ -117,6 +119,7 @@ function InciarSesion() {
     window.open("https://pf-rock-star-place.herokuapp.com/auth/google", "_self");
   };
   useEffect(() => {
+    if (isAuthenticated()) navigate("/");
     setTimeout(() => {
       setLoading(true);
     }, 100);
@@ -139,7 +142,7 @@ function InciarSesion() {
                 <div className="Left">
                   <h2>Iniciar sesión con una red social</h2>
                   <div className="Butons">
-                    <button type="button" onClick={google}>
+                    <button className="Google" type="button" onClick={google}>
                       <img src={IMGoogle} alt="" />
                       <p>Ingresar con Google</p>
                     </button>
