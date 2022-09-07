@@ -9,7 +9,7 @@ import { switchToMusicBand, switchToPlace } from "../db/models/socialModel";
 const router = Router();
 export const f = {};
 
-const CLIENT_URL = process.env.FRONT_VERCEL || "http://localhost:3000/";
+const CLIENT_URL = "https://pf-rock-star-place.vercel.app";
 
 router.get("/login/failed", (req: any, res: any) => {
 	res.status(401).send({ error: "login failed" });
