@@ -143,6 +143,24 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
+const validateTitle = (input) => {
+  const errorsTitle = {};
+
+  if (input === "") {
+    errorsTitle.title = "Ingrese titulo";
+  }
+  return errorsTitle;
+};
+
+const validateMsg = (input) => {
+  const errorsMsg = {};
+
+  if (input === "") {
+    errorsMsg.msg = "Ingrese mensaje";
+  }
+  return errorsMsg;
+};
+
 function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
   const user = getUserInfo();
 
@@ -152,44 +170,57 @@ function ContactUs({ Fondo, FondoN, Down, info, setSwitchNotif }) {
   const [message, setMesagge] = useState("");
   const [update, setUpdate] = useState(true);
 
-  const handleSubmit = async (e) => {
-    const notification = {
-      type: user.role,
-      title,
-      message,
-      before: info,
-      from: user.email,
-    };
+  const [errorsTitle, setErrorsTitle] = useState({ title: "Ingrese titulo" });
+  const [errorsMsg, setErrorsMsg] = useState({ msg: "Ingrese mensaje" });
 
-    toast.promise(axios.post("/admins/notification/add", {
-      email: "admin",
-      notification,
-    }), {
-      loading: "Enviando...",
-      success: () => {
-        toast.success("Mensaje enviado con éxito");
-        setMesagge("");
-        setTitle("");
-        setSwitchNotif(false);
-        update ? setUpdate(false) : setUpdate(true);
-      },
-      error: "error",
-    }, {
-      success: {
-        style: {
-          display: "none",
+  const handleSubmit = async (e) => {
+    if (errorsTitle.title || errorsMsg.msg) {
+      toast.error("Por favor, complete ambos campos");
+    } else {
+      const notification = {
+        type: user.role,
+        title,
+        message,
+        before: info,
+        from: user.email,
+      };
+
+      toast.promise(
+        axios.post("/admins/notification/add", {
+          email: "admin",
+          notification,
+        }),
+        {
+          loading: "Enviando...",
+          success: () => {
+            toast.success("Mensaje enviado con éxito");
+            setMesagge("");
+            setTitle("");
+            setSwitchNotif(false);
+            update ? setUpdate(false) : setUpdate(true);
+          },
+          error: "error",
         },
-      },
-    });
+        {
+          success: {
+            style: {
+              display: "none",
+            },
+          },
+        },
+      );
+    }
   };
 
   const handleChangeT = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
+    setErrorsTitle(validateTitle(e.target.value));
   };
   const handleChangeM = (e) => {
     e.preventDefault();
     setMesagge(e.target.value);
+    setErrorsMsg(validateMsg(e.target.value));
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>

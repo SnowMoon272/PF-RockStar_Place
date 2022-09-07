@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import styled from "styled-components";
 import { getUserInfo } from "../../../Utils/auth.controller";
 import Colors from "../../../Utils/colors";
@@ -143,56 +144,96 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
+const validateTitle = (input) => {
+  const errorsTitle = {};
+
+  if (input === "") {
+    errorsTitle.title = "Ingrese titulo";
+  }
+  return errorsTitle;
+};
+
+const validateMsg = (input) => {
+  const errorsMsg = {};
+
+  if (input === "") {
+    errorsMsg.msg = "Ingrese mensaje";
+  }
+  return errorsMsg;
+};
+
 function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
   const user = getUserInfo();
 
   const [title, setTitle] = useState("");
   const [message, setMesagge] = useState("");
 
+  const [errorsTitle, setErrorsTitle] = useState({ title: "Ingrese titulo" });
+  const [errorsMsg, setErrorsMsg] = useState({ msg: "Ingrese mensaje" });
+
   const handleSubmit = async (e) => {
-    const { from: email } = info;
-    const notification = {
-      type: user.role,
-      title,
-      message,
-      before: info,
-      from: user.email,
-    };
+    if (errorsTitle.title || errorsMsg.msg) {
+      toast.error("Por favor, complete ambos campos");
+    } else {
+      const { from: email } = info;
+      const notification = {
+        type: user.role,
+        title,
+        message,
+        before: info,
+        from: user.email,
+      };
 
-    const notificate1 = await axios({
-      method: "post",
-      url: "/musicbands/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
+      const notificate1 = await axios({
+        method: "post",
+        url: "/musicbands/notification/add",
+        data: {
+          email,
+          notification,
+        },
+      });
 
-    if (notificate1.acknowledged) return;
+      if (notificate1.acknowledged) return;
 
-    await axios({
-      method: "post",
-      url: "/places/notification/add",
-      data: {
-        email,
-        notification,
-      },
-    });
-    setMesagge("");
-    setTitle("");
-    setnotfSwitch(false);
+      await axios({
+        method: "post",
+        url: "/places/notification/add",
+        data: {
+          email,
+          notification,
+        },
+      });
+      setMesagge("");
+      setTitle("");
+      setnotfSwitch(false);
+    }
   };
 
   const handleChangeT = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
+    setErrorsTitle(validateTitle(e.target.value));
   };
+
   const handleChangeM = (e) => {
     e.preventDefault();
     setMesagge(e.target.value);
+    setErrorsMsg(validateMsg(e.target.value));
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+            textAlign: "center",
+          },
+        }}
+      />
       {Down && <h1 className="TitleB">Reporte</h1>}
       <div className="SectionB">
         <textarea

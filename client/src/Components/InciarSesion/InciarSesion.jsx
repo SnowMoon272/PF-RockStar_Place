@@ -50,7 +50,49 @@ function InciarSesion() {
         if (user.role === "musicband") {
           const userLogMusic = await axios.get(`${BACK_URL}/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
-            navigate("/reactivarcuenta");
+            //navigate("/reactivarcuenta");
+            //toast.error("Cuenta desactivada");
+            toast.dismiss();
+            toast(
+              (t) => (
+                <span className="spancito">
+                  <b>Su cuenta se encuentra desactivada.</b>
+                  <p>¿Desea activarla?</p>
+                  <div className="buttonCont">
+                    <button
+                      type="button"
+                      className="buttonToastAcept"
+                      onClick={async () => {
+                        await axios.put("/bandDisabled", {
+                          email: userLogMusic.email,
+                          disabled: "false",
+                        });
+                        navigate("/");
+                      }}
+                    >
+                      Sí
+                    </button>
+                    <button
+                      type="button"
+                      className="buttonToastCancel"
+                      onClick={() => {
+                        toast.dismiss(t.id);
+                        localStorage.removeItem("user-token");
+                        navigate("/iniciarsesion");
+                      }}
+                    >
+                      No
+                    </button>
+                  </div>
+                </span>
+              ),
+              {
+                duration: Infinity,
+                style: {
+                  borderRadius: "3%",
+                },
+              },
+            );
           } else if (userLogMusic.data.banned === true) {
             localStorage.removeItem("user-token");
             return alert("Usuario baneado temporalmente");
@@ -60,7 +102,49 @@ function InciarSesion() {
         } else if (user.role === "place") {
           const userLogPlace = await axios.get(`${BACK_URL}/place-email/${user.email}`);
           if (userLogPlace.data.disabled === true) {
-            navigate("/reactivarcuenta");
+            //navigate("/reactivarcuenta");
+            //toast.error("Cuenta desactivada");
+            toast.dismiss();
+            toast(
+              (t) => (
+                <span className="spancito">
+                  <b>Su cuenta se encuentra desactivada.</b>
+                  <p>¿Desea activarla?</p>
+                  <div className="buttonCont">
+                    <button
+                      type="button"
+                      className="buttonToastAcept"
+                      onClick={async () => {
+                        await axios.put("/bandDisabled", {
+                          email: userLogPlace.email,
+                          disabled: "false",
+                        });
+                        navigate("/");
+                      }}
+                    >
+                      Sí
+                    </button>
+                    <button
+                      type="button"
+                      className="buttonToastCancel"
+                      onClick={() => {
+                        toast.dismiss(t.id);
+                        localStorage.removeItem("user-token");
+                        navigate("/iniciarsesion");
+                      }}
+                    >
+                      No
+                    </button>
+                  </div>
+                </span>
+              ),
+              {
+                duration: Infinity,
+                style: {
+                  borderRadius: "3%",
+                },
+              },
+            );
           } else if (userLogPlace.data.banned === true) {
             localStorage.removeItem("user-token");
             return alert("Usuario baneado temporalmente");
@@ -72,7 +156,7 @@ function InciarSesion() {
         }
       }
     } catch (error) {
-      toast.error("Verifica tu email o clave");
+      //toast.error("Verifica tu email o clave");
     }
   };
 

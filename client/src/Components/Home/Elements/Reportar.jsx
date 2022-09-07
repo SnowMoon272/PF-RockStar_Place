@@ -144,6 +144,15 @@ const ContainerGralStyled = styled.div`
   }
 `;
 
+const validateMsg = (input) => {
+  const errorsMsg = {};
+
+  if (input === "") {
+    errorsMsg.msg = "Ingrese mensaje";
+  }
+  return errorsMsg;
+};
+
 function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stateReporte, setStateReporte }) {
   const user = getUserInfo();
 
@@ -151,45 +160,52 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
 
   const [message, setMesagge] = useState("");
 
-  const handleSubmit = async (e) => {
-    const notification = {
-      type: user.role,
-      title: `${user.email} ha reportado a (${info})`,
-      message,
-      before: undefined,
-      from: user.email,
-    };
+  const [errorsMsg, setErrorsMsg] = useState({ msg: "Ingrese mensaje" });
 
-    toast.promise(
-      axios.post("/admins/notification/add", {
-        email: "admin",
-        notification,
-      }),
-      {
-        loading: "Enviando...",
-        success: () => {
-          toast.success("Mensaje enviado con éxito");
-          setMesagge("");
-          setSwitchNotif(!SwitchNotif);
+  const handleSubmit = async (e) => {
+    if (errorsMsg.msg) {
+      toast.error("No puedes enviar un reporte vacio");
+    } else {
+      const notification = {
+        type: user.role,
+        title: `${user.email} ha reportado a (${info})`,
+        message,
+        before: undefined,
+        from: user.email,
+      };
+
+      toast.promise(
+        axios.post("/admins/notification/add", {
+          email: "admin",
+          notification,
+        }),
+        {
+          loading: "Enviando...",
+          success: () => {
+            toast.success("Mensaje enviado con éxito");
+            setMesagge("");
+            setSwitchNotif(!SwitchNotif);
+          },
+          error: "error",
         },
-        error: "error",
-      },
-      {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      },
-    );
-    setSwitchNotif && setSwitchNotif(!SwitchNotif);
-    setStateReporte && setStateReporte(!stateReporte);
-    setMesagge("");
+      );
+      setSwitchNotif && setSwitchNotif(!SwitchNotif);
+      setStateReporte && setStateReporte(!stateReporte);
+      setMesagge("");
+    }
   };
 
   const handleChangeM = (e) => {
     e.preventDefault();
     setMesagge(e.target.value);
+    setErrorsMsg(validateMsg(e.target.value));
   };
   return (
     <ContainerGralStyled Fondo={Fondo} FondoN={FondoN} Down={Down}>
