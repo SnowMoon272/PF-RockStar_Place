@@ -619,7 +619,7 @@ function HomeBL() {
                 },
               }}
             />
-            <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
+            <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} block={block} setBlock={setBlock} />
 
             <FirtVewStyleCont>
               <div className="ImgContainer">

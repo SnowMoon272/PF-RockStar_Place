@@ -241,6 +241,7 @@ function Card({ setnotificacion, info, block, setBlock }) {
     dispatch(getNotifications(user.role, user.email));
     e.new ? seteye(eye) : seteye(!eye);
   };
+
   const handlerCloseNotif = async (e) => {
     e.preventDefault();
     toast.remove();
@@ -254,6 +255,8 @@ function Card({ setnotificacion, info, block, setBlock }) {
               type="button"
               className="buttonToastAcept"
               onClick={async () => {
+                console.log(user.email);
+                console.log(info._id);
                 toast.dismiss(t.id);
                 toast.promise(
                   axios.post(`/${user.role}s/notifications/deleteOne`, {
