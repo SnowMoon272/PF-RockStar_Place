@@ -17,6 +17,7 @@ import EventosBanda from "./Components/EventosBanda/EventosBanda";
 import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
 import MapLocalDetail from "./Components/MapView/MapLocalDetail";
 import CambioClave from "./Components/CambioClave/CambioClave";
+import RegistroGoogle from "./Components/Registro/RegistroGoogle";
 import Error404 from "./Components/Error404/Error404";
 
 const AppStyle = styled.div`
@@ -52,7 +53,9 @@ function App() {
         <Route exact path="/mapa" element={<MapLocalDetail />} />
         <Route exact path="/cambioclave" element={<CambioClave />} />
 
+        <Route exact path="/registrogoogle" element={<RegistroGoogle />} />
         <Route path="*" element={<Error404 />} />
+
       </Routes>
     </AppStyle>
   );
