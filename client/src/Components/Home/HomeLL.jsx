@@ -734,6 +734,7 @@ function HomeLL() {
   }, [place]);
 
   useEffect(() => {
+    toast.remove();
     return () => {
       dispatch(resetDetails([]));
       toast.remove();

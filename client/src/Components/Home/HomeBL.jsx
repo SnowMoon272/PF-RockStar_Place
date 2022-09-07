@@ -511,6 +511,7 @@ function HomeBL() {
   }
 
   useEffect(async () => {
+    toast.remove();
     setLoading(true);
     dispatch(getPlaces());
     const user = await getUserInfo();
