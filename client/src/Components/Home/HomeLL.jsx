@@ -712,7 +712,7 @@ function HomeLL() {
   function Isbanned() {
     if (place.banned === true) {
       localStorage.removeItem("user-token");
-      alert("Usuario baneado temporalmente");
+      toast.error("Usuario baneado temporalmente");
       navigate("/iniciarsesion");
     }
   }
