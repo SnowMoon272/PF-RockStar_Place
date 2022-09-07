@@ -14,7 +14,6 @@ import LoaderComponent from "../Loader/Loading";
 //import SVGFacebook from "../../Assets/svg/Facebook.svg";
 
 const LoginStyleCont = styled.div`
-  /* border: solid 3px red; */
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
@@ -24,7 +23,6 @@ const LoginStyleCont = styled.div`
 `;
 
 const LoginStyleCont2 = styled.div`
-  /* border: solid 3px yellow; */
   box-sizing: border-box;
   position: relative;
   width: 70%;
@@ -342,7 +340,7 @@ function Registro() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const BACK_URL = process.env.BACK_URL || "http://localhost:3001";
+  const BACK_URL = "https://pf-rock-star-place.herokuapp.com";
 
   const [input, setInput] = useState({
     PasswordR: "",
@@ -412,7 +410,7 @@ function Registro() {
   };
   async function sendMail() {
     const { email } = input;
-    await axios.get(`https://pf-rock-star-place.herokuapp.com/register/mail/${email}`);
+    await axios.get(`${BACK_URL}/register/mail/${email}`);
   }
 
   // eslint-disable-next-line consistent-return

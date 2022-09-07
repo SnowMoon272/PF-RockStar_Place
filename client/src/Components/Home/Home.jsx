@@ -14,6 +14,8 @@ function Home() {
   const ifIsSocial = async () => {
     if (localStorage.getItem("loggedWithGoogle")) {
       const { data } = await axios.get("/auth/cookie-info", { withCredentials: true });
+      console.log(data);
+      if (data) localStorage.removeItem("loggedWithGoogle");
       localStorage.setItem("user-token", data);
       setReloadState(reloadState + 1);
       if (localStorage.getItem("role")) {
