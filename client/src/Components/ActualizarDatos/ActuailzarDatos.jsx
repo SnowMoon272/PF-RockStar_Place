@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import NavBar from "../NavBar/NavBar";
 import Colors from "../../Utils/colors";
 import BGPerfil from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import { isAuthenticated, getUserInfo } from "../../Utils/auth.controller";
+import { isAuthenticated, getUserInfo, isMusicband } from "../../Utils/auth.controller";
 import { resetDetails, getDetailMusicBand } from "../../Redux/actions";
 import LoaderComponent from "../Loader/Loading";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -17,7 +17,6 @@ const ActualizarDatosStyleCont = styled.div`
   background-image: url(${BGPerfil});
   width: 100%;
   height: 100vh;
-  padding-left: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,7 +47,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #adc178;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #64923c;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -64,7 +63,7 @@ const ActualizarDatosStyleCont = styled.div`
     background-color: #ff9b85;
     border-radius: 10px;
     cursor: pointer;
-    :hover{
+    :hover {
       background-color: #ee6055;
       color: ${Colors.Platinum};
       transition: 0.3s;
@@ -96,6 +95,15 @@ const ActualizarDatosStyleCont = styled.div`
   }
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : -1)};
+`;
+
 const ActualizarDatosStyleCont2 = styled.div`
   /* border: solid #ff0000 3px; */
 
@@ -112,6 +120,7 @@ const ActualizarDatosStyleCont2 = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 25px;
+  margin-left: 5%;
 
   h1 {
     /* border: solid #eaff00 3px; */
@@ -387,14 +396,17 @@ export default function upLoadData() {
   const userBand = getUserInfo();
   const musicBand = useSelector((state) => state.detail_music_band);
   const [loading, setLoading] = useState(false);
+  const [block, setBlock] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    if (isAuthenticated()) {
+
+    if (isAuthenticated() && isMusicband()) {
       dispatch(getDetailMusicBand(userBand._id));
     } else {
       navigate("/");
     }
+
     return () => {
       dispatch(resetDetails([]));
       toast.remove();
@@ -513,6 +525,7 @@ export default function upLoadData() {
 
   async function handleClick(e) {
     e.preventDefault();
+    setBlock(true);
     toast.dismiss();
     toast(
       (t) => (
@@ -530,6 +543,7 @@ export default function upLoadData() {
                 });
                 localStorage.removeItem("user-token");
                 navigate("/iniciarsesion");
+                setBlock(false);
               }}
             >
               Sí, estoy seguro
@@ -539,6 +553,7 @@ export default function upLoadData() {
               className="buttonToastCancel"
               onClick={() => {
                 toast.dismiss(t.id);
+                setBlock(false);
               }}
             >
               Cancelar
@@ -559,6 +574,18 @@ export default function upLoadData() {
     <div>
       {loading ? (
         <ActualizarDatosStyleCont>
+          <Blocker block={block} />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              className: "",
+              style: {
+                fontSize: "1.5rem",
+                fontFamily: "RocknRoll One",
+              },
+            }}
+          />
           <NavBar Home />
           <ActualizarDatosStyleCont2>
             <h1>Completa/edita tus datos</h1>
@@ -685,17 +712,6 @@ export default function upLoadData() {
               Desactivar cuenta
             </button>
           </div>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-            toastOptions={{
-              className: "",
-              style: {
-                fontSize: "1.5rem",
-                fontFamily: "RocknRoll One",
-              },
-            }}
-          />
         </ActualizarDatosStyleCont>
       ) : (
         <LoaderComponent />

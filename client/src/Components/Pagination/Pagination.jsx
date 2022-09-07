@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable react/jsx-curly-newline */
 import React from "react";
 import styled from "styled-components";
 import Colors from "../../Utils/colors";
@@ -45,22 +43,13 @@ function Pagination({ UserLog, cardsPerPage, allPlaces, paginado, pageNumber }) 
 
   return (
     <PaginateStyleCont UserLog={UserLog}>
-      <button
-        type="button"
-        className="BTNPaginate "
-        onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}
-      >
+      <button type="button" className="BTNPaginate " onClick={() => paginado(pageNumber === 1 ? pageNumber : pageNumber - 1)}>
         {"<<"}
       </button>
 
       {pageNumbers &&
         pageNumbers.map((number) => (
-          <button
-            type="button"
-            className="BTNPaginate"
-            onClick={() => paginado(number)}
-            key={number}
-          >
+          <button type="button" className="BTNPaginate" onClick={() => paginado(number)} key={number}>
             {pageNumber === number ? <b className="Pg_selected">{number}</b> : number}
           </button>
         ))}
@@ -68,9 +57,7 @@ function Pagination({ UserLog, cardsPerPage, allPlaces, paginado, pageNumber }) 
       <button
         type="button"
         className="BTNPaginate "
-        onClick={() =>
-          paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)
-        }
+        onClick={() => paginado(pageNumber === pageNumbers.length ? pageNumbers.length : pageNumber + 1)}
       >
         {">>"}
       </button>

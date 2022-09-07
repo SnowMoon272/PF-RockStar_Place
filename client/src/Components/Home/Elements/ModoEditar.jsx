@@ -1,6 +1,6 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable consistent-return */
 /* eslint-disable indent */
+/* eslint-disable consistent-return */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import BotonSuscribete from "./BotonSuscripcion";
-import NavBar from "../NavBar/NavBar";
+import { Link } from "react-router-dom";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
-import hombrePerdido from "../../Assets/img/hombreperdido.png";
+import error404 from "../../Assets/img/error404.png";
 import LoaderComponent from "../Loader/Loading";
+import Colors from "../../Utils/colors";
 
-const SuscripcionStyleCont = styled.div`
+const ErrorStyleCont = styled.div`
   background-image: url(${BGHome});
   box-sizing: border-box;
   width: 100%;
@@ -16,9 +16,25 @@ const SuscripcionStyleCont = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  .btnSuscribete {
+    font-family: "RocknRoll One", sans-serif;
+    width: 190px;
+    height: 55px;
+    padding: 0px 15px;
+    background-color: ${Colors.Green_Light};
+    color: ${Colors.Erie_Black};
+    border-radius: 10px;
+    font-size: 2.5rem;
+    transition: all 0.5s ease;
+    :hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
 `;
 
-const SuscripcionDetailCont = styled.div`
+const ErrorDetailCont = styled.div`
   box-sizing: border-box;
   width: 40%;
   height: 30%;
@@ -35,14 +51,10 @@ const SuscripcionDetailCont = styled.div`
   img {
     height: fit-content;
     height: fit-content;
-    margin-left: 23%;
-  }
-  .btnCont {
-    margin-top: -9%;
   }
 `;
 
-export default function suscripcionError() {
+function Error404() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -51,16 +63,16 @@ export default function suscripcionError() {
     <div>
       {loading ? (
         <div>
-          <SuscripcionStyleCont>
-            <NavBar Home />
-
-            <SuscripcionDetailCont>
-              <img src={hombrePerdido} alt="img not found" />
-            </SuscripcionDetailCont>
-            <div className="btnCont">
-              <BotonSuscribete />
-            </div>
-          </SuscripcionStyleCont>
+          <ErrorStyleCont>
+            <ErrorDetailCont>
+              <img src={error404} alt="img not found" />
+            </ErrorDetailCont>
+            <Link to="/">
+              <button className="btnSuscribete" type="submit">
+                Home
+              </button>
+            </Link>
+          </ErrorStyleCont>
         </div>
       ) : (
         <LoaderComponent />
@@ -68,3 +80,5 @@ export default function suscripcionError() {
     </div>
   );
 }
+
+export default Error404;

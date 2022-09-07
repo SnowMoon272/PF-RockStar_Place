@@ -1,8 +1,5 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable indent */
-/* eslint-disable no-confusing-arrow */
+
 /* React stuff */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,6 +25,7 @@ import Footer from "../Footer/Footer";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
 import Logo from "../../Assets/img/LogoCircular.png";
+import Loader from "../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
@@ -48,6 +46,12 @@ const HomeStyleCont = styled.div`
   & .buttonCont {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
     width: 100%;
   }
 
@@ -639,25 +643,75 @@ function HomeLL() {
     if (allDates.find((d) => d.date.substring(0, 10) === input) !== undefined) {
       errors.repeated = "La fecha ya se encuentra cargada";
     }
-    if (getCurrentDate().split("-")[0] >= input.split("-")[0]) {
-      if (getCurrentDate().split("-")[1] >= input.split("-")[1]) {
-        if (getCurrentDate().split("-")[2] > input.split("-")[2]) {
-          errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
-        }
-      }
+    const fechaActual = new Date(getCurrentDate());
+    const fechaInput = new Date(input);
+    if (fechaInput < fechaActual) {
+      errors.menor = "La fecha a ingresar debe ser mayor a la fecha actual";
     }
     return errors;
   }
 
   function validateData() {
     if (place && place.name === "") {
-      alert("Debe cargar los datos del local");
-      dispatch(resetDetails([]));
-      navigate("/actualizarlocal");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Para continuar debes cargar los datos del local</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/actualizarlocal");
+                }}
+              >
+                Cargar datos
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     } else if (place && place.suscription?.isSuscribed === false) {
-      alert("Debes suscribirte para obtener los beneficios de Rock Star place");
-      dispatch(resetDetails([]));
-      navigate("/suscribete");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Debes suscribirte para obtener los beneficios de Rock Star place</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/suscribete");
+                }}
+              >
+                Suscribirte
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
+    }
+  }
+
+  function Isbanned() {
+    if (place.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
     }
   }
 
@@ -674,6 +728,7 @@ function HomeLL() {
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   useEffect(() => {
     validateData();
+    Isbanned();
   }, [place]);
 
   useEffect(() => {
@@ -701,30 +756,36 @@ function HomeLL() {
 
   const handleSubmitDate = async (e) => {
     e.preventDefault(e);
-    if (errors.repeated) toast.error("La fecha ya se encuentra cargada");
-    else if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
+    if (errors.repeated) {
+      setDate("");
+      toast.error("La fecha ya se encuentra cargada");
+    } else if (errors.menor) toast.error("La fecha a ingresar debe ser mayor a la fecha actual");
     else if (date !== "") {
       setBlock(true);
       toast.remove();
-      toast.promise(axios.post("/placesdates", {
-        email: place.email,
-        date,
-      }), {
-        loading: "Añadiendo...",
-        success: () => {
-          toast.success("Fecha añadida con éxito");
-          setDate("");
-          setRender(!render);
-          setBlock(false);
+      toast.promise(
+        axios.post("/placesdates", {
+          email: place.email,
+          date,
+        }),
+        {
+          loading: "Añadiendo...",
+          success: () => {
+            toast.success("Fecha añadida con éxito");
+            setDate("");
+            setRender(!render);
+            setBlock(false);
+          },
+          error: "error",
         },
-        error: "error",
-      }, {
-        success: {
-          style: {
-            display: "none",
+        {
+          success: {
+            style: {
+              display: "none",
+            },
           },
         },
-      });
+      );
     } else toast.error("Ingrese una fecha");
   };
 
@@ -741,24 +802,28 @@ function HomeLL() {
               className="buttonToastAcept"
               onClick={async () => {
                 toast.dismiss(t.id);
-                toast.promise(axios.put("/placesdates", {
-                  email: place.email,
-                  date: e.target.value.split(",")[0],
-                }), {
-                  loading: "Eliminando...",
-                  success: () => {
-                    toast.success("Fecha eliminada");
-                    setRender(!render);
-                    setBlock(false);
+                toast.promise(
+                  axios.put("/placesdates", {
+                    email: place.email,
+                    date: e.target.value.split(",")[0],
+                  }),
+                  {
+                    loading: "Eliminando...",
+                    success: () => {
+                      toast.success("Fecha eliminada");
+                      setRender(!render);
+                      setBlock(false);
+                    },
+                    error: "error",
                   },
-                  error: "error",
-                }, {
-                  success: {
-                    style: {
-                      display: "none",
+                  {
+                    success: {
+                      style: {
+                        display: "none",
+                      },
                     },
                   },
-                });
+                );
               }}
             >
               Sí, estoy seguro
@@ -804,7 +869,7 @@ function HomeLL() {
                 }), {
                   loading: "Eliminando...",
                   success: () => {
-                    axios.get(`/cancelplace/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
+                    axios.get(`/cancelband/${e.target.value.split(",")[1]}/${place.email}/${e.target.value.split(",")[0]}`);
                     setRender(!render);
                     toast.success("Fecha eliminada");
                     setBlock(false);
@@ -858,7 +923,7 @@ function HomeLL() {
               email: e.target.value.split(",")[1],
               notification: {
                 type: user.role,
-                title: `${user.email} ha aceptado tu solicitud`,
+                title: `${user.name} ha aceptado tu solicitud`,
                 message: "Para más información por favor revisa tus fechas",
                 before: undefined,
                 from: place.email,
@@ -888,13 +953,26 @@ function HomeLL() {
 
   const handleRejectDate = async (e) => {
     e.preventDefault(e);
-    await axios.put("/pendingdates", {
+    setBlock(true);
+    toast.promise(axios.put("/pendingdates", {
       placeEmail: place.email,
       musicEmail: e.target.value.split(",")[1],
       date: e.target.value.split(",")[0],
+    }), {
+      loading: "Rechazando...",
+      success: () => {
+        setRender(!render);
+        setBlock(false);
+        toast.success("Solicitud rechazada");
+      },
+      error: "error",
+    }, {
+      success: {
+        style: {
+          display: "none",
+        },
+      },
     });
-    toast.success("Solicitud rechazada");
-    setRender(!render);
   };
 
   const handleShowDetail = async (e) => {
@@ -971,10 +1049,16 @@ function HomeLL() {
               </button>
             </div>
             <div className="CardUnicaCont">
-              <div className="ImgBanda">
-                <img src={place.profilePicture} alt="Banda" />
-              </div>
-              {confirmedDates.length > 0 ? (
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : (
+                <div className="ImgBanda">
+                  <img src={place.profilePicture} alt="Banda" />
+                </div>
+              )}
+              {Object.entries(place).length === 0 ? (
+                <img src={Loader} alt="not found" width="200px" height="200px" />
+              ) : confirmedDates.length > 0 ? (
                 <div className="ProximoInfCont">
                   <div className="ProximoInf">
                     <h4>Próximo Evento</h4>

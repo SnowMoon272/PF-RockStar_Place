@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* React stuff */
@@ -9,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 /* Components & Actions */
+import toast, { Toaster } from "react-hot-toast";
 import Pagination from "../Pagination/Pagination";
 import CardsPlaces from "../Cards/CardsPlaces";
 import Colors from "../../Utils/colors";
@@ -22,6 +24,7 @@ import Footer from "../Footer/Footer";
 import BGHome from "../../Assets/img/hostile-gae60db101_1920.jpg";
 import IMGLogoA from "../../Assets/img/logo3.png";
 import Logo from "../../Assets/img/LogoCircular.png";
+import Loader from "../../Assets/svg/Loader.svg";
 
 /* * * * * * * * * * * Styled Components CSS  * * * * * * * * * * */
 const HomeStyleCont = styled.div`
@@ -30,6 +33,83 @@ const HomeStyleCont = styled.div`
   width: 100%;
   height: fit-content;
   position: absolute;
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
+`;
+
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : 0)};
 `;
 
 const FirtVewStyleCont = styled.div`
@@ -376,6 +456,8 @@ function HomeBL() {
   const placeEvent = useSelector((state) => state.detail_event);
   const [user, setuser] = useState({});
   const [loading, setLoading] = useState(false);
+  const [zIndex, setzIndex] = useState(true);
+  const [block, setBlock] = useState(false);
   /* * * * * * * * * * * React Hooks  * * * * * * * * * * */
   const confirmedDates = musicBand.dates ? musicBand.dates.sort((a, b) => new Date(a.date.substring(0, 10)) - new Date(b.date.substring(0, 10))) : [];
 
@@ -389,11 +471,41 @@ function HomeBL() {
     }
   }
 
+  function Isbanned() {
+    if (musicBand.banned === true) {
+      localStorage.removeItem("user-token");
+      alert("Usuario baneado temporalmente");
+      navigate("/iniciarsesion");
+    }
+  }
+
   function validate() {
     if (musicBand && musicBand.name === "") {
-      alert("Debe cargar los datos de la banda");
-      dispatch(resetDetails([]));
-      navigate("/actualizarbanda");
+      setBlock(true);
+      toast(
+        (t) => (
+          <span className="spancito">
+            <b>Para continuar debes cargar los datos de la banda</b>
+            <div className="buttonCont2">
+              <button
+                type="button"
+                className="buttonToastAcept"
+                onClick={async () => {
+                  toast.dismiss(t.id);
+                  setBlock(false);
+                  dispatch(resetDetails([]));
+                  navigate("/actualizarbanda");
+                }}
+              >
+                Cargar datos
+              </button>
+            </div>
+          </span>
+        ),
+        {
+          duration: Infinity,
+        },
+      );
     }
   }
 
@@ -412,11 +524,13 @@ function HomeBL() {
           Evento: false,
         }),
       );
+      toast.remove();
     };
   }, []);
 
   useEffect(() => {
     disabledValidate();
+    Isbanned();
     validate();
     return () => {
       dispatch(
@@ -492,7 +606,19 @@ function HomeBL() {
     <div>
       {loading ? (
         <div>
-          <HomeStyleCont>
+          <HomeStyleCont zIndex={zIndex}>
+            <Blocker block={block} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
             <NavBar Buscar FiltroA FiltroB FiltroC Eventos Perfil UserLog paginado={paginado} setFilter={setFilter} filter={filter} />
 
             <FirtVewStyleCont>
@@ -508,9 +634,15 @@ function HomeBL() {
               </div>
               <div className="CardUnicaCont">
                 <div className="ImgBanda">
-                  <img src={musicBand.profilePicture} alt="Banda" />
+                  {Object.entries(musicBand).length === 0 ? (
+                    <img src={Loader} alt="not found" width="200px" height="200px" />
+                  ) : (
+                    <img src={musicBand.profilePicture} alt="Banda" />
+                  )}
                 </div>
-                {confirmedDates.length > 0 ? (
+                {Object.entries(musicBand).length === 0 ? (
+                  <img src={Loader} alt="not found" width="200px" height="200px" />
+                ) : confirmedDates.length > 0 ? (
                   <div className="ProximoInfCont">
                     <div className="ProximoInf">
                       <h4>Proximo Evento</h4>
