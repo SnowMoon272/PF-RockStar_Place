@@ -667,7 +667,7 @@ export default function DetailPlace() {
                 },
               }}
             />
-            <NavBar Home Eventos Perfil />
+            <NavBar Home Eventos Perfil block={block} setBlock={setBlock} />
             <DetailStyleCont>
               <div className="FirstCont">
                 <div className="NameAndRating">

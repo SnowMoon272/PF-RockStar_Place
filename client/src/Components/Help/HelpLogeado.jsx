@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import Logo from "../../Assets/img/LogoCircular.png";
 import Footer from "../Footer/Footer";
-
 import NavBar from "../NavBar/NavBar";
 import LoaderComponent from "../Loader/Loading";
 
@@ -70,6 +70,73 @@ const StyledContenedor = styled.div`
       color: ${Colors.Dark_Cornflower_blue};
     }
   }
+
+  & .spancito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  & .buttonCont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  & .buttonCont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  & .buttonToastAcept {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #adc178;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #64923c;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+  & .buttonToastCancel {
+    font-family: "RocknRoll One", sans-serif;
+    color: ${Colors.Erie_Black};
+    text-align: center;
+    margin: 8px 0px;
+    width: 45%;
+    height: 35px;
+    background-color: #ff9b85;
+    border-radius: 10px;
+    cursor: pointer;
+    :hover {
+      background-color: #ee6055;
+      color: ${Colors.Platinum};
+      transition: 0.3s;
+    }
+  }
+
+  .POPContainer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 70px;
+    right: 0px;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    z-index: ${({ zIndex }) => (zIndex ? 0 : 100)};
+  }
 `;
 
 const FooterStyledCont = styled.footer`
@@ -83,7 +150,17 @@ const FooterStyledCont = styled.footer`
   font-size: 3rem;
 `;
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: fixed;
+  z-index: ${({ block }) => (block ? 2100 : -1)};
+`;
+
 export default function Faqs() {
+  const [block, setBlock] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -93,8 +170,20 @@ export default function Faqs() {
     <div>
       {loading ? (
         <div>
+          <Blocker block={block} />
           <StyledContenedor>
-            <NavBar Home />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                className: "",
+                style: {
+                  fontSize: "1.5rem",
+                  fontFamily: "RocknRoll One",
+                },
+              }}
+            />
+            <NavBar Home block={block} setBlock={setBlock} />
             <div className="Sections">
               <h1>Preguntas frecuentes</h1>
               <br />

@@ -586,7 +586,7 @@ function EventosBanda() {
                 },
               }}
             />
-            <NavBar Home Perfil />
+            <NavBar Home Perfil block={block} setBlock={setBlock} />
             <div className="IMG">
               <img src={BGPerfil} alt="" />
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import { getDetailMusicBandByEmail } from "../../Redux/actions";
 import { getUserInfo } from "../../Utils/auth.controller";
@@ -246,6 +247,17 @@ function ReseñasOpinion({ musicBand, Opinion, setOpinion }) {
 
   return (
     <ReseñasStyleCont>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "1.5rem",
+            fontFamily: "RocknRoll One",
+          },
+        }}
+      />
       <h1 className="TitleB">{!Opinion ? "Reseñas" : "Opinion"}</h1>
       <div className="comentarios">
         {Opinion ? (

@@ -720,7 +720,7 @@ export default function ActualizarLocal() {
                 },
               }}
             />
-            <NavBar Perfil Home />
+            <NavBar Perfil Home block={block} setBlock={setBlock} />
             <POPContainer POPSwitch={POPSwitch}>
               <MapPopUp setPOPSwitch={setPOPSwitch} POPSwitch={POPSwitch} coords={place.coords} />
             </POPContainer>

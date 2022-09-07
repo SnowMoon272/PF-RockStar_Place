@@ -204,10 +204,11 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
           notification,
         },
       });
+      toast.success("Mensaje enviado");
       setMesagge("");
       setTitle("");
       setnotfSwitch(false);
-    }
+    };
   };
 
   const handleChangeT = (e) => {
@@ -254,5 +255,6 @@ function Notificar({ Fondo, FondoN, Down, info, setnotfSwitch }) {
       </div>
     </ContainerGralStyled>
   );
-}
+};
+
 export default Notificar;
