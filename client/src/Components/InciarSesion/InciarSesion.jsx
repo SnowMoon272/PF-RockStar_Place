@@ -62,7 +62,7 @@ function InciarSesion() {
                       className="buttonToastAcept"
                       onClick={async () => {
                         await axios.put("/bandDisabled", {
-                          email: userLogMusic.email,
+                          email: userLogMusic.data.email,
                           disabled: "false",
                         });
                         navigate("/");
@@ -111,8 +111,8 @@ function InciarSesion() {
                       type="button"
                       className="buttonToastAcept"
                       onClick={async () => {
-                        await axios.put("/bandDisabled", {
-                          email: userLogPlace.email,
+                        await axios.put("/placeDisabled", {
+                          email: userLogPlace.data.email,
                           disabled: "false",
                         });
                         navigate("/");
