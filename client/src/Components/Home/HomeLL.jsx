@@ -654,6 +654,7 @@ function HomeLL() {
   function validateData() {
     if (place && place.name === "") {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
