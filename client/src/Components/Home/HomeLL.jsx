@@ -680,6 +680,7 @@ function HomeLL() {
       );
     } else if (place && place.suscription?.isSuscribed === false) {
       setBlock(true);
+      toast.remove();
       toast(
         (t) => (
           <span className="spancito">
