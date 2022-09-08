@@ -169,7 +169,7 @@ function InciarSesion() {
         }
       }
     } catch (error) {
-      //toast.error("Verifica tu email o clave");
+      toast.error("Verifica tu email o clave");
     }
   };
 
