@@ -9,7 +9,7 @@ import { switchToMusicBand, switchToPlace } from "../db/models/socialModel";
 const router = Router();
 export const f = {};
 
-const CLIENT_URL = "https://pf-rock-star-place.vercel.app";
+const CLIENT_URL = process.env.FRONT_VERCEL || "http://localhost:3000/";
 
 router.get("/login/failed", (req: any, res: any) => {
 	res.status(401).send({ error: "login failed" });
@@ -17,7 +17,7 @@ router.get("/login/failed", (req: any, res: any) => {
 
 router.get("/cookie-info", (req: any, res: any) => {
 	const user = req.session.passport.user;
-	if(!user) return res.status(200).send({message: "Not session"});
+	if (!user) return res.status(200).send({ message: "Not session" });
 	const body = {
 		_id: user._id,
 		email: user.email,
@@ -29,31 +29,31 @@ router.get("/cookie-info", (req: any, res: any) => {
 			user: body,
 		},
 		jwtSecret,
-		{ expiresIn: 60 * 60 }
+		{ expiresIn: 60 * 60 },
 	);
 	return res.status(200).send(token);
 });
 
 router.post("/change/type", async (req: any, res: any) => {
 	const { role, email } = req.body;
-	if(role && email){
-		if(role === musicRoles.MUSICBAND){
+	if (role && email) {
+		if (role === musicRoles.MUSICBAND) {
 			try {
 				await switchToMusicBand(email);
-				return res.status(200).send({message: "Success"});
+				return res.status(200).send({ message: "Success" });
 			} catch (error) {
-				return res.status(500).send({error: "Error switching roles"});
+				return res.status(500).send({ error: "Error switching roles" });
 			}
-		} else if(role === musicRoles.PLACE){
+		} else if (role === musicRoles.PLACE) {
 			try {
 				await switchToPlace(email);
-				return res.status(200).send({message: "Success"});
+				return res.status(200).send({ message: "Success" });
 			} catch (error) {
-				return res.status(500).send({error: "Error switching roles"});
+				return res.status(500).send({ error: "Error switching roles" });
 			}
 		}
 	}
-})
+});
 
 router.get("/login/success", (req: any, res: any) => {
 	if (req.user) {
@@ -66,9 +66,9 @@ router.get("/login/success", (req: any, res: any) => {
 				name: user.name,
 			};
 			const token = jwt.sign(body, jwtSecret);
-			res.cookie("session", token );
+			// saveToken(token);
 			req.session.token = token;
-			return res.send({ success: true, token });
+			return res.json({ token });
 		}
 		const body = {
 			_id: user._id,
@@ -77,9 +77,7 @@ router.get("/login/success", (req: any, res: any) => {
 		};
 		const token = jwt.sign(body, jwtSecret);
 
-		res.cookie("session", token );
-		req.session.token = token;
-		return res.send({ success: true, token });
+		return res.json({ token });
 	}
 });
 
@@ -88,17 +86,14 @@ router.get("/logout", (req: any, res: any) => {
 	res.redirect(CLIENT_URL);
 });
 
-router.get(
-	"/google",
-	passport.authenticate("google", { scope: ["email", "profile"] })
-);
+router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
 
 router.get(
 	"/google/callback",
 	passport.authenticate("google", {
 		successRedirect: CLIENT_URL,
 		failureRedirect: "/login/failed",
-	})
+	}),
 );
 
 module.exports = router;

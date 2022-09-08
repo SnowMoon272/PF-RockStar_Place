@@ -15,9 +15,11 @@ passport.use(
 		async function (accessToken, refreshToken, profile, done) {
 			try {
 				const { name, picture, email } = profile._json;
+				console.log(`Nombre: ${name}, email: ${email}`);
 				let user = await musicBand.findOne({ email: email });
 				if (!user) user = await place.findOne({ email: email });
 				if (!user) user = await socialUser.findOne({ email: email });
+
 				if (user) return done(null, user);
 
 				const newSocialUser = {
@@ -26,13 +28,14 @@ passport.use(
 					personInCharge: name,
 					role: "social",
 				};
+
 				user = await socialUser.create(newSocialUser);
 				return done(null, user, { message: "Successful" });
 			} catch (error) {
 				done(error, false);
 			}
-		}
-	)
+		},
+	),
 );
 
 passport.serializeUser((user, done) => {
