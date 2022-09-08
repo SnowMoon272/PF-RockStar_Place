@@ -89,6 +89,7 @@ function InciarSesion() {
                       onClick={() => {
                         toast.dismiss(t.id);
                         localStorage.removeItem("user-token");
+                        setBlock(false);
                         navigate("/iniciarsesion");
                       }}
                     >
