@@ -530,7 +530,7 @@ function HomeBL() {
   }, []);
 
   useEffect(() => {
-    disabledValidate();
+    /* disabledValidate(); */
     Isbanned();
     validate();
     return () => {
