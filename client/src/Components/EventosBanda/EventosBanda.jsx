@@ -597,10 +597,10 @@ function EventosBanda() {
                 </div>
                 <div className="div1">
                   <div className="divTitle">
-                    <h1>Proximo Evento / Detalle del Evento</h1>
+                    <h1>Detalle del Evento</h1>
                   </div>
                   {musicBand._id && musicBand.dates.length === 0 ? (
-                    <h2>Aquí podrás ver tu próximo evento confirmado.</h2>
+                    <h2>Aquí podrás ver el detalle de tus eventos confirmados.</h2>
                   ) : (
                     <div className="div3Columnas">
                       <div className="divColumna1">

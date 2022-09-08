@@ -395,7 +395,7 @@ export default function DetalleMusicoPOP({ setzIndex, zIndex, musicBand }) {
             {stateReporte ? (
               <ReseñasOpinion Opinion={stateReseña} setOpinion={setStateReseña} musicBand={musicBand} />
             ) : (
-              <Reportar info={musicBand.email} Down stateReporte={stateReporte} setStateReporte={setStateReporte} />
+              <Reportar info={musicBand.name} Down stateReporte={stateReporte} setStateReporte={setStateReporte} />
             )}
           </div>
         </div>

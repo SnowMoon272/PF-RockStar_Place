@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Colors from "../../Utils/colors";
 import Logo from "../../Assets/img/LogoCircular.png";
 import Footer from "../Footer/Footer";
@@ -173,7 +173,7 @@ export default function Faqs() {
         <div>
           <Blocker block={block} />
           <StyledContenedor>
-            <Toaster
+            {/* <Toaster
               position="top-center"
               reverseOrder={false}
               toastOptions={{
@@ -183,7 +183,7 @@ export default function Faqs() {
                   fontFamily: "RocknRoll One",
                 },
               }}
-            />
+            /> */}
             <NavBar Home block={block} setBlock={setBlock} />
             <div className="Sections">
               <h1>Preguntas frecuentes</h1>
