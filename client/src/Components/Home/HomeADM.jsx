@@ -23,6 +23,7 @@ const HomeStyleCont = styled.div`
     justify-content: center;
     text-align: center;
     flex-direction: column;
+    width: 300px;
   }
 
   & .buttonCont {
@@ -446,10 +447,10 @@ function HomeADM() {
                 <div className="CardsContainerScroll">
                   {notifications.length
                     ? notifications.map((notification) => {
-                        return (
-                          <Card key={notification._id} info={notification} setnotificacion={setnotificacion} block={block} setBlock={setBlock} />
-                        );
-                      })
+                      return (
+                        <Card key={notification._id} info={notification} setnotificacion={setnotificacion} block={block} setBlock={setBlock} />
+                      );
+                    })
                     : null}
                 </div>
               </div>

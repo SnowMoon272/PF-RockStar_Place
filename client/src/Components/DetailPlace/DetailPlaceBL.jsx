@@ -798,7 +798,7 @@ export default function DetailPlace() {
                         </button>
                       )}
                     </div>
-                    <Reportar info={place.email} setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />
+                    <Reportar info={place.name} setSwitchNotif={setSwitchNotif} SwitchNotif={SwitchNotif} />
                   </div>
                 )}
               </div>

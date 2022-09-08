@@ -168,7 +168,7 @@ function Reportar({ Fondo, FondoN, Down, info, setSwitchNotif, SwitchNotif, stat
     } else {
       const notification = {
         type: user.role,
-        title: `${user.email} ha reportado a (${info})`,
+        title: `${user.name} ha reportado a (${info})`,
         message,
         before: undefined,
         from: user.email,
