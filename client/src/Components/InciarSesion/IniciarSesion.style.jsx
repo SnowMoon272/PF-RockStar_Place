@@ -6,7 +6,6 @@ export const RegisterStyleCont = styled.div`
   background-color: ${Colors.Erie_Black};
   width: 100%;
   height: 100vh;
-  padding-left: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,6 +66,7 @@ export const RegisterStyleContJr = styled.div`
   font-family: "New Rocker", cursive;
   color: white;
   display: flex;
+  margin-left: 4%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;

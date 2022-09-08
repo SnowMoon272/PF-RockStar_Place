@@ -89,6 +89,7 @@ function InciarSesion() {
                       onClick={() => {
                         toast.dismiss(t.id);
                         localStorage.removeItem("user-token");
+                        setBlock(false);
                         navigate("/iniciarsesion");
                       }}
                     >
@@ -114,6 +115,7 @@ function InciarSesion() {
           const userLogPlace = await axios.get(`${BACK_URL}/place-email/${user.email}`);
           if (userLogPlace.data.disabled === true) {
             toast.dismiss();
+            setBlock(true);
             toast(
               (t) => (
                 <span className="spancito">
@@ -128,6 +130,7 @@ function InciarSesion() {
                           email: userLogPlace.data.email,
                           disabled: "false",
                         });
+                        setBlock(false);
                         navigate("/");
                       }}
                     >
@@ -139,6 +142,7 @@ function InciarSesion() {
                       onClick={() => {
                         toast.dismiss(t.id);
                         localStorage.removeItem("user-token");
+                        setBlock(false);
                         navigate("/iniciarsesion");
                       }}
                     >
