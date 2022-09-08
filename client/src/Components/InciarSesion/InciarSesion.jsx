@@ -20,11 +20,21 @@ import { RegisterStyleCont, RegisterStyleContJr } from "./IniciarSesion.style";
 
 require("dotenv").config();
 
+const Blocker = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 40%;
+  position: absolute;
+  z-index: ${({ block }) => (block ? 2100 : -1)};
+`;
+
 function InciarSesion() {
   const BACK_URL = "https://pf-rock-star-place.herokuapp.com";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [block, setBlock] = useState(false);
   const navigate = useNavigate();
 
   //Login tradicional
@@ -51,6 +61,7 @@ function InciarSesion() {
           const userLogMusic = await axios.get(`${BACK_URL}/musicbandemail/${user.email}`);
           if (userLogMusic.data.disabled === true) {
             toast.dismiss();
+            setBlock(true);
             toast(
               (t) => (
                 <span className="spancito">
@@ -65,6 +76,7 @@ function InciarSesion() {
                           email: userLogMusic.data.email,
                           disabled: "false",
                         });
+                        setBlock(false);
                         navigate("/");
                       }}
                     >
@@ -210,6 +222,7 @@ function InciarSesion() {
       {loading ? (
         <div>
           <RegisterStyleCont>
+            <Blocker block={block} />
             <NavBar LogIn Home FondoImg />
             <RegisterStyleContJr>
               <div className="UpSection">
