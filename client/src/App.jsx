@@ -14,11 +14,12 @@ import PerfilLocal from "./Components/PerfilesLogueados/PerfilLocal";
 import ActualizarLocal from "./Components/ActualizarDatos/ActualizarLocal";
 import ActualizarBanda from "./Components/ActualizarDatos/ActuailzarDatos";
 import EventosBanda from "./Components/EventosBanda/EventosBanda";
-import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
+// import ReactivarCuenta from "./Components/ReactivarCuenta/ReactivarCuenta";
 import MapLocalDetail from "./Components/MapView/MapLocalDetail";
 import CambioClave from "./Components/CambioClave/CambioClave";
 import RegistroGoogle from "./Components/Registro/RegistroGoogle";
 import Error404 from "./Components/Error404/Error404";
+import UltimaEsperanza from "./Components/Home/Elements/UltimaEsperanza";
 
 const AppStyle = styled.div`
   width: 100%;
@@ -54,8 +55,8 @@ function App() {
         <Route exact path="/cambioclave" element={<CambioClave />} />
 
         <Route exact path="/registrogoogle" element={<RegistroGoogle />} />
+        <Route exact path="/ultimaesperanza" element={<UltimaEsperanza />} />
         <Route path="*" element={<Error404 />} />
-
       </Routes>
     </AppStyle>
   );
